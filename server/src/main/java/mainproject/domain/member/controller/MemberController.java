@@ -1,8 +1,11 @@
 package mainproject.domain.member.controller;
 
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import mainproject.domain.member.dto.MemberPatchDto;
 import mainproject.domain.member.dto.MemberPostDto;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.mapper.MemberMapper;
@@ -50,6 +53,21 @@ public class MemberController {
         return  new ResponseEntity(mapper.memberToMemberResponseDto(response),
                 HttpStatus.OK);
 
+    }
+    //사용자 정보 수정
+    @ApiOperation(value = "특정 회원 정보 수정", notes = "회원-식별자와 수정데이터를 이용하여 특정 회원을 수정")
+    @PatchMapping("/{member-id}")
+    public ResponseEntity PatchMember(@ApiParam("회원-식별자")@PathVariable("member-id") long id,
+                                      @RequestBody MemberPatchDto memberPatchDto) {
+
+        System.out.println("MemberController.patchMember");
+
+        memberPatchDto.setId(id);
+
+        Member member = memberService.updateMember(mapper.memberPatchDtoToMember(new MemberPatchDto()));
+
+        return  new ResponseEntity<>(mapper.memberToMemberResponseDto(member),
+                HttpStatus.OK);
     }
 
     // 사용자 정보 삭제 (회원 탈퇴)
