@@ -3,6 +3,7 @@ package mainproject.domain.challenge.entity;
 import lombok.Data;
 import mainproject.global.category.Category;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +47,8 @@ public class Challenge {
     private LocalTime snapshotEndAt;
 
     @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

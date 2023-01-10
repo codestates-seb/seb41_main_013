@@ -29,7 +29,6 @@ public class ChallengePostDto {
     private LocalDate startAt;
 
     @NotNull(message = "종료 날짜를 선택하세요.")
-    // TODO: @Min(value = startAt, message = "종료 날짜는 시작 날짜 이후부터 선택 가능합니다.")
     private LocalDate endAt;
 
     @AssertTrue(message = "종료 날짜는 시작 날짜 이후부터 선택 가능합니다.")
@@ -42,7 +41,6 @@ public class ChallengePostDto {
     
     private LocalTime snapshotStartAt = LocalTime.parse("00:00", DateTimeFormatter.ofPattern("HH:mm"));  // 기본값 - 00:00
 
-    // TODO: @Min(value = snapshotStartAt, message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
     private LocalTime snapshotEndAt = LocalTime.parse("23:59", DateTimeFormatter.ofPattern("HH:mm"));    // 기본값 - 23:59
 
     @AssertTrue(message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
