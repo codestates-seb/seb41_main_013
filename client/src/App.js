@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import theme from "./components/theme";
+import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<ThemeProvider theme={theme}>
+			<div className="App">
+				<Button>예시</Button>
+			</div>
+		</ThemeProvider>
+	);
 }
+
+const Button = styled.button`
+	background-color: ${(props) => props.theme.color.green};
+`;
 
 export default App;
