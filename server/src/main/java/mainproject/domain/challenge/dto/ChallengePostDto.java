@@ -4,10 +4,7 @@ import lombok.Data;
 import mainproject.domain.challenge.entity.Frequency;
 import mainproject.global.category.Category;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -28,12 +25,17 @@ public class ChallengePostDto {
     //private image;  // TODO: 이미지파일 (Nullable)
 
     @NotNull(message = "시작 날짜를 선택하세요.")
-    //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.")
+    @Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.")
     private LocalDate startAt;
 
     @NotNull(message = "종료 날짜를 선택하세요.")
     // TODO: @Min(value = startAt, message = "종료 날짜는 시작 날짜 이후부터 선택 가능합니다.")
     private LocalDate endAt;
+
+    @AssertTrue(message = "종료 날짜는 시작 날짜 이후부터 선택 가능합니다.")
+    public boolean isValidChallengePeriod() {
+        return endAt.isAfter(startAt);
+    }
 
     @NotNull(message = "인증 빈도를 선택하세요.")
     private Frequency frequency;
@@ -42,4 +44,9 @@ public class ChallengePostDto {
 
     // TODO: @Min(value = snapshotStartAt, message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
     private LocalTime snapshotEndAt = LocalTime.parse("23:59", DateTimeFormatter.ofPattern("HH:mm"));    // 기본값 - 23:59
+
+    @AssertTrue(message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
+    public boolean isValidSnapshotTime() {
+        return snapshotEndAt.isAfter(snapshotStartAt);
+    }
 }

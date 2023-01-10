@@ -1,6 +1,5 @@
 package mainproject.domain.challenge.service;
 
-import mainproject.domain.challenge.dto.ChallengeResponseDto;
 import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.challenge.repository.ChallengeRepository;
