@@ -1,6 +1,5 @@
 package mainproject.domain.challenge.mapper;
 
-import mainproject.domain.challenge.dto.ChallengePatchDto;
 import mainproject.domain.challenge.dto.ChallengePostDto;
 import mainproject.domain.challenge.dto.ChallengeResponseDto;
 import mainproject.domain.challenge.entity.Challenge;
@@ -11,7 +10,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ChallengeMapper {
     Challenge challengePostDtoToChallenge(ChallengePostDto challengePostDto);
-    Challenge challengePatchDtoToChallenge(ChallengePatchDto challengePatchDto);
     ChallengeResponseDto challengeToChallengeResponseDto(Challenge challenge);
     List<ChallengeResponseDto> challengesToChallengeResponseDtos(List<Challenge> challenges);
 }
