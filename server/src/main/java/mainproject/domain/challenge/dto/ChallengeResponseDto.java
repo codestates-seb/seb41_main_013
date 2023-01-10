@@ -1,7 +1,6 @@
 package mainproject.domain.challenge.dto;
 
 import lombok.Data;
-import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.challenge.entity.Frequency;
 import mainproject.global.category.Category;
 
@@ -32,6 +31,4 @@ public class ChallengeResponseDto {
     private LocalTime snapshotEndAt;
 
     private LocalDateTime createdAt;
-
-    private ChallengeStatus challengeStatus;
 }

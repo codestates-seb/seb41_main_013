@@ -29,8 +29,8 @@ public class ChallengeController {
 
     // 챌린지 생성
     @PostMapping
-    public ResponseEntity postChallenge(@Valid @RequestBody ChallengePostDto challengePostDto) {
-        Challenge challenge = challengeService.createChallenge(mapper.challengePostDtoToChallenge(challengePostDto));
+    public ResponseEntity postChallenge(@Valid @RequestBody ChallengePostDto request) {
+        Challenge challenge = challengeService.createChallenge(mapper.challengePostDtoToChallenge(request));
 
         ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
 
@@ -40,6 +40,7 @@ public class ChallengeController {
     // 챌린지 목록 최신순 조회
     @GetMapping("/new")
     public ResponseEntity getNewChallenges(@RequestParam @Nullable Category category) {
+
         List<Challenge> challenges = challengeService.findNewChallenges(category);
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
@@ -61,8 +62,6 @@ public class ChallengeController {
     // 회원이 생성한 챌린지 조회 TODO: 매핑 필요
 
     // 챌린지 검색(제목+내용)
-
-    // 챌린지 시작, 종료 TODO: 사용자가 입력한 시간에 따라 자동 업데이트 구현 필요
 
     // 챌린지 삭제
 

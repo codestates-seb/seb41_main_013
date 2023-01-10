@@ -28,7 +28,7 @@ public class ChallengePostDto {
     //private image;  // TODO: 이미지파일 (Nullable)
 
     @NotNull(message = "시작 날짜를 선택하세요.")
-    //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.")
+    @Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.")
     private LocalDate startAt;
 
     @NotNull(message = "종료 날짜를 선택하세요.")

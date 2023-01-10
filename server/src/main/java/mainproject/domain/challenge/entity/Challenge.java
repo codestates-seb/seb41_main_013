@@ -50,21 +50,5 @@ public class Challenge {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private ChallengeStatus challengeStatus = ChallengeStatus.시작전;
-
-    /*
-     if 현재날짜 < 시작날짜 -> 시작전
-     else if 현재날짜 < 종료날짜 -> 진행중
-     else 종료
-     */
-
-    public void setChallengeStatus(ChallengeStatus challengeStatus) {
-        if (LocalDate.now().isBefore(startAt)) {
-            this.challengeStatus = ChallengeStatus.시작전;
-        }
-        else if (LocalDate.now().isBefore(endAt)) {
-            this.challengeStatus =  ChallengeStatus.진행중;
-        }
-        else this.challengeStatus = ChallengeStatus.종료;
-    }
+    private ChallengeStatus challengeStatus;
 }
