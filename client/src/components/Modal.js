@@ -8,7 +8,7 @@ const ModalContainer = styled.div`
 	height: 200px;
 	background: white;
 	border-radius: 12px;
-	box-shadow: 5px 5px 5px 5px gray;
+	box-shadow: 0 4px 5px rgba(0, 0, 0, 0.6);
 	padding: 10px;
 
 	font-family: "Inter";
@@ -22,7 +22,7 @@ const ModalContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-evenly;
 `;
 
 const ButtonGroup = styled.div`

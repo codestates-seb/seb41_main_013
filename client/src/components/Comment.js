@@ -12,8 +12,8 @@ const CommentContainer = styled.div`
 	font-family: "Inter";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 1px;
-	line-height: 12px;
+	font-size: 12px;
+	line-height: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -30,6 +30,7 @@ const Comment = ({ comment }) => {
 						background={theme.color.green}
 						width={"40px"}
 						height={"25px"}
+						size={"10px"}
 					/>
 					<Btn
 						btnText={"삭제"}
@@ -37,6 +38,7 @@ const Comment = ({ comment }) => {
 						color={theme.color.navy}
 						width={"40px"}
 						height={"25px"}
+						size={"10px"}
 					/>
 				</div>
 			</CommentContainer>
