@@ -5,6 +5,7 @@ import mainproject.domain.answer.dto.AnswerPostDto;
 import mainproject.domain.answer.dto.AnswerResponseDto;
 import mainproject.domain.answer.entity.Answer;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public interface AnswerMapper {
 
     Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto);
 
+    @Mapping(source = "member.id", target = "memberId")
+    @Mapping(source = "member.name", target = "name")
+    @Mapping(source = "board.boardId", target = "boardId")
     AnswerResponseDto answerToAnswerResponseDto(Answer savedAnswer);
 
     List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);

@@ -10,15 +10,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnswerResponseDto {
-
     private long answerId;
 
-    private String img;
+    private long memberId;
+
+    private String name;
+
+    private long boardId;
 
     private String content;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
 }

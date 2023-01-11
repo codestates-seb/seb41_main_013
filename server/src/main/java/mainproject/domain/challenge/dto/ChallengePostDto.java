@@ -2,6 +2,7 @@ package mainproject.domain.challenge.dto;
 
 import lombok.Data;
 import mainproject.domain.challenge.entity.Frequency;
+import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
 import javax.validation.constraints.*;
@@ -11,6 +12,16 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 public class ChallengePostDto {
+    @NotNull
+    @Positive
+    private Long hostMemberId;
+
+    public Member getMember() {
+        Member member = new Member();
+        member.setId(hostMemberId);
+        return member;
+    }
+
     @NotNull(message = "카테고리를 선택하세요.")
     private Category category;
 
@@ -21,8 +32,6 @@ public class ChallengePostDto {
     @NotBlank(message = "설명을 입력하세요.")
     @Size(max = 500, message = "설명은 500자까지 입력 가능합니다.")
     private String content;
-
-    //private image;  // TODO: 이미지파일 (Nullable)
 
     @NotNull(message = "시작 날짜를 선택하세요.")
     @Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.")
