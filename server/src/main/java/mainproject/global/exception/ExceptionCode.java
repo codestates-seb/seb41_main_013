@@ -1,5 +1,6 @@
 package mainproject.global.exception;
 
+<<<<<<< HEAD
 import lombok.Getter;
 
 @Getter
@@ -17,3 +18,27 @@ public enum ExceptionCode {
         this.message = message;
     }
 }
+=======
+
+import lombok.Getter;
+
+public enum ExceptionCode {
+    MEMBER_NOT_FOUND(404, "Member not found"),
+    MEMBER_EXISTS(409, "Member exists"),
+    ANSWER_NOT_FOUND(404, "Answer not found"),
+    BOARD_NOT_FOUND(404, "Board not found"),
+
+    UNAUTHORIZED_MEMBER(403, "Unauthorized member");
+
+    @Getter
+    private int status;
+
+    @Getter
+    private String message;
+
+    ExceptionCode(int code, String message) {
+        this.status = code;
+        this.message = message;
+    }
+}
+>>>>>>> 0d69244167b37c63f5c9293dba3d33910dd70c41
