@@ -1,23 +1,24 @@
-import theme from "../settings/theme";
+import theme from "./theme";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import Btn from "./atoms/Button";
+import Btn from "./Button";
 
 const CommentContainer = styled.div`
 	width: 364px;
 	height: 52px;
-	border: 1px solid #000000;
-	border-radius: 8px;
 
 	font-family: "Inter";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 12px;
+	font-size: 10px;
 	line-height: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 `;
+/*border: 1px solid #000000;
+	border-radius: 8px;
+	box-shadow: 0 3px 4px rgba(0, 0, 0, 0.6);*/
 
 const Comment = ({ comment }) => {
 	return (

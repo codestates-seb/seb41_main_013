@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Avatar from "./atoms/Avatar";
+import Avatar from "./Avatar";
 
 const WriterInfoContainer = styled.div`
 	width: 140px;

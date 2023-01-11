@@ -1,7 +1,6 @@
-import styled from "styled-components";
-import Button from "./atoms/Button";
-import theme from "../settings/theme";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import Button from "./Button";
+import theme from "./theme";
 
 const ModalContainer = styled.div`
 	width: 300px;

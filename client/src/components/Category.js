@@ -1,9 +1,9 @@
 // MainCategory
 // SelectCategory
-import theme from "../settings/theme";
+import theme from "./theme";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import Btn from "./atoms/Button";
+import Btn from "./Button";
 
 const SelectCategoryContainer = styled.div`
 	width: 360px;

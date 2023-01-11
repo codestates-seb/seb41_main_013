@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import WriterInfo from "./WriterInfo";
-import theme from "../settings/theme";
+import theme from "./theme";
 
 const PostSumContainer = styled.div`
 	width: 361px;
@@ -12,19 +12,19 @@ const PostSumContainer = styled.div`
 	justify-content: space-between;
 
 	div {
+		font-family: "Inter";
+		font-style: normal;
 		.title {
-			font-family: "Inter";
-			font-style: normal;
 			font-weight: 600;
 			font-size: 14px;
 			line-height: 30px;
+			text-align: left;
 		}
 		.content {
-			font-family: "Inter";
-			font-style: normal;
 			font-weight: 400;
 			font-size: 13px;
 			line-height: 16px;
+			text-align: left;
 		}
 	}
 `;
