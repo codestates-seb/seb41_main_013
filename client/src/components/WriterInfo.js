@@ -4,7 +4,6 @@ import Avatar from "./atoms/Avatar";
 const WriterInfoContainer = styled.div`
 	width: 140px;
 	height: 30px;
-	border: 1px solid #000000;
 
 	display: flex;
 	align-items: center;
