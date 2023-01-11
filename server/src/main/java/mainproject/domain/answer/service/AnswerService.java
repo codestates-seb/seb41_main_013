@@ -50,9 +50,9 @@ public class AnswerService {
     }
 
 
-    public Answer findAnswers(long boardId) {
-        boardService.findVerifiedMember(boardId);
-        return answerRepository.save(findAnswers(boardId));
+    public Answer findAnswers(long answerId) {
+        boardService.findVerifiedMember(answerId);
+        return answerRepository.save(findAnswers(answerId));
     }
 
 
