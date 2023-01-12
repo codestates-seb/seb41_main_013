@@ -15,9 +15,6 @@ const CommentContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 `;
-/*border: 1px solid #000000;
-	border-radius: 8px;
-	box-shadow: 0 3px 4px rgba(0, 0, 0, 0.6);*/
 
 const Comment = ({ comment }) => {
 	return (
