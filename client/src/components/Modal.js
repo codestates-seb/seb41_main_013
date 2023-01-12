@@ -4,22 +4,22 @@ import theme from "./theme";
 
 // Modal
 //props : 모달 텍스트
-export const Modal = ( modalText ) => {
+export const Modal = (props) => {
 	return (
 		<>
-			<ModalContainer>{modalText}</ModalContainer>
+			<ModalContainer>{props.modalText}</ModalContainer>
 		</>
 	);
 };
 
 // OneBtnModal
 //props : 모달 텍스트, 주황색 버튼 텍스트
-export const OneBtnModal = ({modalText, btnText}) => {
+export const OneBtnModal = (props) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
-				{modalText}
-				<Button btnText={btnText} background={theme.color.orange} />
+				{props.modalText}
+				<Button btnText={props.btnText} background={theme.color.orange} />
 			</ModalContainer>
 		</ThemeProvider>
 	);
@@ -27,15 +27,15 @@ export const OneBtnModal = ({modalText, btnText}) => {
 
 // TwoBtnModal
 //props : 모달 텍스트, 주황색 버튼 텍스트, 회색 버튼 텍스트
-export const TwoBtnModal = ({modalText, btnTextOrg, btnTextGry}) => {
+export const TwoBtnModal = (props) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
-				{modalText}
+				{props.modalText}
 				<ButtonGroup>
-					<Button btnText={btnTextOrg} background={theme.color.orange} />
+					<Button btnText={props.btnTextOrg} background={theme.color.orange} />
 					<Button
-						btnText={btnTextGry}
+						btnText={props.btnTextGry}
 						background={theme.color.gray}
 						color={theme.color.navy}
 					/>
