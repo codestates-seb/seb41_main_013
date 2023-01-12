@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
 //props : 버튼 텍스트, 버튼 배경색, 버튼 글씨 색, 글씨 사이즈, 버튼 가로&세로 사이즈
-const Button = ({ btnText, background, color, size, width, height }) => {
+const Button = (props) => {
 	return (
 		<>
 			<StyledButton
-				background={background}
-				color={color}
-				size={size}
-				width={width}
-				height={height}
+				background={props.background}
+				color={props.color}
+				size={props.size}
+				width={props.width}
+				height={props.height}
 			>
-				{btnText}
+				{props.btnText}
 			</StyledButton>
 		</>
 	);
