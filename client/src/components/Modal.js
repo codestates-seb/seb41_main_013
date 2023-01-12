@@ -14,7 +14,7 @@ export const Modal = ( modalText ) => {
 
 // OneBtnModal
 //props : 모달 텍스트, 주황색 버튼 텍스트
-export const OneBtnModal = (modalText, btnText) => {
+export const OneBtnModal = ({modalText, btnText}) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
@@ -27,7 +27,7 @@ export const OneBtnModal = (modalText, btnText) => {
 
 // TwoBtnModal
 //props : 모달 텍스트, 주황색 버튼 텍스트, 회색 버튼 텍스트
-export const TwoBtnModal = (modalText, btnTextOrg, btnTextGry) => {
+export const TwoBtnModal = ({modalText, btnTextOrg, btnTextGry}) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
