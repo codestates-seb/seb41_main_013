@@ -2,6 +2,21 @@ import styled from "styled-components";
 import WriterInfo from "./WriterInfo";
 import theme from "./theme";
 
+//props : 글 제목, 글 내용
+const PostSummary = (props) => {
+	return (
+		<>
+			<PostSumContainer>
+				<div>
+					<div className="title">{props.title}</div>
+					<div className="content">{props.content}</div>
+				</div>
+				<WriterInfo />
+			</PostSumContainer>
+		</>
+	);
+};
+
 const PostSumContainer = styled.div`
 	width: 36.1rem;
 	height: 16rem;
@@ -28,20 +43,5 @@ const PostSumContainer = styled.div`
 		}
 	}
 `;
-
-//props : 글 제목, 글 내용
-const PostSummary = ({ title, content }) => {
-	return (
-		<>
-			<PostSumContainer>
-				<div>
-					<div className="title">{title || "title"}</div>
-					<div className="content">{content || "content"}</div>
-				</div>
-				<WriterInfo />
-			</PostSumContainer>
-		</>
-	);
-};
 
 export default PostSummary;

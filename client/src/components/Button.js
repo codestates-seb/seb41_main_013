@@ -1,5 +1,22 @@
 import styled from "styled-components";
 
+//props : 버튼 텍스트, 버튼 배경색, 버튼 글씨 색, 글씨 사이즈, 버튼 가로&세로 사이즈
+const Button = (props) => {
+	return (
+		<>
+			<StyledButton
+				background={props.background}
+				color={props.color}
+				size={props.size}
+				width={props.width}
+				height={props.height}
+			>
+				{props.btnText}
+			</StyledButton>
+		</>
+	);
+};
+
 const StyledButton = styled.button`
 	width: ${(props) => props.width || "4.8rem"};
 	height: ${(props) => props.height || "3.5rem"};
@@ -18,22 +35,5 @@ const StyledButton = styled.button`
 	line-height: 1.6rem;
 	color: ${(props) => props.color || "white"};
 `;
-
-//props : 버튼 텍스트, 버튼 배경색, 버튼 글씨 색, 글씨 사이즈, 버튼 가로&세로 사이즈
-const Button = ({ btnText, background, color, size, width, height }) => {
-	return (
-		<>
-			<StyledButton
-				background={background}
-				color={color}
-				size={size}
-				width={width}
-				height={height}
-			>
-				{btnText}
-			</StyledButton>
-		</>
-	);
-};
 
 export default Button;
