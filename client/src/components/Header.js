@@ -1,16 +1,10 @@
 import styled from "styled-components";
 import { ArrowLeft } from "./NavItem";
-import { Logo, Auth } from "./Button";
 import theme from "./theme";
 
 export const MainHeader = () => {
 	return (
 		<Main>
-			<Logo>AppLogo</Logo>
-			<div>
-				<Auth>로그인</Auth>
-				<Auth>회원가입</Auth>
-			</div>
 		</Main>
 	);
 };
