@@ -41,6 +41,7 @@ public class ChallengeService {
     // 챌린지 목록 최신 생성일 순 조회
     public List<Challenge> findNewChallenges(Category category) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
         if (category == null) {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                     .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
@@ -93,13 +94,11 @@ public class ChallengeService {
                     challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                             .filter(c -> c.getTitle().contains(w) || c.getContent().contains(w))
                             .collect(Collectors.toList());
-            result.forEach(r -> results.add(r));
+            results.addAll(result);
         }
 
         // TODO: 매핑 후 생성일 -> 참여자수 변경
-        results.stream().sorted(Comparator.comparing(Challenge::getCreatedAt).reversed()).collect(Collectors.toList());
-
-        return results;
+        return results.stream().sorted(Comparator.comparing(Challenge::getCreatedAt).reversed()).collect(Collectors.toList());
     }
 
     // 챌린지 삭제
@@ -122,16 +121,20 @@ public class ChallengeService {
     public void updateChallengeStatus() {
         // 시작 날짜가 되면 챌린지 진행
         List<Challenge> beforeStartedChallenges = challengeRepository.findByChallengeStatus(ChallengeStatus.시작전);
+
         beforeStartedChallenges.stream()
                 .filter(c -> !c.getStartAt().isAfter(LocalDate.now()))
                 .forEach(c -> c.setChallengeStatus(ChallengeStatus.진행중));
-        beforeStartedChallenges.forEach(c -> challengeRepository.save(c));
+
+        challengeRepository.saveAll(beforeStartedChallenges);
 
         // 종료 날짜가 지나면 챌린지 종료
         List<Challenge> progressingChallenges = challengeRepository.findByChallengeStatus(ChallengeStatus.진행중);
+
         progressingChallenges.stream()
                 .filter(c -> c.getEndAt().isBefore(LocalDate.now()))
                 .forEach(c -> c.setChallengeStatus(ChallengeStatus.종료));
-        progressingChallenges.forEach(c -> challengeRepository.save(c));
+
+        challengeRepository.saveAll(progressingChallenges);
     }
 }
