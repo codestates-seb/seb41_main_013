@@ -51,28 +51,28 @@ export const ChallengeState = () => {
 
 const ChallengeStateContainer = styled.div`
 	border: 1px solid black;
-	width: ${theme.width.content};
-	height: 9.37rem;
+	width: 36.4rem;
+	height: 15rem;
 
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	font-size: ${theme.font.content};
+	font-size: 1.4rem;
 
 	.title {
 		display: flex;
 		align-items: center;
-		gap: 0.625rem;
+		gap: 1rem;
 
 		img {
-			width: ${theme.width.icon};
-			height: ${theme.height.icon};
+			width: 2rem;
+			height: 2rem;
 		}
 	}
 
 	.container {
-		width: ${theme.width.content};
-		height: 5.06rem;
+		width: 36.4rem;
+		height: 8.1rem;
 		display: flex;
 
 		div {
@@ -85,23 +85,23 @@ const ChallengeStateContainer = styled.div`
 
 		div:not(:last-of-type) {
 			border-right: 1px solid black;
-			width: 1.875rem;
+			width: 1rem;
 		}
 	}
 `;
 
 const CompleteChallengeContainer = styled.div`
 	border: 1px solid black;
-	width: 11.37rem;
-	height: 11.43rem;
+	width: 18.2rem;
+	height: 18.3rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.312rem;
+	gap: 0.5rem;
 
 	img {
-		width: ${theme.width.challenge};
-		height: ${theme.height.challenge};
+		width: 16rem;
+		height: 14.5rem;
 	}
 `;
 
@@ -109,14 +109,14 @@ const ChallengeImg = styled.div`
 	background-image: url(${(props) => props.src});
 	background-size: contain;
 	background-position: center center;
-	width: ${theme.width.challenge};
-	height: ${theme.height.challenge};
+	width: 16rem;
+	height: 14.5rem;
 `;
 
 const CreateChallengeContainer = styled.div`
 	border: 1px solid black;
-	width: 11.37rem;
-	height: 12.06rem;
+	width: 18.2rem;
+	height: 19.3rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

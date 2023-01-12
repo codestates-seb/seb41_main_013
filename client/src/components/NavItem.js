@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import theme from "./theme";
 
 export const NavTitle = (props) => {
 	return (
@@ -24,27 +23,27 @@ export const ArrowLeft = () => {
 
 const Navbar = styled.div`
 	border: 1px solid black;
-	width: ${theme.width.content};
-	height: 3.25rem;
-	font-size: ${theme.font.title};
+	width: 36.4rem;
+	height: 4.7rem;
+	font-size: 1.4rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 `;
 
 const ArrowBoxLeft = styled.div`
-	width: ${theme.width.icon};
-	height: ${theme.height.icon};
-	font-size: ${theme.font.icon};
+	width: 3rem;
+	height: 3rem;
+	font-size: 2rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 `;
 
 const ArrowBoxRight = styled.div`
-	width: ${theme.width.icon};
-	height: ${theme.height.icon};
-	font-size: ${theme.font.icon};
+	width: 3rem;
+	height: 3rem;
+	font-size: 2rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
