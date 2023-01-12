@@ -16,11 +16,12 @@ const WriterInfoContainer = styled.div`
 	line-height: 1rem;
 `;
 
-const WriterInfo = ({ name, date }) => {
+//props : 유저 이름, 작성 시간, 유저 이미지 파일 경로
+const WriterInfo = ({ name, date, imgURL }) => {
 	return (
 		<>
 			<WriterInfoContainer>
-				<Avatar />
+				<Avatar imgURL={imgURL} />
 				<div>{name || "name"}</div>
 				<div>{date || "2023-01-11"}</div>
 			</WriterInfoContainer>

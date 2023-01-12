@@ -7,7 +7,7 @@ const ModalContainer = styled.div`
 	height: 20rem;
 	background: white;
 	border-radius: 1.2rem;
-	box-shadow: 0 4px 5px rgba(0, 0, 0, 0.6);
+	box-shadow: 0 0.4rem 0.5rem rgba(0, 0, 0, 0.6);
 	padding: 10px;
 
 	font-family: "Inter";
@@ -29,6 +29,7 @@ const ButtonGroup = styled.div`
 `;
 
 // Modal
+//props : 모달 텍스트
 export const Modal = ({ modalText }) => {
 	return (
 		<>
@@ -38,6 +39,7 @@ export const Modal = ({ modalText }) => {
 };
 
 // OneBtnModal
+//props : 모달 텍스트, 주황색 버튼 텍스트
 export const OneBtnModal = ({ modalText, btnText }) => {
 	return (
 		<ThemeProvider theme={theme}>
@@ -50,6 +52,7 @@ export const OneBtnModal = ({ modalText, btnText }) => {
 };
 
 // TwoBtnModal
+//props : 모달 텍스트, 주황색 버튼 텍스트, 회색 버튼 텍스트
 export const TwoBtnModal = ({ modalText, btnTextOrg, btnTextGry }) => {
 	return (
 		<ThemeProvider theme={theme}>

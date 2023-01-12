@@ -12,6 +12,7 @@ const SelectCategoryContainer = styled.div`
 	padding: 0.3rem;
 `;
 
+//props : X
 const SelectCategory = () => {
 	return (
 		<ThemeProvider theme={theme}>

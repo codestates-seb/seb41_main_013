@@ -8,6 +8,7 @@ const StyledAvatar = styled.div`
 	}
 `;
 
+//props : 유저 이미지 파일 경로
 const Avatar = ({ imgURL }) => {
 	return (
 		<>

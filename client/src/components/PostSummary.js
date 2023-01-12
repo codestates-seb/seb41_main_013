@@ -29,6 +29,7 @@ const PostSumContainer = styled.div`
 	}
 `;
 
+//props : 글 제목, 글 내용
 const PostSummary = ({ title, content }) => {
 	return (
 		<>

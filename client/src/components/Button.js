@@ -8,7 +8,7 @@ const StyledButton = styled.button`
 	background-color: ${(props) => props.background || "white"};
 	cursor: pointer;
 	margin: 0.3rem;
-	box-shadow: 0 3px 4px rgba(0, 0, 0, 0.6);
+	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
 
 	text-align: center;
 	font-family: "Inter";
@@ -19,14 +19,15 @@ const StyledButton = styled.button`
 	color: ${(props) => props.color || "white"};
 `;
 
-const Button = ({ btnText, size, background, color, width, height }) => {
+//props : 버튼 텍스트, 버튼 배경색, 버튼 글씨 색, 글씨 사이즈, 버튼 가로&세로 사이즈
+const Button = ({ btnText, background, color, size, width, height }) => {
 	return (
 		<>
 			<StyledButton
 				background={background}
+				color={color}
 				size={size}
 				width={width}
-				color={color}
 				height={height}
 			>
 				{btnText}

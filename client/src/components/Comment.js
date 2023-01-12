@@ -1,6 +1,5 @@
 import theme from "./theme";
-import { ThemeProvider } from "styled-components";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import Btn from "./Button";
 
 const CommentContainer = styled.div`
