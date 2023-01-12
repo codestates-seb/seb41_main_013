@@ -17,13 +17,13 @@ const WriterInfoContainer = styled.div`
 `;
 
 //props : 유저 이름, 작성 시간, 유저 이미지 파일 경로
-const WriterInfo = ({ name, date, imgURL }) => {
+const WriterInfo = (props) => {
 	return (
 		<>
 			<WriterInfoContainer>
-				<Avatar imgURL={imgURL} />
-				<div>{name}</div>
-				<div>{date}</div>
+				<Avatar imgURL={props.imgURL} />
+				<div>{props.name}</div>
+				<div>{props.date}</div>
 			</WriterInfoContainer>
 		</>
 	);
