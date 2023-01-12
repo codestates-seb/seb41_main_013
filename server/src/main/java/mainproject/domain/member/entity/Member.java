@@ -2,7 +2,7 @@ package mainproject.domain.member.entity;
 
 
 import lombok.*;
-import mainproject.domain.answer.entity.Answer;
+import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.challenge.entity.Challenge;
 
@@ -33,7 +33,7 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Challenge> challenges = new ArrayList<>();
 
     public void setChallenges(Challenge challenge) {
@@ -54,12 +54,12 @@ public class Member {
     }
 
     @OneToMany(mappedBy = "member")
-    private List<Answer> answers = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
-    public void setAnswers(Answer answer) {
-        answers.add(answer);
-        if (answer.getMember() != this) {
-            answer.setMember(this);
+    public void setComments(Comment comment) {
+        comments.add(comment);
+        if (comment.getMember() != this) {
+            comment.setMember(this);
         }
     }
 }

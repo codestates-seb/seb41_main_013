@@ -1,4 +1,4 @@
-package mainproject.domain.answer.dto;
+package mainproject.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,12 +9,10 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnswerResponseDto {
-    private long answerId;
+public class CommentResponseDto {
+    private long commentId;
 
     private long memberId;
-
-    private String name;
 
     private long boardId;
 

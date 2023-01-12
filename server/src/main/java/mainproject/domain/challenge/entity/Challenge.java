@@ -20,7 +20,7 @@ public class Challenge {
     private long challengeId;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @JoinColumn(name = "HOST_MEMBER_ID")
     private Member member;
 
     public void setMember(Member member) {

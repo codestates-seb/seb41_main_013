@@ -13,8 +13,6 @@ public interface ChallengeMapper {
     Challenge challengePostDtoToChallenge(ChallengePostDto challengePostDto);
 
     @Mapping(source = "member.id", target = "hostMemberId")
-    @Mapping(source = "member.name", target = "hostName")
-    //@Mapping(source = "member.profileImage, target = "hostProfileImage")
     ChallengeResponseDto challengeToChallengeResponseDto(Challenge challenge);
 
     List<ChallengeResponseDto> challengesToChallengeResponseDtos(List<Challenge> challenges);

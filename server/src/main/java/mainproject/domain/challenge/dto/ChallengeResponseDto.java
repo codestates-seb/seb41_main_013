@@ -13,8 +13,6 @@ import java.time.LocalTime;
 public class ChallengeResponseDto {
     private long challengeId;
     private long hostMemberId;
-    private String hostName;
-    // private Image hostProfileImage;  // TODO: 이미지파일 (Nullable)
     private Category category;
     private String title;
     private String content;

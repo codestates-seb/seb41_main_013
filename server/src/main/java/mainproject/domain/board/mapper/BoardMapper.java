@@ -18,8 +18,6 @@ public interface BoardMapper {
     Board boardPatchDtoToBoard(BoardPatchDto boardPatchDto);
 
     @Mapping(source = "member.id", target = "memberId")
-    @Mapping(source = "member.name", target = "name")
-    //@Mapping(source = "member.profileImage, target = "profileImage")
     BoardResponseDto boardToBoardResponseDto(Board board);
 
     List<BoardResponseDto> boardsToBoardResponseDtos(List<Board> questions);

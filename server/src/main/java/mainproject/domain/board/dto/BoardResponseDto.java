@@ -16,10 +16,6 @@ public class BoardResponseDto {
 
     private long memberId;
 
-    private String name;
-
-    // private Image profileImage;  // TODO: 이미지파일 (Nullable)
-
     private Category category;
 
     private String title;

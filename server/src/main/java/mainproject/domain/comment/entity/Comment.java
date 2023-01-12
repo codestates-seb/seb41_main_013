@@ -1,4 +1,4 @@
-package mainproject.domain.answer.entity;
+package mainproject.domain.comment.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Entity
-public class Answer {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long answerId;
+    private Long commentId;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -25,8 +25,8 @@ public class Answer {
 
     public void setMember(Member member) {
         this.member = member;
-        if (!this.member.getAnswers().contains(this)) {
-            this.member.getAnswers().add(this);
+        if (!this.member.getComments().contains(this)) {
+            this.member.getComments().add(this);
         }
     }
 
@@ -36,8 +36,8 @@ public class Answer {
 
     public void setBoard(Board board) {
         this.board = board;
-        if (!this.board.getAnswers().contains(this)) {
-            this.board.getAnswers().add(this);
+        if (!this.board.getComments().contains(this)) {
+            this.board.getComments().add(this);
         }
     }
 

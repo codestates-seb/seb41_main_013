@@ -1,4 +1,4 @@
-package mainproject.domain.answer.dto;
+package mainproject.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import javax.validation.constraints.Positive;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerPostDto {
+public class CommentPostDto {
     @NotNull
     @Positive
     private Long memberId;

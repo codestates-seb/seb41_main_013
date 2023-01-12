@@ -3,7 +3,7 @@ package mainproject.domain.board.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mainproject.domain.answer.entity.Answer;
+import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
@@ -47,12 +47,12 @@ public class Board {
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "board")
-    private List<Answer> answers = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
-    public void setAnswers(Answer answer) {
-        answers.add(answer);
-        if (answer.getBoard() != this) {
-            answer.setBoard(this);
+    public void setComments(Comment comment) {
+        comments.add(comment);
+        if (comment.getBoard() != this) {
+            comment.setBoard(this);
         }
     }
 }
