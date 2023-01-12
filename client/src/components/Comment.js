@@ -2,20 +2,6 @@ import theme from "./theme";
 import styled, { ThemeProvider } from "styled-components";
 import Btn from "./Button";
 
-const CommentContainer = styled.div`
-	width: 364px;
-	height: 52px;
-
-	font-family: "Inter";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 1rem;
-	line-height: 3rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-`;
-
 const Comment = ({ comment }) => {
 	return (
 		<ThemeProvider theme={theme}>
@@ -42,5 +28,19 @@ const Comment = ({ comment }) => {
 		</ThemeProvider>
 	);
 };
+
+const CommentContainer = styled.div`
+	width: 364px;
+	height: 52px;
+
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
 
 export default Comment;
