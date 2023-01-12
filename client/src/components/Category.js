@@ -3,6 +3,7 @@ import town from "../images/town.png";
 import exercise from "../images/exercise.png";
 import life from "../images/life.png";
 import etc from "../images/etc.png";
+import theme from "./theme";
 
 export const HomeCategory = () => {
 	return (
@@ -26,7 +27,7 @@ const Category = (props) => {
 
 const MainCategoryContainer = styled.div`
 	border: 1px solid black;
-	width: ${(props) => props.theme.width.content};
+	width: ${theme.width.content};
 	height: 5.93rem;
 	padding: 0.625rem 0;
 	display: flex;
