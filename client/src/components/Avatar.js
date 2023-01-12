@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 //props : 유저 이미지 파일 경로
-const Avatar = ({ imgURL }) => {
+const Avatar = (props) => {
 	return (
 		<>
 			<StyledAvatar>
-				<img src={imgURL || "/images/미모티콘.png"} alt="avatar"></img>
+				<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar"></img>
 			</StyledAvatar>
 		</>
 	);
