@@ -35,8 +35,8 @@ const PostSummary = ({ title, content }) => {
 		<>
 			<PostSumContainer>
 				<div>
-					<div className="title">{title || "title"}</div>
-					<div className="content">{content || "content"}</div>
+					<div className="title">{title}</div>
+					<div className="content">{content}</div>
 				</div>
 				<WriterInfo />
 			</PostSumContainer>
