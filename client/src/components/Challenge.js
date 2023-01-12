@@ -4,7 +4,7 @@
 import styled from "styled-components";
 import sample from "../images/example2.jpeg";
 import challenge from "../images/challenge.png";
-import theme from "./theme";
+import { DeleteBtn } from "./Button";
 
 export const CompleteChallenge = (props) => {
 	return (
@@ -18,6 +18,7 @@ export const CompleteChallenge = (props) => {
 export const CreateChallenge = (props) => {
 	return (
 		<CreateChallengeContainer>
+			<DeleteBtn right="54.5rem" bottom="19.7rem" />
 			<ChallengeImg src={props.src || sample} />
 			{props.title}
 		</CreateChallengeContainer>
@@ -97,7 +98,8 @@ const CompleteChallengeContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.5rem;
+	gap: 1rem;
+	font-size: 1.4rem;
 
 	img {
 		width: 16rem;
@@ -121,4 +123,5 @@ const CreateChallengeContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+	font-size: 1.4rem;
 `;

@@ -26,9 +26,9 @@ function App() {
 				<br />
 				<ChallengeState />
 				<br />
-				<CompleteChallenge />
+				<CompleteChallenge title="하루 3끼 먹기" />
 				<br />
-				<CreateChallenge />
+				<CreateChallenge title="하루 3끼 먹기" />
 			</div>
 		</ThemeProvider>
 	);
