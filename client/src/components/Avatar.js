@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const StyledAvatar = styled.div`
 	& > img {
-		width: 30px;
-		height: 30px;
+		width: 3rem;
+		height: 3rem;
 		border-radius: 50%;
 	}
 `;

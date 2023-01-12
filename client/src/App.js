@@ -1,4 +1,3 @@
-import "./App.css";
 import theme from "./components/theme";
 import { ThemeProvider } from "styled-components";
 

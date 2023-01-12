@@ -10,8 +10,8 @@ const CommentContainer = styled.div`
 	font-family: "Inter";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 10px;
-	line-height: 30px;
+	font-size: 1rem;
+	line-height: 3rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -29,17 +29,17 @@ const Comment = ({ comment }) => {
 					<Btn
 						btnText={"수정"}
 						background={theme.color.green}
-						width={"40px"}
-						height={"25px"}
-						size={"10px"}
+						width={"4rem"}
+						height={"2.5rem"}
+						size={"1rem"}
 					/>
 					<Btn
 						btnText={"삭제"}
 						background={theme.color.gray}
 						color={theme.color.navy}
-						width={"40px"}
-						height={"25px"}
-						size={"10px"}
+						width={"4rem"}
+						height={"2.5rem"}
+						size={"1rem"}
 					/>
 				</div>
 			</CommentContainer>

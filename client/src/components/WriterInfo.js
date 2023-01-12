@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Avatar from "./Avatar";
 
 const WriterInfoContainer = styled.div`
-	width: 140px;
-	height: 30px;
+	width: 14rem;
+	height: 3rem;
 
 	display: flex;
 	align-items: center;
@@ -12,8 +12,8 @@ const WriterInfoContainer = styled.div`
 	font-family: "Inter";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 8px;
-	line-height: 10px;
+	font-size: 0.8rem;
+	line-height: 1rem;
 `;
 
 const WriterInfo = ({ name, date }) => {

@@ -3,8 +3,8 @@ import WriterInfo from "./WriterInfo";
 import theme from "./theme";
 
 const PostSumContainer = styled.div`
-	width: 361px;
-	height: 160px;
+	width: 36.1rem;
+	height: 16rem;
 	border-bottom: 1px solid ${theme.color.gray};
 
 	display: flex;
@@ -16,14 +16,14 @@ const PostSumContainer = styled.div`
 		font-style: normal;
 		.title {
 			font-weight: 600;
-			font-size: 14px;
-			line-height: 30px;
+			font-size: 1.4rem;
+			line-height: 3rem;
 			text-align: left;
 		}
 		.content {
 			font-weight: 400;
-			font-size: 13px;
-			line-height: 16px;
+			font-size: 1.3rem;
+			line-height: 1.6rem;
 			text-align: left;
 		}
 	}
