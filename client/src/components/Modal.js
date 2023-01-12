@@ -1,4 +1,4 @@
-import styled, { ThemeProvider } from "styled-components";
+import { styled, ThemeProvider } from "styled-components";
 import Button from "./Button";
 import theme from "./theme";
 
