@@ -2,11 +2,12 @@ import theme from "./theme";
 import styled, { ThemeProvider } from "styled-components";
 import Btn from "./Button";
 
-const Comment = (comment ) => {
+//props : 댓글 내용
+const Comment = (props ) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<CommentContainer>
-				{comment || "comment"}
+				{props.comment}
 				<div>
 					<Btn
 						btnText={"수정"}
