@@ -2,7 +2,7 @@ import theme from "./theme";
 import styled, { ThemeProvider } from "styled-components";
 import Btn from "./Button";
 
-const Comment = ({ comment }) => {
+const Comment = (comment ) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<CommentContainer>
