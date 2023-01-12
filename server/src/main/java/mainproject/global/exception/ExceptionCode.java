@@ -11,6 +11,7 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
     MEMBER_EXISTS(409, "Member exists"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
     BOARD_NOT_FOUND(404, "Board not found"),
     UNAUTHORIZED_MEMBER(403, "Unauthorized member");
 

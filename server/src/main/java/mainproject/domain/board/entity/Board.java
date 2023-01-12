@@ -3,7 +3,7 @@ package mainproject.domain.board.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mainproject.domain.answer.entity.Answer;
+import mainproject.domain.comment.entity.Comment;
 
 
 import javax.persistence.*;
@@ -37,7 +37,7 @@ public class Board {
     */
 
     @OneToMany(mappedBy = "board")
-    private List<Answer> answer = new ArrayList<>();
+    private List<Comment> comment = new ArrayList<>();
 
 
 

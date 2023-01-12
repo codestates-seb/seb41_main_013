@@ -1,19 +1,15 @@
-package mainproject.domain.answer.dto;
+
+package mainproject.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class AnswerResponseDto {
-
-    private long answerId;
-
-    private String img;
+public class CommentResponseDto {
+    private long commentId;
 
     private String content;
 

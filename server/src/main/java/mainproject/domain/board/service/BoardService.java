@@ -46,10 +46,11 @@ public class BoardService {
         return findVerifiedMember(boardId);
     }
 
-    public Page<Board> findBoards(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page, size,
-                Sort.by("boardId").descending()));
+    public Page<Board> findBoards(int page, int size){
+        return boardRepository.findAll(PageRequest.of(page,size,
+                Sort.by("questionId").descending()));
     }
+
 
     public void deleteBoard(long boardId) {
         boardRepository.deleteById(boardId);

@@ -35,7 +35,7 @@ public class BoardController {
     public ResponseEntity postBoard(@Valid @RequestBody BoardPostDto boardPostDto) {
         Board response = boardService.
                 saveBoard(boardMapper.boardPostDtoToBoard(boardPostDto));
-        return ResponseEntity.ok(boardMapper.boardToBoardResponseDto(response));
+        return new ResponseEntity(boardMapper.boardToBoardResponseDto(response), HttpStatus.CREATED);
     }
 
 
@@ -45,7 +45,7 @@ public class BoardController {
         boardPatchDto.setBoardId(boardId);
         Board response = boardService.
                 updateBoard(boardId, boardMapper.boardPatchDtoToBoard(boardPatchDto));
-        return ResponseEntity.ok(boardMapper.boardToBoardResponseDto(response));
+        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(response), HttpStatus.OK);
     }
 
 
@@ -58,15 +58,16 @@ public class BoardController {
 
 
     @GetMapping
-    public ResponseEntity getBoards(@Positive @RequestParam int page,
-                                    @Positive @RequestParam int size) {
-        Page<Board> pageBoards = boardService.findBoards(page - 1, size);
-        List<Board> boards = pageBoards.getContent();
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards),
-                        pageBoards),
-                HttpStatus.OK);
 
+    public ResponseEntity getBoards(@Positive @RequestParam("page") int page,
+                                       @Positive @RequestParam("size") int size){
+        Page<Board> pageBoards = boardService.findBoards(page-1,size);
+
+        List<Board> boards = pageBoards.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(
+                boardMapper.boardsToBoardResponseDtos(boards),
+                pageBoards),HttpStatus.OK);
     }
 
     @DeleteMapping("/{board-id}")
