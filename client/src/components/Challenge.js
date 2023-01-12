@@ -4,6 +4,7 @@
 import styled from "styled-components";
 import sample from "../images/example2.jpeg";
 import challenge from "../images/challenge.png";
+import theme from "./theme";
 
 export const CompleteChallenge = (props) => {
 	return (
@@ -50,13 +51,13 @@ export const ChallengeState = () => {
 
 const ChallengeStateContainer = styled.div`
 	border: 1px solid black;
-	width: ${(props) => props.theme.width.content};
+	width: ${theme.width.content};
 	height: 9.37rem;
 
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	font-size: ${(props) => props.theme.font.content};
+	font-size: ${theme.font.content};
 
 	.title {
 		display: flex;
@@ -64,13 +65,13 @@ const ChallengeStateContainer = styled.div`
 		gap: 0.625rem;
 
 		img {
-			width: ${(props) => props.theme.width.icon};
-			height: ${(props) => props.theme.height.icon};
+			width: ${theme.width.icon};
+			height: ${theme.height.icon};
 		}
 	}
 
 	.container {
-		width: ${(props) => props.theme.width.content};
+		width: ${theme.width.content};
 		height: 5.06rem;
 		display: flex;
 
@@ -99,8 +100,8 @@ const CompleteChallengeContainer = styled.div`
 	gap: 0.312rem;
 
 	img {
-		width: ${(props) => props.theme.width.challenge};
-		height: ${(props) => props.theme.height.challenge};
+		width: ${theme.width.challenge};
+		height: ${theme.height.challenge};
 	}
 `;
 
@@ -108,8 +109,8 @@ const ChallengeImg = styled.div`
 	background-image: url(${(props) => props.src});
 	background-size: contain;
 	background-position: center center;
-	width: ${(props) => props.theme.width.challenge};
-	height: ${(props) => props.theme.height.challenge};
+	width: ${theme.width.challenge};
+	height: ${theme.height.challenge};
 `;
 
 const CreateChallengeContainer = styled.div`
