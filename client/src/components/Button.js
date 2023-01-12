@@ -5,6 +5,22 @@ import { FaArrowUp, FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import theme from "./theme";
 
+export const Btn = (props) => {
+	return (
+		<>
+			<StyledBasicBtn
+				background={props.background}
+				color={props.color}
+				size={props.size}
+				width={props.width}
+				height={props.height}
+			>
+				{props.btnText}
+			</StyledBasicBtn>
+		</>
+	);
+};
+
 export const BackToTopBtn = (props) => {
   const [showBtn, setShowBtn] = useState(false);
 
@@ -59,6 +75,25 @@ export const DeleteBtn = (props) => {
     </StyledBtn>
   )
 }
+
+const StyledBasicBtn = styled.button`
+	width: ${(props) => props.width || "4.8rem"};
+	height: ${(props) => props.height || "3.5rem"};
+	border-radius: 1.2rem;
+	border: none;
+	background-color: ${(props) => props.background || "white"};
+	cursor: pointer;
+	margin: 0.3rem;
+	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
+
+	text-align: center;
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 400;
+	font-size: ${(props) => props.size || "1.3rem"};
+	line-height: 1.6rem;
+	color: ${(props) => props.color || "white"};
+`;
 
 const StyledBtn = styled.button`
   display: flex;
