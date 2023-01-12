@@ -30,13 +30,13 @@ const PostSumContainer = styled.div`
 `;
 
 //props : 글 제목, 글 내용
-const PostSummary = ({ title, content }) => {
+const PostSummary = (props) => {
 	return (
 		<>
 			<PostSumContainer>
 				<div>
-					<div className="title">{title}</div>
-					<div className="content">{content}</div>
+					<div className="title">{props.title}</div>
+					<div className="content">{props.content}</div>
 				</div>
 				<WriterInfo />
 			</PostSumContainer>
