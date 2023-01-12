@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ArrowLeft } from "./NavItem";
 import { Logo, Auth } from "./Button";
+import theme from "./theme";
 
 export const MainHeader = () => {
 	return (
@@ -26,8 +27,8 @@ export const TitleHeader = (props) => {
 
 const Main = styled.div`
 	border: 1px solid black;
-	width: ${(props) => props.theme.width.content};
-	height: ${(props) => props.theme.height.header};
+	width: ${theme.width.content};
+	height: ${theme.height.header};
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -35,9 +36,9 @@ const Main = styled.div`
 
 const Title = styled.div`
 	border: 1px solid black;
-	width: ${(props) => props.theme.width.content};
-	height: ${(props) => props.theme.height.header};
-	font-size: ${(props) => props.theme.font.title};
+	width: ${theme.width.content};
+	height: ${theme.height.header};
+	font-size: ${theme.font.title};
 	font-weight: bold;
 	display: flex;
 	align-items: center;
