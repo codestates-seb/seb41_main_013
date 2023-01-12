@@ -25,7 +25,7 @@ export const CreateChallenge = (props) => {
 	);
 };
 
-export const ChallengeState = () => {
+export const ChallengeState = (props) => {
 	return (
 		<ChallengeStateContainer>
 			<div className="title">
@@ -34,15 +34,15 @@ export const ChallengeState = () => {
 			</div>
 			<div className="container">
 				<div>
-					<span>0</span>
+					<span>{props.doing || "0"}</span>
 					<span>참여중</span>
 				</div>
 				<div>
-					<span>0</span>
+					<span>{props.complete || "0"}</span>
 					<span>완료</span>
 				</div>
 				<div>
-					<span>0</span>
+					<span>{props.create || "0"}</span>
 					<span>생성</span>
 				</div>
 			</div>
@@ -100,6 +100,7 @@ const CompleteChallengeContainer = styled.div`
 	align-items: center;
 	gap: 1rem;
 	font-size: 1.4rem;
+	margin-bottom: 2.5rem;
 
 	img {
 		width: 16rem;

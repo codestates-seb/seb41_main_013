@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { Btn } from "./Button";
 import { ArrowLeft } from "./NavItem";
 import theme from "./theme";
+import { IoSettingsOutline } from "react-icons/io5";
+import { useState } from "react";
+import { MypageSetting } from "./MypageSetting";
 
 export const MainHeader = () => {
 	return (
@@ -31,6 +34,25 @@ export const TitleHeader = (props) => {
 	);
 };
 
+export const MypageHeader = (props) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const onClick = () => {
+		setIsOpen(!isOpen);
+	};
+
+	return (
+		<>
+			<Title>
+				<div />
+				{props.title}
+				<IoSettingsOutline className="icon" onClick={onClick} />
+			</Title>
+			{isOpen ? <MypageSetting setIsOpen={setIsOpen} /> : null}
+		</>
+	);
+};
+
 const Main = styled.div`
 	border: 1px solid black;
 	width: 36.4rem;
@@ -49,4 +71,8 @@ const Title = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	.icon {
+		font-size: 2rem;
+	}
 `;
