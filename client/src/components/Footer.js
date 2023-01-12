@@ -3,6 +3,7 @@ import { GrHomeRounded } from "react-icons/gr";
 import { FaUsers } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
+import theme from "./theme";
 
 export const Footer = () => {
 	return (
@@ -29,16 +30,16 @@ export const Footer = () => {
 
 const FooterContainer = styled.div`
 	border: 1px solid black;
-	width: ${(props) => props.theme.width.content};
-	height: ${(props) => props.theme.height.footer};
+	width: ${theme.width.content};
+	height: ${theme.height.footer};
 	display: flex;
 `;
 
 const BottomItem = styled.button`
-	background-color: ${(props) => props.theme.color.white};
+	background-color: ${theme.color.white};
 	border: none;
 	width: 6rem;
-	height: ${(props) => props.theme.height.footer};
+	height: ${theme.height.footer};
 	padding: 0;
 	display: flex;
 	flex-direction: column;
@@ -47,6 +48,6 @@ const BottomItem = styled.button`
 	gap: 0.3rem;
 
 	span {
-		font-size: ${(props) => props.theme.font.footer};
+		font-size: ${theme.font.footer};
 	}
 `;
