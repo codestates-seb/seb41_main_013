@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { GrHomeRounded } from "react-icons/gr";
-import { FaUsers } from "react-icons/fa";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaUsers, FaRegUserCircle  } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import theme from "./theme";
 
