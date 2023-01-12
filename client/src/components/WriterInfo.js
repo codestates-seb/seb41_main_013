@@ -22,8 +22,8 @@ const WriterInfo = ({ name, date, imgURL }) => {
 		<>
 			<WriterInfoContainer>
 				<Avatar imgURL={imgURL} />
-				<div>{name || "name"}</div>
-				<div>{date || "2023-01-11"}</div>
+				<div>{name}</div>
+				<div>{date}</div>
 			</WriterInfoContainer>
 		</>
 	);
