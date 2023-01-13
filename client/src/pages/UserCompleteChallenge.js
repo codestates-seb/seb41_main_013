@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 2.5rem;
+	/* gap: 2.5rem; */
 `;
 
 const ChallengeWrap = styled.div`
@@ -37,8 +37,8 @@ export const UserCompleteChallenge = () => {
 				<CompleteChallenge title="일주일에 책 한권 이상 읽기" />
 				<CompleteChallenge title="매일 헬스장 출석 체크" />
 				<CompleteChallenge title="아이고 힘들어" />
+				<BackToTopBtn />
 			</ChallengeWrap>
-			<BackToTopBtn />
 		</Wrapper>
 	);
 };

@@ -24,7 +24,7 @@ const ChallengeWrap = styled.div`
 export const UserCreateChallenge = () => {
 	return (
 		<Wrapper>
-			<TitleHeader title="완료한 챌린지" />
+			<TitleHeader title="생성한 챌린지" />
 			<ChallengeWrap>
 				<CreateChallenge title="3끼 챙겨먹기" src={"/images/example2.jpeg"} />
 				<CreateChallenge title="5kg 감량" src={"/images/미모티콘.png"} />
@@ -38,8 +38,8 @@ export const UserCreateChallenge = () => {
 				<CreateChallenge title="매일 헬스장 출석 체크" />
 				<CreateChallenge title="아이고 힘들어" />
 				<CreateChallenge title="아이고 힘들어" />
+				<BackToTopBtn bottom="15rem" />
 			</ChallengeWrap>
-			<BackToTopBtn />
 		</Wrapper>
 	);
 };

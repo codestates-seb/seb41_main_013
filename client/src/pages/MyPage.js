@@ -49,8 +49,8 @@ export const Mypage = (props) => {
 					</div>
 					<ChallengeState />
 					<div>
-						<NavTitle title="생성한 챌린지" />
-						<NavTitle title="완료한 챌린지" />
+						<NavTitle title="생성한 챌린지" link="/userCreate" />
+						<NavTitle title="완료한 챌린지" link="/userComplete" />
 					</div>
 					<div />
 				</>

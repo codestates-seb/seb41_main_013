@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { Link, useNavigate } from "react-router-dom";
 
 export const NavTitle = (props) => {
 	return (
 		<Navbar>
 			{props.title}
-			<ArrowBoxRight>
+			<ArrowBoxRight to={props.link}>
 				<IoIosArrowForward />
 			</ArrowBoxRight>
 		</Navbar>
@@ -14,8 +15,13 @@ export const NavTitle = (props) => {
 };
 
 export const ArrowLeft = () => {
+	const navigate = useNavigate();
+	const handleGoBack = () => {
+		navigate(-1);
+	};
+
 	return (
-		<ArrowBoxLeft>
+		<ArrowBoxLeft onClick={handleGoBack}>
 			<IoIosArrowBack />
 		</ArrowBoxLeft>
 	);
@@ -38,13 +44,16 @@ const ArrowBoxLeft = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 `;
 
-const ArrowBoxRight = styled.div`
+const ArrowBoxRight = styled(Link)`
 	width: 3rem;
 	height: 3rem;
 	font-size: 2rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
+	color: black;
 `;

@@ -5,17 +5,20 @@ import theme from "./theme";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useState } from "react";
 import { MypageSetting } from "./MypageSetting";
+import { Link } from "react-router-dom";
 
 export const MainHeader = () => {
 	return (
 		<Main>
-			<Btn
-				btnText="Logo"
-				background={`${theme.color.green}`}
-				color="black"
-				width="10.5rem"
-				height="3.2rem"
-			/>
+			<Link to="/">
+				<Btn
+					btnText="Logo"
+					background={`${theme.color.green}`}
+					color="black"
+					width="10.5rem"
+					height="3.2rem"
+				/>
+			</Link>
 			<div>
 				<Btn btnText="로그인" color="black" width="6rem" />
 				<Btn btnText="회원가입" color="black" width="6rem" />

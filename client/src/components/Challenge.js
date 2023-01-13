@@ -4,7 +4,11 @@
 import styled from "styled-components";
 import sample from "../images/example2.jpeg";
 import challenge from "../images/challenge.png";
-import { DeleteBtn } from "./Button";
+import { Btn } from "./Button";
+import theme from "./theme";
+import { IoClose } from "react-icons/io5";
+import { useState } from "react";
+import { TwoBtnModal } from "./Modal";
 
 export const CompleteChallenge = (props) => {
 	return (
@@ -16,10 +20,34 @@ export const CompleteChallenge = (props) => {
 };
 
 export const CreateChallenge = (props) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const openModal = () => {
+		setIsOpen(!isOpen);
+		console.log(isOpen);
+	};
+
 	return (
 		<CreateChallengeContainer>
-			<DeleteBtn right="54.5rem" bottom="19.7rem" />
-			<ChallengeImg src={props.src || sample} />
+			<ChallengeImg src={props.src || sample}>
+				<Btn
+					className="deleteBtn"
+					onClick={openModal}
+					btnText={<IoClose />}
+					width="1.5rem"
+					height="1.5rem"
+					size="1.1rem"
+					background={`${theme.color.orange}`}
+				/>
+
+				{isOpen ? (
+					<TwoBtnModal
+						modalText="정말 삭제하시겠습니까?"
+						btnTextOrg="삭제"
+						btnTextGry="취소"
+					/>
+				) : null}
+			</ChallengeImg>
 			{props.title}
 		</CreateChallengeContainer>
 	);
@@ -114,6 +142,10 @@ const ChallengeImg = styled.div`
 	background-position: center center;
 	width: 16rem;
 	height: 14.5rem;
+
+	.deleteBtn {
+		display: none;
+	}
 `;
 
 const CreateChallengeContainer = styled.div`
@@ -125,4 +157,10 @@ const CreateChallengeContainer = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	font-size: 1.4rem;
+	margin-bottom: 2.5rem;
+
+	/* .deleteBtn {
+		position: fixed;
+		left: 0;
+	} */
 `;

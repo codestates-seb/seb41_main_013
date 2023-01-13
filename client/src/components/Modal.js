@@ -1,5 +1,5 @@
 import styled, { ThemeProvider } from "styled-components";
-import Button from "./Button";
+import { Btn } from "./Button";
 import theme from "./theme";
 
 // Modal
@@ -19,7 +19,7 @@ export const OneBtnModal = (props) => {
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
 				{props.modalText}
-				<Button btnText={props.btnText} background={theme.color.orange} />
+				<Btn btnText={props.btnText} background={theme.color.orange} />
 			</ModalContainer>
 		</ThemeProvider>
 	);
@@ -33,8 +33,8 @@ export const TwoBtnModal = (props) => {
 			<ModalContainer>
 				{props.modalText}
 				<ButtonGroup>
-					<Button btnText={props.btnTextOrg} background={theme.color.orange} />
-					<Button
+					<Btn btnText={props.btnTextOrg} background={theme.color.orange} />
+					<Btn
 						btnText={props.btnTextGry}
 						background={theme.color.gray}
 						color={theme.color.navy}
@@ -44,6 +44,23 @@ export const TwoBtnModal = (props) => {
 		</ThemeProvider>
 	);
 };
+
+export const Modaltest = () => {
+	return (
+		<Wrapper>
+			<TwoBtnModal modalText="삭제하시겠습니까?"></TwoBtnModal>
+		</Wrapper>
+	);
+};
+const Wrapper = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	top: 0;
+	left: 0;
+	display: none;
+`;
 
 const ModalContainer = styled.div`
 	width: 30rem;
@@ -69,4 +86,5 @@ const ModalContainer = styled.div`
 
 const ButtonGroup = styled.div`
 	display: flex;
+	gap: 2rem;
 `;

@@ -3,11 +3,12 @@ import { GrHomeRounded } from "react-icons/gr";
 import { FaUsers, FaRegUserCircle } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import theme from "./theme";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
 	return (
 		<FooterContainer>
-			<BottomItem>
+			<BottomItem to="/">
 				<GrHomeRounded />
 				<span>홈</span>
 			</BottomItem>
@@ -17,11 +18,11 @@ export const Footer = () => {
 			</BottomItem>
 			<BottomItem>
 				<FaUsers />
-				<span>마이챌린지</span>
+				<span>커뮤니티</span>
 			</BottomItem>
-			<BottomItem>
+			<BottomItem to="/mypage">
 				<FaRegUserCircle />
-				<span>마이챌린지</span>
+				<span>마이페이지</span>
 			</BottomItem>
 		</FooterContainer>
 	);
@@ -34,7 +35,7 @@ const FooterContainer = styled.div`
 	display: flex;
 `;
 
-const BottomItem = styled.button`
+const BottomItem = styled(Link)`
 	background-color: ${theme.color.white};
 	border: none;
 	width: 9.1rem;
@@ -46,6 +47,8 @@ const BottomItem = styled.button`
 	align-items: center;
 	gap: 0.8rem;
 	font-size: 1.8rem;
+	text-decoration: none;
+	color: black;
 
 	span {
 		font-size: 1rem;
