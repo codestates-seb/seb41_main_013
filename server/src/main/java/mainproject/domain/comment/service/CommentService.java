@@ -1,41 +1,35 @@
-
 package mainproject.domain.comment.service;
 
-
-
+import mainproject.domain.comment.entity.Comment;
+import mainproject.domain.comment.repository.CommentRepository;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.respository.BoardRepository;
 import mainproject.domain.board.service.BoardService;
-import mainproject.domain.comment.entity.Comment;
-import mainproject.domain.comment.repository.CommentRepository;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
-
 public class CommentService {
+    private CommentRepository commentRepository;
+    private BoardRepository boardRepository;
+
+    private BoardService boardService;
+
+
     public CommentService(CommentRepository commentRepository, BoardRepository boardRepository, BoardService boardService) {
         this.commentRepository = commentRepository;
         this.boardRepository = boardRepository;
         this.boardService = boardService;
     }
 
-    private CommentRepository commentRepository;
-    private BoardRepository boardRepository;
-    private BoardService boardService;
-
-
     public Comment createComment(Comment comment, Long boardId) {
-        //   Member member = memberRepository.findByEmail(email).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        Board board = boardRepository.findById(boardId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
-        //   answer.setMember(member);
-        comment.setBoard(board);
+     //   Member member = memberRepository.findByEmail(email).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+         Board board = boardRepository.findById(boardId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+     //   comment.setMember(member);
+          comment.setBoard(board);
         return commentRepository.save(comment);
     }
 
@@ -55,6 +49,16 @@ public class CommentService {
     public Page<Comment> findComments(int page, int size) {
         return commentRepository.findAll(PageRequest.of(page, size,
                 Sort.by("commentId").descending()));
+        Comment findComment = commentRepository.findById(comment.getCommentId()).orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+
+     //   if ( !findComment.getMember().getEmail().equals(email)){
+     //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
+     //   }
+
+        findComment.setContent(comment.getContent());
+        findComment.setModifiedAt(LocalDateTime.now().withNano(0));
+
+        return commentRepository.save(findComment);
     }
 
 
@@ -63,17 +67,26 @@ public class CommentService {
     public void deleteComment(long commentId){
         Comment findComment = findVerifiedComment(commentId);
         commentRepository.delete(findComment);
+
+    public Comment findComments(long commentId) {
+        boardService.findVerifiedMember(commentId);
+        return commentRepository.save(findComments(commentId));
     }
 
 
-    private Comment findVerifiedComment(long commentId) {
-       Optional<Comment> optionalComment = commentRepository.findById(commentId);
-
-       Comment findAnswer = optionalComment.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
         return findAnswer;
     }
 
+
+
+    public void deleteComment(Long commentId) {
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+     //   if ( !findComment.getMember().getEmail().equals(email)){
+     //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
+     //   }
+
+        commentRepository.delete(findComment);
+    }
 
 }

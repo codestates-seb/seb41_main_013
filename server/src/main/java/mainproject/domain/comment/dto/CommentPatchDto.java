@@ -13,4 +13,6 @@ public class CommentPatchDto {
 
     @NotBlank
     private String content;
+
+
 }

@@ -24,6 +24,20 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
+import mainproject.global.dto.SingleResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+
+@RestController
+@RequestMapping("/api/comments")
+public class CommentController {
+
+    CommentService commentService;
+    CommentMapper commentMapper;
 
     public CommentController(CommentService commentService, CommentMapper commentMapper) {
         this.commentService = commentService;
@@ -69,6 +83,14 @@ public class CommentController {
     @DeleteMapping("/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId){
         //Service에 요청을 보내 해당하는 answerId 하는 답변을 조회해 삭제
+    @GetMapping("/{board-id}")
+     public ResponseEntity getComment(@PathVariable("board-id") Long boardId) {
+        Comment response = commentService.findComments(boardId);
+        return new ResponseEntity<>(new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(response)),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{comment-id}")
+       public ResponseEntity deleteComment(@PathVariable("comment-id") long commentId){
         commentService.deleteComment(commentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

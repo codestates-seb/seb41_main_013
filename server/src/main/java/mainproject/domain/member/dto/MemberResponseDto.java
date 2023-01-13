@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberResponseDto {
-
     private long id;
 
     private String name;
+
+    //private Image profileImage;  // TODO: 이미지파일 (Nullable)
 
     private String email;
 

@@ -1,21 +1,45 @@
 package mainproject.domain.comment.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.member.entity.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor
+@Data
 @Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long commentId;
+    private Long commentId;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    public void setMember(Member member) {
+        this.member = member;
+        if (!this.member.getComments().contains(this)) {
+            this.member.getComments().add(this);
+        }
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
+
+    public void setBoard(Board board) {
+        this.board = board;
+        if (!this.board.getComments().contains(this)) {
+            this.board.getComments().add(this);
+        }
+    }
 
     private String content;
 
