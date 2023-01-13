@@ -1,5 +1,5 @@
 import styled, { ThemeProvider } from "styled-components";
-import Button from "./Button";
+import { Btn } from "./Button";
 import theme from "./theme";
 
 // Modal
@@ -19,7 +19,7 @@ export const OneBtnModal = (props) => {
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
 				{props.modalText}
-				<Button btnText={props.btnText} background={theme.color.orange} />
+				<Btn btnText={props.btnText} background={theme.color.orange} />
 			</ModalContainer>
 		</ThemeProvider>
 	);
@@ -32,14 +32,14 @@ export const TwoBtnModal = (props) => {
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
 				{props.modalText}
-				<ButtonGroup>
-					<Button btnText={props.btnTextOrg} background={theme.color.orange} />
-					<Button
+				<BtnGroup>
+					<Btn btnText={props.btnTextOrg} background={theme.color.orange} />
+					<Btn
 						btnText={props.btnTextGry}
 						background={theme.color.gray}
 						color={theme.color.navy}
 					/>
-				</ButtonGroup>
+				</BtnGroup>
 			</ModalContainer>
 		</ThemeProvider>
 	);
@@ -67,6 +67,6 @@ const ModalContainer = styled.div`
 	justify-content: space-evenly;
 `;
 
-const ButtonGroup = styled.div`
+const BtnGroup = styled.div`
 	display: flex;
 `;
