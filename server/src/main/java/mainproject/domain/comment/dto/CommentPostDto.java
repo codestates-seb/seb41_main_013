@@ -1,19 +1,20 @@
-package mainproject.domain.board.dto;
+package mainproject.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.domain.board.entity.Board;
 import mainproject.domain.member.entity.Member;
-import mainproject.global.category.Category;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-@Data
+
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardPostDto {
+public class CommentPostDto {
     @NotNull
     @Positive
     private Long memberId;
@@ -24,13 +25,15 @@ public class BoardPostDto {
         return member;
     }
 
-    @NotNull(message = "카테고리를 선택하세요.")
-    private Category category;
+    @Positive
+    private Long boardId;
 
-    @NotBlank(message = "제목 작성을 하지 않을 경우 등록이 불가합니다.")
-    private String title;
-    @NotBlank(message = "질문내용 작성을 하지 않을 경우 등록이 불가합니다.")
+    public Board getBoard() {
+        Board board = new Board();
+        board.setBoardId(boardId);
+        return board;
+    }
+
+    @NotBlank
     private String content;
-
-    // private String boardImage;
 }

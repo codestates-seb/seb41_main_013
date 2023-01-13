@@ -51,14 +51,14 @@ export const BackToTopBtn = (props) => {
 
 export const CreateBtn = (props) => {
   return (
-    <Link to={props.NavTo}>
+    // <Link to={props.NavTo}>
       <StyledBtn
         backgroundColor="#F6C324"
         left="1.3rem"
       >
         <FaPlus />
       </StyledBtn>
-    </Link>
+    // </Link>
   )
 };
 
@@ -105,7 +105,7 @@ const StyledBtn = styled.button`
   cursor: pointer;
   width: ${props => props.width || "3.5rem"};
   height: ${props => props.height || "3.5rem"};
-  color: ${props => props.color || "#fff"};
+  color: ${props => props.color || "white"};
   font-size: ${props => props.fontSize || "1.5rem"};
   position: fixed;
   left: ${props => props.left};
