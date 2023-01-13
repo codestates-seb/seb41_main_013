@@ -12,10 +12,11 @@ import java.time.LocalTime;
 @Data
 public class ChallengeResponseDto {
     private long challengeId;
+    private long hostMemberId;
     private Category category;
     private String title;
     private String content;
-    //private image;  // TODO: 이미지파일 (Nullable)
+    //private Image challengeImage;  // TODO: 이미지파일 (Nullable)
     private LocalDate startAt;
     private LocalDate endAt;
     private Frequency frequency;

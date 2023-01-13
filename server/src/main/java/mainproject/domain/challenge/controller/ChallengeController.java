@@ -62,7 +62,15 @@ public class ChallengeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 회원이 생성한 챌린지 조회 TODO: 매핑 필요
+    // 회원이 생성한 챌린지 조회
+    @GetMapping("/{member-id}")
+    public ResponseEntity getCreateChallenges(@PathVariable("member-id") @Positive long memberId) {
+        List<Challenge> challenges = challengeService.findCreateChallenges(memberId);
+
+        List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     // 챌린지 검색(제목+내용)
     @GetMapping

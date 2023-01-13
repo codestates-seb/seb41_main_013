@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mainproject.domain.board.entity.Board;
+import mainproject.global.category.Category;
 
 import java.time.LocalDateTime;
 
@@ -12,10 +13,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BoardResponseDto {
     private long boardId;
+
+    private long memberId;
+
+    private Category category;
+
     private String title;
+
     private String content;
 
-    private String boardImage;
+    //private Image boardImage;  // TODO: 이미지파일 (Nullable)
 
     private LocalDateTime createdAt;
 
