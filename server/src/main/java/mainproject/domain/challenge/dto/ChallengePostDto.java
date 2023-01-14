@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class ChallengePostDto {
     @NotNull
     @Positive
-    private Long hostMemberId;
+    private long hostMemberId;
 
     public Member getMember() {
         Member member = new Member();
@@ -33,6 +33,8 @@ public class ChallengePostDto {
     @Size(max = 500, message = "설명은 500자까지 입력 가능합니다.")
     private String content;
 
+    // private Image challengeImage;  // TODO: 이미지파일 (Nullable)
+
     @NotNull(message = "시작 날짜를 선택하세요.")
     @Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.") // 챌린지 상태변화 테스트시 주석 처리
     private LocalDate startAt;
@@ -46,11 +48,11 @@ public class ChallengePostDto {
     }
 
     @NotNull(message = "인증 빈도를 선택하세요.")
-    private Frequency frequency;
+    private Frequency frequency = Frequency.매일; // 기본값 - 매일
     
-    private LocalTime snapshotStartAt = LocalTime.parse("00:00", DateTimeFormatter.ofPattern("HH:mm"));  // 기본값 - 00:00
+    private LocalTime snapshotStartAt = LocalTime.parse("00:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"));  // 기본값 - 00:00
 
-    private LocalTime snapshotEndAt = LocalTime.parse("23:59", DateTimeFormatter.ofPattern("HH:mm"));    // 기본값 - 23:59
+    private LocalTime snapshotEndAt = LocalTime.parse("23:59:59", DateTimeFormatter.ofPattern("HH:mm:ss"));    // 기본값 - 23:59:59
 
     @AssertTrue(message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
     public boolean isValidSnapshotTime() {

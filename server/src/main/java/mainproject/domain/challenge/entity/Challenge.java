@@ -1,6 +1,7 @@
 package mainproject.domain.challenge.entity;
 
 import lombok.Data;
+import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -40,7 +43,7 @@ public class Challenge {
     @Column(nullable = false)
     private String content;
 
-    //private Image challengeImage;  // TODO: 이미지파일 (Nullable)
+    // private Image challengeImage;  // TODO: 이미지파일 (Nullable)
 
     @Column(nullable = false)
     private LocalDate startAt;
@@ -65,4 +68,14 @@ public class Challenge {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private ChallengeStatus challengeStatus;
+
+    @OneToMany(mappedBy = "challenge")
+    private List<Challenger> challengers = new ArrayList<>();
+
+    public void setChallengers(Challenger challenger) {
+        challengers.add(challenger);
+        if (challenger.getChallenge() != this) {
+            challenger.setChallenge(this);
+        }
+    }
 }

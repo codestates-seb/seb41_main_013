@@ -2,6 +2,7 @@ package mainproject.domain.member.entity;
 
 
 import lombok.*;
+import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.challenge.entity.Challenge;
@@ -60,6 +61,16 @@ public class Member {
         comments.add(comment);
         if (comment.getMember() != this) {
             comment.setMember(this);
+        }
+    }
+
+    @OneToMany(mappedBy = "member")
+    private List<Challenger> challengers = new ArrayList<>();
+
+    public void setChallengers(Challenger challenger) {
+        challengers.add(challenger);
+        if (challenger.getMember()!= this) {
+            challenger.setMember(this);
         }
     }
 }

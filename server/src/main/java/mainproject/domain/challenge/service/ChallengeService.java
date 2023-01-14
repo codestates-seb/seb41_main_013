@@ -7,15 +7,10 @@ import mainproject.domain.member.service.MemberService;
 import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,8 +25,7 @@ public class ChallengeService {
 
     // 챌린지 생성
     public Challenge createChallenge(Challenge challenge) {
-        // 회원여부 검증
-        memberService.findVerifiedMember(challenge.getMember().getId());
+        memberService.findVerifiedMember(challenge.getMember().getId());    // 회원여부 검증
 
         challenge.setChallengeStatus(ChallengeStatus.시작전);
 
@@ -61,13 +55,13 @@ public class ChallengeService {
 
         if (category == null) {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 매핑 후 생성일 -> 참여자수 변경
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참여자수 변경
                     .collect(Collectors.toList());
         }
         else {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                     .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 매핑 후 생성일 -> 참여자수 변경
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참여자수 변경
                     .collect(Collectors.toList());
         }
     }
@@ -102,22 +96,20 @@ public class ChallengeService {
     }
 
     // 챌린지 삭제
-    public ResponseEntity deleteChallenge(long challengeId) {
+    public void deleteChallenge(long challengeId) throws BusinessLogicException {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
-        Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
-        Challenge challenge = optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
+        Challenge challenge = verifyOpenedChallenge(challengeId);   // 챌린지 존재여부, 시작 전 여부 검증
 
-        if (challenge.getChallengeStatus() != ChallengeStatus.시작전) {    // TODO: 매핑 후 "&& 참여자 == 0" 조건 추가)
+        if (challenge.getChallengeStatus() != ChallengeStatus.시작전) {    // TODO: 참여자 == 0 조건으로 변경
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_DELETE_NOT_ALLOWED);
         }
         else {
             challengeRepository.delete(challenge);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
-    // 챌린지 시작, 종료
+    // 현재 날짜에 맞춰 챌린지 상태 변경
     public void updateChallengeStatus() {
         // 시작 날짜가 되면 챌린지 진행
         List<Challenge> beforeStartedChallenges = challengeRepository.findByChallengeStatus(ChallengeStatus.시작전);
@@ -136,5 +128,21 @@ public class ChallengeService {
                 .forEach(c -> c.setChallengeStatus(ChallengeStatus.종료));
 
         challengeRepository.saveAll(progressingChallenges);
+    }
+
+    // 챌린지 존재여부, 시작 전 여부 검증
+    public Challenge verifyOpenedChallenge(long ChallengeId) throws BusinessLogicException {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        // 챌린지 존재여부 검증
+        Optional<Challenge> optionalChallenge = challengeRepository.findById(ChallengeId);
+        Challenge findChallenge = optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
+
+        // 챌린지 시작 전 여부 검증
+        if (findChallenge.getChallengeStatus() != ChallengeStatus.시작전) {
+            throw new BusinessLogicException(ExceptionCode.CHALLENGE_ALREADY_STARTED);
+        }
+
+        return findChallenge;
     }
 }
