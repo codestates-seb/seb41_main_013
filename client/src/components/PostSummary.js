@@ -2,6 +2,12 @@ import styled from "styled-components";
 import WriterInfo from "./WriterInfo";
 import theme from "./theme";
 
+function formatDate(value) {
+	//value는 받아온 데이터의 글/댓글 등의 작성 날짜
+	const date = new Date();
+	return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+} //날짜 형식으로 출력해주려고 만듦
+
 //props : 글 제목, 글 내용, 아바타 이미지 주소, 작성자 이름, 작성 시각
 const PostSummary = (props) => {
 	return (
@@ -9,16 +15,12 @@ const PostSummary = (props) => {
 			<PostSumContainer>
 				<div>
 					<div className="title">{props.title}</div>
-					<div className="content">
-						{props.content.length > 210
-							? props.content.slice(0, 210) + "....."
-							: props.content}
-					</div>
+					<div className="content">{props.content}</div>
 				</div>
 				<WriterInfo
 					imgURL={props.imgULR}
 					writer={props.writer}
-					date={props.date}
+					date={formatDate(props.date)}
 				/>
 			</PostSumContainer>
 		</>
@@ -33,6 +35,7 @@ const PostSumContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	overflow: hidden;
 
 	div {
 		font-family: "Inter";
@@ -45,7 +48,7 @@ const PostSumContainer = styled.div`
 		}
 		.content {
 			font-weight: 400;
-			font-size: 1.3rem;
+			font-size: 1.2rem;
 			line-height: 1.6rem;
 			text-align: left;
 		}

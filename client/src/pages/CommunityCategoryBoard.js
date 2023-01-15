@@ -13,12 +13,22 @@ import CommunityList from "../data/dummy";
 
 const CommunityContainer = styled.div``;
 
-const Community = () => {
+const CommunityCategory = (props) => {
 	return (
 		<>
 			<MainHeader />
 			{/* input 검색창*/}
-			<CommunityContainer></CommunityContainer>
+			<CommunityContainer>
+				{CommunityList.filter((post) => post.category === props.category).map(
+					(cpost) => (
+						<PostSummary
+							title={cpost.title}
+							content={cpost.content}
+							writer={cpost.writer}
+						/>
+					),
+				)}
+			</CommunityContainer>
 			<CreateBtn />
 			<BackToTopBtn />
 			<Footer />
@@ -26,4 +36,4 @@ const Community = () => {
 	);
 };
 
-export default Community;
+export default CommunityCategory;
