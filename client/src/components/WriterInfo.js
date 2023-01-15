@@ -7,7 +7,7 @@ const WriterInfo = (props) => {
 		<>
 			<WriterInfoContainer>
 				<Avatar imgURL={props.imgURL} />
-				<div>{props.name}</div>
+				<div>{props.writer}</div>
 				<div>{props.date}</div>
 			</WriterInfoContainer>
 		</>

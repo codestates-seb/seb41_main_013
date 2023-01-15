@@ -7,8 +7,14 @@ import PostSummary from "../components/PostSummary";
 import { MainHeader } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { HomeCategory } from "../components/Category";
+import { BackToTopBtn, CreateBtn } from "../components/Button";
+
+//dummy
+import { CommunityList } from "../data/dummy";
 
 const CommunitycContainer = styled.div``;
+
+//PostSummary - props : 글 제목, 글 내용, 아바타 이미지 주소, 작성자 이름, 작성 시각
 
 const Community = () => {
 	return (
@@ -16,9 +22,17 @@ const Community = () => {
 			<MainHeader />
 			<HomeCategory />
 			{/* input 검색창*/}
-			<CommunitycContainer></CommunitycContainer>
-			{/* + 버튼*/}
-			{/* 위로 이동 버튼*/}
+			<CommunitycContainer>
+				{CommunityList.map((post) => (
+					<PostSummary
+						title={post.title}
+						content={post.content}
+						writer={post.writer}
+					/>
+				))}
+			</CommunitycContainer>
+			<CreateBtn />
+			<BackToTopBtn />
 			<Footer />
 		</>
 	);

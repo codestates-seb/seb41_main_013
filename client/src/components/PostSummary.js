@@ -2,16 +2,24 @@ import styled from "styled-components";
 import WriterInfo from "./WriterInfo";
 import theme from "./theme";
 
-//props : 글 제목, 글 내용
+//props : 글 제목, 글 내용, 아바타 이미지 주소, 작성자 이름, 작성 시각
 const PostSummary = (props) => {
 	return (
 		<>
 			<PostSumContainer>
 				<div>
 					<div className="title">{props.title}</div>
-					<div className="content">{props.content}</div>
+					<div className="content">
+						{props.content.length > 210
+							? props.content.slice(0, 210) + "....."
+							: props.content}
+					</div>
 				</div>
-				<WriterInfo />
+				<WriterInfo
+					imgURL={props.imgULR}
+					writer={props.writer}
+					date={props.date}
+				/>
 			</PostSumContainer>
 		</>
 	);

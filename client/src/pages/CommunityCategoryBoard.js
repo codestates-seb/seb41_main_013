@@ -6,6 +6,10 @@ import styled, { ThemeProvider } from "styled-components";
 import PostSummary from "../components/PostSummary";
 import { MainHeader } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { BackToTopBtn, CreateBtn } from "../components/Button";
+
+//dummy
+import CommunityList from "../data/dummy";
 
 const CommunityContainer = styled.div``;
 
@@ -15,8 +19,8 @@ const Community = () => {
 			<MainHeader />
 			{/* input 검색창*/}
 			<CommunityContainer></CommunityContainer>
-			{/* + 버튼*/}
-			{/* 위로 이동 버튼*/}
+			<CreateBtn />
+			<BackToTopBtn />
 			<Footer />
 		</>
 	);
