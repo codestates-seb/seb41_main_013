@@ -28,14 +28,13 @@ const PostSummary = (props) => {
 };
 
 const PostSumContainer = styled.div`
-	width: 36.1rem;
+	width: 36rem;
 	height: 16rem;
 	border-bottom: 1px solid ${theme.color.gray};
 
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	overflow: hidden;
 
 	div {
 		font-family: "Inter";
@@ -51,6 +50,10 @@ const PostSumContainer = styled.div`
 			font-size: 1.2rem;
 			line-height: 1.6rem;
 			text-align: left;
+
+			width: 36rem;
+			height: 9.8rem;
+			overflow: hidden;
 		}
 	}
 `;
