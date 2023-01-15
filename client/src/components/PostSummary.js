@@ -9,7 +9,7 @@ function formatDate(value) {
 } //날짜 형식으로 출력해주려고 만듦
 
 //props : 글 제목, 글 내용, 아바타 이미지 주소, 작성자 이름, 작성 시각
-const PostSummary = (props) => {
+export const PostSummary = (props) => {
 	return (
 		<>
 			<PostSumContainer>
@@ -57,5 +57,3 @@ const PostSumContainer = styled.div`
 		}
 	}
 `;
-
-export default PostSummary;

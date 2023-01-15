@@ -1,10 +1,15 @@
+//Input 컴포넌트를 이용한 검색창 컴포넌트
 import { Input } from "../components/Input";
-import { useState } from "react";
 
 export const SearchInput = (props) => {
 	return (
 		<>
-			<Input fontSize="1rem" />
+			<Input
+				lineHeight="3rem"
+				placeholder="검색어를 입력해주세요"
+				fontSize="1rem"
+				cols="72"
+			/>
 		</>
 	);
 };

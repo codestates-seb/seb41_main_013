@@ -14,11 +14,7 @@ import { SearchInput } from "../components/SearchInput";
 //dummy
 import { CommunityList } from "../data/dummy";
 
-const CommunitycContainer = styled.div``;
-
-//PostSummary - props : 글 제목, 글 내용, 아바타 이미지 주소, 작성자 이름, 작성 시각
-
-const Community = () => {
+export const Community = () => {
 	/*const navigate = useNavigate();
 	const { postId } = useParams();
 
@@ -48,4 +44,4 @@ const Community = () => {
 	);
 };
 
-export default Community;
+const CommunitycContainer = styled.div``;

@@ -3,7 +3,6 @@ import town from "../images/town.png";
 import exercise from "../images/exercise.png";
 import life from "../images/life.png";
 import etc from "../images/etc.png";
-import { ThemeProvider } from "styled-components";
 import theme from "./theme";
 import { Btn } from "./Button";
 
@@ -21,34 +20,32 @@ export const HomeCategory = () => {
 //props : X
 export const SelectCategory = () => {
 	return (
-		<ThemeProvider theme={theme}>
-			<SelectCategoryContainer>
-				<Btn
-					btnText={"우리 동네"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-				<Btn
-					btnText={"운동"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-				<Btn
-					btnText={"규칙적인 생활"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-				<Btn
-					btnText={"기타"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-			</SelectCategoryContainer>
-		</ThemeProvider>
+		<SelectCategoryContainer>
+			<Btn
+				btnText={"우리 동네"}
+				width={"17.1rem"}
+				background={theme.color.gray}
+				color={theme.color.navy}
+			/>
+			<Btn
+				btnText={"운동"}
+				width={"17.1rem"}
+				background={theme.color.gray}
+				color={theme.color.navy}
+			/>
+			<Btn
+				btnText={"규칙적인 생활"}
+				width={"17.1rem"}
+				background={theme.color.gray}
+				color={theme.color.navy}
+			/>
+			<Btn
+				btnText={"기타"}
+				width={"17.1rem"}
+				background={theme.color.gray}
+				color={theme.color.navy}
+			/>
+		</SelectCategoryContainer>
 	);
 };
 
@@ -86,7 +83,8 @@ const CategoryItemContainer = styled.div`
 `;
 
 const SelectCategoryContainer = styled.div`
-	width: 36rem;
-	height: 8.6rem;
+	width: 36.4rem;
+	box-sizing: border-box;
 	padding: 0.3rem;
+	height: 8.6rem;
 `;

@@ -3,21 +3,21 @@ import theme from "../components/theme";
 import styled, { ThemeProvider } from "styled-components";
 
 //components
-import PostSummary from "../components/PostSummary";
-import { MainHeader } from "../components/Header";
+import { PostSummary } from "../components/PostSummary";
+import { TitleHeader } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { BackToTopBtn, CreateBtn } from "../components/Button";
+import { SearchInput } from "../components/SearchInput";
 
 //dummy
-import CommunityList from "../data/dummy";
+import { CommunityList } from "../data/dummy";
 
-const CommunityContainer = styled.div``;
-
-const CommunityCategory = (props) => {
+//props : 카테고리명 - 우리 동네/운동/규칙적인 생활/기타
+export const CommunityCategoryBoard = (props) => {
 	return (
 		<>
-			<MainHeader />
-			{/* input 검색창*/}
+			<TitleHeader title={props.category} />
+			<SearchInput />
 			<CommunityContainer>
 				{CommunityList.filter((post) => post.category === props.category).map(
 					(cpost) => (
@@ -36,4 +36,4 @@ const CommunityCategory = (props) => {
 	);
 };
 
-export default CommunityCategory;
+const CommunityContainer = styled.div``;
