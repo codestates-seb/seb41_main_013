@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ChallengeState } from "../components/Challenge";
 import { Footer } from "../components/Footer";
 import { MainHeader, MypageHeader } from "../components/Header";
+import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 
 const MypageWrapper = styled.div`
@@ -34,12 +35,18 @@ const MypageWrapper = styled.div`
 
 export const Mypage = (props) => {
 	const [isLogin, setIsLogin] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
+
+	const toggleDrawer = () => {
+		setIsOpen(!isOpen);
+	};
 
 	return (
 		<MypageWrapper>
 			{isLogin ? (
 				<>
-					<MypageHeader title="마이페이지" />
+					<MypageHeader title="마이페이지" onClick={toggleDrawer} />
+					<MypageSetting isOpen={isOpen} setIsOpen={setIsOpen} />
 					<div className="userInfo">
 						<div>
 							<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />

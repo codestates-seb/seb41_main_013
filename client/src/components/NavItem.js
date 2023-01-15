@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const NavTitle = (props) => {
 	return (
-		<Navbar>
+		<Navbar width={props.width}>
 			{props.title}
 			<ArrowBoxRight to={props.link}>
 				<IoIosArrowForward />
@@ -28,8 +28,8 @@ export const ArrowLeft = () => {
 };
 
 const Navbar = styled.div`
-	border: 1px solid black;
-	width: 36.4rem;
+	/* border: 1px solid black; */
+	width: ${(props) => props.width || "36.4rem"};
 	height: 4.7rem;
 	font-size: 1.4rem;
 	display: flex;
