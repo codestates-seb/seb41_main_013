@@ -1,8 +1,9 @@
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import town from "../images/town.png";
 import exercise from "../images/exercise.png";
 import life from "../images/life.png";
 import etc from "../images/etc.png";
+import { ThemeProvider } from "styled-components";
 import theme from "./theme";
 import { Btn } from "./Button";
 
