@@ -1,4 +1,4 @@
-//커뮤니티 메인 페이지
+//글 수정 페이지
 import theme from "../components/theme";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";

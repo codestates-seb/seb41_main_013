@@ -10,6 +10,11 @@ import { UserPasswordChange } from "./pages/UserPasswordChange";
 import { UserProfileEdit } from "./pages/UserProfileEdit";
 import { Footer } from "./components/Footer";
 import { MainHeader } from "./components/Header";
+import { Community } from "./pages/Community";
+import { CommunityCategoryBoard } from "./pages/CommunityCategoryBoard";
+import { CreatePost } from "./pages/CreatePost";
+import { UpdatePost } from "./pages/UpdatePost";
+import { PostDetail } from "./pages/PostDetail";
 
 const Overlaps = () => {
 	return (
@@ -53,12 +58,20 @@ function App() {
 					{/* header + footer 고정된 페이지 */}
 					<Route element={<Overlaps />}>
 						<Route path="/" element={<Home />} />
+						<Route path="/community" element={<Community />} />
 						{/* 마이페이지
 							커뮤니티 */}
 					</Route>
 					{/* footer 고정된 페이지 */}
 					<Route element={<OverlapFoo />}>
 						<Route path="/mypage" element={<Mypage />} />
+						<Route
+							path="/community/:categoryId"
+							element={<CommunityCategoryBoard />}
+						/>
+						<Route path="/createPost" element={<CreatePost />} />
+						<Route path="/post/:postId/update" element={<UpdatePost />} />
+						<Route path="/post/:postId" element={<PostDetail />} />
 					</Route>
 				</Routes>
 			</div>
