@@ -12,8 +12,14 @@ import { SelectCategory } from "../components/Category";
 
 //dummy
 import { CommunityList } from "../data/dummy";
+import { useState } from "react";
 
 export const CreatePost = () => {
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
+	const handleSubmitClick = () => {
+		//유효성 검사 함수
+	};
 	return (
 		<>
 			<CreatepostContainer>
@@ -43,6 +49,7 @@ export const CreatePost = () => {
 				background={theme.color.green}
 				width="36.4rem"
 				height="4.8rem"
+				onClick={handleSubmitClick}
 			/>
 		</>
 	);
