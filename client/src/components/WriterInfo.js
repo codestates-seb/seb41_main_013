@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Avatar from "./Avatar";
 
 //props : 유저 이름, 작성 시간, 유저 이미지 파일 경로
-const WriterInfo = (props) => {
+export const WriterInfo = (props) => {
 	return (
 		<>
 			<WriterInfoContainer>
@@ -29,5 +29,3 @@ const WriterInfoContainer = styled.div`
 	font-size: 0.9rem;
 	line-height: 1rem;
 `;
-
-export default WriterInfo;

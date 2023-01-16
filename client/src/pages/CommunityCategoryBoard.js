@@ -1,12 +1,11 @@
 //커뮤니티 카테고리 선택 후 페이지
 import theme from "../components/theme";
 import styled from "styled-components";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 //components
 import { PostSummary } from "../components/PostSummary";
 import { TitleHeader } from "../components/Header";
-import { Footer } from "../components/Footer";
 import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 

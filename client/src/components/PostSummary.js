@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import WriterInfo from "./WriterInfo";
+import { WriterInfo } from "./WriterInfo";
 import theme from "./theme";
 
 function formatDate(value) {
@@ -44,6 +44,7 @@ const PostSumContainer = styled.div`
 			font-size: 1.4rem;
 			line-height: 3rem;
 			text-align: left;
+			cursor: pointer;
 		}
 		.content {
 			font-weight: 400;

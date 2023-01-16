@@ -15,8 +15,6 @@ import { CommunityList } from "../data/dummy";
 import { useState } from "react";
 
 export const CreatePost = () => {
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
 	const handleSubmitClick = () => {
 		//유효성 검사 함수
 	};
@@ -29,14 +27,12 @@ export const CreatePost = () => {
 					lineHeight="3rem"
 					placeholder="제목을 입력하세요"
 					fontSize="1.3rem"
-					cols="74"
 				/>
 				<p>내용</p>
 				<Input
 					lineHeight="1.6rem"
 					placeholder="내용을 입력하세요"
 					fontSize="1.3rem"
-					cols="74"
 					rows="10"
 				/>
 				<p>사진</p>
@@ -61,7 +57,7 @@ const CreatepostContainer = styled.div`
 		font-style: normal;
 		font-weight: 600;
 		font-size: 1.4rem;
-		line-height: 1.7rem;
+		line-height: 3rem;
 		display: flex;
 		align-items: center;
 	}

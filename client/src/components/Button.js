@@ -79,8 +79,8 @@ const StyledBasicBtn = styled.button`
 	border: none;
 	background-color: ${(props) => props.background || "white"};
 	cursor: pointer;
-	margin: 0.3rem;
-	/* box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6); */
+	margin: 0.6rem;
+	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
 
 	text-align: center;
 	font-family: "Inter";

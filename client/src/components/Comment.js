@@ -1,13 +1,14 @@
 import theme from "./theme";
-import { styled, ThemeProvider } from "styled-components";
-import Btn from "./Button";
+import styled from "styled-components";
+import { Btn } from "./Button";
+import { WriterInfo } from "./WriterInfo";
 
 //props : 댓글 내용
-const Comment = (props) => {
+export const Comment = (props) => {
 	return (
-		<ThemeProvider theme={theme}>
-			<CommentContainer>
-				{props.comment}
+		<CommentContainer>
+			<div className="comment">
+				<p>{props.comment}</p>
 				<div>
 					<Btn
 						btnText={"수정"}
@@ -25,23 +26,27 @@ const Comment = (props) => {
 						size={"1rem"}
 					/>
 				</div>
-			</CommentContainer>
-		</ThemeProvider>
+			</div>
+			<WriterInfo writer={props.writer} />
+		</CommentContainer>
 	);
 };
 
 const CommentContainer = styled.div`
-	width: 364px;
-	height: 52px;
+	width: 36.4rem;
+	height: 9.2rem;
+	border-bottom: 1px solid ${theme.color.gray};
 
-	font-family: "Inter";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 1rem;
-	line-height: 3rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	.comment {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		p {
+			font-family: "Inter";
+			font-style: normal;
+			font-weight: 400;
+			font-size: 1rem;
+			line-height: 5rem;
+		}
+	}
 `;
-
-export default Comment;

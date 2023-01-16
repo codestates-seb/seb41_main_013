@@ -34,25 +34,25 @@ export const SelectCategory = () => {
 		<SelectCategoryContainer>
 			<Btn
 				btnText={"우리 동네"}
-				width={"17.1rem"}
+				width={"17.3rem"}
 				background={theme.color.gray}
 				color={theme.color.navy}
 			/>
 			<Btn
 				btnText={"운동"}
-				width={"17.1rem"}
+				width={"17.3rem"}
 				background={theme.color.gray}
 				color={theme.color.navy}
 			/>
 			<Btn
 				btnText={"규칙적인 생활"}
-				width={"17.1rem"}
+				width={"17.3rem"}
 				background={theme.color.gray}
 				color={theme.color.navy}
 			/>
 			<Btn
 				btnText={"기타"}
-				width={"17.1rem"}
+				width={"17.3rem"}
 				background={theme.color.gray}
 				color={theme.color.navy}
 			/>
@@ -86,7 +86,6 @@ const CategoryItemContainer = styled.div`
 `;
 
 const SelectCategoryContainer = styled.div`
-	width: 36.4rem;
+	width: 37rem;
 	box-sizing: border-box;
-	padding: 0.3rem;
 `;
