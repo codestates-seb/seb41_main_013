@@ -49,11 +49,12 @@ const StyledLabel = styled.div`
 `;
 
 const AuthInput = styled.input`
-	width: ${(props) => props.width || "36rem"};
+	width: ${(props) => props.width || "34rem"};
 	border: 0.1rem solid #4d4d4d;
 	height: 3rem;
 	border-radius: 0.8rem;
 	font-size: 1.4rem;
+	padding-left: 1rem;
 `;
 
 const Wrapper = styled.div`

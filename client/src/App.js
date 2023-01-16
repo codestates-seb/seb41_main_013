@@ -10,6 +10,8 @@ import { UserPasswordChange } from "./pages/UserPasswordChange";
 import { UserProfileEdit } from "./pages/UserProfileEdit";
 import { Footer } from "./components/Footer";
 import { MainHeader } from "./components/Header";
+import { Login } from "./pages/Login";
+import { Signup } from "./pages/SignUp";
 
 const Overlaps = () => {
 	return (
@@ -38,6 +40,15 @@ const OverlapFoo = () => {
 	);
 };
 
+const OverlapHead = () => {
+	return (
+		<>
+			<MainHeader />
+			<Outlet />
+		</>
+	);
+};
+
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
@@ -59,6 +70,10 @@ function App() {
 					{/* footer 고정된 페이지 */}
 					<Route element={<OverlapFoo />}>
 						<Route path="/mypage" element={<Mypage />} />
+					</Route>
+					<Route element={<OverlapHead />}>
+						<Route path="/signup" element={<Signup />} />
+						<Route path="/login" element={<Login />} />
 					</Route>
 				</Routes>
 			</div>
