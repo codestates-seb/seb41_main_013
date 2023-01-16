@@ -8,7 +8,7 @@ import { Btn } from "./Button";
 import theme from "./theme";
 import { IoClose } from "react-icons/io5";
 
-export const CompleteChallenge = (props) => {
+export const CompletedChallenge = (props) => {
 	return (
 		<CompleteChallengeContainer>
 			<img alt="challenge" src={props.src || sample} />
@@ -17,7 +17,7 @@ export const CompleteChallenge = (props) => {
 	);
 };
 
-export const CreateChallenge = (props) => {
+export const CreatedChallenge = (props) => {
 	return (
 		<CreateChallengeContainer>
 			<ChallengeImg src={props.src || sample}>
@@ -27,7 +27,7 @@ export const CreateChallenge = (props) => {
 					btnText={<IoClose />}
 					width="1.5rem"
 					height="1.5rem"
-					size="1.1rem"
+					size="1.4rem"
 					background={`${theme.color.orange}`}
 				/>
 			</ChallengeImg>
@@ -83,7 +83,7 @@ const ChallengeStateContainer = styled.div`
 	}
 
 	.container {
-		width: 36.4rem;
+		width: 36rem;
 		height: 8.1rem;
 		display: flex;
 
@@ -104,14 +104,14 @@ const ChallengeStateContainer = styled.div`
 
 const CompleteChallengeContainer = styled.div`
 	border: 1px solid black;
-	width: 18.2rem;
+	width: 18rem;
 	height: 18.3rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 1rem;
 	font-size: 1.4rem;
-	margin-bottom: 2.5rem;
+	margin-top: 2rem;
 
 	img {
 		width: 16rem;
@@ -133,14 +133,14 @@ const ChallengeImg = styled.div`
 
 const CreateChallengeContainer = styled.div`
 	border: 1px solid black;
-	width: 18.2rem;
+	width: 18rem;
 	height: 19.3rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
 	font-size: 1.4rem;
-	margin-bottom: 2.5rem;
+	margin-top: 2.5rem;
 
 	/* .deleteBtn {
 		position: fixed;

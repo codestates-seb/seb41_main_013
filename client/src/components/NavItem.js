@@ -29,7 +29,7 @@ export const ArrowLeft = () => {
 
 const Navbar = styled.div`
 	/* border: 1px solid black; */
-	width: ${(props) => props.width || "36.4rem"};
+	width: ${(props) => props.width || "36rem"};
 	height: 4.7rem;
 	font-size: 1.4rem;
 	display: flex;

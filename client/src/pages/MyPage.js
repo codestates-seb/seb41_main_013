@@ -83,9 +83,9 @@ export const Mypage = (props) => {
 };
 
 const MypageWrapper = styled.div`
-	/* border: 1px solid black; */
-	width: 39rem;
-	height: 84.4rem;
+	border: 1px solid black;
+	width: 36.4rem;
+	height: 79.2rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

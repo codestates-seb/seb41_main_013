@@ -50,23 +50,6 @@ export const TwoBtnModal = (props) => {
 	);
 };
 
-export const Modaltest = () => {
-	return (
-		<Wrapper>
-			<TwoBtnModal modalText="삭제하시겠습니까?"></TwoBtnModal>
-		</Wrapper>
-	);
-};
-const Wrapper = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.8);
-	top: 0;
-	left: 0;
-	display: none;
-`;
-
 const ModalContainer = styled.div`
 	width: 30rem;
 	height: 20rem;
@@ -90,7 +73,7 @@ const ModalContainer = styled.div`
 
 	position: fixed;
 	z-index: 999;
-	top: 25rem;
+	top: 27rem;
 `;
 
 const ButtonGroup = styled.div`
