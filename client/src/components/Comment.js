@@ -2,6 +2,7 @@ import theme from "./theme";
 import styled from "styled-components";
 import { Btn } from "./Button";
 import { WriterInfo } from "./WriterInfo";
+import { formatDate } from "./PostSummary";
 
 //props : 댓글 내용
 export const Comment = (props) => {
@@ -27,7 +28,11 @@ export const Comment = (props) => {
 					/>
 				</div>
 			</div>
-			<WriterInfo writer={props.writer} />
+			<WriterInfo
+				writer={props.writer}
+				date={formatDate(props.date)}
+				imgURL={props.imgURL}
+			/>
 		</CommentContainer>
 	);
 };

@@ -1,7 +1,7 @@
 //글 수정 페이지
 import theme from "../components/theme";
-import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
+import { CreatepostContainer } from "./CreatePost";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -14,6 +14,9 @@ import { SelectCategory } from "../components/Category";
 import { CommunityList } from "../data/dummy";
 
 export const UpdatePost = () => {
+	const { postId } = useParams();
+	const post = CommunityList.filter((el) => el.postId == postId)[0];
+
 	return (
 		<>
 			<CreatepostContainer>
@@ -21,14 +24,14 @@ export const UpdatePost = () => {
 				<p>제목</p>
 				<Input
 					lineHeight="3rem"
-					placeholder="제목을 입력하세요"
+					value={post.title}
 					fontSize="1.3rem"
 					cols="74"
 				/>
 				<p>내용</p>
 				<Input
 					lineHeight="1.6rem"
-					placeholder="내용을 입력하세요"
+					value={post.content}
 					fontSize="1.3rem"
 					cols="74"
 					rows="10"
@@ -47,15 +50,3 @@ export const UpdatePost = () => {
 		</>
 	);
 };
-
-const CreatepostContainer = styled.div`
-	p {
-		font-family: "Inter";
-		font-style: normal;
-		font-weight: 600;
-		font-size: 1.4rem;
-		line-height: 1.7rem;
-		display: flex;
-		align-items: center;
-	}
-`;

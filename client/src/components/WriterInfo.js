@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Avatar from "./Avatar";
+import { formatDate } from "./PostSummary";
 
 //props : 유저 이름, 작성 시간, 유저 이미지 파일 경로
 export const WriterInfo = (props) => {
@@ -8,7 +9,7 @@ export const WriterInfo = (props) => {
 			<WriterInfoContainer>
 				<Avatar imgURL={props.imgURL} />
 				<div>{props.writer}</div>
-				<div>{props.date}</div>
+				<div>{formatDate(props.date)}</div>
 			</WriterInfoContainer>
 		</>
 	);
@@ -21,7 +22,6 @@ const WriterInfoContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 10px;
 
 	font-family: "Inter";
 	font-style: normal;

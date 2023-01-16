@@ -1,11 +1,10 @@
 //커뮤니티 메인 페이지
 import theme from "../components/theme";
 import styled from "styled-components";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //components
 import { PostSummary } from "../components/PostSummary";
-import { MainHeader } from "../components/Header";
 import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 
@@ -13,24 +12,21 @@ import { SearchInput } from "../components/SearchInput";
 import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
-	/*const navigate = useNavigate();
-	const { postId } = useParams();
-
-	const handlePostClick = () => {
-		//각 글의 상세 페이지로 이동
-		navigate(`/post/${postId}`);
-	};*/
-
 	return (
 		<>
-			<SearchInput />
 			<CommunitycContainer>
+				<div className="margin">
+					<SearchInput />
+				</div>
 				{CommunityList.map((post) => (
-					<PostSummary
-						title={post.title}
-						content={post.content}
-						writer={post.writer}
-					/>
+					<div className="margin">
+						<PostSummary
+							title={post.title}
+							content={post.content}
+							writer={post.writer}
+							postId={post.postId}
+						/>
+					</div>
 				))}
 			</CommunitycContainer>
 			<CreateBtn />
@@ -39,4 +35,8 @@ export const Community = () => {
 	);
 };
 
-const CommunitycContainer = styled.div``;
+const CommunitycContainer = styled.div`
+	.margin {
+		margin-bottom: 1rem;
+	}
+`;

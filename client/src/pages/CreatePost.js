@@ -51,7 +51,7 @@ export const CreatePost = () => {
 	);
 };
 
-const CreatepostContainer = styled.div`
+export const CreatepostContainer = styled.div`
 	p {
 		font-family: "Inter";
 		font-style: normal;

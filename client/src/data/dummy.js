@@ -17,10 +17,12 @@ export const CommunityList = [
 			{
 				writer: "myona",
 				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
 			},
 			{
 				writer: "mmyona",
 				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
 			},
 		],
 	},
@@ -67,6 +69,18 @@ export const CommunityList = [
 		categoryTitle: "운동",
 		categoryId: 1,
 		date: "2023-01-15T02:54:54.075489",
+		commentList: [
+			{
+				writer: "myona",
+				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "mmyona",
+				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+		],
 	},
 	{
 		title: "규칙적인 생활습관을 갖는 방법",
@@ -89,6 +103,18 @@ export const CommunityList = [
 		categoryTitle: "규칙적인 생활",
 		categoryId: 2,
 		date: "2023-01-15T02:54:54.075489",
+		commentList: [
+			{
+				writer: "myona",
+				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "mmyona",
+				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+		],
 	},
 	{
 		title: "TOP 3 프로틴 추천 순위 2023",
@@ -132,5 +158,17 @@ export const CommunityList = [
 		categoryTitle: "기타",
 		categoryId: 3,
 		date: "2023-01-15T02:54:54.075489",
+		commentList: [
+			{
+				writer: "myona",
+				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "mmyona",
+				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+		],
 	},
 ];

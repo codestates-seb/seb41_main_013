@@ -74,7 +74,7 @@ export const DeleteBtn = (props) => {
 const StyledBasicBtn = styled.button`
 	box-sizing: border-box;
 	width: ${(props) => props.width || "4.8rem"};
-	height: ${(props) => props.height || "3.5rem"};
+	height: ${(props) => props.height || "3.6rem"};
 	border-radius: 1.2rem;
 	border: none;
 	background-color: ${(props) => props.background || "white"};
