@@ -18,8 +18,13 @@ public class Snapshot implements Serializable {
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "MEMBER_ID"),
-            @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID")
+            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"),
+            @JoinColumn(name = "MEMBER_NAME", referencedColumnName = "NAME"),
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE"), // TODO: 이미지파일
+            @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID"),
+            @JoinColumn(name = "CHALLENGE_NAME", referencedColumnName = "TITLE")
+            // @JoinColumn(name = "CHALLENGE_IMAGE", referencedColumnName = "CHALLENGE_IMAGE"), // TODO: 이미지파일
+            // TODO: 참가자 수
     })
     private Challenger challenger;
 
@@ -30,7 +35,7 @@ public class Snapshot implements Serializable {
         }
     }
 
-    // private Image snapshotImage;  // TODO: 이미지파일 (Nullable)
+    // private Image snapshotImage;  // TODO: 이미지파일
 
     @CreatedDate
     @Column(updatable = false)

@@ -32,5 +32,5 @@ public class BoardPostDto {
     @NotBlank(message = "질문내용 작성을 하지 않을 경우 등록이 불가합니다.")
     private String content;
 
-    // private String boardImage;
+    // private String boardImage;   // TODO: 이미지파일
 }

@@ -24,7 +24,11 @@ public class Challenge implements Serializable {
     private long challengeId;
 
     @ManyToOne
-    @JoinColumn(name = "HOST_MEMBER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "HOST_MEMBER_ID", referencedColumnName = "ID"),
+            @JoinColumn(name = "HOST_MEMBER_NAME", referencedColumnName = "NAME")
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
+    })
     private Member member;
 
     public void setMember(Member member) {
@@ -44,7 +48,7 @@ public class Challenge implements Serializable {
     @Column(nullable = false)
     private String content;
 
-    // private Image challengeImage;  // TODO: 이미지파일 (Nullable)
+    // private Image challengeImage;  // TODO: 이미지파일
 
     @Column(nullable = false)
     private LocalDate startAt;
@@ -69,6 +73,8 @@ public class Challenge implements Serializable {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private ChallengeStatus challengeStatus;
+
+    // TODO: 참가자 수
 
     @OneToMany(mappedBy = "challenge")
     private List<Challenger> challengers = new ArrayList<>();

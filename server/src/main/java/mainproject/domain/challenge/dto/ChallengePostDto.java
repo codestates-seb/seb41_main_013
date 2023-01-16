@@ -33,7 +33,7 @@ public class ChallengePostDto {
     @Size(max = 500, message = "설명은 500자까지 입력 가능합니다.")
     private String content;
 
-    // private Image challengeImage;  // TODO: 이미지파일 (Nullable)
+    // private Image challengeImage;  // TODO: 이미지파일
 
     @NotNull(message = "시작 날짜를 선택하세요.")
     //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.") // 챌린지 상태변화 테스트시 주석 처리

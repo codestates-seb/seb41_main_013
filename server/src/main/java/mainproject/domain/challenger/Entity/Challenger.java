@@ -2,7 +2,6 @@ package mainproject.domain.challenger.Entity;
 
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
-import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.snapshot.Entity.Snapshot;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +21,11 @@ public class Challenger implements Serializable {
     private String challengerId;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"),
+            @JoinColumn(name = "MEMBER_NAME", referencedColumnName = "NAME")
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE"),  // TODO: 이미지파일
+    })
     private Member member;
 
     public void setMember(Member member) {
@@ -33,7 +36,12 @@ public class Challenger implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name = "CHALLENGE_ID")
+    @JoinColumns({
+            @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID"),
+            @JoinColumn(name = "CHALLENGE_NAME", referencedColumnName = "TITLE")
+            // @JoinColumn(name = "CHALLENGE_IMAGE", referencedColumnName = "CHALLENGE_IMAGE"),  // TODO: 이미지파일
+            // TODO: 참가자 수
+    })
     private Challenge challenge;
 
     public void setChallenge(Challenge challenge) {

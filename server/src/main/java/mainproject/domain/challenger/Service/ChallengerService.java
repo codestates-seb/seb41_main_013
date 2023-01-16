@@ -1,9 +1,11 @@
 package mainproject.domain.challenger.Service;
 
+import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.challenge.service.ChallengeService;
 import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.challenger.Repository.ChallengerRepository;
+import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
@@ -29,11 +31,11 @@ public class ChallengerService {
     public Challenger createChallenger(Challenger challenger) throws BusinessLogicException {
         // 회원여부 검증
         long memberId = challenger.getMember().getId();
-        memberService.findVerifiedMember(memberId);
+        Member member = memberService.findVerifiedMember(memberId);
 
         // 챌린지 존재여부, 시작 전 여부 검증
         long challengeId = challenger.getChallenge().getChallengeId();
-        challengeService.verifyNotStartedChallenge(challengeId);
+        Challenge challenge = challengeService.verifyNotStartedChallenge(challengeId);
 
         // 회원이 이미 참가 중인 챌린지인지 검증
         String challengerId = "M" + memberId + "_C" + challengeId;
@@ -46,6 +48,8 @@ public class ChallengerService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_START_CHALLENGE);
         }
 
+        challenger.setMember(member);
+        challenger.setChallenge(challenge);
         challenger.setChallengerId(challengerId);
         return challengerRepository.save(challenger);
     }
@@ -79,4 +83,6 @@ public class ChallengerService {
 
         return findChallenger;
     }
+
+    // TODO: 참가자수++
 }

@@ -26,7 +26,7 @@ public class Member implements Serializable {
     @Column(length = 50, nullable = false)
     private String name;
 
-    //private Image profileImage;  // TODO: 이미지파일 (Nullable)
+    // private Image profileImage;  // TODO: 이미지파일
 
     @Column(length = 100, nullable = false, updatable = false, unique = true)
     private String email;

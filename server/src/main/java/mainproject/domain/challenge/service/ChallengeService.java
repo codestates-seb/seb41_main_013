@@ -3,6 +3,7 @@ package mainproject.domain.challenge.service;
 import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.challenge.repository.ChallengeRepository;
+import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
@@ -25,8 +26,9 @@ public class ChallengeService {
 
     // 챌린지 생성
     public Challenge createChallenge(Challenge challenge) {
-        memberService.findVerifiedMember(challenge.getMember().getId());    // 회원여부 검증
+        Member member = memberService.findVerifiedMember(challenge.getMember().getId());    // 회원여부 검증
 
+        challenge.setMember(member);
         challenge.setChallengeStatus(ChallengeStatus.시작전);
 
         return challengeRepository.save(challenge);
@@ -55,13 +57,13 @@ public class ChallengeService {
 
         if (category == null) {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참여자수 변경
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참가자 수 변경
                     .collect(Collectors.toList());
         }
         else {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                     .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참여자수 변경
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참가자 수 변경
                     .collect(Collectors.toList());
         }
     }
@@ -91,7 +93,7 @@ public class ChallengeService {
             results.addAll(result);
         }
 
-        // TODO: 매핑 후 생성일 -> 참여자수 변경
+        // TODO: 매핑 후 생성일 -> 참가자 수 변경
         return results.stream().sorted(Comparator.comparing(Challenge::getCreatedAt).reversed()).collect(Collectors.toList());
     }
 
@@ -101,7 +103,7 @@ public class ChallengeService {
 
         Challenge challenge = verifyNotStartedChallenge(challengeId);   // 챌린지 존재여부, 시작 전 여부 검증
 
-        if (challenge.getChallengeStatus() != ChallengeStatus.시작전) {    // TODO: 참여자 == 0 조건으로 변경
+        if (challenge.getChallengeStatus() != ChallengeStatus.시작전) {    // TODO: 참가자 == 0 조건으로 변경
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_DELETE_NOT_ALLOWED);
         }
         else {
@@ -150,4 +152,6 @@ public class ChallengeService {
 
         return findChallenge;
     }
+
+    // TODO: 참가자 수 집계
 }

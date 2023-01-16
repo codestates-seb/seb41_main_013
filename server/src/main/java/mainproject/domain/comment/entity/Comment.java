@@ -21,7 +21,11 @@ public class Comment implements Serializable {
     private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"),
+            @JoinColumn(name = "MEMBER_NAME", referencedColumnName = "NAME")
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
+    })
     private Member member;
 
     public void setMember(Member member) {

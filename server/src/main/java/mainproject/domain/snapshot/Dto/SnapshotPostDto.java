@@ -32,5 +32,5 @@ public class SnapshotPostDto {
         return challenger;
     }
 
-    // private Image snapshotImage;  // TODO: 이미지파일 (Nullable)
+    // private Image snapshotImage;  // TODO: 이미지파일
 }
