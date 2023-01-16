@@ -19,6 +19,19 @@ export const Input = (props) => {
 	);
 };
 
+export const InputAuth = (props) => {
+	return (
+		<Wrapper>
+			{props.label}
+			<AuthInput
+				type={props.type}
+				value={props.value}
+				onChange={props.onChange}
+			/>
+		</Wrapper>
+	);
+};
+
 const StyledInput = styled.textarea`
 	border: 0.1rem solid #4d4d4d;
 	margin: ${(props) => props.margin || "0"};
@@ -34,4 +47,20 @@ const StyledInput = styled.textarea`
 const StyledLabel = styled.div`
 	font-size: ${(props) => props.fontSize || "1.4rem"};
 	line-height: 3rem;
+`;
+
+const AuthInput = styled.input`
+	width: ${(props) => props.width || "36rem"};
+	border: 0.1rem solid #4d4d4d;
+	height: 3rem;
+	border-radius: 0.8rem;
+	font-size: 1.4rem;
+`;
+
+const Wrapper = styled.div`
+	font-size: ${(props) => props.fontSize || "1.4rem"};
+	line-height: 3rem;
+	display: flex;
+	flex-direction: column;
+	width: 36.4rem;
 `;

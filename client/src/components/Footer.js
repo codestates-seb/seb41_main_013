@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { GrHomeRounded } from "react-icons/gr";
-import { FaUsers, FaRegUserCircle  } from "react-icons/fa";
+import { FaUsers, FaRegUserCircle } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import theme from "./theme";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
 	return (
 		<FooterContainer>
-			<BottomItem>
+			<BottomItem to="/">
 				<GrHomeRounded />
 				<span>홈</span>
 			</BottomItem>
@@ -17,11 +18,11 @@ export const Footer = () => {
 			</BottomItem>
 			<BottomItem>
 				<FaUsers />
-				<span>마이챌린지</span>
+				<span>커뮤니티</span>
 			</BottomItem>
-			<BottomItem>
+			<BottomItem to="/mypage">
 				<FaRegUserCircle />
-				<span>마이챌린지</span>
+				<span>마이페이지</span>
 			</BottomItem>
 		</FooterContainer>
 	);
@@ -29,24 +30,27 @@ export const Footer = () => {
 
 const FooterContainer = styled.div`
 	border: 1px solid black;
-	width: ${theme.width.content};
-	height: ${theme.height.footer};
+	width: 36.4rem;
+	height: 6.5rem;
 	display: flex;
 `;
 
-const BottomItem = styled.button`
+const BottomItem = styled(Link)`
 	background-color: ${theme.color.white};
 	border: none;
-	width: 6rem;
-	height: ${theme.height.footer};
+	width: 9.1rem;
+	height: 6.5rem;
 	padding: 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 0.3rem;
+	gap: 0.8rem;
+	font-size: 1.8rem;
+	text-decoration: none;
+	color: black;
 
 	span {
-		font-size: ${theme.font.footer};
+		font-size: 1rem;
 	}
 `;

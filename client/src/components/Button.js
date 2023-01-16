@@ -14,6 +14,8 @@ export const Btn = (props) => {
 				size={props.size}
 				width={props.width}
 				height={props.height}
+				type={props.type}
+				onClick={props.onClick}
 			>
 				{props.btnText}
 			</StyledBasicBtn>
@@ -47,11 +49,11 @@ export const BackToTopBtn = (props) => {
 
 export const CreateBtn = (props) => {
 	return (
-		// <Link to={props.NavTo}>
-		<StyledBtn backgroundColor="#F6C324" left="1.3rem">
-			<FaPlus />
-		</StyledBtn>
-		// </Link>
+		<Link to={props.NavTo}>
+			<StyledBtn backgroundColor="#F6C324" left="1.3rem">
+				<FaPlus />
+			</StyledBtn>
+		</Link>
 	);
 };
 
@@ -78,7 +80,7 @@ const StyledBasicBtn = styled.button`
 	background-color: ${(props) => props.background || "white"};
 	cursor: pointer;
 	margin: 0.3rem;
-	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
+	/* box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6); */
 
 	text-align: center;
 	font-family: "Inter";
@@ -99,7 +101,7 @@ const StyledBtn = styled.button`
 	cursor: pointer;
 	width: ${(props) => props.width || "3.5rem"};
 	height: ${(props) => props.height || "3.5rem"};
-	color: ${(props) => props.color || "white"};
+	color: ${(props) => props.color || "#fff"};
 	font-size: ${(props) => props.fontSize || "1.5rem"};
 	position: fixed;
 	left: ${(props) => props.left};
