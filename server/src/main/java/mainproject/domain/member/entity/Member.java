@@ -1,6 +1,5 @@
 package mainproject.domain.member.entity;
 
-
 import lombok.*;
 import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.comment.entity.Comment;
@@ -8,6 +7,7 @@ import mainproject.domain.board.entity.Board;
 import mainproject.domain.challenge.entity.Challenge;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "member")
-public class Member {
+public class Member implements Serializable {
     @Id // @Id는 해당 프로퍼티가 테이블의 primary key 역할이라는 것을 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ID가 자동으로 생성 및 증가한다.
     private long id;
@@ -69,7 +69,7 @@ public class Member {
 
     public void setChallengers(Challenger challenger) {
         challengers.add(challenger);
-        if (challenger.getMember()!= this) {
+        if (challenger.getMember() != this) {
             challenger.setMember(this);
         }
     }

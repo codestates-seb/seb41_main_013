@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class ChallengerResponseDto {
-    private long challengerId;
+    private String challengerId;
     private long memberId;
     private long challengeId;
     private LocalDateTime createdAt;

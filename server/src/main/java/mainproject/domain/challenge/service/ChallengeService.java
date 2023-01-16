@@ -99,7 +99,7 @@ public class ChallengeService {
     public void deleteChallenge(long challengeId) throws BusinessLogicException {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
-        Challenge challenge = verifyOpenedChallenge(challengeId);   // 챌린지 존재여부, 시작 전 여부 검증
+        Challenge challenge = verifyNotStartedChallenge(challengeId);   // 챌린지 존재여부, 시작 전 여부 검증
 
         if (challenge.getChallengeStatus() != ChallengeStatus.시작전) {    // TODO: 참여자 == 0 조건으로 변경
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_DELETE_NOT_ALLOWED);
@@ -130,13 +130,18 @@ public class ChallengeService {
         challengeRepository.saveAll(progressingChallenges);
     }
 
-    // 챌린지 존재여부, 시작 전 여부 검증
-    public Challenge verifyOpenedChallenge(long ChallengeId) throws BusinessLogicException {
-        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
-
-        // 챌린지 존재여부 검증
-        Optional<Challenge> optionalChallenge = challengeRepository.findById(ChallengeId);
+    // 챌린지 존재여부 검증
+    public Challenge findVerifiedChallenge(long challengeId) {
+        Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
         Challenge findChallenge = optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
+
+        return findChallenge;
+    }
+
+    // 챌린지 시작 전 여부 검증(챌린지 신청, 삭제 시)
+    public Challenge verifyNotStartedChallenge(long challengeId) throws BusinessLogicException {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+        Challenge findChallenge = findVerifiedChallenge(challengeId); // 챌린지 존재여부 검증
 
         // 챌린지 시작 전 여부 검증
         if (findChallenge.getChallengeStatus() != ChallengeStatus.시작전) {

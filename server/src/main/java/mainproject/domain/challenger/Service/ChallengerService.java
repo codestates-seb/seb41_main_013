@@ -5,9 +5,12 @@ import mainproject.domain.challenge.service.ChallengeService;
 import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.challenger.Repository.ChallengerRepository;
 import mainproject.domain.member.service.MemberService;
+import mainproject.global.exception.BusinessLogicException;
+import mainproject.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,10 +26,27 @@ public class ChallengerService {
     }
 
     // 챌린지 참가
-    public Challenger createChallenger(Challenger challenger) {
-        memberService.findVerifiedMember(challenger.getMember().getId());    // 회원여부 검증
-        challengeService.verifyOpenedChallenge(challenger.getChallenge().getChallengeId()); // 챌린지 존재여부, 시작 전 여부 검증
+    public Challenger createChallenger(Challenger challenger) throws BusinessLogicException {
+        // 회원여부 검증
+        long memberId = challenger.getMember().getId();
+        memberService.findVerifiedMember(memberId);
 
+        // 챌린지 존재여부, 시작 전 여부 검증
+        long challengeId = challenger.getChallenge().getChallengeId();
+        challengeService.verifyNotStartedChallenge(challengeId);
+
+        // 회원이 이미 참가 중인 챌린지인지 검증
+        String challengerId = "M" + memberId + "_C" + challengeId;
+        long duplication = challengerRepository.findById(challengerId).stream()
+                .filter(c -> c.getMember().getId() == memberId)
+                .filter(c -> c.getChallenge().getChallengeId() == challengeId)
+                .count();
+
+        if (duplication > 0) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_START_CHALLENGE);
+        }
+
+        challenger.setChallengerId(challengerId);
         return challengerRepository.save(challenger);
     }
 
@@ -46,5 +66,17 @@ public class ChallengerService {
         return challengerRepository.findByMember_Id(memberId).stream()
                 .filter(c -> c.getChallenge().getChallengeStatus().equals(ChallengeStatus.종료))
                 .collect(Collectors.toList());
+    }
+
+    // 회원이 참가한 챌린지인지 검증
+    public Challenger findVerifiedChallenger(long memberId, long challengeId) {
+        memberService.findVerifiedMember(memberId);    // 회원여부 검증
+        challengeService.findVerifiedChallenge(challengeId);   // 챌린지 존재여부 검증
+
+        String challengerId = "M" + memberId + "_C" + challengeId;
+        Optional<Challenger> optionalChallenger = challengerRepository.findById(challengerId);
+        Challenger findChallenger = optionalChallenger.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGER_NOT_FOUND));
+
+        return findChallenger;
     }
 }
