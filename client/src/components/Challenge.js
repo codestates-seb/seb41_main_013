@@ -7,8 +7,6 @@ import challenge from "../images/challenge.png";
 import { Btn } from "./Button";
 import theme from "./theme";
 import { IoClose } from "react-icons/io5";
-import { useState } from "react";
-import { TwoBtnModal } from "./Modal";
 
 export const CompleteChallenge = (props) => {
 	return (
@@ -20,33 +18,18 @@ export const CompleteChallenge = (props) => {
 };
 
 export const CreateChallenge = (props) => {
-	const [isOpen, setIsOpen] = useState(false);
-
-	const openModal = () => {
-		setIsOpen(!isOpen);
-		console.log(isOpen);
-	};
-
 	return (
 		<CreateChallengeContainer>
 			<ChallengeImg src={props.src || sample}>
 				<Btn
 					className="deleteBtn"
-					onClick={openModal}
+					onClick={props.onClick}
 					btnText={<IoClose />}
 					width="1.5rem"
 					height="1.5rem"
 					size="1.1rem"
 					background={`${theme.color.orange}`}
 				/>
-
-				{isOpen ? (
-					<TwoBtnModal
-						modalText="정말 삭제하시겠습니까?"
-						btnTextOrg="삭제"
-						btnTextGry="취소"
-					/>
-				) : null}
 			</ChallengeImg>
 			{props.title}
 		</CreateChallengeContainer>

@@ -5,6 +5,7 @@ import { Btn } from "../components/Button";
 import theme from "../components/theme";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "../components/Modal";
 
 export const UserPasswordChange = () => {
 	const navigate = useNavigate();
@@ -21,14 +22,14 @@ export const UserPasswordChange = () => {
 	const [pwErr, setPwErr] = useState(false);
 	const [pwCheckErr, setPwCheckErr] = useState(false);
 
+	const [saveModal, setSaveModal] = useState(false);
+
 	const onChangePw = (e) => {
 		setPassword(e.target.value);
-		// console.log(password);
 	};
 
 	const onChangeNewPw = (e) => {
 		setnewPassword(e.target.value);
-		// console.log(newpassword);
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
 		if (!newpassword || !passwordRegex.test(newpassword)) {
 			setPwErr(true);
@@ -41,29 +42,43 @@ export const UserPasswordChange = () => {
 
 	const onChangePwCheck = (e) => {
 		setPasswordCheck(e.target.value);
-		// console.log(passwordCheck);
-		if (newpassword !== passwordCheck) {
-			setPwCheckErr(true);
-		}
 	};
 
 	const pwCheck = () => {
 		if (password === newpassword) {
 			setSameErr(true);
+			return false;
 		}
+		return true;
+	};
+
+	const newPwCheck = () => {
+		if (newpassword !== passwordCheck) {
+			setPwCheckErr(true);
+			return false;
+		}
+		return true;
 	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		pwCheck();
-		console.log("password :", password);
-		console.log("newpassword :", newpassword);
-		console.log("passwordCheck :", passwordCheck);
+		// console.log("password :", password);
+		// console.log("newpassword :", newpassword);
+		// console.log("passwordCheck :", passwordCheck);
+		if (pwCheck() && newPwCheck()) {
+			setSaveModal(true);
+			setTimeout(() => {
+				navigate("/");
+			}, 1000);
+		}
 	};
 
 	return (
-		<Wrapper>
+		<>
 			<MainHeader />
+			{saveModal && (
+				<Modal modalText="비밀번호 변경 완료! 다시 로그인해주세요!" />
+			)}
 			<Content onSubmit={onSubmit}>
 				<div />
 				<div>
@@ -107,18 +122,9 @@ export const UserPasswordChange = () => {
 					/>
 				</div>
 			</Content>
-		</Wrapper>
+		</>
 	);
 };
-
-const Wrapper = styled.div`
-	border: 1px solid black;
-	width: 39rem;
-	height: 84.4rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
 
 const Content = styled.form`
 	height: 79.2rem;

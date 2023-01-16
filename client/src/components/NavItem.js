@@ -7,7 +7,7 @@ export const NavTitle = (props) => {
 	return (
 		<Navbar width={props.width}>
 			{props.title}
-			<ArrowBoxRight to={props.link}>
+			<ArrowBoxRight to={props.link} onClick={props.onClick}>
 				<IoIosArrowForward />
 			</ArrowBoxRight>
 		</Navbar>

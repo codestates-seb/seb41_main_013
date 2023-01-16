@@ -41,7 +41,12 @@ export const BackToTopBtn = (props) => {
 	window.addEventListener("scroll", btnShow);
 
 	return (
-		<StyledBtn onClick={handleClick} bottom={props.bottom} right="1.3rem">
+		<StyledBtn
+			onClick={handleClick}
+			bottom={props.bottom}
+			right="1.3rem"
+			left={props.left}
+		>
 			<FaArrowUp />
 		</StyledBtn>
 	);
@@ -102,6 +107,7 @@ const StyledBtn = styled.button`
 	color: ${(props) => props.color || "#fff"};
 	font-size: ${(props) => props.fontSize || "1.5rem"};
 	position: absolute;
+	/* position: relative; */
 	left: ${(props) => props.left};
 	right: ${(props) => props.right};
 	bottom: ${(props) => props.bottom || "7.5rem"};

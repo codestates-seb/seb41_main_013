@@ -33,11 +33,16 @@ export const TwoBtnModal = (props) => {
 			<ModalContainer>
 				{props.modalText}
 				<ButtonGroup>
-					<Btn btnText={props.btnTextOrg} background={theme.color.orange} />
+					<Btn
+						btnText={props.btnTextOrg}
+						background={theme.color.orange}
+						onClick={props.onClickOrg}
+					/>
 					<Btn
 						btnText={props.btnTextGry}
 						background={theme.color.gray}
 						color={theme.color.navy}
+						onClick={props.onClickGry}
 					/>
 				</ButtonGroup>
 			</ModalContainer>
@@ -82,6 +87,10 @@ const ModalContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+
+	position: fixed;
+	z-index: 999;
+	top: 25rem;
 `;
 
 const ButtonGroup = styled.div`

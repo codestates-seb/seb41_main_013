@@ -6,12 +6,15 @@ import theme from "../components/theme";
 import { useNavigate } from "react-router-dom";
 import { InputAuth } from "../components/Input";
 import { useState } from "react";
+import { Modal } from "../components/Modal";
 
 export const UserProfileEdit = () => {
 	const navigate = useNavigate();
 
 	const [name, setName] = useState("");
 	const [nameErr, setNameErr] = useState(false);
+
+	const [saveModal, setSaveModal] = useState(false);
 
 	const onChangeName = (e) => {
 		setName(e.target.value);
@@ -21,21 +24,32 @@ export const UserProfileEdit = () => {
 	const CheckName = () => {
 		if (!name) {
 			setNameErr(true);
+			return false;
 		}
+		return true;
 	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		CheckName();
+		if (CheckName()) {
+			setSaveModal(true);
+			setTimeout(() => {
+				navigate("/mypage");
+			}, 1000);
+		} else {
+			return;
+		}
 	};
 
 	const handleBack = () => {
 		navigate(-1);
 	};
 	return (
-		<Wrapper>
+		<>
 			<MainHeader />
+			{saveModal && <Modal modalText="수정 완료!" />}
 			<Container onSubmit={onSubmit}>
+				<div />
 				<ImageUploader />
 				<div>
 					<InputAuth
@@ -60,25 +74,17 @@ export const UserProfileEdit = () => {
 					/>
 				</div>
 			</Container>
-		</Wrapper>
+		</>
 	);
 };
 
-const Wrapper = styled.div`
-	border: 1px solid black;
-	width: 39rem;
-	height: 84.4rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 7rem;
-`;
-
 const Container = styled.form`
+	height: 79.2rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 7rem;
+	justify-content: flex-start;
+	gap: 10rem;
 
 	.btn {
 		margin: 0 auto;
