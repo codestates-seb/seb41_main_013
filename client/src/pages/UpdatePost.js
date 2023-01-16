@@ -30,11 +30,11 @@ export const UpdatePost = () => {
 				/>
 				<p>내용</p>
 				<Input
-					lineHeight="1.6rem"
+					lineHeight="1.8rem"
 					value={post.content}
 					fontSize="1.3rem"
 					cols="74"
-					rows="10"
+					rows="20"
 				/>
 				<p>사진</p>
 				<ImageUploader />

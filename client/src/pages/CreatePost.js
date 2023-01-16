@@ -30,10 +30,10 @@ export const CreatePost = () => {
 				/>
 				<p>내용</p>
 				<Input
-					lineHeight="1.6rem"
+					lineHeight="1.8rem"
 					placeholder="내용을 입력하세요"
 					fontSize="1.3rem"
-					rows="10"
+					rows="20"
 				/>
 				<p>사진</p>
 				<ImageUploader />

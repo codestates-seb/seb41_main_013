@@ -86,7 +86,7 @@ const PostDetailContainer = styled.div`
 		white-space: pre-wrap;
 		font-weight: 400;
 		font-size: 1.3rem;
-		line-height: 1.7rem;
+		line-height: 1.8rem;
 
 		height: 28.5rem;
 		overflow: auto;
