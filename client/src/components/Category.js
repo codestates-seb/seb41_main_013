@@ -18,6 +18,18 @@ export const HomeCategory = () => {
 	);
 };
 
+const Category = (props) => {
+	return (
+		<CategoryItemContainer>
+			<img alt="category" src={props.src} />
+			{props.title}
+		</CategoryItemContainer>
+	);
+};
+// MainCategory
+
+// SelectCategory
+
 //props : X
 export const SelectCategory = () => {
 	return (
@@ -52,15 +64,6 @@ export const SelectCategory = () => {
 	);
 };
 
-const Category = (props) => {
-	return (
-		<CategoryItemContainer>
-			<img alt="category" src={props.src} />
-			{props.title}
-		</CategoryItemContainer>
-	);
-};
-
 const MainCategoryContainer = styled.div`
 	border: 1px solid black;
 	width: ${theme.width.content};
@@ -90,3 +93,5 @@ const SelectCategoryContainer = styled.div`
 	height: 8.6rem;
 	padding: 0.3rem;
 `;
+
+export default SelectCategory;
