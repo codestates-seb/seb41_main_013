@@ -32,7 +32,7 @@ export const TwoBtnModal = (props) => {
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
 				{props.modalText}
-				<ButtonGroup>
+				<BtnGroup>
 					<Btn
 						btnText={props.btnTextOrg}
 						background={theme.color.orange}
@@ -44,7 +44,7 @@ export const TwoBtnModal = (props) => {
 						color={theme.color.navy}
 						onClick={props.onClickGry}
 					/>
-				</ButtonGroup>
+				</BtnGroup>
 			</ModalContainer>
 		</ThemeProvider>
 	);
@@ -76,7 +76,7 @@ const ModalContainer = styled.div`
 	top: 27rem;
 `;
 
-const ButtonGroup = styled.div`
+const BtnGroup = styled.div`
 	display: flex;
 	gap: 2rem;
 `;

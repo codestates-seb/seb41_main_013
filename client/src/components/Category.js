@@ -3,8 +3,8 @@ import town from "../images/town.png";
 import exercise from "../images/exercise.png";
 import life from "../images/life.png";
 import etc from "../images/etc.png";
-import theme from "./theme";
 import { ThemeProvider } from "styled-components";
+import theme from "./theme";
 import { Btn } from "./Button";
 
 export const HomeCategory = () => {
@@ -26,37 +26,12 @@ const Category = (props) => {
 		</CategoryItemContainer>
 	);
 };
-
-const MainCategoryContainer = styled.div`
-	border: 1px solid black;
-	width: 36.4rem;
-	height: 9.8rem;
-	padding: 1rem 0;
-	display: flex;
-	align-items: center;
-`;
-
-const CategoryItemContainer = styled.div`
-	width: 9.1rem;
-	height: 7.8rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	font-size: 1.2rem;
-
-	img {
-		width: 5rem;
-		height: 5rem;
-		border-radius: 50%;
-	}
-`;
 // MainCategory
 
 // SelectCategory
 
 //props : X
-const SelectCategory = () => {
+export const SelectCategory = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<SelectCategoryContainer>
@@ -88,6 +63,30 @@ const SelectCategory = () => {
 		</ThemeProvider>
 	);
 };
+
+const MainCategoryContainer = styled.div`
+	border: 1px solid black;
+	width: ${theme.width.content};
+	height: 5.93rem;
+	padding: 0.625rem 0;
+	display: flex;
+	align-items: center;
+`;
+
+const CategoryItemContainer = styled.div`
+	width: 5.687rem;
+	height: 4.87rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	img {
+		width: 3.125rem;
+		height: 3.125rem;
+		border-radius: 50%;
+	}
+`;
 
 const SelectCategoryContainer = styled.div`
 	width: 36rem;

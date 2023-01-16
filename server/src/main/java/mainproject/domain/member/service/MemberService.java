@@ -72,7 +72,7 @@ public class MemberService {
             throw  new DuplicateKeyException(ExceptionMessage.MEMBER_EMAIL_DUPLICATES.get());
         }
     }
-    private Member findVerifiedMember(long id) {
+    public Member findVerifiedMember(long id) { // ChallengeService에서 사용하기 위해 public으로 변경
     Optional<Member> optionalMember = memberRepository.findById(id);
     Member findMember = optionalMember.orElseThrow(() ->
             new NoSuchElementException(ExceptionMessage.MEMBER_NOT_FOUND.get()));

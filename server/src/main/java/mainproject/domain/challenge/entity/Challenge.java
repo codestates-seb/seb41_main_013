@@ -1,6 +1,7 @@
 package mainproject.domain.challenge.entity;
 
 import lombok.Data;
+import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,6 +19,17 @@ public class Challenge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long challengeId;
 
+    @ManyToOne
+    @JoinColumn(name = "HOST_MEMBER_ID")
+    private Member member;
+
+    public void setMember(Member member) {
+        this.member = member;
+        if (!this.member.getChallenges().contains(this)) {
+            this.member.getChallenges().add(this);
+        }
+    }
+
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Category category;
@@ -28,7 +40,7 @@ public class Challenge {
     @Column(nullable = false)
     private String content;
 
-    //private image;  // TODO: 이미지파일 (Nullable)
+    //private Image challengeImage;  // TODO: 이미지파일 (Nullable)
 
     @Column(nullable = false)
     private LocalDate startAt;
