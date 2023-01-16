@@ -76,7 +76,7 @@ public class ChallengeService {
                 .collect(Collectors.toList());
     }
 
-    // 챌린지 검색(제목+내용) - 검색결과는 인기순으로 출력
+    // 챌린지 검색(제목+내용) - 검색결과는 인기순(참여자순)으로 출력
     public List<Challenge> searchChallenges(String query) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
@@ -144,7 +144,7 @@ public class ChallengeService {
         Challenge findChallenge = findVerifiedChallenge(challengeId); // 챌린지 존재여부 검증
 
         // 챌린지 시작 전 여부 검증
-        if (findChallenge.getChallengeStatus() != ChallengeStatus.시작전) {
+        if (!findChallenge.getChallengeStatus().equals(ChallengeStatus.시작전)) {
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_ALREADY_STARTED);
         }
 

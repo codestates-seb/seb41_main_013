@@ -13,7 +13,11 @@ public interface SnapshotMapper {
     Snapshot snapshotPostDtoToSnapshot(SnapshotPostDto snapshotPostDto);
 
     @Mapping(source = "challenger.member.id", target = "memberId")
+    @Mapping(source = "challenger.member.name", target = "memberName")
+    // @Mapping(source = "challenger.member.profileImage", target = "profileImage")
     @Mapping(source = "challenger.challenge.challengeId", target = "challengeId")
+    @Mapping(source = "challenger.challenge.title", target = "challengeName")
+    // @Mapping(source = "challenger.challenge.challengeImage", target = "challengeImage")
     SnapshotResponseDto snapshotToSnapshotResponseDto(Snapshot snapshot);
 
     List<SnapshotResponseDto> snapshotsToSnapshotResponseDtos(List<Snapshot> snapshots);

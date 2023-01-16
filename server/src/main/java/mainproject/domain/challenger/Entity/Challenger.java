@@ -2,6 +2,7 @@ package mainproject.domain.challenger.Entity;
 
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
+import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.snapshot.Entity.Snapshot;
 import org.springframework.data.annotation.CreatedDate;

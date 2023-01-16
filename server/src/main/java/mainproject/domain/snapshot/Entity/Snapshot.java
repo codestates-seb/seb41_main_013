@@ -6,19 +6,21 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Snapshot {
+public class Snapshot implements Serializable {
     @Id
-    private String snapshotId = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    private String snapshotId;
 
     @ManyToOne
-    @JoinColumn(name = "CHALLENGER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "MEMBER_ID"),
+            @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID")
+    })
     private Challenger challenger;
 
     public void setChallenger(Challenger challenger) {

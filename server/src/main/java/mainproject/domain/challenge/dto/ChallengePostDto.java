@@ -50,7 +50,7 @@ public class ChallengePostDto {
     @NotNull(message = "인증 빈도를 선택하세요.")
     private Frequency frequency = Frequency.매일; // 기본값 - 매일
     
-    private LocalTime snapshotStartAt = LocalTime.parse("00:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"));  // 기본값 - 00:00
+    private LocalTime snapshotStartAt = LocalTime.parse("00:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"));  // 기본값 - 00:00:00
 
     private LocalTime snapshotEndAt = LocalTime.parse("23:59:59", DateTimeFormatter.ofPattern("HH:mm:ss"));    // 기본값 - 23:59:59
 
