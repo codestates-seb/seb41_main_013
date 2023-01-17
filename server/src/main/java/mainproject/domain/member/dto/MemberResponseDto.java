@@ -17,6 +17,8 @@ public class MemberResponseDto {
 
     private String email;
 
+    //private Image profileImage;  // TODO: 이미지파일
+
     private String password;
 
     private List<String> roles;
