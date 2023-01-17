@@ -69,7 +69,7 @@ public class MemberService {
     private void verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         if(optionalMember.isPresent()) {
-            throw  new DuplicateKeyException(ExceptionMessage.MEMBER_EMAIL_DUPLICATES.get());
+            throw new DuplicateKeyException(ExceptionMessage.MEMBER_EMAIL_DUPLICATES.get());
         }
     }
     public Member findVerifiedMember(long id) { // ChallengeService에서 사용하기 위해 public으로 변경
