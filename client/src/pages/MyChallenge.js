@@ -38,10 +38,9 @@ const MyChallenge = () => {
           label={55}
         />
       </MyChallengeItemContainer>
-      {/* Link Router */}
-      <CreateBtn />
+      <CreateBtn NavTo="/challenges/create" />
       <BackToTopBtn />
-      <Footer />
+      <Footer position="fixed" bottom="0" />
     </>
   );
 };

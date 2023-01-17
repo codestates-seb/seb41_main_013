@@ -36,7 +36,7 @@ const Home = () => {
         />
       </HomeChallengeItemContainer>
       <BackToTopBtn />
-      <Footer />
+      <Footer position="fixed" bottom="0" />
     </>
   );
 };
