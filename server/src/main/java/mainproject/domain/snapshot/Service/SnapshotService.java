@@ -31,29 +31,32 @@ public class SnapshotService {
     // 참가 중인 챌린지에 인증사진 등록
     public Snapshot createSnapshot(Snapshot snapshot) throws BusinessLogicException {
         // 회원이 참가 중인 챌린지인지 검증
-        Member member = snapshot.getChallenger().getMember();
-        Challenge challenge = snapshot.getChallenger().getChallenge();
-        Challenger challenger = challengerService.findVerifiedChallenger(member.getId(), challenge.getChallengeId());
+        long memberId = snapshot.getMember().getId();
+        long challengeId = snapshot.getChallenge().getChallengeId();
+        Challenger challenger = challengerService.findVerifiedChallenger(memberId, challengeId);
+        Member member = challenger.getMember();
+        Challenge challenge = challenger.getChallenge();
 
         // 진행 중인 챌린지인지 검증
         challengeService.updateChallengeStatus();   // 현재 날짜에 맞춰 챌린지 상태 변경
-        if (challenger.getChallenge().getChallengeStatus().equals(ChallengeStatus.종료)) { // != 진행중. 테스트시 == 종료로 변경
+        if (challenge.getChallengeStatus().equals(ChallengeStatus.종료)) { // != 진행중. 테스트시 == 종료로 변경
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_IN_PROGRESS);
         }
 
         // 오늘 이미 인증한 회원인지 검증
         String snapshotDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String snapshotId = "M" + member.getId() + "_C" + challenge.getChallengeId() + "_" + snapshotDate;
+        String snapshotId = "M" + memberId + "_C" + challengeId + "_" + snapshotDate;
         if (snapshotRepository.findById(snapshotId).isPresent()) {
             throw new BusinessLogicException(ExceptionCode.SNAPSHOT_TODAY_ALREADY_EXISTS);
         }
 
         // 인증시간 검증
-        if (LocalTime.now().isBefore(challenger.getChallenge().getSnapshotStartAt()) || LocalTime.now().isAfter(challenger.getChallenge().getSnapshotEndAt())) {
+        if (LocalTime.now().isBefore(challenge.getSnapshotStartAt()) || LocalTime.now().isAfter(challenge.getSnapshotEndAt())) {
             throw new BusinessLogicException(ExceptionCode.TIME_UNAUTHORIZED);
         }
 
-        snapshot.setChallenger(challenger);
+        snapshot.setMember(member);
+        snapshot.setChallenge(challenge);
         snapshot.setSnapshotId(snapshotId);
         return snapshotRepository.save(snapshot);
     }

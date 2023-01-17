@@ -3,6 +3,7 @@ package mainproject.domain.challenge.entity;
 import lombok.Data;
 import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.member.entity.Member;
+import mainproject.domain.snapshot.Entity.Snapshot;
 import mainproject.global.category.Category;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,6 +22,7 @@ import java.util.List;
 public class Challenge implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CHALLENGE_ID")
     private long challengeId;
 
     @ManyToOne
@@ -83,6 +85,16 @@ public class Challenge implements Serializable {
         challengers.add(challenger);
         if (challenger.getChallenge() != this) {
             challenger.setChallenge(this);
+        }
+    }
+
+    @OneToMany(mappedBy = "challenge")
+    private List<Snapshot> snapshots = new ArrayList<>();
+
+    public void setSnapshots(Snapshot snapshot) {
+        snapshots.add(snapshot);
+        if (snapshot.getChallenge() != this) {
+            snapshot.setChallenge(this);
         }
     }
 }

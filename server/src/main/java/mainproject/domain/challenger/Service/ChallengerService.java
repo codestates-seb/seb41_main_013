@@ -73,8 +73,8 @@ public class ChallengerService {
 
     // 회원이 참가한 챌린지인지 검증
     public Challenger findVerifiedChallenger(long memberId, long challengeId) {
-        memberService.findVerifiedMember(memberId);    // 회원여부 검증
-        challengeService.findVerifiedChallenge(challengeId);   // 챌린지 존재여부 검증
+        memberService.findVerifiedMember(memberId); // 회원여부 검증
+        challengeService.findVerifiedChallenge(challengeId);    // 챌린지 존재여부 검증
 
         String challengerId = "M" + memberId + "_C" + challengeId;
         Optional<Challenger> optionalChallenger = challengerRepository.findById(challengerId);

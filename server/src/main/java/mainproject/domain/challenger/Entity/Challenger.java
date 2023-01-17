@@ -3,15 +3,12 @@ package mainproject.domain.challenger.Entity;
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.member.entity.Member;
-import mainproject.domain.snapshot.Entity.Snapshot;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -54,14 +51,4 @@ public class Challenger implements Serializable {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "challenger")
-    private List<Snapshot> snapshots = new ArrayList<>();
-
-    public void setSnapshots(Snapshot snapshot) {
-        snapshots.add(snapshot);
-        if (snapshot.getChallenger() != this) {
-            snapshot.setChallenger(this);
-        }
-    }
 }

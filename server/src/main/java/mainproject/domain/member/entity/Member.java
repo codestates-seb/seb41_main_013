@@ -5,6 +5,7 @@ import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.challenge.entity.Challenge;
+import mainproject.domain.snapshot.Entity.Snapshot;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -71,6 +72,16 @@ public class Member implements Serializable {
         challengers.add(challenger);
         if (challenger.getMember() != this) {
             challenger.setMember(this);
+        }
+    }
+
+    @OneToMany(mappedBy = "member")
+    private List<Snapshot> snapshots = new ArrayList<>();
+
+    public void setSnapshots(Snapshot snapshot) {
+        snapshots.add(snapshot);
+        if (snapshot.getMember() != this) {
+            snapshot.setMember(this);
         }
     }
 }

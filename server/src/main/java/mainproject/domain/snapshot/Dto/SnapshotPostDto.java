@@ -2,7 +2,6 @@ package mainproject.domain.snapshot.Dto;
 
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
-import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.member.entity.Member;
 
 import javax.validation.constraints.NotNull;
@@ -14,22 +13,20 @@ public class SnapshotPostDto {
     @Positive
     private long memberId;
 
+    public Member getMember() {
+        Member member = new Member();
+        member.setId(memberId);
+        return member;
+    }
+
     @NotNull
     @Positive
     private long challengeId;
 
-    public Challenger getChallenger() {
-        Challenger challenger = new Challenger();
-
-        Member member = new Member();
-        member.setId(memberId);
-        challenger.setMember(member);
-
+    public Challenge getChallenge() {
         Challenge challenge = new Challenge();
         challenge.setChallengeId(challengeId);
-        challenger.setChallenge(challenge);
-
-        return challenger;
+        return challenge;
     }
 
     // private Image snapshotImage;  // TODO: 이미지파일
