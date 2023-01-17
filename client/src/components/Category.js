@@ -5,6 +5,7 @@ import life from "../images/life.png";
 import etc from "../images/etc.png";
 import theme from "./theme";
 import { Btn } from "./Button";
+import { useState } from "react";
 
 // MainCategory
 export const HomeCategory = () => {
@@ -30,32 +31,33 @@ const Category = (props) => {
 // SelectCategory
 //props : X
 export const SelectCategory = () => {
+	const [click, setClick] = useState([false, false, false, false]);
+
+	const handleBtnClick = (num) => {
+		let newClick = click.map((el, idx) => idx === num);
+		setClick(newClick);
+	};
+
+	const SelectCategoryItem = (props) => {
+		return (
+			<>
+				<Btn
+					btnText={props.text}
+					width={"17.3rem"}
+					background={click[props.num] ? theme.color.green : theme.color.gray}
+					color={click[props.num] ? theme.color.white : theme.color.navy}
+					onClick={() => handleBtnClick(props.num)}
+				/>
+			</>
+		);
+	};
+
 	return (
 		<SelectCategoryContainer>
-			<Btn
-				btnText={"우리 동네"}
-				width={"17.3rem"}
-				background={theme.color.gray}
-				color={theme.color.navy}
-			/>
-			<Btn
-				btnText={"운동"}
-				width={"17.3rem"}
-				background={theme.color.gray}
-				color={theme.color.navy}
-			/>
-			<Btn
-				btnText={"규칙적인 생활"}
-				width={"17.3rem"}
-				background={theme.color.gray}
-				color={theme.color.navy}
-			/>
-			<Btn
-				btnText={"기타"}
-				width={"17.3rem"}
-				background={theme.color.gray}
-				color={theme.color.navy}
-			/>
+			<SelectCategoryItem num={0} text="우리 동네" />
+			<SelectCategoryItem num={1} text="운동" />
+			<SelectCategoryItem num={2} text="규칙적인 생활" />
+			<SelectCategoryItem num={3} text="기타" />
 		</SelectCategoryContainer>
 	);
 };

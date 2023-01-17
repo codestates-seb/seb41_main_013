@@ -14,6 +14,8 @@ export const Input = (props) => {
 				borderRadius={props.borderRadius}
 				fontSize={props.fontSize}
 				lineHeight={props.lineHeight}
+				onChange={props.onChange}
+				borderColor={props.borderColor}
 			></StyledInput>
 		</>
 	);
@@ -33,7 +35,7 @@ export const InputAuth = (props) => {
 };
 
 const StyledInput = styled.textarea`
-	border: 0.1rem solid #4d4d4d;
+	border: 0.1rem solid ${(props) => props.borderColor || "#4d4d4d"};
 	margin: ${(props) => props.margin || "0"};
 	padding: ${(props) => props.padding || "0"};
 	border-radius: ${(props) => props.borderRadius || "0.8rem"};
