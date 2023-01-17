@@ -92,7 +92,7 @@ export const Login = () => {
 				<Btn
 					btnText="로그인"
 					background={theme.color.green}
-					width="35rem"
+					width="35.5rem"
 					type="submit"
 				></Btn>
 				{/* {loginErr && <p>이메일 또는 비밀번호를 확인하세요.</p>} */}

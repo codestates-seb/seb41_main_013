@@ -1,5 +1,55 @@
+import { useState } from "react";
+import styled from "styled-components";
+import { Btn } from "../components/Button";
+import { InputAuth } from "../components/Input";
+import theme from "../components/theme";
+
 export const FindPassword = () => {
-	// 이메일 유효성 검사
-	// 등록되지 않은 이메일이면 -> 등록되지 않은 정보입니다
-	return <></>;
+	// 등록된 이메일인지 확인
+	const [emailInfoErr, setEmailInfoErr] = useState(false);
+
+	return (
+		<Wrapper>
+			<div>
+				<p>비밀번호 찾기에 이용할 이메일을 작성해주세요.</p>
+				<p>작성된 이메일로 임시 비밀번호가 전송됩니다.</p>
+			</div>
+			<div>
+				<InputAuth type="email" border={emailInfoErr && `${theme.color.red}`} />
+				{emailInfoErr && <span>등록되지 않은 이메일입니다.</span>}
+			</div>
+			<Btn btnText="완료" background={theme.color.green} width="35.5rem" />
+		</Wrapper>
+	);
 };
+
+const Wrapper = styled.div`
+	border: 1px solid black;
+	width: 36.4rem;
+	height: 79.2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	p {
+		font-size: 1.2rem;
+		margin-top: 1rem;
+	}
+
+	span {
+		color: ${theme.color.red};
+		padding-left: 1rem;
+		margin-top: 0.55rem;
+	}
+
+	input {
+		margin: 0 auto;
+	}
+`;

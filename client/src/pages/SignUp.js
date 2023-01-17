@@ -175,7 +175,7 @@ export const Signup = () => {
 			<Btn
 				btnText="확인"
 				background={theme.color.green}
-				width="35rem"
+				width="35.5rem"
 				type="submit"
 			/>
 		</Wrapper>
