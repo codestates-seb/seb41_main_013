@@ -7,3 +7,14 @@ spring:
     url: jdbc:h2:mem:test
   jpa:
     show-sql: true
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+jwt:
+  key: kevin12341234123412341234123412341234adsfgeeettwaeaafasfsadf
+  ATExpiration: 10
+  RTExpiration: 420
+
