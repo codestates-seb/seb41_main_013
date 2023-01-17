@@ -1,4 +1,3 @@
-// todo: 이미지 미리보기 기능
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCamera } from "react-icons/fa";
@@ -11,16 +10,20 @@ export const ImageUploader = (props) => {
   }
 
   return (
-    <Label
+    <ImageUploaderWrapper
       width={props.width}
       height={props.height}
     >
       <Input type="file" onChange={handleImageChange} />
-      <StyledFaCamera
-        width={props.width}
-        height={props.height}
-      />
-    </Label>
+      {image ? 
+        <StyledImg src={URL.createObjectURL(image)} alt="" />
+        :
+        <StyledFaCamera
+          width={props.iconWidth}
+          height={props.iconHeight}
+        />
+      }
+    </ImageUploaderWrapper>
   );
 };
 
@@ -28,7 +31,7 @@ const Input = styled.input`
   display: none;
 `;
 
-const Label = styled.label`
+const ImageUploaderWrapper = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,8 +41,14 @@ const Label = styled.label`
   height: ${props => props.height || "10rem"};
 `;
 
+const StyledImg = styled.img`
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+`;
+
 const StyledFaCamera = styled(FaCamera)`
-  width: ${props => props.width || "3rem"};
-  height: ${props => props.height || "3rem"};
+  width: ${props => props.iconWidth || "3rem"};
+  height: ${props => props.iconHeight || "3rem"};
   color: #4D4D4D;
 `;

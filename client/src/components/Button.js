@@ -14,6 +14,7 @@ export const Btn = (props) => {
 				size={props.size}
 				width={props.width}
 				height={props.height}
+        margin={props.margin}
 			>
 				{props.btnText}
 			</StyledBasicBtn>
@@ -26,11 +27,12 @@ export const BackToTopBtn = (props) => {
 
   const btnShow = () => {
     const scrolled = window.scrollY;
-    scrolled > 300 ? setShowBtn(true) : setShowBtn(false);
+    // console.log(scrolled);
+    scrolled > 100 ? setShowBtn(true) : setShowBtn(false);
   };
 
   const handleClick = () => {
-    window.scroll({
+    window.scrollTo({
       top: 0,
       behavior: "smooth"
     })
@@ -39,13 +41,15 @@ export const BackToTopBtn = (props) => {
   window.addEventListener("scroll", btnShow);
 
   return (
-    <StyledBtn
-      onClick={handleClick}
-      bottom={props.bottom}
-      right="1.3rem"
-    >
-      <FaArrowUp />
-    </StyledBtn>
+    <>
+      {showBtn && <StyledBtn
+        onClick={handleClick}
+        bottom={props.bottom}
+        right="1.3rem"
+      >
+        <FaArrowUp />
+      </StyledBtn>}
+    </>
   )
 };
 
@@ -83,7 +87,7 @@ const StyledBasicBtn = styled.button`
 	border: none;
 	background-color: ${(props) => props.background || "white"};
 	cursor: pointer;
-	margin: 0.3rem;
+	margin: ${(props) => props.margin || "0.3rem"};
 	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
 
 	text-align: center;
