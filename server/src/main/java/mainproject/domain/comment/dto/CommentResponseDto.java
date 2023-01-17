@@ -15,6 +15,10 @@ public class CommentResponseDto {
 
     private long memberId;
 
+    private String memberName;
+
+    // private Image profileImage;   // TODO: 이미지파일
+
     private long boardId;
 
     private String content;

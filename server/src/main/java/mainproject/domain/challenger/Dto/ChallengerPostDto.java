@@ -1,4 +1,4 @@
-package mainproject.domain.snapshot.Dto;
+package mainproject.domain.challenger.Dto;
 
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
-public class SnapshotPostDto {
+public class ChallengerPostDto {
     @NotNull
     @Positive
     private long memberId;
@@ -28,6 +28,4 @@ public class SnapshotPostDto {
         challenge.setChallengeId(challengeId);
         return challenge;
     }
-
-    // private Image snapshotImage;  // TODO: 이미지파일
 }

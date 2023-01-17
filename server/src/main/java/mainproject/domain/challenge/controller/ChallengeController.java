@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -32,7 +31,7 @@ public class ChallengeController {
 
     // 챌린지 생성
     @PostMapping
-    public ResponseEntity postChallenge(@Valid @RequestBody ChallengePostDto request) {
+    public ResponseEntity postChallenge(@RequestBody ChallengePostDto request) {
         Challenge challenge = challengeService.createChallenge(mapper.challengePostDtoToChallenge(request));
 
         ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
@@ -43,7 +42,6 @@ public class ChallengeController {
     // 챌린지 목록 최신순 조회
     @GetMapping("/new")
     public ResponseEntity getNewChallenges(@RequestParam @Nullable Category category) {
-
         List<Challenge> challenges = challengeService.findNewChallenges(category);
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
@@ -87,6 +85,8 @@ public class ChallengeController {
     // 챌린지 삭제
     @DeleteMapping("/{challenge-id}")
     public ResponseEntity deleteChallenge(@PathVariable("challenge-id") @Positive long challengeId) {
-        return challengeService.deleteChallenge(challengeId);
+        challengeService.deleteChallenge(challengeId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

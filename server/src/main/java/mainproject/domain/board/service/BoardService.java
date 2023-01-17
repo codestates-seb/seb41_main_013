@@ -3,6 +3,8 @@ package mainproject.domain.board.service;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.respository.BoardRepository;
 
+import mainproject.domain.member.entity.Member;
+import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
@@ -18,13 +20,18 @@ import java.util.stream.Collectors;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MemberService memberService;
 
-    public BoardService(BoardRepository boardRepository) {
+    public BoardService(BoardRepository boardRepository, MemberService memberService) {
         this.boardRepository = boardRepository;
+        this.memberService = memberService;
     }
 
 
     public Board saveBoard(Board board) {
+        Member member = memberService.findVerifiedMember(board.getMember().getId());    // 회원여부 검증
+        board.setMember(member);
+
         board.setBoardId(boardRepository.findAll().size() + 1L);
         boardRepository.save(board);
         return board;
