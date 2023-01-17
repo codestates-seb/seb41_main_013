@@ -7,6 +7,7 @@ import { Modal } from "../components/Modal";
 import theme from "../components/theme";
 
 export const Signup = () => {
+	// 회원가입 시 프로필 이미지 랜덤으로 부여
 	const navigate = useNavigate();
 
 	const [name, setName] = useState("");
@@ -20,10 +21,12 @@ export const Signup = () => {
 	const [passwordCheckErr, setPasswordCheckErr] = useState(false);
 
 	const [openModal, setOpenModal] = useState(false);
+	// 이미 가입되어 있는 이메일 (이메일 중복)
 	// const [sameEmailModal, setSameEmailModal] = useState(false);
 
 	const onChangeName = (e) => {
 		setName(e.target.value);
+		setNameErr(false);
 	};
 
 	const nameValidCheck = () => {
@@ -39,6 +42,7 @@ export const Signup = () => {
 
 	const onChangeEmail = (e) => {
 		setEmail(e.target.value);
+		setEmailErr(false);
 	};
 
 	const emailValidCheck = () => {
@@ -54,6 +58,7 @@ export const Signup = () => {
 
 	const onChangePassword = (e) => {
 		setPassword(e.target.value);
+		setPasswordErr(false);
 	};
 
 	const passwordValidCheck = () => {
@@ -69,6 +74,7 @@ export const Signup = () => {
 
 	const onChangePasswordCheck = (e) => {
 		setPasswordCheck(e.target.value);
+		setPasswordCheckErr(false);
 	};
 
 	const passwordSameCheck = () => {
@@ -81,15 +87,22 @@ export const Signup = () => {
 	};
 
 	const checkValidation = () => {
+		nameValidCheck();
+		emailValidCheck();
+		passwordValidCheck();
+		passwordSameCheck();
 		if (
 			nameValidCheck() &&
 			emailValidCheck() &&
 			passwordValidCheck() &&
 			passwordSameCheck()
 		) {
+			console.log("checkValidation true");
 			return true;
+		} else {
+			console.log("checkValidation false");
+			return false;
 		}
-		return false;
 	};
 
 	const onSubmit = (e) => {
@@ -108,10 +121,6 @@ export const Signup = () => {
 			}, 1500);
 		} else {
 			console.log("회원가입 실패");
-			setName("");
-			setEmail("");
-			setPassword("");
-			setPasswordCheck("");
 		}
 	};
 
@@ -127,6 +136,7 @@ export const Signup = () => {
 					type="text"
 					value={name}
 					onChange={onChangeName}
+					border={nameErr && `${theme.color.red}`}
 				/>
 				{nameErr && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
 			</div>
@@ -136,6 +146,7 @@ export const Signup = () => {
 					type="email"
 					value={email}
 					onChange={onChangeEmail}
+					border={emailErr && `${theme.color.red}`}
 				/>
 				{emailErr && <p>이메일 형식에 맞지 않습니다.</p>}
 			</div>
@@ -145,6 +156,7 @@ export const Signup = () => {
 					type="password"
 					value={password}
 					onChange={onChangePassword}
+					border={passwordErr && `${theme.color.red}`}
 				/>
 				{passwordErr && (
 					<p>비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.</p>
@@ -156,13 +168,14 @@ export const Signup = () => {
 					type="password"
 					value={passwordCheck}
 					onChange={onChangePasswordCheck}
+					border={passwordCheckErr && `${theme.color.red}`}
 				/>
 				{passwordCheckErr && <p>비밀번호가 일치하지 않습니다.</p>}
 			</div>
 			<Btn
 				btnText="확인"
 				background={theme.color.green}
-				width="34rem"
+				width="35rem"
 				type="submit"
 			/>
 		</Wrapper>
@@ -175,9 +188,16 @@ const Wrapper = styled.form`
 	height: 79.2rem;
 	display: flex;
 	flex-direction: column;
-	gap: 4rem;
+	align-items: center;
+	gap: 3rem;
+
+	input {
+		margin: 0 auto;
+	}
 
 	p {
 		color: ${theme.color.red};
+		padding-left: 1rem;
+		margin-top: 0.5rem;
 	}
 `;

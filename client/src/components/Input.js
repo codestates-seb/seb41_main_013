@@ -22,11 +22,12 @@ export const Input = (props) => {
 export const InputAuth = (props) => {
 	return (
 		<Wrapper>
-			{props.label}
+			<span>{props.label}</span>
 			<AuthInput
 				type={props.type}
 				value={props.value}
 				onChange={props.onChange}
+				border={props.border}
 			/>
 		</Wrapper>
 	);
@@ -55,6 +56,7 @@ const AuthInput = styled.input`
 	border-radius: 0.8rem;
 	font-size: 1.4rem;
 	padding-left: 1rem;
+	border-color: ${(props) => props.border || "#4d4d4d"};
 `;
 
 const Wrapper = styled.div`
@@ -63,4 +65,8 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 36.4rem;
+
+	span {
+		padding-left: 1rem;
+	}
 `;

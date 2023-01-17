@@ -12,6 +12,7 @@ import { Footer } from "./components/Footer";
 import { MainHeader } from "./components/Header";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/SignUp";
+import { FindPassword } from "./pages/FindPassword";
 
 const Overlaps = () => {
 	return (
@@ -74,6 +75,7 @@ function App() {
 					<Route element={<OverlapHead />}>
 						<Route path="/signup" element={<Signup />} />
 						<Route path="/login" element={<Login />} />
+						<Route path="/findPw" element={<FindPassword />} />
 					</Route>
 				</Routes>
 			</div>
