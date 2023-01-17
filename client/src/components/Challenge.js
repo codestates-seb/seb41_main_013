@@ -4,9 +4,11 @@
 import styled from "styled-components";
 import sample from "../images/example2.jpeg";
 import challenge from "../images/challenge.png";
+import { Btn } from "./Button";
 import theme from "./theme";
+import { IoClose } from "react-icons/io5";
 
-export const CompleteChallenge = (props) => {
+export const CompletedChallenge = (props) => {
 	return (
 		<CompleteChallengeContainer>
 			<img alt="challenge" src={props.src || sample} />
@@ -15,16 +17,26 @@ export const CompleteChallenge = (props) => {
 	);
 };
 
-export const CreateChallenge = (props) => {
+export const CreatedChallenge = (props) => {
 	return (
 		<CreateChallengeContainer>
-			<ChallengeImg src={props.src || sample} />
+			<ChallengeImg src={props.src || sample}>
+				<Btn
+					className="deleteBtn"
+					onClick={props.onClick}
+					btnText={<IoClose />}
+					width="1.5rem"
+					height="1.5rem"
+					size="1.4rem"
+					background={`${theme.color.orange}`}
+				/>
+			</ChallengeImg>
 			{props.title}
 		</CreateChallengeContainer>
 	);
 };
 
-export const ChallengeState = () => {
+export const ChallengeState = (props) => {
 	return (
 		<ChallengeStateContainer>
 			<div className="title">
@@ -33,15 +45,15 @@ export const ChallengeState = () => {
 			</div>
 			<div className="container">
 				<div>
-					<span>0</span>
+					<span>{props.doing || "0"}</span>
 					<span>참여중</span>
 				</div>
 				<div>
-					<span>0</span>
+					<span>{props.complete || "0"}</span>
 					<span>완료</span>
 				</div>
 				<div>
-					<span>0</span>
+					<span>{props.create || "0"}</span>
 					<span>생성</span>
 				</div>
 			</div>
@@ -51,28 +63,28 @@ export const ChallengeState = () => {
 
 const ChallengeStateContainer = styled.div`
 	border: 1px solid black;
-	width: ${theme.width.content};
-	height: 9.37rem;
+	width: 36.4rem;
+	height: 15rem;
 
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	font-size: ${theme.font.content};
+	font-size: 1.4rem;
 
 	.title {
 		display: flex;
 		align-items: center;
-		gap: 0.625rem;
+		gap: 1rem;
 
 		img {
-			width: ${theme.width.icon};
-			height: ${theme.height.icon};
+			width: 2rem;
+			height: 2rem;
 		}
 	}
 
 	.container {
-		width: ${theme.width.content};
-		height: 5.06rem;
+		width: 36rem;
+		height: 8.1rem;
 		display: flex;
 
 		div {
@@ -85,23 +97,25 @@ const ChallengeStateContainer = styled.div`
 
 		div:not(:last-of-type) {
 			border-right: 1px solid black;
-			width: 1.875rem;
+			width: 1rem;
 		}
 	}
 `;
 
 const CompleteChallengeContainer = styled.div`
 	border: 1px solid black;
-	width: 11.37rem;
-	height: 11.43rem;
+	width: 18rem;
+	height: 18.3rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.312rem;
+	gap: 1rem;
+	font-size: 1.4rem;
+	margin-top: 2rem;
 
 	img {
-		width: ${theme.width.challenge};
-		height: ${theme.height.challenge};
+		width: 16rem;
+		height: 14.5rem;
 	}
 `;
 
@@ -109,16 +123,27 @@ const ChallengeImg = styled.div`
 	background-image: url(${(props) => props.src});
 	background-size: contain;
 	background-position: center center;
-	width: ${theme.width.challenge};
-	height: ${theme.height.challenge};
+	width: 16rem;
+	height: 14.5rem;
+
+	.deleteBtn {
+		display: none;
+	}
 `;
 
 const CreateChallengeContainer = styled.div`
 	border: 1px solid black;
-	width: 11.37rem;
-	height: 12.06rem;
+	width: 18rem;
+	height: 19.3rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+	font-size: 1.4rem;
+	margin-top: 2.5rem;
+
+	/* .deleteBtn {
+		position: fixed;
+		left: 0;
+	} */
 `;

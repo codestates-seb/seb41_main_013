@@ -18,6 +18,18 @@ export const HomeCategory = () => {
 	);
 };
 
+const Category = (props) => {
+	return (
+		<CategoryItemContainer>
+			<img alt="category" src={props.src} />
+			{props.title}
+		</CategoryItemContainer>
+	);
+};
+// MainCategory
+
+// SelectCategory
+
 //props : X
 export const SelectCategory = () => {
 	return (
@@ -52,37 +64,29 @@ export const SelectCategory = () => {
 	);
 };
 
-const Category = (props) => {
-	return (
-		<CategoryItemContainer>
-			<img alt="category" src={props.src} />
-			{props.title}
-		</CategoryItemContainer>
-	);
-};
-
 const MainCategoryContainer = styled.div`
-	border: 1px solid black;
-	width: ${theme.width.content};
-	height: 5.93rem;
-	padding: 0.625rem 0;
-	display: flex;
-	align-items: center;
+    border: 1px solid black;
+    width: 36.4rem;
+    height: 9.8rem;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
 `;
 
 const CategoryItemContainer = styled.div`
-	width: 5.687rem;
-	height: 4.87rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
+    width: 9.1rem;
+    height: 7.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.3rem;
 
-	img {
-		width: 3.125rem;
-		height: 3.125rem;
-		border-radius: 50%;
-	}
+    img {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+    }
 `;
 
 const SelectCategoryContainer = styled.div`

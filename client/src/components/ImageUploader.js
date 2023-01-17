@@ -3,32 +3,26 @@ import styled from "styled-components";
 import { FaCamera } from "react-icons/fa";
 
 export const ImageUploader = (props) => {
-  const [image, setImage] = useState(null);
+	const [image, setImage] = useState(null);
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  }
+	const handleImageChange = (e) => {
+		setImage(e.target.files[0]);
+	};
 
   return (
-    <ImageUploaderWrapper
-      width={props.width}
-      height={props.height}
-    >
+    <ImageUploaderWrapper width={props.width} height={props.height}>
       <Input type="file" onChange={handleImageChange} />
       {image ? 
         <StyledImg src={URL.createObjectURL(image)} alt="" />
         :
-        <StyledFaCamera
-          width={props.iconWidth}
-          height={props.iconHeight}
-        />
+        <StyledFaCamera width={props.iconWidth} height={props.iconHeight}/>
       }
     </ImageUploaderWrapper>
   );
 };
 
 const Input = styled.input`
-  display: none;
+	display: none;
 `;
 
 const ImageUploaderWrapper = styled.label`
@@ -37,8 +31,8 @@ const ImageUploaderWrapper = styled.label`
   align-items: center;
   border: 0.1rem solid #4d4d4d;
   border-radius: 0.8rem;
-  width: ${props => props.width || "10rem"};
-  height: ${props => props.height || "10rem"};
+  width: ${(props) => props.width || "10rem"};
+  height: ${(props) => props.height || "10rem"};
 `;
 
 const StyledImg = styled.img`
@@ -48,7 +42,7 @@ const StyledImg = styled.img`
 `;
 
 const StyledFaCamera = styled(FaCamera)`
-  width: ${props => props.iconWidth || "3rem"};
-  height: ${props => props.iconHeight || "3rem"};
-  color: #4D4D4D;
+  width: ${(props) => props.iconWidth || "3rem"};
+  height: ${(props) => props.iconHeight || "3rem"};
+  color: #4d4d4d;
 `;
