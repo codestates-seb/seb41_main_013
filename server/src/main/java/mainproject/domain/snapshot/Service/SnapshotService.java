@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SnapshotService {
@@ -61,6 +64,10 @@ public class SnapshotService {
         return snapshotRepository.save(snapshot);
     }
 
-    // 참가 중인 챌린지의 모든 참가자들의 인증사진 최신순 조회
-
+    // 챌린지의 모든 참가자들의 인증사진 최신순 조회
+    public List<Snapshot> findSnapshots(long challengeId) {
+        return snapshotRepository.findByChallenge_ChallengeId(challengeId).stream()
+                .sorted(Comparator.comparing(Snapshot::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+    }
 }

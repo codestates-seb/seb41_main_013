@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/snapshots")
 public class SnapshotController {
@@ -30,6 +33,13 @@ public class SnapshotController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // 참가 중인 챌린지의 모든 참가자들의 인증사진 최신순 조회
+    // 챌린지의 모든 참가자들의 인증사진 최신순 조회
+    @GetMapping("/{challenge-id}")
+    public ResponseEntity getSnapshots(@PathVariable("challenge-id") @Positive long challengeId) {
+        List<Snapshot> snapshots = snapshotService.findSnapshots(challengeId);
 
+        List<SnapshotResponseDto> response = mapper.snapshotsToSnapshotResponseDtos(snapshots);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
