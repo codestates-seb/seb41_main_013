@@ -43,22 +43,10 @@ public class Comment {
 
     private String content;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
 
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);
 
 
-    @ManyToOne
-    @JoinColumn(name = "BOARD_ID")
-    private Board board;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-
-   // public Comment(Board board, Member member) {
-    //    this.board = board;
-    //    this.member = member;
-   // }
 }
-

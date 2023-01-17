@@ -44,7 +44,9 @@ public class Board {
 
     //private Image boardImage;  // TODO: 이미지파일 (Nullable)
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
 
     private LocalDateTime modifiedAt = LocalDateTime.now();
 

@@ -37,7 +37,8 @@ public class BoardService {
                 .ifPresent(title -> findboard.setTitle(title));
         Optional.ofNullable(board.getContent())
                 .ifPresent(content -> findboard.setContent(content));
-
+        Optional.ofNullable(board.getCategory())
+                .ifPresent(category -> findboard.setCategory(category));
         return boardRepository.save(findboard);
     }
 
@@ -46,15 +47,15 @@ public class BoardService {
         return findVerifiedMember(boardId);
     }
 
-    public Page<Board> findBoards(int page, int size){
-        return boardRepository.findAll(PageRequest.of(page,size,
-                Sort.by("questionId").descending()));
+    public Page<Board> findBoards(int page, int size){ // 전체 질문 게시글에 pagenation
+
+        // sort 수정 필요!
+        Page<Board> findAllBoard = boardRepository.findAll(
+                PageRequest.of(page, size, Sort.by("boardId").descending()));
+
+        return findAllBoard;
     }
 
-
-    public void deleteBoard(long boardId) {
-        boardRepository.deleteById(boardId);
-    }
 
     public Board findVerifiedMember(long boardId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
@@ -64,5 +65,11 @@ public class BoardService {
         return findBoard;
     }
 
+
+
+
+    public void deleteBoard(long boardId) {
+        boardRepository.deleteById(boardId);
+    }
 
 }

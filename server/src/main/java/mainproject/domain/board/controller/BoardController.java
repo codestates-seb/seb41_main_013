@@ -40,7 +40,7 @@ public class BoardController {
 
 
     @PatchMapping("/{board-id}")
-    public ResponseEntity patchQuestion(@PathVariable("board-id") @Positive long boardId,
+    public ResponseEntity patchBoard(@PathVariable("board-id") @Positive long boardId,
                                         @Valid @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
         Board response = boardService.
@@ -50,7 +50,7 @@ public class BoardController {
 
 
     @GetMapping("/{board-id}")
-    public ResponseEntity getQuestion(@PathVariable("board-id") @Positive long boardId) {
+    public ResponseEntity getBoard(@PathVariable("board-id") @Positive long boardId) {
         Board response = boardService.findBoard(boardId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(boardMapper.boardToBoardResponseDto(response)), HttpStatus.OK);
@@ -58,20 +58,19 @@ public class BoardController {
 
 
     @GetMapping
+    public ResponseEntity getBoards(@Positive @RequestParam(defaultValue = "1") Integer page,
+                                    @Positive @RequestParam(defaultValue = "15") Integer size) {
 
-    public ResponseEntity getBoards(@Positive @RequestParam("page") int page,
-                                       @Positive @RequestParam("size") int size){
-        Page<Board> pageBoards = boardService.findBoards(page-1,size);
+        Page<Board> pagedBoards = boardService.findBoards(page - 1, size);
+        List<Board> boards = pagedBoards.getContent();
 
-        List<Board> boards = pageBoards.getContent();
-
-        return new ResponseEntity<>(new MultiResponseDto<>(
-                boardMapper.boardsToBoardResponseDtos(boards),
-                pageBoards),HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pagedBoards),
+                HttpStatus.OK);
     }
 
     @DeleteMapping("/{board-id}")
-    public ResponseEntity deleteQuestion(@PathVariable("board-id") @Positive long boardId){
+    public ResponseEntity deleteBoard(@PathVariable("board-id") @Positive long boardId){
         boardService.deleteBoard(boardId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

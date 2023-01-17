@@ -7,6 +7,9 @@ import mainproject.domain.board.respository.BoardRepository;
 import mainproject.domain.board.service.BoardService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +19,7 @@ public class CommentService {
     private CommentRepository commentRepository;
     private BoardRepository boardRepository;
 
+  //  private MemberRepository memberRepository;
     private BoardService boardService;
 
 
@@ -34,26 +38,11 @@ public class CommentService {
     }
 
     public Comment updateComment(Comment comment) {
-        //작성한 답변이 존재하는지 확인
-        Comment findComment = findVerifiedComment(comment.getCommentId());
-
-        Optional.ofNullable(comment.getContent()).
-                ifPresent(content -> findComment.setContent(content));
-
-        //수정한 내용 저장
-        return commentRepository.save(findComment);
-
-    }
-
-
-    public Page<Comment> findComments(int page, int size) {
-        return commentRepository.findAll(PageRequest.of(page, size,
-                Sort.by("commentId").descending()));
-        Comment findComment = commentRepository.findById(comment.getCommentId()).orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        Comment findComment = commentRepository.findById(comment.getCommentId()).orElseThrow(()-> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
      //   if ( !findComment.getMember().getEmail().equals(email)){
-     //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
-     //   }
+     //          throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
+     //     }
 
         findComment.setContent(comment.getContent());
         findComment.setModifiedAt(LocalDateTime.now().withNano(0));
@@ -62,29 +51,24 @@ public class CommentService {
     }
 
 
+    public Page<Comment> findComments(int page, int size){
 
 
-    public void deleteComment(long commentId){
-        Comment findComment = findVerifiedComment(commentId);
-        commentRepository.delete(findComment);
+        Page<Comment> findAllComment = commentRepository.findAll(
+                PageRequest.of(page, size, Sort.by("commentId").descending()));
 
-    public Comment findComments(long commentId) {
-        boardService.findVerifiedMember(commentId);
-        return commentRepository.save(findComments(commentId));
+        return findAllComment;
     }
 
-
-
-        return findAnswer;
-    }
+// 필터걸기 추가
 
 
 
     public void deleteComment(Long commentId) {
-        Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
-     //   if ( !findComment.getMember().getEmail().equals(email)){
-     //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
-     //   }
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        //   if ( !findComment.getMember().getEmail().equals(email)){
+        //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
+        //   }
 
         commentRepository.delete(findComment);
     }

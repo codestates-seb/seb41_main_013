@@ -1,6 +1,7 @@
 package mainproject.domain.comment.controller;
 
 
+import mainproject.domain.board.entity.Board;
 import mainproject.domain.comment.dto.CommentPatchDto;
 import mainproject.domain.comment.dto.CommentPostDto;
 import mainproject.domain.comment.dto.CommentResponseDto;
@@ -8,29 +9,16 @@ import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.comment.mapper.CommentMapper;
 import mainproject.domain.comment.service.CommentService;
 import mainproject.global.dto.MultiResponseDto;
+import mainproject.global.dto.SingleResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
-
-@RestController
-@RequestMapping("/api/comments")
-@Validated
-public class CommentController {
-    private final CommentService commentService;
-    private final CommentMapper commentMapper;
-import mainproject.global.dto.SingleResponseDto;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
 
 @RestController
 @RequestMapping("/api/comments")
@@ -67,26 +55,16 @@ public class CommentController {
 
 
     @GetMapping("/{board-id}")
-    public ResponseEntity getComments(@PathVariable("board-id") long boardId,
-            @RequestParam("page") @Positive int page,
-            @RequestParam("size") @Positive int size){
-      List<Comment> response = commentService.findComments( page-1, size).getContent();
-        Page<Comment> pageComments = commentService.findComments(page-1, size);
-       // List<Comment> response = pageComments.getContent();
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(commentMapper.commentsToCommentResponseDtos(response),
-                        pageComments),
-                HttpStatus.OK);
-    }
+    public ResponseEntity getComments(@PathVariable("board-id") @Positive long boardId,
+                                      @Positive @RequestParam(defaultValue = "1") Integer page,
+                                      @Positive @RequestParam(defaultValue = "15") Integer size) {
 
-    //답변 삭제(1개)
-    @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId){
-        //Service에 요청을 보내 해당하는 answerId 하는 답변을 조회해 삭제
-    @GetMapping("/{board-id}")
-     public ResponseEntity getComment(@PathVariable("board-id") Long boardId) {
-        Comment response = commentService.findComments(boardId);
-        return new ResponseEntity<>(new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(response)),HttpStatus.OK);
+        Page<Comment> pagedComments = commentService.findComments(page - 1, size);
+        List<Comment> comments = pagedComments.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(commentMapper.commentsToCommentResponseDtos(comments), pagedComments),
+                HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment-id}")
