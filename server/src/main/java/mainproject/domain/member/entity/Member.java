@@ -35,6 +35,9 @@ public class Member implements Serializable {
     @Column(length = 100, nullable = false)
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Challenge> challenges = new ArrayList<>();
 
