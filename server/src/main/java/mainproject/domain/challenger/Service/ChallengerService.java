@@ -43,7 +43,6 @@ public class ChallengerService {
                 .filter(c -> c.getMember().getId() == memberId)
                 .filter(c -> c.getChallenge().getChallengeId() == challengeId)
                 .count();
-
         if (duplication > 0) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_START_CHALLENGE);
         }
