@@ -1,14 +1,14 @@
 package mainproject.domain.member.entity;
 
-
 import lombok.*;
-import mainproject.domain.board.entity.Board;
-import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.comment.entity.Comment;
+import mainproject.domain.board.entity.Board;
+import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.snapshot.Entity.Snapshot;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +19,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "member")
-public class Member {
-
+public class Member implements Serializable {
     @Id // @Id는 해당 프로퍼티가 테이블의 primary key 역할이라는 것을 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ID가 자동으로 생성 및 증가한다.
     private long id;
@@ -28,14 +27,14 @@ public class Member {
     @Column(length = 50, nullable = false)
     private String name;
 
+    // private Image profileImage;  // TODO: 이미지파일
+
     @Column(length = 100, nullable = false, updatable = false, unique = true)
     private String email;
 
     @Column(length = 100, nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Challenge> challenges = new ArrayList<>();
 

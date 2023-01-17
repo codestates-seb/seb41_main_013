@@ -29,7 +29,7 @@ public class MemberMapper {
         member.setId(memberPatchDto.getId());
         member.setName(memberPatchDto.getName());
         member.setPassword(memberPatchDto.getPassword());
-
+        //:Todo 이미지 업로드 기능 넣을것
 
         return member;
     }
