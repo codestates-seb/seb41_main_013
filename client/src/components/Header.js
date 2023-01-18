@@ -52,12 +52,16 @@ export const MypageHeader = (props) => {
 };
 
 const Main = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 36.4rem;
 	height: 5.2rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	position: fixed;
+	top: 0;
+	z-index: 9999;
+	background-color: white;
 `;
 
 const Title = styled.div`

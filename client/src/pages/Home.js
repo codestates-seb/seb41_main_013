@@ -2,8 +2,6 @@
 import styled from "styled-components";
 import { HomeCategory } from "../components/Category";
 import { HomeChallengeItem } from "../components/ChallengeItem";
-import { MainHeader } from "../components/Header";
-import { Footer } from "../components/Footer";
 import { BackToTopBtn } from "../components/Button";
 
 const Home = () => {
@@ -11,9 +9,8 @@ const Home = () => {
   const challengeId = 1;
   
   return (
-    <>
-      <MainHeader />
-      <HomeCategory />
+    <HomeWrapper>
+      <HomeCategory NavTo="challenges" />
       <StyledH1>BEST</StyledH1>
       {/* map */}
       <HomeChallengeItemContainer>
@@ -42,10 +39,14 @@ const Home = () => {
         />
       </HomeChallengeItemContainer>
       <BackToTopBtn />
-      <Footer position="fixed" bottom="0" />
-    </>
+    </HomeWrapper>
   );
 };
+
+const HomeWrapper = styled.div`
+  margin-top: 15rem;
+  margin-bottom: 6.5rem;
+`;
 
 const StyledH1 = styled.h1`
   font-size: 2rem;
