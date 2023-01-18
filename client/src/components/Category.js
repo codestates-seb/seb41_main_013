@@ -9,13 +9,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // MainCategory
-export const HomeCategory = (props) => {
+export const HomeCategory = () => {
 	return (
 		<MainCategoryContainer>
-			<Category title="우리동네" src={town} NavTo={`/${props.root}/0`} />
-			<Category title="운동" src={exercise} NavTo={`/${props.root}/1`} />
-			<Category title="규칙적인 생활" src={life} NavTo={`/${props.root}/2`} />
-			<Category title="기타" src={etc} NavTo={`/${props.root}/3`} />
+			<Category title="우리동네" src={town} NavTo="/community/0" />
+			<Category title="운동" src={exercise} NavTo="/community/1" />
+			<Category title="규칙적인 생활" src={life} NavTo="/community/2" />
+			<Category title="기타" src={etc} NavTo="/community/3" />
 		</MainCategoryContainer>
 	);
 };

@@ -9,7 +9,6 @@ export const Input = (props) => {
 				value={props.value}
 				margin={props.margin}
 				padding={props.padding}
-				cols={props.cols || "49"}
 				rows={props.rows || "1"}
 				borderRadius={props.borderRadius}
 				fontSize={props.fontSize}
@@ -38,10 +37,13 @@ export const InputAuth = (props) => {
 
 const StyledInput = styled.textarea`
 	border: 0.1rem solid ${(props) => props.borderColor || "#4d4d4d"};
+	border: 0.1rem solid ${(props) => props.borderColor || "#4d4d4d"};
 	margin: ${(props) => props.margin || "0"};
 	padding: ${(props) => props.padding || "0"};
 	border-radius: ${(props) => props.borderRadius || "0.8rem"};
 	font-size: ${(props) => props.fontSize || "1.3rem"};
+	font-family: "Inter";
+	font-style: normal;
 	font-family: "Inter";
 	font-style: normal;
 	line-height: ${(props) => props.lineHeight || "1.6rem"};

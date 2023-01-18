@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useState } from "react";
+// import axios from "axios";
 import theme from "../components/theme";
 import { Btn } from "../components/Button";
 import { TitleHeader } from "../components/Header";
@@ -8,6 +10,21 @@ import { TwoBtnModal } from "../components/Modal";
 import { FaRegBookmark, FaBookmark, FaShareAlt } from "react-icons/fa";
 
 const ChallengeDetail = () => {
+  const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
+  const [btnVisible, setBtnVisible] = useState(false);
+
+  // todo: get request => 참여중인 챌린지인지 아닌지 확인 (참여하기/참여중 버튼)
+
+  const handleBtnClick = () => {
+    setTwoBtnModalVisible(true);
+  };
+
+  const handleOrgClick = async () => {
+    // post request
+    setBtnVisible(true);
+    setTwoBtnModalVisible(false);
+  };
+
   return (
     <>
       <TitleHeader 
@@ -32,7 +49,7 @@ const ChallengeDetail = () => {
           <FaRegBookmark className="icon" />
           <FaShareAlt className="icon" />
         </IconWrapper>
-        <Btn
+        {!btnVisible && <Btn
           background={theme.color.green}
           size="1.4rem"
           width="18.5rem"
@@ -40,8 +57,9 @@ const ChallengeDetail = () => {
           btnText="참여하기"
           margin="0"
           // fontWeight
-        />
-        {/* <Btn
+          onClick={handleBtnClick}
+        />}
+        {btnVisible && <Btn
           background={theme.color.gray}
           color={theme.color.navy}
           size="1.4rem"
@@ -50,13 +68,15 @@ const ChallengeDetail = () => {
           height="4.8rem"
           btnText="참여중"
           margin="0"
-        /> */}
+        />}
       </ChallengeDetailFooter>
-        {/* <TwoBtnModal 
-          modalText="참여하시겠습니까?"
-          btnTextOrg="확인"
-          btnTextGry="취소"
-        /> */}
+      {twoBtnModalVisible && <TwoBtnModal 
+        modalText="참여하시겠습니까?"
+        btnTextOrg="확인"
+        btnTextGry="취소"
+        onClickOrg={() => handleOrgClick()}
+        onClickGry={() => setTwoBtnModalVisible(false)}
+      />}  
     </>
   );
 };

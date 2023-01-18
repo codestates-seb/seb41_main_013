@@ -52,7 +52,6 @@ export const UpdatePost = () => {
 				<Input
 					lineHeight="3rem"
 					fontSize="1.3rem"
-					cols="55"
 					value={title}
 					onChange={handleChangeTitle}
 					borderColor={titleError && theme.color.red}
@@ -65,7 +64,6 @@ export const UpdatePost = () => {
 					lineHeight="1.8rem"
 					fontSize="1.3rem"
 					rows="20"
-					cols="55"
 					value={content}
 					onChange={handleChangeContent}
 					borderColor={contentError && theme.color.red}

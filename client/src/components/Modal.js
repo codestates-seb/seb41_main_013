@@ -19,7 +19,11 @@ export const OneBtnModal = (props) => {
 		<ThemeProvider theme={theme}>
 			<ModalContainer>
 				{props.modalText}
-				<Btn btnText={props.btnText} background={theme.color.orange} />
+				<Btn
+					btnText={props.btnText}
+					background={theme.color.orange}
+					onClick={props.onClick}
+				/>
 			</ModalContainer>
 		</ThemeProvider>
 	);
