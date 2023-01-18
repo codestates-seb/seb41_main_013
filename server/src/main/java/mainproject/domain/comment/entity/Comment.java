@@ -7,6 +7,7 @@ import mainproject.domain.board.entity.Board;
 import mainproject.domain.member.entity.Member;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -14,13 +15,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 @Entity
-public class Comment {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"),
+            @JoinColumn(name = "MEMBER_NAME", referencedColumnName = "NAME")
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
+    })
     private Member member;
 
     public void setMember(Member member) {

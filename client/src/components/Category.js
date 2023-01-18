@@ -33,6 +33,7 @@ const Category = (props) => {
 export const SelectCategory = () => {
 	const [click, setClick] = useState([false, false, false, false]);
 
+	//클릭하면 카테고리 버튼 색상이 회색 -> 초록색으로
 	const handleBtnClick = (num) => {
 		let newClick = click.map((el, idx) => idx === num);
 		setClick(newClick);
@@ -79,7 +80,6 @@ const CategoryItemContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	font-size: 1.3rem;
-
 	img {
 		width: 5rem;
 		height: 5rem;
@@ -88,6 +88,7 @@ const CategoryItemContainer = styled.div`
 `;
 
 const SelectCategoryContainer = styled.div`
-	width: 37rem;
-	box-sizing: border-box;
+	width: 36rem;
+	height: 8.6rem;
+	padding: 0.3rem;
 `;

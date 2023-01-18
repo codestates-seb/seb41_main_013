@@ -4,13 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.repository.MemberRepository;
+import mainproject.domain.security.redis.RedisDao;
+import mainproject.domain.security.utils.CustomAuthorityUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -24,6 +26,9 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final CustomAuthorityUtils authorityUtils;
+
+    private final RedisDao redisDao;
 
     public Member createdMember(Member member) {
 
@@ -33,6 +38,11 @@ public class MemberService {
         // password 암호화
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
+
+        // User Role 저장
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
+
 
         Member savedMember = memberRepository.save(member);
 
@@ -69,7 +79,7 @@ public class MemberService {
     private void verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         if(optionalMember.isPresent()) {
-            throw  new DuplicateKeyException(ExceptionMessage.MEMBER_EMAIL_DUPLICATES.get());
+            throw new DuplicateKeyException(ExceptionMessage.MEMBER_EMAIL_DUPLICATES.get());
         }
     }
     public Member findVerifiedMember(long id) { // ChallengeService에서 사용하기 위해 public으로 변경

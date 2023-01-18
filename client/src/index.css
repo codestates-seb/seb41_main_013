@@ -6,3 +6,7 @@
 	height: 62.5%;
 	width: 62.5%;
 }
+
+body {
+	padding: 0 1.3rem;
+}

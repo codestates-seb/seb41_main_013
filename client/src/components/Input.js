@@ -9,7 +9,7 @@ export const Input = (props) => {
 				value={props.value}
 				margin={props.margin}
 				padding={props.padding}
-				cols={props.cols || "51"}
+				// cols={props.cols || "49"}
 				rows={props.rows || "1"}
 				borderRadius={props.borderRadius}
 				fontSize={props.fontSize}

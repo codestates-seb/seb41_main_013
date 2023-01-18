@@ -5,9 +5,9 @@ import { BsGraphUp } from "react-icons/bs";
 import theme from "./theme";
 import { Link } from "react-router-dom";
 
-export const Footer = () => {
+export const Footer = (props) => {
 	return (
-		<FooterContainer>
+		<FooterContainer position={props.position} bottom={props.bottom}>
 			<BottomItem to="/">
 				<GrHomeRounded />
 				<span>홈</span>
@@ -33,6 +33,8 @@ const FooterContainer = styled.div`
 	width: 36.4rem;
 	height: 6.5rem;
 	display: flex;
+	position: ${(props) => props.position};
+	bottom: ${(props) => props.bottom};
 `;
 
 const BottomItem = styled(Link)`
