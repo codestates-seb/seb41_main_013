@@ -27,32 +27,30 @@ export const Btn = (props) => {
 export const BackToTopBtn = (props) => {
 	const [showBtn, setShowBtn] = useState(false);
 
-  const btnShow = () => {
-    const scrolled = window.scrollY;
-    // console.log(scrolled);
-    scrolled > 100 ? setShowBtn(true) : setShowBtn(false);
-  };
+	const btnShow = () => {
+		const scrolled = window.scrollY;
+		// console.log(scrolled);
+		scrolled > 100 ? setShowBtn(true) : setShowBtn(false);
+	};
 
-  const handleClick = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    })
-  };
+	const handleClick = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+	};
 
 	window.addEventListener("scroll", btnShow);
 
-  return (
-    <>
-      {showBtn && <StyledBtn
-        onClick={handleClick}
-        bottom={props.bottom}
-        right="1.3rem"
-      >
-        <FaArrowUp />
-      </StyledBtn>}
-    </>
-  )
+	return (
+		<>
+			{showBtn && (
+				<StyledBtn onClick={handleClick} bottom={props.bottom} right="1.3rem">
+					<FaArrowUp />
+				</StyledBtn>
+			)}
+		</>
+	);
 };
 
 export const CreateBtn = (props) => {
