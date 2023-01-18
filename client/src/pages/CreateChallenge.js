@@ -1,3 +1,6 @@
+// todo: 등록 버튼 클릭시
+// 1. 입력 안한 부분이 있다면 빨간 박스 + 오류 메시지
+// 2. 입력을 다 했다면 모달
 import styled from "styled-components";
 import { TitleHeader } from "../components/Header";
 import { TwoBtnModal } from "../components/Modal";
@@ -15,6 +18,10 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 
 const CreateChallenge = () => {
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(null);
+  const [img, setImg] = useState(null);
+
   return (
     <>
       <TitleHeader
@@ -24,6 +31,8 @@ const CreateChallenge = () => {
         <Input
           label="제목"
           placeholder="챌린지 제목을 입력해주세요"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
         />
       </Wrapper>
       <Wrapper>

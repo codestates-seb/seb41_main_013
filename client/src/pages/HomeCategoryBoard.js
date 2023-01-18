@@ -43,6 +43,7 @@ const HomeCategoryBoard = () => {
           challengerNum="299명"
           challengeFrequency="주 3일"
           challengeDate="1.18 - 1.25"
+          NavTo={`/challenges/1/1`}
         />
         <HomeChallengeItem
           imgUrl=""
@@ -50,6 +51,7 @@ const HomeCategoryBoard = () => {
           challengerNum="299명"
           challengeFrequency="주 3일"
           challengeDate="1.18 - 1.25"
+          NavTo={`/challenges/1/1`}
         />
       </HomeChallengeItemContainer>
       <BackToTopBtn />

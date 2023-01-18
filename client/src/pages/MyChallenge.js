@@ -5,6 +5,9 @@ import { Footer } from "../components/Footer";
 import { MainHeader } from "../components/Header";
 
 const MyChallenge = () => {
+  const categoryId = 1;
+  const challengeId = 1;
+
   return (
     <>
       <MainHeader />
@@ -18,6 +21,7 @@ const MyChallenge = () => {
           challengeTime="8:00 - 9:30"
           progress={80}
           label={80}
+          NavTo={`/challenges/:${categoryId}/:${challengeId}`}
         />
         <MyChallengeItem
           challengeTitle="아침 8시 기상 후 조깅하기"
@@ -27,6 +31,7 @@ const MyChallenge = () => {
           challengeTime="8:00 - 9:30"
           progress={30}
           label={30}
+          NavTo={`/challenges/:${categoryId}/:${challengeId}`}
         />
         <MyChallengeItem
           challengeTitle="아침 8시 기상 후 조깅하기"
@@ -36,6 +41,7 @@ const MyChallenge = () => {
           challengeTime="8:00 - 9:30"
           progress={55}
           label={55}
+          NavTo={`/challenges/:${categoryId}/:${challengeId}`}
         />
       </MyChallengeItemContainer>
       <CreateBtn NavTo="/challenges/create" />
