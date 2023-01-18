@@ -12,12 +12,10 @@ import { HomeCategory } from "../components/Category";
 import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
-	const navigate = useNavigate();
-
 	return (
 		<>
 			<CommunitycContainer>
-				<HomeCategory />
+				<HomeCategory root="community" />
 				<div className="margin">
 					<SearchInput />
 				</div>
