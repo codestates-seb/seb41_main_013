@@ -16,7 +16,7 @@ export const Footer = (props) => {
 				<BsGraphUp />
 				<span>마이챌린지</span>
 			</BottomItem>
-			<BottomItem>
+			<BottomItem to="/community">
 				<FaUsers />
 				<span>커뮤니티</span>
 			</BottomItem>

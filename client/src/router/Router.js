@@ -27,6 +27,12 @@ import { UserProfileEdit } from "../pages/UserProfileEdit";
 import { Signup } from "../pages/SignUp";
 import { Login } from "../pages/Login";
 import { FindPassword } from "../pages/FindPassword";
+//community
+import { Community } from "../pages/Community";
+import { CommunityCategoryBoard } from "../pages/CommunityCategoryBoard";
+import { CreatePost } from "../pages/CreatePost";
+import { UpdatePost } from "../pages/UpdatePost";
+import { PostDetail } from "../pages/PostDetail";
 
 const Overlaps = () => {
 	return (
@@ -92,10 +98,21 @@ export const OurPath = () => {
 				/>
 			</Route>
 			{/* header + footer 고정된 페이지 */}
-			<Route element={<Overlaps />}>{/* 커뮤니티 */}</Route>
+			<Route element={<Overlaps />}>
+				{/* 마이페이지
+            커뮤니티 */}
+				<Route path="/community" element={<Community />} />
+			</Route>
 			{/* footer 고정된 페이지 */}
 			<Route element={<OverlapFoo />}>
 				<Route path="/mypage" element={<MyPage />} />
+				<Route
+					path="/community/:categoryId"
+					element={<CommunityCategoryBoard />}
+				/>
+				<Route path="/createPost" element={<CreatePost />} />
+				<Route path="/post/:postId/update" element={<UpdatePost />} />
+				<Route path="/post/:postId" element={<PostDetail />} />
 			</Route>
 			{/* header 고정된 페이지 */}
 			<Route element={<OverlapHead />}>
