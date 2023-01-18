@@ -18,8 +18,12 @@ export const MainHeader = () => {
 				/>
 			</Link>
 			<div>
-				<Btn btnText="로그인" color="black" width="6rem" />
-				<Btn btnText="회원가입" color="black" width="6rem" />
+				<Link to="/login">
+					<Btn btnText="로그인" color="black" width="6rem" />
+				</Link>
+				<Link to="/signup">
+					<Btn btnText="회원가입" color="black" width="6rem" />
+				</Link>
 			</div>
 		</Main>
 	);

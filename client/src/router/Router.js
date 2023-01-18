@@ -24,6 +24,9 @@ import { UserCreateChallenge } from "../pages/UserCreateChallenge";
 import { UserCompleteChallenge } from "../pages/UserCompleteChallenge";
 import { UserPasswordChange } from "../pages/UserPasswordChange";
 import { UserProfileEdit } from "../pages/UserProfileEdit";
+import { Signup } from "../pages/SignUp";
+import { Login } from "../pages/Login";
+import { FindPassword } from "../pages/FindPassword";
 //community
 import { Community } from "../pages/Community";
 import { CommunityCategoryBoard } from "../pages/CommunityCategoryBoard";
@@ -58,7 +61,16 @@ const OverlapFoo = () => {
 	);
 };
 
-export const Router = () => {
+const OverlapHead = () => {
+	return (
+		<>
+			<MainHeader />
+			<Outlet />
+		</>
+	);
+};
+
+export const OurPath = () => {
 	return (
 		// <Suspense fallback={<Loading />}>
 		<Routes>
@@ -101,6 +113,12 @@ export const Router = () => {
 				<Route path="/createPost" element={<CreatePost />} />
 				<Route path="/post/:postId/update" element={<UpdatePost />} />
 				<Route path="/post/:postId" element={<PostDetail />} />
+			</Route>
+			{/* header 고정된 페이지 */}
+			<Route element={<OverlapHead />}>
+				<Route path="/signup" element={<Signup />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/findPw" element={<FindPassword />} />
 			</Route>
 		</Routes>
 		// </Suspense>

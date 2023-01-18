@@ -24,11 +24,13 @@ export const Input = (props) => {
 export const InputAuth = (props) => {
 	return (
 		<Wrapper>
-			{props.label}
+			<span>{props.label}</span>
 			<AuthInput
 				type={props.type}
 				value={props.value}
 				onChange={props.onChange}
+				border={props.border}
+				fontSize={props.fontSize}
 			/>
 		</Wrapper>
 	);
@@ -52,17 +54,23 @@ const StyledLabel = styled.div`
 `;
 
 const AuthInput = styled.input`
-	width: ${(props) => props.width || "36rem"};
+	width: ${(props) => props.width || "34rem"};
 	border: 0.1rem solid #4d4d4d;
 	height: 3rem;
 	border-radius: 0.8rem;
 	font-size: 1.4rem;
+	padding-left: 1rem;
+	border-color: ${(props) => props.border || "#4d4d4d"};
 `;
 
 const Wrapper = styled.div`
-	font-size: ${(props) => props.fontSize || "1.4rem"};
 	line-height: 3rem;
 	display: flex;
 	flex-direction: column;
 	width: 36.4rem;
+
+	span {
+		padding-left: 2rem;
+		font-size: ${(props) => props.fontSize || "1.3rem"};
+	}
 `;

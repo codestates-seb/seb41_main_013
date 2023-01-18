@@ -88,12 +88,12 @@ const CreateChallenge = () => {
 				btnText="등록하기"
 				margin="0"
 			/>
-			{/* <TwoBtnModal 
+			{/* <TwoBtnModal
         modalText="작성을 취소하시겠습니까?"
         btnTextOrg="네"
         btnTextGry="아니요"
       />
-      <TwoBtnModal 
+      <TwoBtnModal
         modalText="등록하시겠습니까?"
         btnTextOrg="확인"
         btnTextGry="취소"
