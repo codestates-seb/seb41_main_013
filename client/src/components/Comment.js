@@ -16,7 +16,7 @@ export const Comment = (props) => {
 		<CommentContainer>
 			<div className="comment">
 				{update || <p>{props.comment}</p>}
-				{update && <WriteComment comment={props.comment} />}
+
 				{update || (
 					<div>
 						<Btn
@@ -38,6 +38,7 @@ export const Comment = (props) => {
 					</div>
 				)}
 			</div>
+			{update && <WriteComment comment={props.comment} />}
 			<WriterInfo
 				writer={props.writer}
 				date={formatDate(props.date)}

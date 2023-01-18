@@ -34,7 +34,7 @@ export const PostDetail = () => {
 				<Btn
 					background={theme.color.green}
 					size="0.9rem"
-					width="11rem"
+					width="13rem"
 					height="2rem"
 					btnText={`카테고리 > ${category[post.categoryId]}`}
 					onClick={() => navigate(`/community/${post.categoryId}`)}

@@ -45,7 +45,7 @@ export const WriteComment = (props) => {
 				height={"2.5rem"}
 				size={"1rem"}
 				onClick={handleCheck}
-				margin={props.margin}
+				margin={props.margin || "0"}
 			/>
 		</UpdateCommentContainer>
 	);
