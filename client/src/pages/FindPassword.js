@@ -7,6 +7,23 @@ import theme from "../components/theme";
 export const FindPassword = () => {
 	// 등록된 이메일인지 확인
 	const [emailInfoErr, setEmailInfoErr] = useState(false);
+	const [emptyErr, setEmptyErr] = useState(false);
+	const [findEmail, setFIndEmail] = useState("");
+
+	const onChangeFindEmail = (e) => {
+		setFIndEmail(e.target.value);
+		setEmptyErr(false);
+	};
+
+	const emptyEmailCheck = () => {
+		if (!findEmail) {
+			setEmptyErr(true);
+		}
+	};
+
+	const onClickToFindEmail = () => {
+		emptyEmailCheck();
+	};
 
 	return (
 		<Wrapper>
@@ -15,10 +32,21 @@ export const FindPassword = () => {
 				<p>작성된 이메일로 임시 비밀번호가 전송됩니다.</p>
 			</div>
 			<div>
-				<InputAuth type="email" border={emailInfoErr && `${theme.color.red}`} />
+				<InputAuth
+					type="email"
+					value={findEmail}
+					onChange={onChangeFindEmail}
+					border={(emailInfoErr || emptyErr) && `${theme.color.red}`}
+				/>
 				{emailInfoErr && <span>등록되지 않은 이메일입니다.</span>}
+				{emptyErr && <span>이메일을 입력해주세요.</span>}
 			</div>
-			<Btn btnText="완료" background={theme.color.green} width="35.5rem" />
+			<Btn
+				btnText="완료"
+				background={theme.color.green}
+				width="35.5rem"
+				onClick={onClickToFindEmail}
+			/>
 		</Wrapper>
 	);
 };
