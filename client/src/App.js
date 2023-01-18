@@ -1,12 +1,12 @@
 import theme from "./components/theme";
 import { ThemeProvider } from "styled-components";
-import { Router } from "./router/Router";
+import { OurPath } from "./router/Router";
 
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<div className="App">
-				<Router />
+				<OurPath />
 			</div>
 		</ThemeProvider>
 	);
