@@ -20,25 +20,31 @@ export const Login = () => {
 
 	const onChangeEmail = (e) => {
 		setEmail(e.target.value);
+		setEmailErr(false);
 	};
 
 	const emailCheck = () => {
-		if (!email || email.length === 0) {
+		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+		if (!email || !emailRegexp.test(email)) {
 			setEmailErr(true);
 			return false;
 		}
+		setEmailErr(false);
 		return true;
 	};
 
 	const onChangePassword = (e) => {
 		setPassword(e.target.value);
+		setPasswordErr(false);
 	};
 
 	const passwordCheck = () => {
-		if (!password || password.length === 0) {
+		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
+		if (!password || !passwordRegex.test(password)) {
 			setPasswordErr(true);
 			return false;
 		}
+		setPasswordErr(false);
 		return true;
 	};
 
@@ -56,8 +62,8 @@ export const Login = () => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		if (validCheck()) {
+			// 로그인 요청 보내기
 			console.log("로그인 성공! 홈으로 이동");
-			// setTimeout 으로 시간 텀 두고 이동 ?
 			navigate("/");
 		} else {
 			console.log("로그인 실패!");
@@ -76,7 +82,7 @@ export const Login = () => {
 					onChange={onChangeEmail}
 					border={emailErr && `${theme.color.red}`}
 				/>
-				{emailErr && <p>이메일을 입력하세요.</p>}
+				{emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
@@ -86,13 +92,17 @@ export const Login = () => {
 					onChange={onChangePassword}
 					border={passwordErr && `${theme.color.red}`}
 				/>
-				{passwordErr && <p>비밀번호를 입력하세요.</p>}
+				{passwordErr && (
+					<p>
+						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
+					</p>
+				)}
 			</div>
 			<div>
 				<Btn
 					btnText="로그인"
 					background={theme.color.green}
-					width="35.5rem"
+					width="34rem"
 					type="submit"
 				></Btn>
 				{/* {loginErr && <p>이메일 또는 비밀번호를 확인하세요.</p>} */}
@@ -116,7 +126,7 @@ const Wrapper = styled.form`
 	}
 
 	p {
-		padding-left: 1rem;
+		padding-left: 2rem;
 		margin-top: 0.5rem;
 		color: ${theme.color.red};
 	}

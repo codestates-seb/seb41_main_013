@@ -94,5 +94,3 @@ const SelectCategoryContainer = styled.div`
 	height: 8.6rem;
 	padding: 0.3rem;
 `;
-
-export default SelectCategory;

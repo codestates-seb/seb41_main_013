@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import { GrHomeRounded } from "react-icons/gr";
 import { FaUsers, FaRegUserCircle } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
+import { AiOutlineHome } from "react-icons/ai";
 import theme from "./theme";
 import { Link } from "react-router-dom";
 
-export const Footer = () => {
+export const Footer = (props) => {
 	return (
-		<FooterContainer>
+		<FooterContainer position={props.position} bottom={props.bottom}>
 			<BottomItem to="/">
-				<GrHomeRounded />
+				<AiOutlineHome />
 				<span>홈</span>
 			</BottomItem>
 			<BottomItem>
@@ -33,10 +33,11 @@ const FooterContainer = styled.div`
 	width: 36.4rem;
 	height: 6.5rem;
 	display: flex;
+	position: ${(props) => props.position};
+	bottom: ${(props) => props.bottom};
 `;
 
 const BottomItem = styled(Link)`
-	background-color: ${theme.color.white};
 	border: none;
 	width: 9.1rem;
 	height: 6.5rem;
@@ -49,8 +50,5 @@ const BottomItem = styled(Link)`
 	font-size: 1.8rem;
 	text-decoration: none;
 	color: black;
-
-	span {
-		font-size: 1rem;
-	}
+	font-size: 2rem;
 `;

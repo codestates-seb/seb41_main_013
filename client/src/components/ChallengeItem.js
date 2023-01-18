@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { InfoTag } from "./Tag";
-import CustomizedProgressBars from "./ProgressBar";
+import { ProgressBar } from "./ProgressBar";
 import dummyimage from "../assets/images/dummyimage.JPG";
+import { Btn } from "./Button";
+import theme from "./theme";
 
 export const HomeChallengeItem = (props) => {
   return (
@@ -34,9 +36,16 @@ export const MyChallengeItem = (props) => {
           <InfoTag label={props.challengeDate} />
           <InfoTag label={props.challengeTime} />
         </TagWrapper>
-        {/* linear with label */}
-        <CustomizedProgressBars percent={props.percent} />
-        {/* 초록버튼 */}
+        <ProgressBar
+          progress={props.progress}
+          label={props.label}
+        />
+        <Btn
+          background={theme.color.green}
+          // width="20.2rem"
+          width="19.9rem"
+          btnText="인증하기"
+        />
       </MyChallengeItemInfo>
     </MyChallengeItemWrapper>
   )
@@ -48,19 +57,19 @@ const HomeChallengeItemWrapper = styled.div`
   padding-top: 1.3rem;
   padding-left: 1.3rem;
   padding-right: 1.3rem;
-  /* width: 19.5rem; */
-  width: 16.9rem;
+  width: 18.2rem;
 
   & > img {
-    width: 16.9rem;
+    width: 15.6rem;
     height: 10.2rem;
     border-radius: 0.8rem;
+    margin-bottom: 0.6rem;
   }
 `;
 
 const ChallengeTitle = styled.div`
   font-size: 1.4rem;
-  padding: 1rem 0;
+  padding-bottom: 0.6rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -79,7 +88,7 @@ const MyChallengeItemWrapper = styled.div`
   width: 36.4rem;
 
   & > img {
-    width: 16.9rem;
+    width: 15.6rem;
     height: 10.2rem;
     border-radius: 0.8rem;
   }
@@ -88,4 +97,5 @@ const MyChallengeItemWrapper = styled.div`
 const MyChallengeItemInfo = styled.div`
   display: flex;
   flex-direction: column;
+  width: 20.2rem;
 `;

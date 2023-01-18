@@ -18,7 +18,7 @@ export const UserProfileEdit = () => {
 
 	const onChangeName = (e) => {
 		setName(e.target.value);
-		console.log(name);
+		setNameErr(false);
 	};
 
 	const CheckName = () => {
@@ -34,10 +34,11 @@ export const UserProfileEdit = () => {
 		if (CheckName()) {
 			setSaveModal(true);
 			setTimeout(() => {
+				console.log("변경 성공");
 				navigate("/mypage");
 			}, 1000);
 		} else {
-			return;
+			console.log("변경 실패");
 		}
 	};
 
@@ -47,8 +48,8 @@ export const UserProfileEdit = () => {
 	return (
 		<>
 			<MainHeader />
-			{saveModal && <Modal modalText="수정 완료!" />}
 			<Container onSubmit={onSubmit}>
+				{saveModal && <Modal modalText="수정 완료!" />}
 				<div />
 				<ImageUploader />
 				<div>
@@ -57,6 +58,7 @@ export const UserProfileEdit = () => {
 						label="변경할 이름"
 						value={name}
 						onChange={onChangeName}
+						border={nameErr && `${theme.color.red}`}
 					/>
 					{nameErr && <p>변경할 이름을 등록해주세요.</p>}
 				</div>
@@ -87,6 +89,10 @@ const Container = styled.form`
 	justify-content: flex-start;
 	gap: 10rem;
 
+	input {
+		margin: 0 auto;
+	}
+
 	.btn {
 		margin: 0 auto;
 		display: flex;
@@ -95,5 +101,7 @@ const Container = styled.form`
 
 	p {
 		color: ${theme.color.red};
+		padding-left: 1.5rem;
+		margin-top: 0.5rem;
 	}
 `;

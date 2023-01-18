@@ -20,7 +20,7 @@ export const Signup = () => {
 	const [passwordErr, setPasswordErr] = useState(false);
 	const [passwordCheckErr, setPasswordCheckErr] = useState(false);
 
-	const [openModal, setOpenModal] = useState(false);
+	const [isOpenModal, setIsOpenModal] = useState(false);
 	// 이미 가입되어 있는 이메일 (이메일 중복)
 	// const [sameEmailModal, setSameEmailModal] = useState(false);
 
@@ -34,10 +34,9 @@ export const Signup = () => {
 		if (!name || !nameRegex.test(name)) {
 			setNameErr(true);
 			return false;
-		} else {
-			setNameErr(false);
-			return true;
 		}
+		setNameErr(false);
+		return true;
 	};
 
 	const onChangeEmail = (e) => {
@@ -50,10 +49,9 @@ export const Signup = () => {
 		if (!email || !emailRegexp.test(email)) {
 			setEmailErr(true);
 			return false;
-		} else {
-			setEmailErr(false);
-			return true;
 		}
+		setEmailErr(false);
+		return true;
 	};
 
 	const onChangePassword = (e) => {
@@ -66,10 +64,9 @@ export const Signup = () => {
 		if (!password || !passwordRegex.test(password)) {
 			setPasswordErr(true);
 			return false;
-		} else {
-			setPasswordErr(false);
-			return true;
 		}
+		setPasswordErr(false);
+		return true;
 	};
 
 	const onChangePasswordCheck = (e) => {
@@ -78,7 +75,7 @@ export const Signup = () => {
 	};
 
 	const passwordSameCheck = () => {
-		if (password !== passwordCheck || passwordCheck.length === 0) {
+		if (password !== passwordCheck || !passwordCheck) {
 			setPasswordCheckErr(true);
 			return false;
 		}
@@ -99,10 +96,9 @@ export const Signup = () => {
 		) {
 			console.log("checkValidation true");
 			return true;
-		} else {
-			console.log("checkValidation false");
-			return false;
 		}
+		console.log("checkValidation false");
+		return false;
 	};
 
 	const onSubmit = (e) => {
@@ -114,9 +110,9 @@ export const Signup = () => {
 
 		if (checkValidation()) {
 			console.log("회원가입 성공");
-			setOpenModal(true);
+			setIsOpenModal(true);
 			setTimeout(() => {
-				setOpenModal(false);
+				setIsOpenModal(false);
 				navigate("/login");
 			}, 1500);
 		} else {
@@ -126,7 +122,7 @@ export const Signup = () => {
 
 	return (
 		<Wrapper onSubmit={onSubmit}>
-			{openModal && (
+			{isOpenModal && (
 				<Modal modalText="회원가입 성공! 로그인 페이지로 이동합니다." />
 			)}
 			<div />
@@ -137,6 +133,7 @@ export const Signup = () => {
 					value={name}
 					onChange={onChangeName}
 					border={nameErr && `${theme.color.red}`}
+					fontSize="1.5rem"
 				/>
 				{nameErr && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
 			</div>
@@ -148,7 +145,7 @@ export const Signup = () => {
 					onChange={onChangeEmail}
 					border={emailErr && `${theme.color.red}`}
 				/>
-				{emailErr && <p>이메일 형식에 맞지 않습니다.</p>}
+				{emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
@@ -159,7 +156,9 @@ export const Signup = () => {
 					border={passwordErr && `${theme.color.red}`}
 				/>
 				{passwordErr && (
-					<p>비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상이어야 합니다.</p>
+					<p>
+						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
+					</p>
 				)}
 			</div>
 			<div>
@@ -175,7 +174,7 @@ export const Signup = () => {
 			<Btn
 				btnText="확인"
 				background={theme.color.green}
-				width="35.5rem"
+				width="34rem"
 				type="submit"
 			/>
 		</Wrapper>
@@ -197,7 +196,7 @@ const Wrapper = styled.form`
 
 	p {
 		color: ${theme.color.red};
-		padding-left: 1rem;
+		padding-left: 2rem;
 		margin-top: 0.5rem;
 	}
 `;

@@ -7,6 +7,7 @@ import mainproject.domain.board.dto.BoardResponseDto;
 import mainproject.domain.board.entity.Board;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -17,7 +18,11 @@ public interface BoardMapper {
 
     Board boardPatchDtoToBoard(BoardPatchDto boardPatchDto);
 
-    @Mapping(source = "member.id", target = "memberId")
+    @Mappings({
+            @Mapping(source = "member.id", target = "memberId"),
+            @Mapping(source = "member.name", target = "memberName")
+            // @Mapping(source = "member.profileImage", target = "profileImage")    // TODO: 이미지파일
+    })
     BoardResponseDto boardToBoardResponseDto(Board board);
 
     List<BoardResponseDto> boardsToBoardResponseDtos(List<Board> questions);

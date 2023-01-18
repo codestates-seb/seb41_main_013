@@ -7,18 +7,22 @@ import theme from "../components/theme";
 export const FindPassword = () => {
 	// 등록된 이메일인지 확인
 	const [emailInfoErr, setEmailInfoErr] = useState(false);
-	const [emptyErr, setEmptyErr] = useState(false);
+	const [emailErr, setEmailErr] = useState(false);
 	const [findEmail, setFIndEmail] = useState("");
 
 	const onChangeFindEmail = (e) => {
 		setFIndEmail(e.target.value);
-		setEmptyErr(false);
+		setEmailErr(false);
 	};
 
 	const emptyEmailCheck = () => {
-		if (!findEmail) {
-			setEmptyErr(true);
+		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+		if (!findEmail || !emailRegexp.test(findEmail)) {
+			setEmailErr(true);
+			return false;
 		}
+		setEmailErr(false);
+		return true;
 	};
 
 	const onClickToFindEmail = () => {
@@ -36,15 +40,15 @@ export const FindPassword = () => {
 					type="email"
 					value={findEmail}
 					onChange={onChangeFindEmail}
-					border={(emailInfoErr || emptyErr) && `${theme.color.red}`}
+					border={(emailInfoErr || emailErr) && `${theme.color.red}`}
 				/>
 				{emailInfoErr && <span>등록되지 않은 이메일입니다.</span>}
-				{emptyErr && <span>이메일을 입력해주세요.</span>}
+				{emailErr && <span>올바른 이메일 형식으로 입력해주세요.</span>}
 			</div>
 			<Btn
 				btnText="완료"
 				background={theme.color.green}
-				width="35.5rem"
+				width="34rem"
 				onClick={onClickToFindEmail}
 			/>
 		</Wrapper>
@@ -67,14 +71,14 @@ const Wrapper = styled.div`
 	}
 
 	p {
-		font-size: 1.2rem;
+		font-size: 1.3rem;
 		margin-top: 1rem;
 	}
 
 	span {
 		color: ${theme.color.red};
-		padding-left: 1rem;
-		margin-top: 0.55rem;
+		padding-left: 2rem;
+		margin-top: 0.5rem;
 	}
 
 	input {
