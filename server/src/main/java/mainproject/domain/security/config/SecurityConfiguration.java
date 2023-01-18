@@ -54,9 +54,9 @@ public class SecurityConfiguration  {
                         .access("@ChallengerService.checkMember(authentication,#challenges-Id)")// 챌린지 삭제
                         .antMatchers(HttpMethod.POST, "/api/boards").hasRole("USER") // 게시판 글 작성
                         .antMatchers(HttpMethod.PATCH, "/api/boards/{boardId}")
-                        .access("@BoardService.checkMember(authentication,#questionId)") // 게시판 글 수정
+                        .access("@BoardService.checkMember(authentication,#BoardId)") // 게시판 글 수정
                         .antMatchers(HttpMethod.DELETE, "/api/boards/{boardId}")
-                        .access("@BoardService.checkMember(authentication,#questionId)")// 게시판 글 삭제
+                        .access("@BoardService.checkMember(authentication,#BoardId)")// 게시판 글 삭제
                         .antMatchers(HttpMethod.POST, "/api/comments").hasRole("USER") // 댓글 작성
                         .antMatchers(HttpMethod.PATCH, "/api/comments/{comment-id}").hasRole("USER") // 댓글 수정
                         .antMatchers(HttpMethod.DELETE, "/api/comments/{comment-id}").hasRole("USER") // 댓글 삭제
