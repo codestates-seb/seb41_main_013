@@ -7,7 +7,7 @@ import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 
-export const Mypage = (props) => {
+export const MyPage = (props) => {
 	const [isLogin, setIsLogin] = useState(true);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
