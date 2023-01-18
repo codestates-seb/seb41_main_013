@@ -28,6 +28,7 @@ export const CommunityCategoryBoard = () => {
 							title={cpost.title}
 							content={cpost.content}
 							writer={cpost.writer}
+							postId={cpost.postId}
 						/>
 					),
 				)}

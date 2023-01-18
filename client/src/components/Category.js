@@ -48,6 +48,7 @@ export const SelectCategory = () => {
 					background={click[props.num] ? theme.color.green : theme.color.gray}
 					color={click[props.num] ? theme.color.white : theme.color.navy}
 					onClick={() => handleBtnClick(props.num)}
+					margin="0.6rem"
 				/>
 			</>
 		);
@@ -88,7 +89,7 @@ const CategoryItemContainer = styled.div`
 `;
 
 const SelectCategoryContainer = styled.div`
-	width: 36rem;
+	width: 38rem;
 	height: 8.6rem;
-	padding: 0.3rem;
+	margin-bottom: 1rem;
 `;

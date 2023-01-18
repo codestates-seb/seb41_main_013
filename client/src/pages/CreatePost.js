@@ -42,6 +42,7 @@ export const CreatePost = () => {
 					lineHeight="3rem"
 					placeholder="제목을 입력하세요"
 					fontSize="1.3rem"
+					cols="55"
 					value={title}
 					onChange={handleChangeTitle}
 					borderColor={titleError && theme.color.red}
@@ -55,6 +56,7 @@ export const CreatePost = () => {
 					placeholder="내용을 입력하세요"
 					fontSize="1.3rem"
 					rows="20"
+					cols="55"
 					value={content}
 					onChange={handleChangeContent}
 					borderColor={contentError && theme.color.red}
@@ -70,6 +72,7 @@ export const CreatePost = () => {
 					1개의 카테고리를 선택해주세요.
 				</ErrorContainer>
 			</CreatepostContainer>
+
 			<Btn
 				btnText="완료"
 				background={theme.color.green}
@@ -93,7 +96,7 @@ export const CreatepostContainer = styled.div`
 	}
 `;
 
-const ErrorContainer = styled.strong`
+export const ErrorContainer = styled.strong`
 	display: ${(props) => (props.display ? "block" : "none")};
 	color: ${theme.color.red};
 `;

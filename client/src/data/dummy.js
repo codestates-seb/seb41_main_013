@@ -24,6 +24,36 @@ export const CommunityList = [
 				comment: "유용한 정보 감사합니다!",
 				date: "2023-01-15T02:54:54.075489",
 			},
+			{
+				writer: "myona",
+				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "mmyona",
+				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "myona",
+				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "mmyona",
+				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "myona",
+				comment: "좋은 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
+			{
+				writer: "mmyona",
+				comment: "유용한 정보 감사합니다!",
+				date: "2023-01-15T02:54:54.075489",
+			},
 		],
 	},
 	{
