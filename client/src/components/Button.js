@@ -14,7 +14,7 @@ export const Btn = (props) => {
 				size={props.size}
 				width={props.width}
 				height={props.height}
-        margin={props.margin}
+				margin={props.margin}
 				type={props.type}
 				onClick={props.onClick}
 			>
@@ -80,14 +80,15 @@ export const DeleteBtn = (props) => {
 };
 
 const StyledBasicBtn = styled.button`
+	box-sizing: border-box;
 	width: ${(props) => props.width || "4.8rem"};
-	height: ${(props) => props.height || "3.5rem"};
+	height: ${(props) => props.height || "3.6rem"};
 	border-radius: 1.2rem;
 	border: none;
 	background-color: ${(props) => props.background || "white"};
 	cursor: pointer;
 	margin: ${(props) => props.margin || "0.3rem"};
-	/* box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6); */
+	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
 
 	text-align: center;
 	font-family: "Inter";

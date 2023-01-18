@@ -8,6 +8,7 @@ import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +17,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Board {
+public class Board implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long boardId;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "MEMBER_ID",referencedColumnName = "ID"),
+            @JoinColumn(name = "HOST_MEMBER_NAME", referencedColumnName = "NAME")
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
+    })
     private Member member;
 
     public void setMember(Member member) {
@@ -40,7 +45,7 @@ public class Board {
 
     private String content;
 
-    //private Image boardImage;  // TODO: 이미지파일 (Nullable)
+    //private Image boardImage;  // TODO: 이미지파일
 
     private LocalDateTime createdAt = LocalDateTime.now();
 

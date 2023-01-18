@@ -6,6 +6,7 @@ import mainproject.domain.comment.dto.CommentResponseDto;
 import mainproject.domain.comment.entity.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -15,8 +16,12 @@ public interface CommentMapper {
 
     Comment commentPatchDtoToComment(CommentPatchDto commentPatchDto);
 
-    @Mapping(source = "member.id", target = "memberId")
-    @Mapping(source = "board.boardId", target = "boardId")
+    @Mappings({
+            @Mapping(source = "member.id", target = "memberId"),
+            @Mapping(source = "member.name", target = "memberName"),
+            // @Mapping(source = "member.profileImage", target = "profileImage"),   // TODO: 이미지파일
+            @Mapping(source = "board.boardId", target = "boardId")
+    })
     CommentResponseDto commentToCommentResponseDto(Comment savedComment);
 
     List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments);

@@ -5,6 +5,8 @@ import mainproject.domain.comment.repository.CommentRepository;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.respository.BoardRepository;
 import mainproject.domain.board.service.BoardService;
+import mainproject.domain.member.entity.Member;
+import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
@@ -17,15 +19,20 @@ public class CommentService {
     private BoardRepository boardRepository;
 
     private BoardService boardService;
+    private MemberService memberService;
 
 
-    public CommentService(CommentRepository commentRepository, BoardRepository boardRepository, BoardService boardService) {
+    public CommentService(CommentRepository commentRepository, BoardRepository boardRepository, BoardService boardService, MemberService memberService) {
         this.commentRepository = commentRepository;
         this.boardRepository = boardRepository;
         this.boardService = boardService;
+        this.memberService = memberService;
     }
 
     public Comment createComment(Comment comment, Long boardId) {
+        Member member = memberService.findVerifiedMember(comment.getMember().getId());  // 회원여부 검증
+        comment.setMember(member);
+
      //   Member member = memberRepository.findByEmail(email).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
          Board board = boardRepository.findById(boardId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
      //   comment.setMember(member);

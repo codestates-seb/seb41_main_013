@@ -16,13 +16,17 @@ public class BoardResponseDto {
 
     private long memberId;
 
+    private String memberName;
+
+    // private Image profileImage;   // TODO: 이미지파일
+
     private Category category;
 
     private String title;
 
     private String content;
 
-    //private Image boardImage;  // TODO: 이미지파일 (Nullable)
+    //private Image boardImage;  // TODO: 이미지파일
 
     private LocalDateTime createdAt;
 
