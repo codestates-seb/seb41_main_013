@@ -3,24 +3,20 @@ import theme from "../components/theme";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ErrorContainer } from "./CreatePost";
 
 //components
 import { TitleHeader } from "../components/Header";
 import { Btn } from "../components/Button";
 import { Comment } from "../components/Comment";
 import { WriterInfo } from "../components/WriterInfo";
-import { Input } from "../components/Input";
 import { BackToTopBtn } from "../components/Button";
-import { useState } from "react";
+import { WriteComment } from "../components/WriteComment";
 
 //dummy
 import { CommunityList } from "../data/dummy";
 
 export const PostDetail = () => {
 	const navigate = useNavigate();
-	const [commentError, setCommentError] = useState(false);
-	const [comment, setComment] = useState("");
 
 	const { postId } = useParams();
 	const category = ["우리 동네", "운동", "규칙적인 생활", "기타"];
@@ -28,14 +24,6 @@ export const PostDetail = () => {
 
 	const handleUpdate = () => {
 		navigate(`/post/${postId}/update`);
-	};
-	const handleChangeComment = (e) => {
-		setComment(e.target.value);
-	};
-	const handleCheck = (props) => {
-		//글 작성/수정 - 유효성 검사 함수
-		if (!comment) setCommentError(true);
-		else setCommentError(false);
 	};
 
 	return (
@@ -70,26 +58,10 @@ export const PostDetail = () => {
 						color={theme.color.navy}
 					/>
 				</div>
-				<Input
-					lineHeight="4rem"
-					placeholder="댓글을 입력해주세요"
-					fontSize="1rem"
-					cols="75"
-					value={comment}
-					onChange={handleChangeComment}
-					borderColor={commentError && theme.color.red}
+				<WriteComment
+					margin="1rem 0 1rem 0"
+					placeholder="댓글을 입력해주세요."
 				/>
-				<ErrorContainer display={commentError}>
-					내용을 입력해주세요.
-				</ErrorContainer>
-				<div className="assign">
-					<Btn
-						onClick={handleCheck}
-						background={theme.color.green}
-						btnText="등록"
-					/>
-				</div>
-
 				<div className="commentNum">댓글 {post.commentList.length}</div>
 				{post.commentList.map((el) => (
 					<div>
@@ -109,9 +81,6 @@ const PostDetailContainer = styled.div`
 
 	display: flex;
 	flex-direction: column;
-	* {
-		margin-bottom: 1rem;
-	}
 
 	.title {
 		font-weight: 600;
@@ -132,8 +101,7 @@ const PostDetailContainer = styled.div`
 	.btns {
 		text-align: center;
 	}
-	.assign {
-	}
+
 	.commentNum {
 		font-weight: 600;
 		line-height: 3rem;
