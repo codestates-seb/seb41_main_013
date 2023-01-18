@@ -17,14 +17,9 @@ import { CommunityList } from "../data/dummy";
 
 export const PostDetail = () => {
 	const navigate = useNavigate();
-
 	const { postId } = useParams();
 	const category = ["우리 동네", "운동", "규칙적인 생활", "기타"];
 	const post = CommunityList.filter((el) => el.postId == postId)[0];
-
-	const handleUpdate = () => {
-		navigate(`/post/${postId}/update`);
-	};
 
 	return (
 		<>
@@ -42,6 +37,7 @@ export const PostDetail = () => {
 					width="11rem"
 					height="2rem"
 					btnText={`카테고리 > ${category[post.categoryId]}`}
+					onClick={() => navigate(`/community/${post.categoryId}`)}
 				/>
 				<div className="title">{post.title}</div>
 				<div className="content">{post.content}</div>
@@ -50,7 +46,7 @@ export const PostDetail = () => {
 					<Btn
 						background={theme.color.green}
 						btnText="수정"
-						onClick={handleUpdate}
+						onClick={() => navigate(`/post/${postId}/update`)}
 					/>
 					<Btn
 						background={theme.color.gray}

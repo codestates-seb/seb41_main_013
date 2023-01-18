@@ -6,15 +6,16 @@ import etc from "../images/etc.png";
 import theme from "./theme";
 import { Btn } from "./Button";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // MainCategory
 export const HomeCategory = () => {
 	return (
 		<MainCategoryContainer>
-			<Category title="우리동네" src={town} />
-			<Category title="운동" src={exercise} />
-			<Category title="규칙적인 생활" src={life} />
-			<Category title="기타" src={etc} />
+			<Category title="우리동네" src={town} NavTo="/community/0" />
+			<Category title="운동" src={exercise} NavTo="/community/1" />
+			<Category title="규칙적인 생활" src={life} NavTo="/community/2" />
+			<Category title="기타" src={etc} NavTo="/community/3" />
 		</MainCategoryContainer>
 	);
 };
@@ -22,7 +23,9 @@ export const HomeCategory = () => {
 const Category = (props) => {
 	return (
 		<CategoryItemContainer>
-			<img alt="category" src={props.src} />
+			<Link to={props.NavTo}>
+				<img alt="category" src={props.src} />
+			</Link>
 			{props.title}
 		</CategoryItemContainer>
 	);
@@ -85,6 +88,7 @@ const CategoryItemContainer = styled.div`
 		width: 5rem;
 		height: 5rem;
 		border-radius: 50%;
+		cursor: pointer;
 	}
 `;
 

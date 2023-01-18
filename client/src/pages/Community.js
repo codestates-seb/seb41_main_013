@@ -1,6 +1,6 @@
 //커뮤니티 메인 페이지
-import theme from "../components/theme";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 //components
 import { PostSummary } from "../components/PostSummary";
@@ -12,6 +12,8 @@ import { HomeCategory } from "../components/Category";
 import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
+	const navigate = useNavigate();
+
 	return (
 		<>
 			<CommunitycContainer>
@@ -30,7 +32,7 @@ export const Community = () => {
 					</div>
 				))}
 			</CommunitycContainer>
-			<CreateBtn />
+			<CreateBtn NavTo="/createPost" />
 			<BackToTopBtn />
 		</>
 	);

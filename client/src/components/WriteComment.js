@@ -1,3 +1,4 @@
+//댓글에서 수정 버튼 클릭 시 보이는 컴포넌트
 import { useState } from "react";
 import theme from "./theme";
 import styled from "styled-components";

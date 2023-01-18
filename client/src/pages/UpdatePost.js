@@ -17,6 +17,7 @@ import { CommunityList } from "../data/dummy";
 
 export const UpdatePost = () => {
 	const { postId } = useParams();
+	const navigate = useNavigate();
 	const post = CommunityList.filter((el) => el.postId == postId)[0];
 
 	const [title, setTitle] = useState(post.title);
@@ -37,6 +38,10 @@ export const UpdatePost = () => {
 		else setTitleError(false);
 		if (content.length < 20) setContentError(true);
 		else setContentError(false);
+		if (!titleError && !contentError && !categoryError) {
+			//모달 창 ("글 작성을 완료하시겠습니까?")
+			navigate(`/community`); //커뮤니티 홈 페이지(또는 카테고리 페이지)로 이동
+		}
 	};
 
 	return (
@@ -76,7 +81,6 @@ export const UpdatePost = () => {
 					1개의 카테고리를 선택해주세요.
 				</ErrorContainer>
 			</CreatepostContainer>
-
 			<Btn
 				btnText="완료"
 				background={theme.color.green}

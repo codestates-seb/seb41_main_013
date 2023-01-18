@@ -1,5 +1,4 @@
 //커뮤니티 카테고리 선택 후 페이지
-import theme from "../components/theme";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
@@ -33,7 +32,7 @@ export const CommunityCategoryBoard = () => {
 					),
 				)}
 			</CommunityContainer>
-			<CreateBtn />
+			<CreateBtn NavTo="/createPost" />
 			<BackToTopBtn />
 		</>
 	);
