@@ -1,3 +1,4 @@
+// todo: HomeCategory Navto props
 import styled from "styled-components";
 import { HomeCategory } from "../components/Category";
 import { HomeChallengeItem } from "../components/ChallengeItem";
@@ -6,6 +7,9 @@ import { Footer } from "../components/Footer";
 import { BackToTopBtn } from "../components/Button";
 
 const Home = () => {
+  const categoryId = 1;
+  const challengeId = 1;
+  
   return (
     <>
       <MainHeader />
@@ -26,6 +30,7 @@ const Home = () => {
           challengerNum="299명"
           challengeFrequency="주 3일"
           challengeDate="1.18 - 1.25"
+          NavTo={`/challenges/${categoryId}/${challengeId}`}
         />
         <HomeChallengeItem
           imgUrl=""
@@ -33,6 +38,7 @@ const Home = () => {
           challengerNum="299명"
           challengeFrequency="주 3일"
           challengeDate="1.18 - 1.25"
+          NavTo={`/challenges/${categoryId}/${challengeId}`}
         />
       </HomeChallengeItemContainer>
       <BackToTopBtn />

@@ -12,7 +12,7 @@ export const Footer = (props) => {
 				<AiOutlineHome />
 				<span>홈</span>
 			</BottomItem>
-			<BottomItem>
+			<BottomItem to="/mychallenge">
 				<BsGraphUp />
 				<span>마이챌린지</span>
 			</BottomItem>

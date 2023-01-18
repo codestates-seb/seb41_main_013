@@ -1,3 +1,6 @@
+// todo: 등록 버튼 클릭시
+// 1. 입력 안한 부분이 있다면 빨간 박스 + 오류 메시지
+// 2. 입력을 다 했다면 모달
 import styled from "styled-components";
 import { TitleHeader } from "../components/Header";
 import { TwoBtnModal } from "../components/Modal";
@@ -15,6 +18,10 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 const CreateChallenge = () => {
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(null);
+  const [img, setImg] = useState(null);
+
 	return (
 		<>
 			<TitleHeader title="챌린지 생성하기" />
@@ -88,18 +95,18 @@ const CreateChallenge = () => {
 				btnText="등록하기"
 				margin="0"
 			/>
-			{/* <TwoBtnModal
+      {/* <TwoBtnModal 
         modalText="작성을 취소하시겠습니까?"
         btnTextOrg="네"
         btnTextGry="아니요"
       />
-      <TwoBtnModal
+      <TwoBtnModal 
         modalText="등록하시겠습니까?"
         btnTextOrg="확인"
         btnTextGry="취소"
       /> */}
-		</>
-	);
+    </>
+  );
 };
 
 const DatePickers = () => {
