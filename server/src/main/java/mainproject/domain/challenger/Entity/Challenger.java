@@ -36,8 +36,7 @@ public class Challenger implements Serializable {
     @JoinColumns({
             @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID"),
             @JoinColumn(name = "CHALLENGE_NAME", referencedColumnName = "TITLE")
-            // @JoinColumn(name = "CHALLENGE_IMAGE", referencedColumnName = "CHALLENGE_IMAGE"),  // TODO: 이미지파일
-            // TODO: 참가자 수
+            // @JoinColumn(name = "CHALLENGE_IMAGE", referencedColumnName = "CHALLENGE_IMAGE")  // TODO: 이미지파일
     })
     private Challenge challenge;
 
