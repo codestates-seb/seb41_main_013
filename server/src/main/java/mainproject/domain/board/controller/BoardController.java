@@ -69,6 +69,21 @@ public class BoardController {
                 HttpStatus.OK);
     }
 
+
+    @GetMapping("/search")
+    public ResponseEntity searchBoards(@RequestParam(required = false, defaultValue = "1") int page,
+                                          @RequestParam(required = false, defaultValue = "15") int size,
+                                          @RequestParam(required = false, defaultValue = "questionId") String tab,
+                                          @RequestParam String q) {
+
+        Page<Board> pageBoards = boardService.searchBoards(page - 1, size, tab, q);
+        List<Board> boards = pageBoards.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pageBoards), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{board-id}")
     public ResponseEntity deleteBoard(@PathVariable("board-id") @Positive long boardId){
         boardService.deleteBoard(boardId);

@@ -53,7 +53,7 @@ public class Board implements Serializable {
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
 
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);
 
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
