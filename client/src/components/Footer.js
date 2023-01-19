@@ -3,7 +3,7 @@ import { FaUsers, FaRegUserCircle } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import { AiOutlineHome } from "react-icons/ai";
 import theme from "./theme";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export const Footer = () => {
 	return (
@@ -35,11 +35,11 @@ const FooterContainer = styled.div`
 	display: flex;
 	position: fixed;
 	bottom: 0;
-	z-index: 9999;
+	/* z-index: 9999; */
 	background-color: white;
 `;
 
-const BottomItem = styled(Link)`
+const BottomItem = styled(NavLink)`
 	border: none;
 	width: 9.1rem;
 	height: 6.5rem;
@@ -53,4 +53,8 @@ const BottomItem = styled(Link)`
 	text-decoration: none;
 	color: black;
 	font-size: 2rem;
+
+	&.active {
+		color: ${theme.color.green};
+	}
 `;

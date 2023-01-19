@@ -44,7 +44,6 @@ const Home = () => {
 };
 
 const HomeWrapper = styled.div`
-	border: 1px solid red;
 	margin-top: 15rem;
 	margin-bottom: 6.5rem;
 `;
@@ -54,7 +53,6 @@ const StyledH1 = styled.h1`
 `;
 
 const HomeChallengeItemContainer = styled.div`
-	border: 1px solid pink;
 	display: flex;
 	flex-wrap: wrap;
 `;

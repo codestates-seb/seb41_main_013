@@ -45,8 +45,8 @@ export const UserCreateChallenge = () => {
 				<CreatedChallenge title="매일 헬스장 출석 체크" />
 				<CreatedChallenge title="아이고 힘들어" />
 				<CreatedChallenge title="아이고 힘들어" />
-				<BackToTopBtn bottom="1rem" />
 			</ChallengeWrap>
+			<BackToTopBtn />
 		</>
 	);
 };

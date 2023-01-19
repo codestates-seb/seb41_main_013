@@ -6,10 +6,13 @@
 }
 
 body {
-	border: 1px solid black;
+	border: 1px solid orange;
 	padding: 0 1.3rem;
 	max-width: 789px;
-	/* display: flex;
+	min-height: 844px;
+	/* overflow: scroll; */
+	display: flex;
 	justify-content: center;
-	align-items: center; */
+	align-items: center;
+	margin: 0 auto;
 }
