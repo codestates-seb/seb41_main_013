@@ -1,6 +1,7 @@
 package mainproject.domain.board.controller;
 
 
+import io.swagger.annotations.ApiOperation;
 import mainproject.domain.board.dto.BoardPatchDto;
 import mainproject.domain.board.dto.BoardPostDto;
 import mainproject.domain.board.entity.Board;
@@ -31,6 +32,7 @@ public class BoardController {
         this.boardMapper = boardMapper;
     }
 
+    @ApiOperation(value = "글 등록", notes = "게시판에 글을 등록합니다.")
     @PostMapping
     public ResponseEntity postBoard(@Valid @RequestBody BoardPostDto boardPostDto) {
         Board response = boardService.
@@ -38,7 +40,7 @@ public class BoardController {
         return new ResponseEntity(boardMapper.boardToBoardResponseDto(response), HttpStatus.CREATED);
     }
 
-
+    @ApiOperation(value = "글 수정", notes = "등록된 글을 수정합니다.")
     @PatchMapping("/{board-id}")
     public ResponseEntity patchBoard(@PathVariable("board-id") @Positive long boardId,
                                         @Valid @RequestBody BoardPatchDto boardPatchDto) {
@@ -49,6 +51,7 @@ public class BoardController {
     }
 
 
+    @ApiOperation(value = "글 조회", notes = "게시판에 글을 조회합니다.")
     @GetMapping("/{board-id}")
     public ResponseEntity getBoard(@PathVariable("board-id") @Positive long boardId) {
         Board response = boardService.findBoard(boardId);
@@ -57,6 +60,7 @@ public class BoardController {
     }
 
 
+    @ApiOperation(value = "글 전체 조회", notes = "글을 전체 조회합니다.")
     @GetMapping
     public ResponseEntity getBoards(@Positive @RequestParam(defaultValue = "1") Integer page,
                                     @Positive @RequestParam(defaultValue = "15") Integer size) {
@@ -70,6 +74,7 @@ public class BoardController {
     }
 
 
+    @ApiOperation(value = "글 검색", notes = "게시판에 등록된 글을 검색합니다.")
     @GetMapping("/search")
     public ResponseEntity searchBoards(@RequestParam(required = false, defaultValue = "1") int page,
                                           @RequestParam(required = false, defaultValue = "15") int size,
@@ -83,7 +88,7 @@ public class BoardController {
                 new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pageBoards), HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "글 삭제", notes = "등록된 글을 삭제합니다.")
     @DeleteMapping("/{board-id}")
     public ResponseEntity deleteBoard(@PathVariable("board-id") @Positive long boardId){
         boardService.deleteBoard(boardId);
