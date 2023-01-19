@@ -17,7 +17,7 @@ export const Community = () => {
 	return (
 		<>
 			<CommunitycContainer>
-				<HomeCategory />
+				<HomeCategory NavTo="community" />
 				<div className="margin">
 					<SearchInput />
 				</div>
@@ -39,6 +39,9 @@ export const Community = () => {
 };
 
 const CommunitycContainer = styled.div`
+	margin-top: 15rem;
+	margin-bottom: 6.5rem;
+	
 	.margin {
 		margin-bottom: 1rem;
 	}

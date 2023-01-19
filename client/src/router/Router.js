@@ -3,15 +3,6 @@ import { Routes, Route, Outlet } from "react-router-dom";
 // import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
 import { MainHeader } from "../components/Header";
-// import {
-//   Home,
-//   MyChallenge,
-//   MyPage,
-//   UserCreateChallenge,
-//   UserCompleteChallenge,
-//   UserPasswordChange,
-//   UserProfileEdit
-// } from "../pages";
 import Home from "../pages/Home";
 import HomeCategoryBoard from "../pages/HomeCategoryBoard";
 import ChallengeDetail from "../pages/ChallengeDetail";
@@ -79,15 +70,13 @@ export const OurPath = () => {
 				<Route path="/userCreate" element={<UserCreateChallenge />} />
 				<Route path="/userComplete" element={<UserCompleteChallenge />} />
 				<Route path="/changePw" element={<UserPasswordChange />} />
-				<Route path="/editProfile" element={<UserProfileEdit />} />
-				<Route path="/" element={<Home />} />
+				<Route path="/editProfile" element={<UserProfileEdit />} />				
 				<Route path="/challenges/:categoryId" element={<HomeCategoryBoard />} />
 				<Route
 					path="/challenges/:categoryId/:challengeId"
 					element={<ChallengeDetail />}
 				/>
 				<Route path="/challenges/create" element={<CreateChallenge />} />
-				<Route path="/mychallenge" element={<MyChallenge />} />
 				<Route
 					path="/mychallenge/:challengeId/upload"
 					element={<MyChallengeUpload />}
@@ -101,6 +90,8 @@ export const OurPath = () => {
 			<Route element={<Overlaps />}>
 				{/* 마이페이지
             커뮤니티 */}
+				<Route path="/" element={<Home />} />
+				<Route path="/mychallenge" element={<MyChallenge />} />
 				<Route path="/community" element={<Community />} />
 			</Route>
 			{/* footer 고정된 페이지 */}

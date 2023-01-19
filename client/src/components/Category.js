@@ -9,13 +9,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // MainCategory
-export const HomeCategory = () => {
+export const HomeCategory = (props) => {
 	return (
 		<MainCategoryContainer>
-			<Category title="우리동네" src={town} NavTo="/community/0" />
-			<Category title="운동" src={exercise} NavTo="/community/1" />
-			<Category title="규칙적인 생활" src={life} NavTo="/community/2" />
-			<Category title="기타" src={etc} NavTo="/community/3" />
+			<Category title="우리동네" src={town} NavTo={`/${props.NavTo}/0`} />
+			<Category title="운동" src={exercise} NavTo={`/${props.NavTo}/1`} />
+			<Category title="규칙적인 생활" src={life} NavTo={`/${props.NavTo}/2`} />
+			<Category title="기타" src={etc} NavTo={`/${props.NavTo}/3`} />
 		</MainCategoryContainer>
 	);
 };
@@ -68,12 +68,16 @@ export const SelectCategory = () => {
 };
 
 const MainCategoryContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 36.4rem;
 	height: 9.8rem;
 	padding: 1rem 0;
 	display: flex;
 	align-items: center;
+	position: fixed;
+	top: 5.2rem;
+	z-index: 9999;
+	background-color: white;
 `;
 
 const CategoryItemContainer = styled.div`
