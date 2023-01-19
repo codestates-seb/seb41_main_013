@@ -9,6 +9,9 @@ import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,7 @@ public class CommentService {
     private CommentRepository commentRepository;
     private BoardRepository boardRepository;
 
+  //  private MemberRepository memberRepository;
     private BoardService boardService;
     private MemberService memberService;
 
@@ -41,11 +45,11 @@ public class CommentService {
     }
 
     public Comment updateComment(Comment comment) {
-        Comment findComment = commentRepository.findById(comment.getCommentId()).orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        Comment findComment = commentRepository.findById(comment.getCommentId()).orElseThrow(()-> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
      //   if ( !findComment.getMember().getEmail().equals(email)){
-     //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
-     //   }
+     //          throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
+     //     }
 
         findComment.setContent(comment.getContent());
         findComment.setModifiedAt(LocalDateTime.now().withNano(0));
@@ -54,18 +58,24 @@ public class CommentService {
     }
 
 
-    public Comment findComments(long commentId) {
-        boardService.findVerifiedMember(commentId);
-        return commentRepository.save(findComments(commentId));
+    public Page<Comment> findComments(int page, int size){
+
+
+        Page<Comment> findAllComment = commentRepository.findAll(
+                PageRequest.of(page, size, Sort.by("commentId").descending()));
+
+        return findAllComment;
     }
+
+// 필터걸기 추가
 
 
 
     public void deleteComment(Long commentId) {
-        Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
-     //   if ( !findComment.getMember().getEmail().equals(email)){
-     //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
-     //   }
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        //   if ( !findComment.getMember().getEmail().equals(email)){
+        //       throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_ALLOWED);
+        //   }
 
         commentRepository.delete(findComment);
     }

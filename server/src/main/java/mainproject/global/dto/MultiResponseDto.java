@@ -1,7 +1,7 @@
 package mainproject.global.dto;
 
 import lombok.Getter;
-import mainproject.global.page.PageInfo;
+
 import org.springframework.data.domain.Page;
 
 import java.util.List;

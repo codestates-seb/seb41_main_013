@@ -25,9 +25,8 @@ export const WriteComment = (props) => {
 			<div>
 				<Input
 					placeholder={props.placeholder || ""}
-					lineHeight="3rem"
+					lineHeight="2rem"
 					fontSize="1.3rem"
-					cols="44"
 					rows="1"
 					margin={props.margin}
 					value={comment}

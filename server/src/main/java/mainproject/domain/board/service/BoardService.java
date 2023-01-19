@@ -5,6 +5,7 @@ import mainproject.domain.board.respository.BoardRepository;
 
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
+import mainproject.global.dto.MultiResponseDto;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
@@ -12,9 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 public class BoardService {
@@ -44,7 +47,8 @@ public class BoardService {
                 .ifPresent(title -> findboard.setTitle(title));
         Optional.ofNullable(board.getContent())
                 .ifPresent(content -> findboard.setContent(content));
-
+        Optional.ofNullable(board.getCategory())
+                .ifPresent(category -> findboard.setCategory(category));
         return boardRepository.save(findboard);
     }
 
@@ -53,14 +57,15 @@ public class BoardService {
         return findVerifiedMember(boardId);
     }
 
-    public Page<Board> findBoards(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page, size,
-                Sort.by("boardId").descending()));
+    public Page<Board> findBoards(int page, int size){ // 전체 질문 게시글에 pagenation
+
+        // sort 수정 필요!
+        Page<Board> findAllBoard = boardRepository.findAll(
+                PageRequest.of(page, size, Sort.by("boardId").descending()));
+
+        return findAllBoard;
     }
 
-    public void deleteBoard(long boardId) {
-        boardRepository.deleteById(boardId);
-    }
 
     public Board findVerifiedMember(long boardId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
@@ -69,6 +74,23 @@ public class BoardService {
 
         return findBoard;
     }
+
+
+
+
+    public void deleteBoard(long boardId) {
+        boardRepository.deleteById(boardId);
+    }
+
+    public Page<Board> searchBoards(int page, int size, String tab, String q) {
+
+         Page<Board> boards = boardRepository.findByTitleContaining(q, PageRequest.of(page, size,
+                Sort.by(tab).descending()));
+
+        return boards;
+    }
+
+
 
 
 }

@@ -1,3 +1,4 @@
+
 package mainproject.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
@@ -25,4 +26,5 @@ public class CommentResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
 }
