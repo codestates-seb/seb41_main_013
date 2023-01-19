@@ -5,9 +5,9 @@ import { AiOutlineHome } from "react-icons/ai";
 import theme from "./theme";
 import { Link } from "react-router-dom";
 
-export const Footer = (props) => {
+export const Footer = () => {
 	return (
-		<FooterContainer position={props.position} bottom={props.bottom}>
+		<FooterContainer>
 			<BottomItem to="/">
 				<AiOutlineHome />
 				<span>홈</span>
@@ -29,12 +29,14 @@ export const Footer = (props) => {
 };
 
 const FooterContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 36.4rem;
 	height: 6.5rem;
 	display: flex;
-	position: ${(props) => props.position};
-	bottom: ${(props) => props.bottom};
+	position: fixed;
+	bottom: 0;
+	z-index: 9999;
+	background-color: white;
 `;
 
 const BottomItem = styled(Link)`

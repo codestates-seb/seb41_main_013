@@ -1,16 +1,13 @@
 import styled from "styled-components";
 import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { MyChallengeItem } from "../components/ChallengeItem";
-import { Footer } from "../components/Footer";
-import { MainHeader } from "../components/Header";
 
 const MyChallenge = () => {
   const categoryId = 1;
   const challengeId = 1;
 
   return (
-    <>
-      <MainHeader />
+    <MyChallengeWrapper>
       {/* map */}
       <MyChallengeItemContainer>
         <MyChallengeItem
@@ -46,10 +43,14 @@ const MyChallenge = () => {
       </MyChallengeItemContainer>
       <CreateBtn NavTo="/challenges/create" />
       <BackToTopBtn />
-      <Footer position="fixed" bottom="0" />
-    </>
+    </MyChallengeWrapper>
   );
 };
+
+const MyChallengeWrapper = styled.div`
+  margin-top: 5.2rem;
+  margin-bottom: 6.5rem;
+`;
 
 const MyChallengeItemContainer = styled.div`
   display: flex;
