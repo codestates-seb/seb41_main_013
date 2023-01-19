@@ -73,6 +73,8 @@ public class MemberService {
         Member member = optionalMember.orElseThrow(() ->
                 new NoSuchElementException(ExceptionMessage.MEMBER_NOT_FOUND.get()));
 
+        redisDao.deleteValues(member.getEmail()); // 해당 회원의 refreshToken 을 redis 에서 삭제
+
         memberRepository.deleteById(id);
     }
 

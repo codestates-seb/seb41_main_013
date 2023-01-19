@@ -50,7 +50,7 @@ public class SecurityConfiguration  {
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight 요청 모두 pass
                         .antMatchers(HttpMethod.POST, "/api/challenges/{challenges-Id}").hasRole("USER") // 챌린지 작성
                         .antMatchers(HttpMethod.PATCH,"/api/challenges/{challenges-Id}").hasRole("USER") // 챌린지 수정
-                        .antMatchers(HttpMethod.DELETE, "/api/questions/{challenges-Id}")
+                        .antMatchers(HttpMethod.DELETE, "/api/challenges/{challenges-Id}")
                         .access("@ChallengerService.checkMember(authentication,#challenges-Id)")// 챌린지 삭제
                         .antMatchers(HttpMethod.POST, "/api/boards").hasRole("USER") // 게시판 글 작성
                         .antMatchers(HttpMethod.PATCH, "/api/boards/{boardId}")
