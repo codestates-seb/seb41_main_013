@@ -9,11 +9,12 @@ export const Input = (props) => {
 				value={props.value}
 				margin={props.margin}
 				padding={props.padding}
-				cols={props.cols || "51"}
 				rows={props.rows || "1"}
 				borderRadius={props.borderRadius}
 				fontSize={props.fontSize}
 				lineHeight={props.lineHeight}
+				onChange={props.onChange}
+				borderColor={props.borderColor}
 			></StyledInput>
 		</>
 	);
@@ -22,25 +23,29 @@ export const Input = (props) => {
 export const InputAuth = (props) => {
 	return (
 		<Wrapper>
-			{props.label}
+			<span>{props.label}</span>
 			<AuthInput
 				type={props.type}
 				value={props.value}
 				onChange={props.onChange}
+				border={props.border}
+				fontSize={props.fontSize}
 			/>
 		</Wrapper>
 	);
 };
 
 const StyledInput = styled.textarea`
-	border: 0.1rem solid #4d4d4d;
+	border: 0.1rem solid ${(props) => props.borderColor || "#4d4d4d"};
 	margin: ${(props) => props.margin || "0"};
-	padding: ${(props) => props.padding || "0"};
+	padding: ${(props) => props.padding || "0.6rem"};
 	border-radius: ${(props) => props.borderRadius || "0.8rem"};
 	font-size: ${(props) => props.fontSize || "1.3rem"};
+	font-family: "Inter";
+	font-style: normal;
 	line-height: ${(props) => props.lineHeight || "1.6rem"};
 	resize: none;
-	width: ${(props) => props.width || "36.4rem"};
+	width: 100%;
 `;
 
 const StyledLabel = styled.div`
@@ -49,17 +54,23 @@ const StyledLabel = styled.div`
 `;
 
 const AuthInput = styled.input`
-	width: ${(props) => props.width || "36rem"};
+	width: ${(props) => props.width || "34rem"};
 	border: 0.1rem solid #4d4d4d;
 	height: 3rem;
 	border-radius: 0.8rem;
 	font-size: 1.4rem;
+	padding-left: 1rem;
+	border-color: ${(props) => props.border || "#4d4d4d"};
 `;
 
 const Wrapper = styled.div`
-	font-size: ${(props) => props.fontSize || "1.4rem"};
 	line-height: 3rem;
 	display: flex;
 	flex-direction: column;
 	width: 36.4rem;
+
+	span {
+		padding-left: 2rem;
+		font-size: ${(props) => props.fontSize || "1.3rem"};
+	}
 `;

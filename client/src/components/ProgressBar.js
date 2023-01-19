@@ -1,18 +1,36 @@
-import styled from "styled-components";
-import LinearProgress from '@mui/material/LinearProgress';
+import styled from 'styled-components';
 
-const BorderLinearProgress = styled(LinearProgress)`
-  && {
-    height: 1rem;
-    border-radius: 5rem;
-    margin-top: 0.6rem;
-  }
+export const ProgressBar = (props) => {
+  return (
+    <ProgressContainer>
+      <ProgressBarOuter>
+        <ProgressBarInner progress={props.progress} />
+      </ProgressBarOuter>
+      <ProgressLabel>{props.label}%</ProgressLabel>
+    </ProgressContainer>
+  );
+};
+
+const ProgressContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 0.6rem;
 `;
 
-export default function CustomizedProgressBars(props) {
-  return (
-    <>
-      <BorderLinearProgress variant="determinate" value={props.percent} />
-    </>
-  );
-}
+const ProgressBarOuter = styled.div`
+  flex: 1;
+  height: 1rem;
+  border-radius: 5rem;
+  background-color: #eeeeee;
+`;
+
+const ProgressBarInner = styled.div`
+  width: ${props => props.progress}%;
+  height: 100%;
+  border-radius: 5rem;
+  background-color: #007fff;
+`;
+
+const ProgressLabel = styled.div`
+  margin-left: 1rem;
+`;

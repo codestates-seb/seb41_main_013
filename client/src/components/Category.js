@@ -3,17 +3,19 @@ import town from "../images/town.png";
 import exercise from "../images/exercise.png";
 import life from "../images/life.png";
 import etc from "../images/etc.png";
-import { ThemeProvider } from "styled-components";
 import theme from "./theme";
 import { Btn } from "./Button";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
+// MainCategory
 export const HomeCategory = () => {
 	return (
 		<MainCategoryContainer>
-			<Category title="우리동네" src={town} />
-			<Category title="운동" src={exercise} />
-			<Category title="규칙적인 생활" src={life} />
-			<Category title="기타" src={etc} />
+			<Category title="우리동네" src={town} NavTo="/community/0" />
+			<Category title="운동" src={exercise} NavTo="/community/1" />
+			<Category title="규칙적인 생활" src={life} NavTo="/community/2" />
+			<Category title="기타" src={etc} NavTo="/community/3" />
 		</MainCategoryContainer>
 	);
 };
@@ -21,77 +23,77 @@ export const HomeCategory = () => {
 const Category = (props) => {
 	return (
 		<CategoryItemContainer>
-			<img alt="category" src={props.src} />
+			<Link to={props.NavTo}>
+				<img alt="category" src={props.src} />
+			</Link>
 			{props.title}
 		</CategoryItemContainer>
 	);
 };
-// MainCategory
 
 // SelectCategory
-
 //props : X
 export const SelectCategory = () => {
+	const [click, setClick] = useState([false, false, false, false]);
+
+	//클릭하면 카테고리 버튼 색상이 회색 -> 초록색으로
+	const handleBtnClick = (num) => {
+		let newClick = click.map((el, idx) => idx === num);
+		setClick(newClick);
+	};
+
+	const SelectCategoryItem = (props) => {
+		return (
+			<>
+				<Btn
+					btnText={props.text}
+					width={"17.3rem"}
+					background={click[props.num] ? theme.color.green : theme.color.gray}
+					color={click[props.num] ? theme.color.white : theme.color.navy}
+					onClick={() => handleBtnClick(props.num)}
+					margin="0.6rem"
+				/>
+			</>
+		);
+	};
+
 	return (
-		<ThemeProvider theme={theme}>
-			<SelectCategoryContainer>
-				<Btn
-					btnText={"우리 동네"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-				<Btn
-					btnText={"운동"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-				<Btn
-					btnText={"규칙적인 생활"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-				<Btn
-					btnText={"기타"}
-					width={"17.1rem"}
-					background={theme.color.gray}
-					color={theme.color.navy}
-				/>
-			</SelectCategoryContainer>
-		</ThemeProvider>
+		<SelectCategoryContainer>
+			<SelectCategoryItem num={0} text="우리 동네" />
+			<SelectCategoryItem num={1} text="운동" />
+			<SelectCategoryItem num={2} text="규칙적인 생활" />
+			<SelectCategoryItem num={3} text="기타" />
+		</SelectCategoryContainer>
 	);
 };
 
 const MainCategoryContainer = styled.div`
 	border: 1px solid black;
-	width: ${theme.width.content};
-	height: 5.93rem;
-	padding: 0.625rem 0;
+	width: 36.4rem;
+	height: 9.8rem;
+	padding: 1rem 0;
 	display: flex;
 	align-items: center;
 `;
 
 const CategoryItemContainer = styled.div`
-	width: 5.687rem;
-	height: 4.87rem;
+	width: 9.1rem;
+	height: 7.8rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-
+	font-size: 1.3rem;
 	img {
-		width: 3.125rem;
-		height: 3.125rem;
+		width: 5rem;
+		height: 5rem;
 		border-radius: 50%;
+		cursor: pointer;
 	}
 `;
 
 const SelectCategoryContainer = styled.div`
-	width: 36rem;
+	width: 38rem;
 	height: 8.6rem;
-	padding: 0.3rem;
+	margin-bottom: 1rem;
 `;
-
-export default SelectCategory;

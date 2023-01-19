@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import Avatar from "./Avatar";
+import { formatDate } from "./PostSummary";
 
 //props : 유저 이름, 작성 시간, 유저 이미지 파일 경로
-const WriterInfo = (props) => {
+export const WriterInfo = (props) => {
 	return (
 		<>
 			<WriterInfoContainer>
 				<Avatar imgURL={props.imgURL} />
-				<div>{props.name}</div>
-				<div>{props.date}</div>
+				<div>{props.writer}</div>
+				<div>{formatDate(props.date)}</div>
 			</WriterInfoContainer>
 		</>
 	);
@@ -25,8 +26,6 @@ const WriterInfoContainer = styled.div`
 	font-family: "Inter";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 	line-height: 1rem;
 `;
-
-export default WriterInfo;

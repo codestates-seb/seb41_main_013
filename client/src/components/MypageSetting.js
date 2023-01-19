@@ -34,7 +34,7 @@ const SettingWrapper = styled.div`
 	border: 1px solid black;
 	padding: 2rem 1.3rem;
 	gap: 1rem;
-	height: 80.25rem;
+	height: 79.1rem;
 	width: 21rem;
 	background-color: white;
 	transform: translateX(39rem);

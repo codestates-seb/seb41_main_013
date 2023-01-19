@@ -65,27 +65,28 @@ const ChallengeStateContainer = styled.div`
 	border: 1px solid black;
 	width: 36.4rem;
 	height: 15rem;
-
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	font-size: 1.4rem;
 
 	.title {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+		font-size: 2rem;
+		padding: 0 1rem;
 
 		img {
-			width: 2rem;
-			height: 2rem;
+			width: 2.5rem;
+			height: 2.5rem;
 		}
 	}
 
 	.container {
-		width: 36rem;
+		width: 36.4rem;
 		height: 8.1rem;
 		display: flex;
+		padding: 0 1rem;
 
 		div {
 			flex: 1;
@@ -93,6 +94,7 @@ const ChallengeStateContainer = styled.div`
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+			font-size: 2rem;
 		}
 
 		div:not(:last-of-type) {
