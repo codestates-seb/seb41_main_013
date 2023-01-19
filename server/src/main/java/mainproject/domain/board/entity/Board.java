@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mainproject.domain.comment.entity.Comment;
+
+import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
@@ -47,9 +49,11 @@ public class Board implements Serializable {
 
     //private Image boardImage;  // TODO: 이미지파일
 
-    private LocalDateTime createdAt = LocalDateTime.now();
 
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    @Column(updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
+
+    private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);
 
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();

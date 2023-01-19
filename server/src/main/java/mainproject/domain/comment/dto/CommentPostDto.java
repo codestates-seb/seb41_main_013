@@ -25,10 +25,9 @@ public class CommentPostDto {
         return member;
     }
 
-    @Positive
-    private Long boardId;
+    private long boardId;
 
-    public Board getBoard() {
+    public Board getBoard(){
         Board board = new Board();
         board.setBoardId(boardId);
         return board;

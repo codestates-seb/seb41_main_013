@@ -48,8 +48,10 @@ public class Comment implements Serializable {
 
     private String content;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
 
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);
+
+
 
 }
