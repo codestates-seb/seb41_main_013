@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 // import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
 import { MainHeader } from "../components/Header";
+// challenge
 import Home from "../pages/Home";
 import HomeCategoryBoard from "../pages/HomeCategoryBoard";
 import ChallengeDetail from "../pages/ChallengeDetail";
@@ -10,6 +11,7 @@ import CreateChallenge from "../pages/CreateChallenge";
 import MyChallenge from "../pages/MyChallenge";
 import MyChallengeUpload from "../pages/MyChallengeUpload";
 import MyChallengeOthers from "../pages/MyChallengeOthers";
+//mypage
 import { MyPage } from "../pages/MyPage";
 import { UserCreateChallenge } from "../pages/UserCreateChallenge";
 import { UserCompleteChallenge } from "../pages/UserCompleteChallenge";
@@ -25,52 +27,25 @@ import { CreatePost } from "../pages/CreatePost";
 import { UpdatePost } from "../pages/UpdatePost";
 import { PostDetail } from "../pages/PostDetail";
 
-const Overlaps = () => {
+const Overlaps = (hasHeader, hasFooter) => {
 	return (
 		<>
-			<MainHeader />
+			{hasHeader && <MainHeader />}
 			<Outlet />
-			<Footer />
-		</>
-	);
-};
-
-const OverlapEmp = () => {
-	return (
-		<>
-			<Outlet />
-		</>
-	);
-};
-
-const OverlapFoo = () => {
-	return (
-		<>
-			<Outlet />
-			<Footer />
-		</>
-	);
-};
-
-const OverlapHead = () => {
-	return (
-		<>
-			<MainHeader />
-			<Outlet />
+			{hasFooter && <Footer />}
 		</>
 	);
 };
 
 export const OurPath = () => {
 	return (
-		// <Suspense fallback={<Loading />}>
+		// {/* // <Suspense fallback={<Loading />}> */}
 		<Routes>
-			{/* 아무것도 고정 안 된 빈 페이지  */}
-			<Route element={<OverlapEmp />}>
+			<Route element={<Overlaps hasHeader={false} hasFooter={false} />}>
 				<Route path="/userCreate" element={<UserCreateChallenge />} />
 				<Route path="/userComplete" element={<UserCompleteChallenge />} />
 				<Route path="/changePw" element={<UserPasswordChange />} />
-				<Route path="/editProfile" element={<UserProfileEdit />} />				
+				<Route path="/editProfile" element={<UserProfileEdit />} />
 				<Route path="/challenges/:categoryId" element={<HomeCategoryBoard />} />
 				<Route
 					path="/challenges/:categoryId/:challengeId"
@@ -86,16 +61,12 @@ export const OurPath = () => {
 					element={<MyChallengeOthers />}
 				/>
 			</Route>
-			{/* header + footer 고정된 페이지 */}
-			<Route element={<Overlaps />}>
-				{/* 마이페이지
-            커뮤니티 */}
+			<Route element={<Overlaps hasHeader={true} hasFooter={true} />}>
 				<Route path="/" element={<Home />} />
 				<Route path="/mychallenge" element={<MyChallenge />} />
 				<Route path="/community" element={<Community />} />
 			</Route>
-			{/* footer 고정된 페이지 */}
-			<Route element={<OverlapFoo />}>
+			<Route element={<Overlaps hasHeader={false} hasFooter={true} />}>
 				<Route path="/mypage" element={<MyPage />} />
 				<Route
 					path="/community/:categoryId"
@@ -105,8 +76,7 @@ export const OurPath = () => {
 				<Route path="/post/:postId/update" element={<UpdatePost />} />
 				<Route path="/post/:postId" element={<PostDetail />} />
 			</Route>
-			{/* header 고정된 페이지 */}
-			<Route element={<OverlapHead />}>
+			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/findPw" element={<FindPassword />} />

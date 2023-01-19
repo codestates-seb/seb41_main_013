@@ -63,7 +63,7 @@ export const ChallengeState = (props) => {
 
 const ChallengeStateContainer = styled.div`
 	border: 1px solid black;
-	width: 36.4rem;
+	width: 100%;
 	height: 15rem;
 	display: flex;
 	flex-direction: column;

@@ -75,8 +75,8 @@ export const MyPage = (props) => {
 
 const MypageWrapper = styled.div`
 	border: 1px solid black;
-	width: 36.4rem;
-	height: 79.2rem;
+	width: 100%;
+	/* height: 79.2rem; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -6,5 +6,10 @@
 }
 
 body {
+	border: 1px solid black;
 	padding: 0 1.3rem;
+	max-width: 789px;
+	/* display: flex;
+	justify-content: center;
+	align-items: center; */
 }

@@ -30,7 +30,7 @@ export const Footer = () => {
 
 const FooterContainer = styled.div`
 	/* border: 1px solid black; */
-	width: 36.4rem;
+	width: 100%;
 	height: 6.5rem;
 	display: flex;
 	position: fixed;
