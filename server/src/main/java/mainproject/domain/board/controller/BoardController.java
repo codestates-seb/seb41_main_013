@@ -73,7 +73,7 @@ public class BoardController {
     @GetMapping("/search")
     public ResponseEntity searchBoards(@RequestParam(required = false, defaultValue = "1") int page,
                                           @RequestParam(required = false, defaultValue = "15") int size,
-                                          @RequestParam(required = false, defaultValue = "questionId") String tab,
+                                          @RequestParam(required = false, defaultValue = "boardId") String tab,
                                           @RequestParam String q) {
 
         Page<Board> pageBoards = boardService.searchBoards(page - 1, size, tab, q);
