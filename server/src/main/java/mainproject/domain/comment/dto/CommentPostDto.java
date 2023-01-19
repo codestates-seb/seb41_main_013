@@ -25,6 +25,13 @@ public class CommentPostDto {
         return member;
     }
 
+    private long boardId;
+
+    public Board getBoard(){
+        Board board = new Board();
+        board.setBoardId(boardId);
+        return board;
+    }
 
     @NotBlank
     private String content;
