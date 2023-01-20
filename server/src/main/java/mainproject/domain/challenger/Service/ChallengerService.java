@@ -9,6 +9,7 @@ import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,5 +85,12 @@ public class ChallengerService {
         return findChallenger;
     }
 
-    // TODO: 참가자수++
+    public boolean checkMember(Member principal, long memberId) {
+        List<Challenger> optionalChallenger = challengerRepository.findByMember_Id(memberId);
+
+        return !optionalChallenger.isEmpty()
+                && optionalChallenger.stream()
+                .filter(c -> !c.getMember().getEmail().equals(principal.getEmail()))
+                .count() > 0;
+    }
 }
