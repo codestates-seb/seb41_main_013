@@ -95,7 +95,7 @@ public class ChallengeController {
     // 챌린지 검색(제목+내용)
     @ApiOperation(value = "챌린지 검색(제목+내용)")
     @GetMapping
-    public ResponseEntity getSearchChallenges(@ApiParam(name = "검색어", value = "100자까지 입력 가능", required = true)
+    public ResponseEntity getSearchChallenges(@ApiParam(value = "100자까지 입력 가능", required = true)
                                                   @RequestParam @NotNull(message = "검색어를 입력하세요.")
                                                   @Size(max = 100, message = "검색어는 100자까지 입력 가능합니다.")
                                                   String query) {
