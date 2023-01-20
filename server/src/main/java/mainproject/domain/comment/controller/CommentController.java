@@ -69,7 +69,7 @@ public class CommentController {
                 new MultiResponseDto<>(commentMapper.commentsToCommentResponseDtos(comments), pagedComments),
                 HttpStatus.OK);
     }
-    @ApiOperation(value = "댓글 삭제", notes = "등록된 댓글을 삭제합니다.")
+    @ApiOperation(value = "댓글 삭제", notes = "등록된 댓글을 삭제을 등록합니다.")
     @DeleteMapping("/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") long commentId){
         commentService.deleteComment(commentId);

@@ -43,7 +43,7 @@ public class BoardController {
     @ApiOperation(value = "글 수정", notes = "등록된 글을 수정합니다.")
     @PatchMapping("/{board-id}")
     public ResponseEntity patchBoard(@PathVariable("board-id") @Positive long boardId,
-                                        @Valid @RequestBody BoardPatchDto boardPatchDto) {
+                                     @Valid @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
         Board response = boardService.
                 updateBoard(boardId, boardMapper.boardPatchDtoToBoard(boardPatchDto));

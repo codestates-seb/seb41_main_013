@@ -1,5 +1,6 @@
 package mainproject.domain.board.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class BoardPostDto {
     @Positive
     private Long memberId;
 
+    @ApiModelProperty(hidden = true)
     public Member getMember() {
         Member member = new Member();
         member.setId(memberId);

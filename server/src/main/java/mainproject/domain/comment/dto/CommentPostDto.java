@@ -1,5 +1,6 @@
 package mainproject.domain.comment.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class CommentPostDto {
     @Positive
     private Long memberId;
 
+    @ApiModelProperty(hidden = true)
     public Member getMember() {
         Member member = new Member();
         member.setId(memberId);

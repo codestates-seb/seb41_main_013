@@ -53,13 +53,15 @@ public class SecurityConfiguration  {
                         .antMatchers(HttpMethod.DELETE, "/api/challenges/{challenges-Id}")
                         .access("@ChallengerService.checkMember(authentication,#challenges-Id)")// 챌린지 삭제
                         .antMatchers(HttpMethod.POST, "/api/boards").hasRole("USER") // 게시판 글 작성
-                        .antMatchers(HttpMethod.PATCH, "/api/boards/{boardId}")
+                        .antMatchers(HttpMethod.PATCH, "/api/boards/{board-id}")
                         .access("@BoardService.checkMember(authentication,#BoardId)") // 게시판 글 수정
-                        .antMatchers(HttpMethod.DELETE, "/api/boards/{boardId}")
+                        .antMatchers(HttpMethod.DELETE, "/api/boards/{board-id}")
                         .access("@BoardService.checkMember(authentication,#BoardId)")// 게시판 글 삭제
                         .antMatchers(HttpMethod.POST, "/api/comments").hasRole("USER") // 댓글 작성
-                        .antMatchers(HttpMethod.PATCH, "/api/comments/{comment-id}").hasRole("USER") // 댓글 수정
-                        .antMatchers(HttpMethod.DELETE, "/api/comments/{comment-id}").hasRole("USER") // 댓글 삭제
+                        .antMatchers(HttpMethod.PATCH, "/api/comments/{comment-id}")
+                        .access("@CommentService.checkMember(authentication,#CommentId)")// 댓글 수정
+                        .antMatchers(HttpMethod.DELETE, "/api/comments/{comment-id}")
+                        .access("@CommentService.checkMember(authentication,#CommentId)")// 댓글 삭제
                         .antMatchers("/api/auths/logout").hasRole("USER") // 로그아웃
                         .antMatchers("/api/members/{member-id}").hasRole("USER") // 마이페이지 확인, 회원정보 수정
 
