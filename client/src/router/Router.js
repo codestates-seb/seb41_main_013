@@ -27,7 +27,7 @@ import { CreatePost } from "../pages/CreatePost";
 import { UpdatePost } from "../pages/UpdatePost";
 import { PostDetail } from "../pages/PostDetail";
 
-const Overlaps = (hasHeader, hasFooter) => {
+const Overlaps = ({ hasHeader, hasFooter }) => {
 	return (
 		<>
 			{hasHeader && <MainHeader />}

@@ -81,7 +81,8 @@ export const UserProfileEdit = () => {
 };
 
 const Container = styled.form`
-	width: 36.4rem;
+	border: 1px solid black;
+	width: 100%;
 	height: 79.2rem;
 	display: flex;
 	flex-direction: column;

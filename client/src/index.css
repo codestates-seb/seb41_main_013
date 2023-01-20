@@ -8,11 +8,16 @@
 body {
 	border: 1px solid orange;
 	padding: 0 1.3rem;
-	max-width: 789px;
-	min-height: 844px;
-	/* overflow: scroll; */
+	max-width: 480px;
+	height: 100%;
+	/* min-height: 844px;
+	max-height: 844px; */
+	overflow: scroll;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 0 auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }

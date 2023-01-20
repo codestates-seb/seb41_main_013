@@ -22,7 +22,7 @@ export const UserCompleteChallenge = () => {
 				<CompletedChallenge title="일주일에 책 한권 이상 읽기" />
 				<CompletedChallenge title="매일 헬스장 출석 체크" />
 				<CompletedChallenge title="아이고 힘들어" />
-				<BackToTopBtn bottom="1rem" />
+				<BackToTopBtn />
 			</ChallengeWrap>
 		</>
 	);

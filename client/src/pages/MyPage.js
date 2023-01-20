@@ -58,9 +58,9 @@ export const MyPage = (props) => {
 				modalToQuit={modalToQuit}
 			/>
 			<div className="userInfo">
-				<div>
-					<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
-				</div>
+				{/* <div> */}
+				<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
+				{/* </div> */}
 				{props.name || "유저이름"}
 			</div>
 			<ChallengeState />
@@ -76,15 +76,16 @@ export const MyPage = (props) => {
 const MypageWrapper = styled.div`
 	border: 1px solid black;
 	width: 100%;
-	/* height: 79.2rem; */
+	/* height: 100rem; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
 
 	.userInfo {
-		width: 36.4rem;
-		height: 15rem;
+		border: 1px solid red;
+		width: 100%;
+		height: 50%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
@@ -94,8 +95,8 @@ const MypageWrapper = styled.div`
 
 		img {
 			border: 1px solid black;
-			width: 15rem;
-			height: 15rem;
+			width: 45%;
+			height: 45%;
 			border-radius: 50%;
 		}
 	}
