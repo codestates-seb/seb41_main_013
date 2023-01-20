@@ -57,10 +57,10 @@ export const MyPage = (props) => {
 				modalToLogout={modalToLogout}
 				modalToQuit={modalToQuit}
 			/>
+			<div />
 			<div className="userInfo">
-				{/* <div> */}
 				<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
-				{/* </div> */}
+
 				{props.name || "유저이름"}
 			</div>
 			<ChallengeState />
@@ -74,13 +74,13 @@ export const MyPage = (props) => {
 };
 
 const MypageWrapper = styled.div`
-	border: 1px solid orange;
+	/* border: 1px solid orange; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 	gap: 2rem;
 
 	.challengeNav {
@@ -88,8 +88,8 @@ const MypageWrapper = styled.div`
 	}
 
 	.userInfo {
+		/* border: 1px solid blue; */
 		width: 100%;
-		height: 50%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;

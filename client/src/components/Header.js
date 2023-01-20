@@ -65,6 +65,7 @@ const Main = styled.div`
 	left: 0;
 	right: 0;
 	margin: 0 auto;
+	/* z-index: 999; */
 	padding: 0 1.3rem;
 `;
 
