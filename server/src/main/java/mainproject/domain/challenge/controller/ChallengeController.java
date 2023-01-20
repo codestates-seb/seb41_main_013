@@ -45,7 +45,7 @@ public class ChallengeController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    final String postChallengeDescription = "hostMemberId: 회원번호 (회원 등록 후 챌린지 생성 가능)" + "\r\n" +
+    final String postChallengeDescription = "hostMemberId: 회원번호 (로그인 후 챌린지 생성 가능)" + "\r\n" +
             "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
             "title: 챌린지 제목 (50자까지 입력 가능) " + "\r\n" +
             "content: 챌린지 설명 (500자까지 입력 가능) " + "\r\n" +
