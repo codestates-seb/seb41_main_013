@@ -76,7 +76,8 @@ public class Challenge implements Serializable {
     @Column(nullable = false)
     private ChallengeStatus challengeStatus;
 
-    // TODO: 참가자 수
+    @Column(nullable = false)
+    private long challengerCount = 0;
 
     @OneToMany(mappedBy = "challenge")
     private List<Challenger> challengers = new ArrayList<>();

@@ -8,6 +8,7 @@ import mainproject.domain.member.service.MemberService;
 import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -42,8 +43,7 @@ public class ChallengeService {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                     .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
                     .collect(Collectors.toList());
-        }
-        else {
+        } else {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                     .filter(c -> c.getCategory().equals(category))
                     .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
@@ -57,13 +57,12 @@ public class ChallengeService {
 
         if (category == null) {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참가자 수 변경
+                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                     .collect(Collectors.toList());
-        }
-        else {
+        } else {
             return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
                     .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())  // TODO: 생성일 -> 참가자 수 변경
+                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                     .collect(Collectors.toList());
         }
     }
@@ -93,8 +92,7 @@ public class ChallengeService {
             results.addAll(result);
         }
 
-        // TODO: 매핑 후 생성일 -> 참가자 수 변경
-        return results.stream().sorted(Comparator.comparing(Challenge::getCreatedAt).reversed()).collect(Collectors.toList());
+        return results.stream().sorted(Comparator.comparing(Challenge::getChallengerCount).reversed()).collect(Collectors.toList());
     }
 
     // 챌린지 삭제
@@ -103,10 +101,9 @@ public class ChallengeService {
 
         Challenge challenge = verifyNotStartedChallenge(challengeId);   // 챌린지 존재여부, 시작 전 여부 검증
 
-        if (challenge.getChallengeStatus() != ChallengeStatus.시작전) {    // TODO: 참가자 == 0 조건으로 변경
-            throw new BusinessLogicException(ExceptionCode.CHALLENGE_DELETE_NOT_ALLOWED);
-        }
-        else {
+        if (challenge.getChallengerCount() != 0) {
+            throw new BusinessLogicException(ExceptionCode.CHALLENGER_ALREADY_EXISTS);
+        } else {
             challengeRepository.delete(challenge);
         }
     }
@@ -153,5 +150,10 @@ public class ChallengeService {
         return findChallenge;
     }
 
-    // TODO: 참가자 수 집계
+    public boolean checkMember(Authentication authentication, long challengeId) {
+        Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
+
+        return optionalChallenge.isPresent()
+                && optionalChallenge.get().getMember().getEmail().equals(authentication.getName());
+    }
 }

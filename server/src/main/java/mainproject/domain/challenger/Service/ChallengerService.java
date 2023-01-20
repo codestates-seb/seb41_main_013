@@ -49,6 +49,7 @@ public class ChallengerService {
 
         challenger.setMember(member);
         challenger.setChallenge(challenge);
+        challenger.getChallenge().setChallengerCount(challenge.getChallengerCount() + 1);   // 참가자 수 증가
         challenger.setChallengerId(challengerId);
         return challengerRepository.save(challenger);
     }

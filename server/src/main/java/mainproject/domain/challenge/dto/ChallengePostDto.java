@@ -63,11 +63,11 @@ public class ChallengePostDto {
     @ApiModelProperty(required = false, example = "매일")
     private Frequency frequency = Frequency.매일; // 기본값 - 매일
 
-    @ApiModelProperty(required = false, example = "00:00")
+    @ApiModelProperty(required = false, example = "00:00:00")
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalTime snapshotStartAt = LocalTime.parse("00:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"));  // 기본값 - 00:00:00
 
-    @ApiModelProperty(required = false, example = "23:59")
+    @ApiModelProperty(required = false, example = "23:59:00")
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalTime snapshotEndAt = LocalTime.parse("23:59:59", DateTimeFormatter.ofPattern("HH:mm:ss"));    // 기본값 - 23:59:59
 
