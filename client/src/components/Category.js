@@ -68,20 +68,24 @@ export const SelectCategory = () => {
 };
 
 const MainCategoryContainer = styled.div`
-	/* border: 1px solid black; */
-	width: 36.4rem;
+	border: 1px solid black;
+	width: 100%;
+	max-width: 480px;
 	height: 9.8rem;
 	padding: 1rem 0;
 	display: flex;
 	align-items: center;
 	position: fixed;
 	top: 5.2rem;
-	z-index: 9999;
+	right: 0;
+	left: 0;
+	margin: 0 auto;
+	/* z-index: 9999; */
 	background-color: white;
 `;
 
 const CategoryItemContainer = styled.div`
-	width: 9.1rem;
+	width: 25%;
 	height: 7.8rem;
 	display: flex;
 	flex-direction: column;

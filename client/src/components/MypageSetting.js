@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { Btn } from "./Button";
 import { NavTitle } from "./NavItem";
+import theme from "./theme";
 
 export const MypageSetting = (props) => {
 	const { menuOpen, setMenuOpen, modalToLogout, modalToQuit } = props;
@@ -17,14 +18,14 @@ export const MypageSetting = (props) => {
 				size="2rem"
 				width="6rem"
 				height="2.2rem"
-				background="black"
+				background={theme.color.green}
 				onClick={toggleMenu}
 			/>
 			<div>
-				<NavTitle title="프로필 수정" link="/editProfile" width="20rem" />
-				<NavTitle title="비밀번호 변경" link="/changePw" width="20rem" />
-				<NavTitle title="로그아웃" width="20rem" onClick={modalToLogout} />
-				<NavTitle title="회원탈퇴" width="20rem" onClick={modalToQuit} />
+				<NavTitle title="프로필 수정" link="/editProfile" width="100%" />
+				<NavTitle title="비밀번호 변경" link="/changePw" width="100%" />
+				<NavTitle title="로그아웃" width="100%" onClick={modalToLogout} />
+				<NavTitle title="회원탈퇴" width="100%" onClick={modalToQuit} />
 			</div>
 		</SettingWrapper>
 	);
@@ -34,16 +35,16 @@ const SettingWrapper = styled.div`
 	border: 1px solid black;
 	padding: 2rem 1.3rem;
 	gap: 1rem;
-	height: 79.1rem;
-	width: 21rem;
+	width: 100%;
+	max-width: 480px;
 	background-color: white;
-	transform: translateX(39rem);
 	display: none;
-	position: absolute;
+	position: fixed;
+	top: 5.2rem;
+	/* display: block; */
 	${(props) =>
 		props.menuOpen &&
 		css`
 			display: block;
-			transform: translateX(7.7rem);
 		`}
 `;

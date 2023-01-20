@@ -73,7 +73,7 @@ export const Login = () => {
 
 	return (
 		<Wrapper onSubmit={onSubmit}>
-			<div />
+			{/* <div /> */}
 			<div>
 				<InputAuth
 					label="이메일"
@@ -113,12 +113,13 @@ export const Login = () => {
 };
 
 const Wrapper = styled.form`
-	border: 1px solid black;
-	width: 36.4rem;
-	height: 79.2rem;
+	/* border: 1px solid black; */
+	width: 100%;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	gap: 4rem;
 
 	input {
