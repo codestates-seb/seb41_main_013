@@ -29,6 +29,7 @@ public class CommentPostDto {
 
     private long boardId;
 
+    @ApiModelProperty(hidden = true)
     public Board getBoard(){
         Board board = new Board();
         board.setBoardId(boardId);

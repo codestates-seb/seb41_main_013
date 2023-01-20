@@ -10,11 +10,9 @@ import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Service;
 
-
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -42,11 +40,18 @@ public class BoardService {
 
 
     public Board updateBoard(long boardId, Board board) {
-        Board findBoard = boardRepository.findById(boardId).orElseThrow();
 
-        findBoard.setContent(board.getContent());
-        findBoard.setModifiedAt(LocalDateTime.now().withNano(0));
-        return boardRepository.save(findBoard);
+
+    Board findboard = boardRepository.findById(boardId).orElseThrow();
+        Optional.ofNullable(board.getTitle())
+                .ifPresent(title -> findboard.setTitle(title));
+        Optional.ofNullable(board.getContent())
+                .ifPresent(content -> findboard.setContent(content));
+        Optional.ofNullable(board.getCategory())
+                .ifPresent(category -> findboard.setCategory(category));
+        return boardRepository.save(findboard);
+
+
     }
 
 
