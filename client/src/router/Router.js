@@ -2,7 +2,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 // import { Suspense } from "react";
 // import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
-import { MainHeader } from "../components/Header";
+import { MainHeader, MypageHeader, TitleHeader } from "../components/Header";
 // challenge
 import Home from "../pages/Home";
 import HomeCategoryBoard from "../pages/HomeCategoryBoard";

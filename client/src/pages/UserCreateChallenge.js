@@ -46,14 +46,14 @@ export const UserCreateChallenge = () => {
 				<CreatedChallenge title="아이고 힘들어" />
 				<CreatedChallenge title="아이고 힘들어" />
 			</ChallengeWrap>
-			<BackToTopBtn />
+			<BackToTopBtn bottom="3rem" />
 		</>
 	);
 };
 
 const ChallengeWrap = styled.div`
-	width: 36.4rem;
-	height: 79.2rem;
+	width: 100%;
+	/* height: 79.2rem; */
 	overflow: scroll;
 	display: flex;
 	flex-wrap: wrap;

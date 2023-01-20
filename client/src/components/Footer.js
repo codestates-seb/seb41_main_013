@@ -31,6 +31,7 @@ export const Footer = () => {
 const FooterContainer = styled.div`
 	border: 1px solid black;
 	width: 100%;
+	max-width: 480px;
 	height: 6.5rem;
 	display: flex;
 	background-color: white;
@@ -38,7 +39,7 @@ const FooterContainer = styled.div`
 	bottom: 0;
 	right: 0;
 	left: 0;
-	z-index: 9999;
+	margin: 0 auto;
 	padding: 0 1.3rem;
 `;
 
@@ -46,7 +47,6 @@ const BottomItem = styled(NavLink)`
 	border: none;
 	width: 25%;
 	height: 6.5rem;
-	padding: 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

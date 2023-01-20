@@ -73,7 +73,7 @@ const ChallengeStateContainer = styled.div`
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		font-size: 2rem;
+		font-size: 2.5rem;
 		padding: 0 1rem;
 
 		img {
@@ -83,7 +83,7 @@ const ChallengeStateContainer = styled.div`
 	}
 
 	.container {
-		width: 36.4rem;
+		width: 100%;
 		height: 8.1rem;
 		display: flex;
 		padding: 0 1rem;
@@ -94,7 +94,7 @@ const ChallengeStateContainer = styled.div`
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			font-size: 2rem;
+			font-size: 2.5rem;
 		}
 
 		div:not(:last-of-type) {
@@ -128,9 +128,9 @@ const ChallengeImg = styled.div`
 	width: 16rem;
 	height: 14.5rem;
 
-	.deleteBtn {
+	/* .deleteBtn {
 		display: none;
-	}
+	} */
 `;
 
 const CreateChallengeContainer = styled.div`
@@ -143,9 +143,4 @@ const CreateChallengeContainer = styled.div`
 	justify-content: space-evenly;
 	font-size: 1.4rem;
 	margin-top: 2.5rem;
-
-	/* .deleteBtn {
-		position: fixed;
-		left: 0;
-	} */
 `;

@@ -22,15 +22,15 @@ export const UserCompleteChallenge = () => {
 				<CompletedChallenge title="일주일에 책 한권 이상 읽기" />
 				<CompletedChallenge title="매일 헬스장 출석 체크" />
 				<CompletedChallenge title="아이고 힘들어" />
-				<BackToTopBtn />
 			</ChallengeWrap>
+			<BackToTopBtn bottom="3rem" />
 		</>
 	);
 };
 
 const ChallengeWrap = styled.div`
-	width: 36.4rem;
-	height: 79.2rem;
+	width: 100%;
+	/* height: 79.2rem; */
 	overflow: scroll;
 	display: flex;
 	flex-wrap: wrap;

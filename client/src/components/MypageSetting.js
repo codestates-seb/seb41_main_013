@@ -36,6 +36,7 @@ const SettingWrapper = styled.div`
 	padding: 2rem 1.3rem;
 	gap: 1rem;
 	width: 100%;
+	max-width: 480px;
 	background-color: white;
 	display: none;
 	position: fixed;

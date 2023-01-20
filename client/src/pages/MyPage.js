@@ -64,7 +64,7 @@ export const MyPage = (props) => {
 				{props.name || "유저이름"}
 			</div>
 			<ChallengeState />
-			<div>
+			<div className="challengeNav">
 				<NavTitle title="생성한 챌린지" link="/userCreate" />
 				<NavTitle title="완료한 챌린지" link="/userComplete" />
 			</div>
@@ -74,24 +74,28 @@ export const MyPage = (props) => {
 };
 
 const MypageWrapper = styled.div`
-	border: 1px solid black;
+	border: 1px solid orange;
 	width: 100%;
-	/* height: 100rem; */
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
+	gap: 2rem;
+
+	.challengeNav {
+		width: 100%;
+	}
 
 	.userInfo {
-		border: 1px solid red;
 		width: 100%;
 		height: 50%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
 		gap: 3rem;
-		font-size: 1.4rem;
-		padding: 0 1rem;
+		font-size: 1.5rem;
+		padding: 1rem;
 
 		img {
 			border: 1px solid black;
