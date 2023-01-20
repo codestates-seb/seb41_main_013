@@ -58,7 +58,7 @@ public class ChallengeController {
     // 챌린지 목록 최신순 조회
     @ApiOperation(value = "챌린지 목록 최신순 조회")
     @GetMapping("/new")
-    public ResponseEntity getNewChallenges(@ApiParam(name = "카테고리 선택", value = "미선택시 전체 카테고리에서 조회", required = false)
+    public ResponseEntity getNewChallenges(@ApiParam(name = "카테고리 선택", value = "미선택시 전체 카테고리에서 조회")
                                                @RequestParam @Nullable Category category) {
         List<Challenge> challenges = challengeService.findNewChallenges(category);
 
@@ -71,7 +71,7 @@ public class ChallengeController {
     // 챌린지 목록 참여자순 조회
     @ApiOperation(value = "챌린지 목록 참여자순 조회")
     @GetMapping("/hot")
-    public ResponseEntity getHotChallenges(@ApiParam(name = "카테고리 선택", value = "미선택시 전체 카테고리에서 조회", required = false)
+    public ResponseEntity getHotChallenges(@ApiParam(name = "카테고리 선택", value = "미선택시 전체 카테고리에서 조회")
                                                @RequestParam @Nullable Category category) {
         List<Challenge> challenges = challengeService.findHotChallenges(category);
 
@@ -82,9 +82,9 @@ public class ChallengeController {
 
     // 회원이 생성한 챌린지 조회
     @ApiOperation(value = "회원이 생성한 챌린지 조회")
+    @ApiParam(name = "회원번호 입력", value = "회원번호 입력", required = true)
     @GetMapping("/{member-id}")
-    public ResponseEntity getCreateChallenges(@ApiParam(name = "회원번호 입력", required = true)
-                                                  @PathVariable("member-id") @Positive long memberId) {
+    public ResponseEntity getCreateChallenges(@PathVariable("member-id") @Positive long memberId) {
         List<Challenge> challenges = challengeService.findCreateChallenges(memberId);
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
@@ -95,7 +95,7 @@ public class ChallengeController {
     // 챌린지 검색(제목+내용)
     @ApiOperation(value = "챌린지 검색(제목+내용)")
     @GetMapping
-    public ResponseEntity getSearchChallenges(@ApiParam(name = "검색어", value = "100자까지 입력 가능", required = true)
+    public ResponseEntity getSearchChallenges(@ApiParam(value = "100자까지 입력 가능", required = true)
                                                   @RequestParam @NotNull(message = "검색어를 입력하세요.")
                                                   @Size(max = 100, message = "검색어는 100자까지 입력 가능합니다.")
                                                   String query) {
@@ -108,9 +108,9 @@ public class ChallengeController {
 
     // 챌린지 삭제
     @ApiOperation(value = "챌린지 삭제")
+    @ApiParam(name = "챌린지번호 입력", value = "챌린지번호 입력", required = true)
     @DeleteMapping("/{challenge-id}")
-    public ResponseEntity deleteChallenge(@ApiParam(name = "챌린지번호 입력", required = true)
-                                              @PathVariable("challenge-id") @Positive long challengeId) {
+    public ResponseEntity deleteChallenge(@PathVariable("challenge-id") @Positive long challengeId) {
         challengeService.deleteChallenge(challengeId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
