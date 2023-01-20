@@ -32,20 +32,25 @@ public class MemberController {
     }
 
     // 회원 가입
+
     @ApiOperation(value = "회원 가입", notes = "회원-닉네임, 회원-이메일, 회원-비밀번호를 입력히여 회원가입을 합니다. ")
     @PostMapping // 요청 URL에 매핑된 API에 대한 설명
-    public ResponseEntity postMember(@RequestBody @Valid MemberPostDto memberPostDto) {
+    public ResponseEntity postMember(@ApiParam(name = "회원 가입 상세 정보", value = postMemberDescription, required = true)@RequestBody @Valid MemberPostDto memberPostDto) {
         Member member = mapper.memberPostDtoToMember(memberPostDto);
         Member createdMember = memberService.createdMember(member);
 
         return new ResponseEntity(mapper.memberToMemberResponseDto(createdMember), HttpStatus.CREATED);
     }
+    final String postMemberDescription = "email: 이메일 (adc@naver.com)" +"\r\n" +
+            "name: 회원 이름 입력(홍길동)"+ "\r\n" + "password: 회원 비밀번호 입력 (min: 8 max: 16)";
+
 
     // 사용자 정보 조회 (마이페이지 조회)
 
-    @ApiOperation(value = "특정 회원 조회", notes = "회원-식별자를 이용하여 특정 회원을 조회")
+    @ApiOperation(value = "특정 회원 조회", notes = "회원-식별자를 이용하여 특정 회원을 조회합니다")
     @GetMapping("/{member-id}")
-    public ResponseEntity getMember(@ApiParam("회원-식별자")@PathVariable("member-id") long id) {
+    public ResponseEntity getMember(@ApiParam("회원-식별자를 입력 하세요")@PathVariable("member-id") long id) {
+
         System.out.println("id" +  id);
 
         Member response = memberService.findMember(id);
@@ -54,11 +59,12 @@ public class MemberController {
                 HttpStatus.OK);
 
     }
+
     //사용자 정보 수정
     @ApiOperation(value = "특정 회원 정보 수정", notes = "회원-식별자와 수정데이터를 이용하여 특정 회원을 수정")
     @PatchMapping("/{member-id}")
-    public ResponseEntity PatchMember(@ApiParam("회원-식별자")@PathVariable("member-id") long id,
-                                      @RequestBody MemberPatchDto memberPatchDto) {
+    public ResponseEntity PatchMember(@PathVariable("member-id") long id,
+                                      @ApiParam(name ="회원 정보 수정") @RequestBody MemberPatchDto memberPatchDto) {
 
         System.out.println("MemberController.patchMember");
 
@@ -68,19 +74,26 @@ public class MemberController {
 
         return  new ResponseEntity<>(mapper.memberToMemberResponseDto(member),
                 HttpStatus.OK);
+
+
     }
+
 
     // 사용자 정보 삭제 (회원 탈퇴)
 
     @ApiOperation(value="특정 회원 삭제", notes = "회원-식별자를 이용하여 특정 회원을 삭제합니다.")
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@ApiParam("회원-식별자") @PathVariable("member-id") long id) {
+    public ResponseEntity deleteMember(@PathVariable("member-id") long id) {
         System.out.println("MemberController.deleteMember");
 
         memberService.deleteMember(id);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
 
+
+
     }
+
+            ;
 
 }
