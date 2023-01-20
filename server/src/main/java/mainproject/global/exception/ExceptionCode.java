@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ExceptionCode {
     CHALLENGE_NOT_FOUND(404, "챌린지를 찾을 수 없습니다."),
-    CHALLENGE_DELETE_NOT_ALLOWED(405, "챌린지를 삭제할 수 없습니다."),
+    CHALLENGER_ALREADY_EXISTS(405, "챌린지 참가자가 존재하므로 삭제할 수 없습니다."),
     CHALLENGE_ALREADY_STARTED(405, "이미 시작 혹은 종료된 챌린지입니다."),
     CHALLENGE_NOT_IN_PROGRESS(405, "진행 중인 챌린지가 아닙니다."),
     MEMBER_ALREADY_START_CHALLENGE(403, "이미 참가 중인 챌린지입니다."),
