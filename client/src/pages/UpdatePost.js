@@ -45,40 +45,39 @@ export const UpdatePost = () => {
 	};
 
 	return (
-		<>
-			<CreatepostContainer>
-				<TitleHeader title="글 수정하기" />
-				<p>제목</p>
-				<Input
-					lineHeight="3rem"
-					fontSize="1.3rem"
-					value={title}
-					onChange={handleChangeTitle}
-					borderColor={titleError && theme.color.red}
-				/>
-				<ErrorContainer display={titleError}>
-					제목은 5자 이상이여야 합니다.
-				</ErrorContainer>
-				<p>내용</p>
-				<Input
-					lineHeight="1.8rem"
-					fontSize="1.3rem"
-					rows="20"
-					value={content}
-					onChange={handleChangeContent}
-					borderColor={contentError && theme.color.red}
-				/>
-				<ErrorContainer display={contentError}>
-					내용은 20자 이상이여야 합니다.
-				</ErrorContainer>
-				<p>사진</p>
-				<ImageUploader />
-				<p>카테고리</p>
-				<SelectCategory />
-				<ErrorContainer display={categoryError}>
-					1개의 카테고리를 선택해주세요.
-				</ErrorContainer>
-			</CreatepostContainer>
+		<CreatepostContainer>
+			<TitleHeader title="글 수정하기" />
+			<p>제목</p>
+			<Input
+				lineHeight="3rem"
+				fontSize="1.3rem"
+				value={title}
+				onChange={handleChangeTitle}
+				borderColor={titleError && theme.color.red}
+			/>
+			<ErrorContainer display={titleError}>
+				제목은 5자 이상이여야 합니다.
+			</ErrorContainer>
+			<p>내용</p>
+			<Input
+				lineHeight="1.8rem"
+				fontSize="1.3rem"
+				rows="20"
+				value={content}
+				onChange={handleChangeContent}
+				borderColor={contentError && theme.color.red}
+			/>
+			<ErrorContainer display={contentError}>
+				내용은 20자 이상이여야 합니다.
+			</ErrorContainer>
+			<p>사진</p>
+			<ImageUploader />
+			<p>카테고리</p>
+			<SelectCategory />
+			<ErrorContainer display={categoryError}>
+				1개의 카테고리를 선택해주세요.
+			</ErrorContainer>
+
 			<Btn
 				btnText="완료"
 				background={theme.color.green}
@@ -87,6 +86,6 @@ export const UpdatePost = () => {
 				onClick={handleCheck}
 				margin="10rem 0.6rem 1rem 0.6rem"
 			/>
-		</>
+		</CreatepostContainer>
 	);
 };

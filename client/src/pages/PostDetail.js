@@ -76,6 +76,8 @@ const PostDetailContainer = styled.div`
 
 	display: flex;
 	flex-direction: column;
+	margin-top: 6rem;
+	margin-bottom: 6.5rem;
 
 	.title {
 		font-weight: 600;
