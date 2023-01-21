@@ -50,12 +50,12 @@ public class SecurityConfiguration  {
                 .authorizeRequests(auth -> auth
                         .antMatchers("/h2/**").permitAll() // h2 데이터베이스 확인 가능하게
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight 요청 모두 pass
-                        .antMatchers(HttpMethod.POST, "/api/challenges").hasRole("USER") // 챌린지 생성 TODO?
+                        .antMatchers(HttpMethod.POST, "/api/challenges").hasRole("USER") // 챌린지 생성
 
                         .antMatchers(HttpMethod.DELETE, "/api/challenges/{challengeId}")
                         .access("@challengeService.checkMember(principal, T(Long).parseLong(#challengeId))") // 챌린지 삭제
 
-                        .antMatchers(HttpMethod.POST, "api/challengers").hasRole("USER")    // 챌린지 참가 TODO?
+                        .antMatchers(HttpMethod.POST, "api/challengers").hasRole("USER")    // 챌린지 참가
 
                         .antMatchers(HttpMethod.GET, "api/challengers/{memberId}/**")
                         .access("@challengerService.checkMember(principal, T(Long).parseLong(#memberId))") // 회원이 참가중or참가했던 챌린지 조회

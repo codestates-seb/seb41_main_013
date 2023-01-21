@@ -38,6 +38,13 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
 
+    // 챌린지 조회
+    public Challenge findChallenge(long challengeId) {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        return findVerifiedChallenge(challengeId);
+    }
+
     // 챌린지 목록 최신 생성일 순 조회
     public List<Challenge> findNewChallenges(Category category) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경

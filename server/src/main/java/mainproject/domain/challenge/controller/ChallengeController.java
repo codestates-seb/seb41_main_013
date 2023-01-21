@@ -55,6 +55,18 @@ public class ChallengeController {
             "snapshotStartAt: 인증 시작 시간 예) 00:00:00 (생략 가능, default = 00:00:00)" + "\r\n" +
             "snapshotEndAt: 인증 종료 시간 (시작 시간 이후로 설정 가능, 생략 가능, default = 23:59:59)";
 
+    // 챌린지 상세조회
+    @ApiOperation(value = "챌린지 상세조회")
+    @ApiParam(name = "챌린지번호 입력", value = "챌린지번호 입력", required = true)
+    @GetMapping("/{challenge-id}")
+    public ResponseEntity getChallenge(@PathVariable("challenge-id") @Positive long challengeId) {
+        Challenge challenge = challengeService.findChallenge(challengeId);
+
+        ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     // 챌린지 목록 최신순 조회
     @ApiOperation(value = "챌린지 목록 최신순 조회")
     @GetMapping("/new")
@@ -65,7 +77,6 @@ public class ChallengeController {
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
 
     // 챌린지 목록 참여자순 조회
