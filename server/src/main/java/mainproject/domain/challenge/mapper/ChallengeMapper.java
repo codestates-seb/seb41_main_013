@@ -17,6 +17,7 @@ public interface ChallengeMapper {
             @Mapping(source = "member.id", target = "hostMemberId"),
             @Mapping(source = "member.name", target = "hostMemberName"),
             // @Mapping(source = "member.profileImage", target = "hostProfileImage")    // TODO: 이미지파일
+            @Mapping(source = "image.imageId", target = "challengeImageId")
     })
     ChallengeResponseDto challengeToChallengeResponseDto(Challenge challenge);
 

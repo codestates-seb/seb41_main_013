@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import mainproject.domain.challenge.entity.Frequency;
+import mainproject.domain.image.entity.Image;
 import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
@@ -40,7 +41,15 @@ public class ChallengePostDto {
     @ApiModelProperty(required = true, example = "우리동네에서 운동 후 하루에 한 번 인증사진을 등록하시면 됩니다.")
     private String content;
 
-    // private Image challengeImage;  // TODO: 이미지파일
+    @ApiModelProperty(required = false, example = "1")
+    private long challengeImageId = 1L;
+
+    @ApiModelProperty(hidden = true)
+    public Image getImage() {
+        Image image = new Image();
+        image.setImageId(challengeImageId);
+        return image;
+    }
 
     @NotNull(message = "시작 날짜를 선택하세요.")
     //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.") // 챌린지 상태변화 테스트시 주석 처리

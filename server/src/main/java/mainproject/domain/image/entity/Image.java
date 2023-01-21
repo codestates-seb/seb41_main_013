@@ -1,6 +1,7 @@
 package mainproject.domain.image.entity;
 
 import lombok.Data;
+import mainproject.domain.challenge.entity.Challenge;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,4 +28,14 @@ public class Image {
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToOne(mappedBy = "image")
+    private Challenge challenge;
+
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
+        if (challenge.getImage() != this) {
+            challenge.setImage(this);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package mainproject.domain.challenge.entity;
 
 import lombok.Data;
 import mainproject.domain.challenger.Entity.Challenger;
+import mainproject.domain.image.entity.Image;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.snapshot.Entity.Snapshot;
 import mainproject.global.category.Category;
@@ -50,7 +51,16 @@ public class Challenge implements Serializable {
     @Column(nullable = false)
     private String content;
 
-    // private Image challengeImage;  // TODO: 이미지파일
+    @OneToOne
+    @JoinColumn(name = "CHALLENGE_IMAGE_ID")
+    private Image image;
+
+    public void setImage(Image image) {
+        this.image = image;
+        if (this.image.getChallenge() != this) {
+            this.image.setChallenge(this);
+        }
+    }
 
     @Column(nullable = false)
     private LocalDate startAt;
