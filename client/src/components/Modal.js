@@ -78,6 +78,7 @@ const ModalContainer = styled.div`
 	position: fixed;
 	z-index: 999;
 	top: 27rem;
+	left: 18%;
 `;
 
 const BtnGroup = styled.div`

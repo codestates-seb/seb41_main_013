@@ -22,11 +22,11 @@ export const WriteComment = (props) => {
 	};
 	return (
 		<UpdateCommentContainer>
-			<div>
+			<div className="input">
 				<Input
 					placeholder={props.placeholder || ""}
-					lineHeight="2rem"
-					fontSize="1.3rem"
+					lineHeight="1.8rem"
+					fontSize="1rem"
 					rows="1"
 					margin={props.margin}
 					value={comment}
@@ -49,7 +49,12 @@ export const WriteComment = (props) => {
 		</UpdateCommentContainer>
 	);
 };
+
 const UpdateCommentContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
+	width: 100%;
+	.input {
+		width: 85%;
+	}
 `;

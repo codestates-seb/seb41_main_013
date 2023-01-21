@@ -49,7 +49,7 @@ export const Comment = (props) => {
 };
 
 const CommentContainer = styled.div`
-	width: 36.4rem;
+	width: 100%;
 	height: 9.2rem;
 	box-sizing: border-box;
 	margin-bottom: 1rem;

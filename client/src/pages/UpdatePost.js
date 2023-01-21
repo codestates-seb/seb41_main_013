@@ -82,9 +82,10 @@ export const UpdatePost = () => {
 			<Btn
 				btnText="완료"
 				background={theme.color.green}
-				width="36.4rem"
+				width="100%"
 				height="4.8rem"
 				onClick={handleCheck}
+				margin="10rem 0.6rem 1rem 0.6rem"
 			/>
 		</>
 	);
