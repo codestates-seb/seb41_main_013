@@ -9,8 +9,11 @@ import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -150,10 +153,10 @@ public class ChallengeService {
         return findChallenge;
     }
 
-    public boolean checkMember(Authentication authentication, long challengeId) {
+    public boolean checkMember(Member principal, long challengeId) {
         Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
 
         return optionalChallenge.isPresent()
-                && optionalChallenge.get().getMember().getEmail().equals(authentication.getName());
+                && optionalChallenge.get().getMember().getEmail().equals(principal.getEmail());
     }
 }

@@ -52,27 +52,40 @@ export const MypageHeader = (props) => {
 };
 
 const Main = styled.div`
-	/* border: 1px solid black; */
-	width: 36.4rem;
+	border: 1px solid black;
+	background-color: white;
+	width: 100%;
+	max-width: 480px;
 	height: 5.2rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	position: fixed;
 	top: 0;
-	z-index: 9999;
-	background-color: white;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	/* z-index: 999; */
+	padding: 0 1.3rem;
 `;
 
 const Title = styled.div`
 	border: 1px solid black;
-	width: 36.4rem;
+	background-color: white;
+	width: 100%;
+	max-width: 480px;
 	height: 5.2rem;
 	font-size: 1.6rem;
 	font-weight: bold;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	padding: 0 1.3rem;
 
 	.icon {
 		font-size: 2rem;

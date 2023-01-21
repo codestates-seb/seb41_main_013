@@ -170,9 +170,9 @@ export const UserPasswordChange = () => {
 };
 
 const Content = styled.form`
-	border: 1px solid black;
-	width: 36.4rem;
-	height: 79.2rem;
+	/* border: 1px solid black; */
+	width: 100%;
+	/* height: 79.2rem; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
