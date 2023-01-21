@@ -125,7 +125,7 @@ export const Signup = () => {
 			{isOpenModal && (
 				<Modal modalText="회원가입 성공! 로그인 페이지로 이동합니다." />
 			)}
-			<div />
+			{/* <div /> */}
 			<div>
 				<InputAuth
 					label="이름"
@@ -182,12 +182,13 @@ export const Signup = () => {
 };
 
 const Wrapper = styled.form`
-	border: 1px solid black;
-	width: 36.4rem;
-	height: 79.2rem;
+	/* border: 1px solid black; */
+	width: 100%;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	gap: 3rem;
 
 	input {

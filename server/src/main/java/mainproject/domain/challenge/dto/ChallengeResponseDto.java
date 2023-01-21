@@ -26,5 +26,5 @@ public class ChallengeResponseDto {
     private LocalTime snapshotEndAt;
     private LocalDateTime createdAt;
     private ChallengeStatus challengeStatus;
-    // TODO: 참가자 수
+    private long challengerCount;
 }

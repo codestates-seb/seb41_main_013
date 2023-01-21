@@ -7,8 +7,11 @@
 }
 
 body {
+	border: 1px solid black;
 	padding: 0 1.3rem;
-
-	/*Footer에 컨텐츠가 가려져서 추가했습니다.*/
-	margin-bottom: 6.5rem;
+	max-width: 480px;
+	min-width: 390px;
+	min-height: 100vh;
+	overflow: scroll;
+	margin: 0 auto;
 }
