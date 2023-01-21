@@ -56,7 +56,11 @@ export const BackToTopBtn = (props) => {
 export const CreateBtn = (props) => {
 	return (
 		<Link to={props.NavTo}>
-			<StyledBtn backgroundColor="#F6C324" left="1.3rem">
+			<StyledBtn
+				backgroundColor="#F6C324"
+				left="1.3rem"
+				onClick={props.onClick}
+			>
 				<FaPlus />
 			</StyledBtn>
 		</Link>

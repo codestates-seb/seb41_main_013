@@ -6,7 +6,7 @@ import { formatDate } from "./PostSummary";
 export const WriterInfo = (props) => {
 	return (
 		<>
-			<WriterInfoContainer>
+			<WriterInfoContainer margin={props.margin}>
 				<Avatar imgURL={props.imgURL} />
 				<div>{props.writer}</div>
 				<div>{formatDate(props.date)}</div>
@@ -28,4 +28,5 @@ const WriterInfoContainer = styled.div`
 	font-weight: 400;
 	font-size: 0.9rem;
 	line-height: 1rem;
+	margin: ${(props) => props.margin || 0};
 `;

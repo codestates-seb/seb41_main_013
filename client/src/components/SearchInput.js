@@ -8,7 +8,6 @@ export const SearchInput = (props) => {
 				lineHeight="3rem"
 				placeholder="검색어를 입력해주세요"
 				fontSize="1rem"
-				cols="74"
 				margin="1rem 0 0 0"
 			/>
 		</>
