@@ -2,6 +2,7 @@ package mainproject.domain.snapshot.Entity;
 
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
+import mainproject.domain.image.entity.Image;
 import mainproject.domain.member.entity.Member;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,11 +19,7 @@ public class Snapshot implements Serializable {
     private String snapshotId;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"),
-            @JoinColumn(name = "MEMBER_NAME", referencedColumnName = "NAME")
-            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
-    })
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     public void setMember(Member member) {
@@ -33,12 +30,7 @@ public class Snapshot implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID"),
-            @JoinColumn(name = "CHALLENGE_NAME", referencedColumnName = "TITLE")
-            // @JoinColumn(name = "CHALLENGE_IMAGE", referencedColumnName = "CHALLENGE_IMAGE"),  // TODO: 이미지파일
-            // TODO: 참가자 수
-    })
+    @JoinColumn(name = "CHALLENGE_ID")
     private Challenge challenge;
 
     public void setChallenge(Challenge challenge) {
@@ -48,7 +40,16 @@ public class Snapshot implements Serializable {
         }
     }
 
-    // private Image snapshotImage;  // TODO: 이미지파일
+    @OneToOne
+    @JoinColumn(name = "SNAPSHOT_IMAGE_ID")
+    private Image image;
+
+    public void setImage(Image image) {
+        this.image = image;
+        if (this.image.getSnapshot() != this) {
+            this.image.setSnapshot(this);
+        }
+    }
 
     @CreatedDate
     @Column(updatable = false)

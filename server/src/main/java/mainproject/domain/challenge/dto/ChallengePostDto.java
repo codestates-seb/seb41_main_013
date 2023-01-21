@@ -41,8 +41,9 @@ public class ChallengePostDto {
     @ApiModelProperty(required = true, example = "우리동네에서 운동 후 하루에 한 번 인증사진을 등록하시면 됩니다.")
     private String content;
 
+    @Positive
     @ApiModelProperty(required = false, example = "1")
-    private long challengeImageId = 1L;
+    private long challengeImageId = 1L; // TODO: 기본값을 기본 챌린지 이미지로 변경
 
     @ApiModelProperty(hidden = true)
     public Image getImage() {

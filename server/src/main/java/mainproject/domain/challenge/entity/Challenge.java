@@ -27,11 +27,7 @@ public class Challenge implements Serializable {
     private long challengeId;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "HOST_MEMBER_ID", referencedColumnName = "ID"),
-            @JoinColumn(name = "HOST_MEMBER_NAME", referencedColumnName = "NAME")
-            // @JoinColumn(name = "HOST_PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
-    })
+    @JoinColumn(name = "HOST_MEMBER_ID")
     private Member member;
 
     public void setMember(Member member) {

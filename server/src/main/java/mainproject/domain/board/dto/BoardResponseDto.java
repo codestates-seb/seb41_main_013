@@ -18,7 +18,7 @@ public class BoardResponseDto {
 
     private String memberName;
 
-    // private Image profileImage;   // TODO: 이미지파일
+    private long profileImageId;
 
     private Category category;
 
@@ -26,7 +26,7 @@ public class BoardResponseDto {
 
     private String content;
 
-    //private Image boardImage;  // TODO: 이미지파일
+    private long boardImageId;
 
     private LocalDateTime createdAt;
 
