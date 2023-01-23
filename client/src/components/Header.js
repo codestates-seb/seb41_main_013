@@ -32,7 +32,9 @@ export const MainHeader = () => {
 export const TitleHeader = (props) => {
 	return (
 		<Title>
-			<ArrowLeft />
+			<ArrowLeft
+				onClick={props.onClick}
+			/>
 			{props.title}
 			<div />
 		</Title>
@@ -65,7 +67,7 @@ const Main = styled.div`
 `;
 
 const Title = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 36.4rem;
 	height: 5.2rem;
 	font-size: 1.6rem;
