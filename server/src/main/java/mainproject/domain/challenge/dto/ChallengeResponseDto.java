@@ -14,7 +14,7 @@ public class ChallengeResponseDto {
     private long challengeId;
     private long hostMemberId;
     private String hostMemberName;
-    // private Image profileImage;   // TODO: 이미지파일
+    // private Image hostProfileImage;   // TODO: 이미지파일
     private Category category;
     private String title;
     private String content;
@@ -26,5 +26,5 @@ public class ChallengeResponseDto {
     private LocalTime snapshotEndAt;
     private LocalDateTime createdAt;
     private ChallengeStatus challengeStatus;
-    // TODO: 참가자 수
+    private long challengerCount;
 }

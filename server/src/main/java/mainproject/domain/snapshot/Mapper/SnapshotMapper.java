@@ -19,8 +19,7 @@ public interface SnapshotMapper {
             // @Mapping(source = "member.profileImage", target = "profileImage"), // TODO: 이미지파일
             @Mapping(source = "challenge.challengeId", target = "challengeId"),
             @Mapping(source = "challenge.title", target = "challengeName")
-            // @Mapping(source = "challenge.challengeImage", target = "challengeImage"),  // TODO: 이미지파일
-            // TODO: 참가자 수
+            // @Mapping(source = "challenge.challengeImage", target = "challengeImage")  // TODO: 이미지파일
     })
     SnapshotResponseDto snapshotToSnapshotResponseDto(Snapshot snapshot);
 

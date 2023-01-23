@@ -57,7 +57,11 @@ export const BackToTopBtn = (props) => {
 export const CreateBtn = (props) => {
 	return (
 		<Link to={props.NavTo}>
-			<StyledBtn backgroundColor="#F6C324" left="1.3rem">
+			<StyledBtn
+				backgroundColor="#F6C324"
+				left="1.3rem"
+				onClick={props.onClick}
+			>
 				<FaPlus />
 			</StyledBtn>
 		</Link>
@@ -87,7 +91,7 @@ const StyledBasicBtn = styled.button`
 	background-color: ${(props) => props.background || "white"};
 	cursor: pointer;
 	margin: ${(props) => props.margin || "0.3rem"};
-	box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6);
+	/* box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6); */
 
 	text-align: center;
 	font-family: "Inter";

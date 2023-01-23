@@ -29,7 +29,7 @@ public class Challenge implements Serializable {
     @JoinColumns({
             @JoinColumn(name = "HOST_MEMBER_ID", referencedColumnName = "ID"),
             @JoinColumn(name = "HOST_MEMBER_NAME", referencedColumnName = "NAME")
-            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
+            // @JoinColumn(name = "HOST_PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
     })
     private Member member;
 
@@ -76,7 +76,8 @@ public class Challenge implements Serializable {
     @Column(nullable = false)
     private ChallengeStatus challengeStatus;
 
-    // TODO: 참가자 수
+    @Column(nullable = false)
+    private long challengerCount = 0;
 
     @OneToMany(mappedBy = "challenge")
     private List<Challenger> challengers = new ArrayList<>();
