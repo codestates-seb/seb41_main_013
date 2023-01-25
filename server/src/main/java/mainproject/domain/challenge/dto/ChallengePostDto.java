@@ -32,12 +32,10 @@ public class ChallengePostDto {
     private Category category;
 
     @NotBlank(message = "제목을 입력하세요.")
-    @Size(max = 50, message = "제목은 50자까지 입력 가능합니다.")
     @ApiModelProperty(required = true, example = "같이 운동해요~")
     private String title;
 
     @NotBlank(message = "설명을 입력하세요.")
-    @Size(max = 500, message = "설명은 500자까지 입력 가능합니다.")
     @ApiModelProperty(required = true, example = "우리동네에서 운동 후 하루에 한 번 인증사진을 등록하시면 됩니다.")
     private String content;
 
@@ -66,7 +64,7 @@ public class ChallengePostDto {
     @AssertTrue(message = "종료 날짜는 시작 날짜 이후부터 선택 가능합니다.")
     @ApiModelProperty(hidden = true)
     public boolean isValidChallengePeriod() {
-        return endAt.isAfter(startAt);
+        return endAt.compareTo(startAt) >= 0;
     }
 
     @NotNull(message = "인증 빈도를 선택하세요.")
@@ -84,6 +82,6 @@ public class ChallengePostDto {
     @AssertTrue(message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
     @ApiModelProperty(hidden = true)
     public boolean isValidSnapshotTime() {
-        return snapshotEndAt.isAfter(snapshotStartAt);
+        return snapshotEndAt.compareTo(snapshotStartAt) >= 0;
     }
 }
