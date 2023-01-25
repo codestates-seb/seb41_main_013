@@ -13,8 +13,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.swing.text.html.HTML;
+import java.util.List;
 
 
 @EnableWebSecurity
@@ -74,7 +78,9 @@ public class SecurityConfiguration  {
                         .antMatchers(HttpMethod.DELETE, "/api/comments/{comment-id}")
                         .access("@CommentService.checkMember(authentication,#CommentId)")// 댓글 삭제
                         .antMatchers("/api/auths/logout").hasRole("USER") // 로그아웃
-                        .antMatchers("/api/members/{member-id}").hasRole("USER") // 마이페이지 확인, 회원정보 수정
+                        .antMatchers("/api/members/{memberId}")
+                        .access("T(domain.members.entity.Member).cast(principal).getId() " +
+                                "== T(Long).parseLong(#memberId)") // 마이페이지 확인, 회원정보 수정
 
                         .anyRequest().permitAll())
                 .logout()
@@ -87,6 +93,21 @@ public class SecurityConfiguration  {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "refreshToken"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
 }
 
 
