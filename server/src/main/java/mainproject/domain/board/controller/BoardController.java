@@ -45,7 +45,9 @@ public class BoardController {
     }
 
 
+
     final String postBoardDescription = "MemberId: 회원번호 (회원 등록 후 글 등록 가능)" + "\r\n" +
+
             "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
             "title: 게시글 제목 (50자까지 입력 가능) " + "\r\n" +
             "content: 게시글내용 (500자까지 입력 가능) ";
@@ -54,8 +56,10 @@ public class BoardController {
 
     @ApiOperation(value = "글 수정", notes = "등록된 글을 수정합니다.")
     @PatchMapping("/{board-id}")
+
     public ResponseEntity patchBoard(@PathVariable("board-id") @Positive long boardId,
                                      @ApiParam(name = "게시글 수정", value = patchBoardDescription, required = true)
+
                                      @Valid @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
         Board response = boardService.
@@ -63,10 +67,12 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(response), HttpStatus.OK);
     }
 
+
     final String patchBoardDescription = "MemberId: 회원번호 " + "\r\n" +
             "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
             "title: 게시글 제목  " + "\r\n" +
             "content: 게시글내용  " ;
+
 
     @ApiOperation(value = "글 조회", notes = "게시판에 글을 조회합니다.")
     @GetMapping("/{board-id}")

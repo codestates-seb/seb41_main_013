@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+
 import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -80,12 +82,14 @@ public class BoardService {
     }
 
 
+
     public boolean checkMember(Member principal, long boardId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
 
         return optionalBoard.isPresent()
                 && optionalBoard.get().getMember().getEmail().equals(principal.getEmail());
     }
+
 
     public void deleteBoard(long boardId) {
         boardRepository.deleteById(boardId);

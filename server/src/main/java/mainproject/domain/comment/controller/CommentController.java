@@ -38,8 +38,10 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 등록")
     @PostMapping("/{board-id}")
-    public ResponseEntity postComment(@PathVariable("board-id") @Positive long boardId,
-                                      @ApiParam(name = "댓글 등록", value = postCommentDescription, required = true)
+
+    public ResponseEntity postComment(@ApiParam(name = "댓글 등록", value = postCommentDescription)
+                                          @PathVariable("board-id") long boardId,
+
                                       @RequestBody CommentPostDto commentPostDto){
         Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
         Comment savedComment = commentService.createComment(comment, boardId);
@@ -54,8 +56,10 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 수정", notes = "등록된 댓글을 수정합니다.")
     @PatchMapping("/{comment-id}")
+
     public ResponseEntity patchComment(@PathVariable("comment-id") long commentId,
                                        @ApiParam(name = "댓글 수정", value = patchCommentDescription, required = true)
+
                                        @Valid @RequestBody CommentPatchDto commentPatchDto){
 
         Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
@@ -65,7 +69,9 @@ public class CommentController {
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(response), HttpStatus.OK);
     }
 
+
     final String patchCommentDescription = "MemberId: 회원번호" + "\r\n" +
+
             "content: 댓글내용 " + "\r\n" +
             "createdAt: 댓글 작성 시간"+ "\r\n" +
             "modifiedAt: 댓글 수정 시간";

@@ -73,15 +73,17 @@ export const PostDetail = () => {
 const PostDetailContainer = styled.div`
 	font-family: "Inter";
 	font-style: normal;
-	width: 36.4rem;
 
 	display: flex;
 	flex-direction: column;
+	margin-top: 6rem;
+	margin-bottom: 6.5rem;
 
 	.title {
 		font-weight: 600;
 		font-size: 1.4rem;
 		line-height: 3rem;
+		width: 100%;
 	}
 	.content {
 		white-space: pre-wrap;

@@ -19,8 +19,9 @@ export const CommunityCategoryBoard = () => {
 	return (
 		<>
 			<TitleHeader title={category[categoryId]} />
-			<SearchInput />
+
 			<CommunityContainer>
+				<SearchInput />
 				{CommunityList.filter((post) => post.categoryId == categoryId).map(
 					(cpost) => (
 						<PostSummary
@@ -38,4 +39,7 @@ export const CommunityCategoryBoard = () => {
 	);
 };
 
-const CommunityContainer = styled.div``;
+const CommunityContainer = styled.div`
+	margin-top: 5rem;
+	margin-bottom: 6.5rem;
+`;
