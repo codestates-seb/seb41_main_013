@@ -16,10 +16,10 @@ public interface ChallengerMapper {
     @Mappings({
             @Mapping(source = "member.id", target = "memberId"),
             @Mapping(source = "member.name", target = "memberName"),
-            // @Mapping(source = "member.profileImage", target = "profileImage"),   // TODO: 이미지파일
+            @Mapping(source = "member.image.imageId", target = "profileImageId"),
             @Mapping(source = "challenge.challengeId", target = "challengeId"),
-            @Mapping(source = "challenge.title", target = "challengeName")
-            // @Mapping(source = "challenge.challengeImage", target = "challengeImage")    // TODO: 이미지파일
+            @Mapping(source = "challenge.title", target = "challengeName"),
+            @Mapping(source = "challenge.image.imageId", target = "challengeImageId")
     })
     ChallengerResponseDto challengerToChallengerResponseDto(Challenger challenger);
 
