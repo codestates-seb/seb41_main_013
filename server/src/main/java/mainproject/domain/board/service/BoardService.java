@@ -3,6 +3,7 @@ package mainproject.domain.board.service;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.respository.BoardRepository;
 
+import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -77,6 +79,14 @@ public class BoardService {
         return findBoard;
     }
 
+
+    public boolean checkMember(Member principal, long boardId) {
+        Optional<Board> optionalBoard = boardRepository.findById(boardId);
+
+        return optionalBoard.isPresent()
+                && optionalBoard.get().getMember().getEmail().equals(principal.getEmail());
+    }
+
     public void deleteBoard(long boardId) {
         boardRepository.deleteById(boardId);
     }
@@ -88,8 +98,6 @@ public class BoardService {
 
         return boards;
     }
-
-
 
 
 }
