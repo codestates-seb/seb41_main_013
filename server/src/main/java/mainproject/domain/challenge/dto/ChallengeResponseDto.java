@@ -14,11 +14,11 @@ public class ChallengeResponseDto {
     private long challengeId;
     private long hostMemberId;
     private String hostMemberName;
-    // private Image hostProfileImage;   // TODO: 이미지파일
+    private long hostProfileImageId;
     private Category category;
     private String title;
     private String content;
-    // private Image challengeImage;  // TODO: 이미지파일
+    private long challengeImageId;
     private LocalDate startAt;
     private LocalDate endAt;
     private Frequency frequency;
