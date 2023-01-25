@@ -3,6 +3,7 @@ package mainproject.domain.challenge.service;
 import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.challenge.entity.ChallengeStatus;
 import mainproject.domain.challenge.repository.ChallengeRepository;
+import mainproject.domain.challenger.Repository.ChallengerRepository;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.category.Category;
@@ -22,10 +23,12 @@ import java.util.stream.Collectors;
 public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final MemberService memberService;
+    private final ChallengerRepository challengerRepository;
 
-    public ChallengeService(ChallengeRepository challengeRepository, MemberService memberService) {
+    public ChallengeService(ChallengeRepository challengeRepository, MemberService memberService, ChallengerRepository challengerRepository) {
         this.challengeRepository = challengeRepository;
         this.memberService = memberService;
+        this.challengerRepository = challengerRepository;
     }
 
     // 챌린지 생성
@@ -43,6 +46,18 @@ public class ChallengeService {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         return findVerifiedChallenge(challengeId);
+    }
+
+    // 챌린지 상세조회 : 회원의 챌린지 참가여부 확인
+    public String checkChallenging(long challengeId, long memberId) {
+        String challengerId = "M" + memberId + "_C" + challengeId;
+        long duplication = challengerRepository.findById(challengerId).stream().count();
+        if (duplication > 0) {
+            return "참여중";
+        }
+        else {
+            return "참여하기";
+        }
     }
 
     // 챌린지 목록 최신 생성일 순 조회

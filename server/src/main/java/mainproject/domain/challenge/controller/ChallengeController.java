@@ -66,12 +66,20 @@ public class ChallengeController {
     @ApiOperation(value = "챌린지 상세조회")
     @GetMapping("/details/{challenge-id}")
     public ResponseEntity getChallenge(@ApiParam(value = "챌린지번호 입력", required = true)
-                                           @PathVariable("challenge-id") @Positive long challengeId) {
+                                           @PathVariable("challenge-id") @Positive long challengeId,
+                                       @ApiParam(value = "회원의 챌린지 참가여부 조회-회원번호 입력")
+                                       @RequestParam @Positive @Nullable Long memberId) {
         Challenge challenge = challengeService.findChallenge(challengeId);
 
         ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        String checkChallenging = "로그인이 필요합니다.";
+
+        if (memberId != null) {
+            checkChallenging = challengeService.checkChallenging(challengeId, memberId);
+        }
+
+        return new ResponseEntity<>(List.of(response, checkChallenging), HttpStatus.OK);
     }
 
     // 챌린지 목록 최신순 조회
