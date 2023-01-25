@@ -69,9 +69,10 @@ public class ChallengeService {
         } else {
             List<Challenge> challenges = challengeRepository.findAll().stream()
                     .filter(c -> c.getCategory().equals(category))
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
                     .collect(Collectors.toList());
 
-            return new PageImpl<>(challenges, PageRequest.of(0, 10, Sort.by("createdAt").descending()), challenges.size());
+            return new PageImpl<>(challenges, PageRequest.of(0, 10), challenges.size());
         }
     }
 
@@ -84,9 +85,10 @@ public class ChallengeService {
         } else {
             List<Challenge> challenges = challengeRepository.findAll().stream()
                     .filter(c -> c.getCategory().equals(category))
+                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                     .collect(Collectors.toList());
 
-            return new PageImpl<>(challenges, PageRequest.of(0, 10, Sort.by("challengerCount").descending()), challenges.size());
+            return new PageImpl<>(challenges, PageRequest.of(0, 10), challenges.size());
         }
     }
 

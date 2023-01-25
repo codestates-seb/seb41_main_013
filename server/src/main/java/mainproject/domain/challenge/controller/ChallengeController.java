@@ -67,7 +67,7 @@ public class ChallengeController {
     @GetMapping("/details/{challenge-id}")
     public ResponseEntity getChallenge(@ApiParam(value = "챌린지번호 입력", required = true)
                                            @PathVariable("challenge-id") @Positive long challengeId,
-                                       @ApiParam(value = "회원의 챌린지 참가여부 조회-회원번호 입력")
+                                       @ApiParam(value = "회원의 챌린지 참가여부 조회 - 회원번호 입력")
                                        @RequestParam @Positive @Nullable Long memberId) {
         Challenge challenge = challengeService.findChallenge(challengeId);
 
