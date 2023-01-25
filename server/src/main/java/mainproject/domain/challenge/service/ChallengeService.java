@@ -8,6 +8,10 @@ import mainproject.domain.member.service.MemberService;
 import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -42,49 +46,49 @@ public class ChallengeService {
     }
 
     // 챌린지 목록 최신 생성일 순 조회
-    public List<Challenge> findNewChallenges(Category category) {
+    public Page<Challenge> findNewChallenges(Category category) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         if (category == null) {
-            return challengeRepository.findAll().stream()
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
-                    .collect(Collectors.toList());
+            return challengeRepository.findAll(PageRequest.of(0, 10, Sort.by("createdAt").descending()));
         } else {
-            return challengeRepository.findAll().stream()
+            List<Challenge> challenges = challengeRepository.findAll().stream()
                     .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
                     .collect(Collectors.toList());
+
+            return new PageImpl<>(challenges, PageRequest.of(0, 10, Sort.by("createdAt").descending()), challenges.size());
         }
     }
 
     // 챌린지 목록 참여자순 조회
-    public List<Challenge> findHotChallenges(Category category) {
+    public Page<Challenge> findHotChallenges(Category category) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         if (category == null) {
-            return challengeRepository.findAll().stream()
-                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
-                    .collect(Collectors.toList());
+            return challengeRepository.findAll(PageRequest.of(0, 10, Sort.by("challengerCount").descending()));
         } else {
-            return challengeRepository.findAll().stream()
+            List<Challenge> challenges = challengeRepository.findAll().stream()
                     .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                     .collect(Collectors.toList());
+
+            return new PageImpl<>(challenges, PageRequest.of(0, 10, Sort.by("challengerCount").descending()), challenges.size());
         }
     }
 
     // 회원이 생성한 챌린지 조회
-    public List<Challenge> findCreateChallenges(long memberId) {
+    public Page<Challenge> findCreateChallenges(long memberId) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
-        return challengeRepository.findByMember_Id(memberId).stream()
+        List<Challenge> challenges = challengeRepository.findByMember_Id(memberId).stream()
                 .sorted(Comparator.comparing(Challenge::getChallengeStatus) // 1차 정렬: 진행중인 챌린지, 시작 전 챌린지, 종료된 챌린지 순서로 정렬
                         .thenComparing(Challenge::getCreatedAt))    // 2차 정렬: 같은 상태의 챌린지 내에서 생성일 순으로 정렬
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(challenges, PageRequest.of(0, 10), challenges.size());
     }
 
     // 챌린지 검색(제목+내용) - 검색결과는 인기순(참여자순)으로 출력
-    public List<Challenge> searchChallenges(String query) {
+    public Page<Challenge> searchChallenges(String query) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         String[] words = query.split(" ");
@@ -98,7 +102,11 @@ public class ChallengeService {
             results.addAll(result);
         }
 
-        return results.stream().sorted(Comparator.comparing(Challenge::getChallengerCount).reversed()).collect(Collectors.toList());
+        results = results.stream()
+                .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(results, PageRequest.of(0, 10), results.size());
     }
 
     // 챌린지 삭제
