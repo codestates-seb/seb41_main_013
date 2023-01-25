@@ -34,7 +34,7 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
 
-    // 챌린지 조회
+    // 챌린지 상세조회
     public Challenge findChallenge(long challengeId) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
@@ -46,11 +46,11 @@ public class ChallengeService {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         if (category == null) {
-            return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
+            return challengeRepository.findAll().stream()
                     .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
                     .collect(Collectors.toList());
         } else {
-            return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
+            return challengeRepository.findAll().stream()
                     .filter(c -> c.getCategory().equals(category))
                     .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
                     .collect(Collectors.toList());
@@ -62,11 +62,11 @@ public class ChallengeService {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         if (category == null) {
-            return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
+            return challengeRepository.findAll().stream()
                     .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                     .collect(Collectors.toList());
         } else {
-            return challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
+            return challengeRepository.findAll().stream()
                     .filter(c -> c.getCategory().equals(category))
                     .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                     .collect(Collectors.toList());
@@ -92,7 +92,7 @@ public class ChallengeService {
 
         for (String w : words) {
             List<Challenge> result =
-                    challengeRepository.findByChallengeStatus(ChallengeStatus.시작전).stream()
+                    challengeRepository.findAll().stream()
                             .filter(c -> c.getTitle().contains(w) || c.getContent().contains(w))
                             .collect(Collectors.toList());
             results.addAll(result);
