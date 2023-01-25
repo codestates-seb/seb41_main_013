@@ -17,8 +17,8 @@ import { UserCreateChallenge } from "../pages/UserCreateChallenge";
 import { UserCompleteChallenge } from "../pages/UserCompleteChallenge";
 import { UserPasswordChange } from "../pages/UserPasswordChange";
 import { UserProfileEdit } from "../pages/UserProfileEdit";
-import { Signup } from "../pages/SignUp";
-import { Login } from "../pages/Login";
+import { SignUp } from "../pages/SignUp";
+import { SignIn } from "../pages/SignIn";
 import { FindPassword } from "../pages/FindPassword";
 //community
 import { Community } from "../pages/Community";
@@ -77,8 +77,8 @@ export const OurPath = () => {
 				<Route path="/post/:postId" element={<PostDetail />} />
 			</Route>
 			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
-				<Route path="/signup" element={<Signup />} />
-				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<SignUp />} />
+				<Route path="/login" element={<SignIn />} />
 				<Route path="/findPw" element={<FindPassword />} />
 			</Route>
 		</Routes>

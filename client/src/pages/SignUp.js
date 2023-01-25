@@ -6,82 +6,109 @@ import { InputAuth } from "../components/Input";
 import { Modal } from "../components/Modal";
 import theme from "../components/theme";
 
-export const Signup = () => {
-	// 회원가입 시 프로필 이미지 랜덤으로 부여
+export const SignUp = () => {
 	const navigate = useNavigate();
 
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [passwordCheck, setPasswordCheck] = useState("");
+	const [userInput, setUserInput] = useState({
+		name: "",
+		email: "",
+		password: "",
+		passwordCheck: "",
+	});
 
-	const [nameErr, setNameErr] = useState(false);
-	const [emailErr, setEmailErr] = useState(false);
-	const [passwordErr, setPasswordErr] = useState(false);
-	const [passwordCheckErr, setPasswordCheckErr] = useState(false);
+	const [inputErr, setInputErr] = useState({
+		name: false,
+		email: false,
+		password: false,
+		passwordCheck: false,
+		overLap: false, // 이메일 중복
+	});
 
 	const [isOpenModal, setIsOpenModal] = useState(false);
-	// 이미 가입되어 있는 이메일 (이메일 중복)
-	// const [sameEmailModal, setSameEmailModal] = useState(false);
 
 	const onChangeName = (e) => {
-		setName(e.target.value);
-		setNameErr(false);
+		setUserInput((prevState) => {
+			return { ...prevState, name: e.target.value };
+		});
+		setInputErr((prevState) => {
+			return { ...prevState, name: false };
+		});
 	};
 
 	const nameValidCheck = () => {
 		const nameRegex = /^[a-zA-Z가-힣0-9]{3,}$/;
-		if (!name || !nameRegex.test(name)) {
-			setNameErr(true);
+		if (!userInput.name || !nameRegex.test(userInput.name)) {
+			setInputErr((prevState) => {
+				return { ...prevState, name: true };
+			});
 			return false;
 		}
-		setNameErr(false);
 		return true;
 	};
 
 	const onChangeEmail = (e) => {
-		setEmail(e.target.value);
-		setEmailErr(false);
+		setUserInput((prevState) => {
+			return { ...prevState, email: e.target.value };
+		});
+		setInputErr((prevState) => {
+			return { ...prevState, name: false };
+		});
 	};
 
 	const emailValidCheck = () => {
 		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-		if (!email || !emailRegexp.test(email)) {
-			setEmailErr(true);
+		if (!userInput.email || !emailRegexp.test(userInput.email)) {
+			setInputErr((prevState) => {
+				return { ...prevState, email: true };
+			});
 			return false;
 		}
-		setEmailErr(false);
 		return true;
 	};
 
 	const onChangePassword = (e) => {
-		setPassword(e.target.value);
-		setPasswordErr(false);
+		setUserInput((prevState) => {
+			return { ...prevState, password: e.target.value };
+		});
+		setInputErr((prevState) => {
+			return { ...prevState, password: false };
+		});
 	};
 
 	const passwordValidCheck = () => {
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
-		if (!password || !passwordRegex.test(password)) {
-			setPasswordErr(true);
+		if (!userInput.password || !passwordRegex.test(userInput.password)) {
+			setInputErr((prevState) => {
+				return { ...prevState, password: true };
+			});
 			return false;
 		}
-		setPasswordErr(false);
 		return true;
 	};
 
 	const onChangePasswordCheck = (e) => {
-		setPasswordCheck(e.target.value);
-		setPasswordCheckErr(false);
+		setUserInput((prevState) => {
+			return { ...prevState, passwordCheck: e.target.value };
+		});
+		setInputErr((prevState) => {
+			return { ...prevState, passwordCheck: false };
+		});
 	};
 
 	const passwordSameCheck = () => {
-		if (password !== passwordCheck || !passwordCheck) {
-			setPasswordCheckErr(true);
+		if (
+			userInput.password !== userInput.passwordCheck ||
+			!userInput.passwordCheck
+		) {
+			setInputErr((prevState) => {
+				return { ...prevState, passwordCheck: true };
+			});
 			return false;
 		}
-		setPasswordCheckErr(false);
 		return true;
 	};
+
+	// 이메일 중복 확인하는 함수
 
 	const checkValidation = () => {
 		nameValidCheck();
@@ -103,10 +130,10 @@ export const Signup = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log("name :", name);
-		console.log("email :", email);
-		console.log("password :", password);
-		console.log("passwordCheck :", passwordCheck);
+		console.log("name :", userInput.name);
+		console.log("email :", userInput.email);
+		console.log("password :", userInput.password);
+		console.log("passwordCheck :", userInput.passwordCheck);
 
 		if (checkValidation()) {
 			console.log("회원가입 성공");
@@ -125,37 +152,37 @@ export const Signup = () => {
 			{isOpenModal && (
 				<Modal modalText="회원가입 성공! 로그인 페이지로 이동합니다." />
 			)}
-			{/* <div /> */}
 			<div>
 				<InputAuth
 					label="이름"
 					type="text"
-					value={name}
+					value={userInput.name}
 					onChange={onChangeName}
-					border={nameErr && `${theme.color.red}`}
+					border={inputErr.name && `${theme.color.red}`}
 					fontSize="1.5rem"
 				/>
-				{nameErr && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
+				{inputErr.name && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
 			</div>
+
 			<div>
 				<InputAuth
 					label="이메일"
 					type="email"
-					value={email}
+					value={userInput.email}
 					onChange={onChangeEmail}
-					border={emailErr && `${theme.color.red}`}
+					border={inputErr.email && `${theme.color.red}`}
 				/>
-				{emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
+				{inputErr.email && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
 					label="비밀번호"
 					type="password"
-					value={password}
+					value={userInput.password}
 					onChange={onChangePassword}
-					border={passwordErr && `${theme.color.red}`}
+					border={inputErr.password && `${theme.color.red}`}
 				/>
-				{passwordErr && (
+				{inputErr.password && (
 					<p>
 						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
 					</p>
@@ -165,11 +192,11 @@ export const Signup = () => {
 				<InputAuth
 					label="비밀번호 확인"
 					type="password"
-					value={passwordCheck}
+					value={userInput.passwordCheck}
 					onChange={onChangePasswordCheck}
-					border={passwordCheckErr && `${theme.color.red}`}
+					border={inputErr.passwordCheck && `${theme.color.red}`}
 				/>
-				{passwordCheckErr && <p>비밀번호가 일치하지 않습니다.</p>}
+				{inputErr.passwordCheck && <p>비밀번호가 일치하지 않습니다.</p>}
 			</div>
 			<Btn
 				btnText="확인"

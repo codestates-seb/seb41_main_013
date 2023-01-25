@@ -5,53 +5,63 @@ import theme from "../components/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export const Login = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+export const SignIn = () => {
+	const [userInput, setUserInput] = useState({
+		email: "",
+		password: "",
+	});
 
-	const [emailErr, setEmailErr] = useState(false);
-	const [passwordErr, setPasswordErr] = useState(false);
-	const [loginErr, setLoginErr] = useState(false);
+	const [inputErr, setInputErr] = useState({
+		email: false,
+		passowrd: false,
+		signIn: false, // 로그인 에러 => 아이디 또는 비밀번호를 확인하세요.
+	});
 
 	const navigate = useNavigate();
 
-	// 존재하지 않는 이메일 혹은 잘못된 비밀번호 (로그인 실패) => 아이디 또는 비밀번호를 확인하세요
-	// 로그인 버튼 누르면 로딩중인거 표시 (이메일 조회해야 해서 그런가)
-
 	const onChangeEmail = (e) => {
-		setEmail(e.target.value);
-		setEmailErr(false);
+		setUserInput((prevState) => {
+			return { ...prevState, email: e.target.value };
+		});
+		setInputErr((prevState) => {
+			return { ...prevState, email: false };
+		});
 	};
-
-	const emailCheck = () => {
+	const emailValidCheck = () => {
 		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-		if (!email || !emailRegexp.test(email)) {
-			setEmailErr(true);
+		if (!userInput.email || !emailRegexp.test(userInput.email)) {
+			setInputErr((prevState) => {
+				return { ...prevState, email: true };
+			});
 			return false;
 		}
-		setEmailErr(false);
 		return true;
 	};
 
 	const onChangePassword = (e) => {
-		setPassword(e.target.value);
-		setPasswordErr(false);
+		setUserInput((prevState) => {
+			return { ...prevState, password: e.target.value };
+		});
+		setInputErr((prevState) => {
+			return { ...prevState, password: false };
+		});
 	};
 
-	const passwordCheck = () => {
+	const passwordValidCheck = () => {
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
-		if (!password || !passwordRegex.test(password)) {
-			setPasswordErr(true);
+		if (!userInput.password || !passwordRegex.test(userInput.password)) {
+			setInputErr((prevState) => {
+				return { ...prevState, password: true };
+			});
 			return false;
 		}
-		setPasswordErr(false);
 		return true;
 	};
 
 	const validCheck = () => {
-		emailCheck();
-		passwordCheck();
-		if (emailCheck() && passwordCheck()) {
+		emailValidCheck();
+		passwordValidCheck();
+		if (emailValidCheck() && passwordValidCheck()) {
 			console.log("true");
 			return true;
 		}
@@ -67,32 +77,33 @@ export const Login = () => {
 			navigate("/");
 		} else {
 			console.log("로그인 실패!");
-			setLoginErr(true);
+			setInputErr((prevState) => {
+				return { ...prevState, signIn: true };
+			});
 		}
 	};
 
 	return (
 		<Wrapper onSubmit={onSubmit}>
-			{/* <div /> */}
 			<div>
 				<InputAuth
 					label="이메일"
 					type="email"
-					value={email}
+					value={userInput.email}
 					onChange={onChangeEmail}
-					border={emailErr && `${theme.color.red}`}
+					border={inputErr.emailErr && `${theme.color.red}`}
 				/>
-				{emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
+				{inputErr.emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
 					label="비밀번호"
 					type="password"
-					value={password}
+					value={userInput.password}
 					onChange={onChangePassword}
-					border={passwordErr && `${theme.color.red}`}
+					border={inputErr.passwordErr && `${theme.color.red}`}
 				/>
-				{passwordErr && (
+				{inputErr.passwordErr && (
 					<p>
 						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
 					</p>

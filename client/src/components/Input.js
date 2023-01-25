@@ -24,6 +24,7 @@ export const InputAuth = (props) => {
 	return (
 		<Wrapper>
 			<span>{props.label}</span>
+
 			<AuthInput
 				type={props.type}
 				value={props.value}
