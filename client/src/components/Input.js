@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import React from "react";
 
-export const Input = (props) => {
+export const Input = React.forwardRef((props, ref) => {
 	return (
 		<>
 			<StyledLabel>{props.label}</StyledLabel>
@@ -15,10 +16,11 @@ export const Input = (props) => {
 				lineHeight={props.lineHeight}
 				onChange={props.onChange}
 				borderColor={props.borderColor}
+				{...props.register}
 			></StyledInput>
 		</>
 	);
-};
+});
 
 export const InputAuth = (props) => {
 	return (

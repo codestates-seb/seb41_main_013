@@ -1,4 +1,3 @@
-// todo: HomeCategory Navto props
 import styled from "styled-components";
 import { HomeCategory } from "../components/Category";
 import { HomeChallengeItem } from "../components/ChallengeItem";
