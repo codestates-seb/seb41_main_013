@@ -41,6 +41,7 @@ export const TwoBtnModal = (props) => {
 						btnText={props.btnTextOrg}
 						background={theme.color.orange}
 						onClick={props.onClickOrg}
+						type={props.typeOrg}
 					/>
 					<Btn
 						btnText={props.btnTextGry}
@@ -77,8 +78,9 @@ const ModalContainer = styled.div`
 
 	position: fixed;
 	z-index: 999;
-	top: 27rem;
-	left: 18%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 `;
 
 const BtnGroup = styled.div`

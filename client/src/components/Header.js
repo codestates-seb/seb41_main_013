@@ -32,7 +32,9 @@ export const MainHeader = () => {
 export const TitleHeader = (props) => {
 	return (
 		<Title>
-			<ArrowLeft />
+			<ArrowLeft
+				onClick={props.onClick}
+			/>
 			{props.title}
 			<div />
 		</Title>
