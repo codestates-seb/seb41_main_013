@@ -1,6 +1,7 @@
 package mainproject.domain.board.controller;
 
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import mainproject.domain.board.dto.BoardPatchDto;
@@ -23,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/boards")
 @Validated
+@Api(tags = "게시판 글 작성, 조회, 수정, 삭제")
 public class BoardController {
 
     private BoardService boardService;
@@ -43,7 +45,9 @@ public class BoardController {
     }
 
 
-    final String postBoardDescription = "hostMemberId: 회원번호 (회원 등록 후 글 등록 가능)" + "\r\n" +
+
+    final String postBoardDescription = "MemberId: 회원번호 (회원 등록 후 글 등록 가능)" + "\r\n" +
+
             "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
             "title: 게시글 제목 (50자까지 입력 가능) " + "\r\n" +
             "content: 게시글내용 (500자까지 입력 가능) ";
@@ -52,8 +56,10 @@ public class BoardController {
 
     @ApiOperation(value = "글 수정", notes = "등록된 글을 수정합니다.")
     @PatchMapping("/{board-id}")
-    public ResponseEntity patchBoard(@ApiParam(name = "게시글 수정", value = patchBoardDescription, required = true)
-            @PathVariable("board-id") @Positive long boardId,
+
+    public ResponseEntity patchBoard(@PathVariable("board-id") @Positive long boardId,
+                                     @ApiParam(name = "게시글 수정", value = patchBoardDescription, required = true)
+
                                      @Valid @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
         Board response = boardService.
@@ -61,12 +67,12 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(response), HttpStatus.OK);
     }
 
-    final String patchBoardDescription = "hostMemberId: 회원번호 " + "\r\n" +
+
+    final String patchBoardDescription = "MemberId: 회원번호 " + "\r\n" +
             "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
-            "title: 게시글 제목 (50자까지 입력 가능) " + "\r\n" +
-            "content: 게시글내용 (500자까지 입력 가능) " + "\r\n" +
-            "createdAt: 게시글 작성 시간" + "\r\n" +
-            "modifiedAt: 게시글 수정 시간";
+            "title: 게시글 제목  " + "\r\n" +
+            "content: 게시글내용  " ;
+
 
     @ApiOperation(value = "글 조회", notes = "게시판에 글을 조회합니다.")
     @GetMapping("/{board-id}")

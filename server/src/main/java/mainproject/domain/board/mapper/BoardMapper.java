@@ -26,7 +26,7 @@ public interface BoardMapper {
     })
     BoardResponseDto boardToBoardResponseDto(Board board);
 
-    List<BoardResponseDto> boardsToBoardResponseDtos(List<Board> questions);
+    List<BoardResponseDto> boardsToBoardResponseDtos(List<Board> boards);
 
 
 }

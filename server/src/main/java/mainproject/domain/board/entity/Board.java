@@ -67,4 +67,6 @@ public class Board implements Serializable {
             comment.setBoard(this);
         }
     }
+
+
 }

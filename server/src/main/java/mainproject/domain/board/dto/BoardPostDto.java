@@ -16,7 +16,7 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardPostDto {
-    @NotNull
+  @NotNull
     @Positive
     private Long memberId;
 
@@ -26,6 +26,8 @@ public class BoardPostDto {
         member.setId(memberId);
         return member;
     }
+
+
 
     @NotNull(message = "카테고리를 선택하세요.")
     private Category category;
