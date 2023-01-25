@@ -17,7 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.swing.text.html.HTML;
 import java.util.List;
 
 
@@ -49,6 +48,9 @@ public class SecurityConfiguration  {
                 .and()
 
                 .apply(new CustomFilterConfiguration(jwtTokenizer, authService))
+                .and()
+
+                .cors() // CORS 설정
                 .and()
 
                 .authorizeRequests(auth -> auth
@@ -95,6 +97,8 @@ public class SecurityConfiguration  {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+    // CORS 설정
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
