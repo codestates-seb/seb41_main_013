@@ -1,5 +1,6 @@
 package mainproject.domain.comment.service;
 
+import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.comment.repository.CommentRepository;
 import mainproject.domain.board.entity.Board;
@@ -12,9 +13,11 @@ import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -70,7 +73,12 @@ public class CommentService {
 // 필터걸기 추가
 
 
+    public boolean checkMember(Member principal, long commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
 
+        return optionalComment.isPresent()
+                && optionalComment.get().getMember().getEmail().equals(principal.getEmail());
+    }
     public void deleteComment(Long commentId) {
         Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         //   if ( !findComment.getMember().getEmail().equals(email)){
@@ -79,5 +87,7 @@ public class CommentService {
 
         commentRepository.delete(findComment);
     }
+
+
 
 }

@@ -9,7 +9,6 @@ import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,10 +39,7 @@ public class ChallengerService {
 
         // 회원이 이미 참가 중인 챌린지인지 검증
         String challengerId = "M" + memberId + "_C" + challengeId;
-        long duplication = challengerRepository.findById(challengerId).stream()
-                .filter(c -> c.getMember().getId() == memberId)
-                .filter(c -> c.getChallenge().getChallengeId() == challengeId)
-                .count();
+        long duplication = challengerRepository.findById(challengerId).stream().count();
         if (duplication > 0) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_START_CHALLENGE);
         }
