@@ -19,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/members")
+@Api(tags = "회원 가입, 조회, 삭제, 수정")
 public class MemberController {
 
     private final MemberService memberService;
