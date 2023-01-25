@@ -64,6 +64,7 @@ public class SecurityConfiguration  {
                         .access("@challengerService.checkMember(principal, snapshot.getMember().getId())")   // 인증사진 등록
 
                         .antMatchers(HttpMethod.POST, "/api/boards").hasRole("USER") // 게시판 글 작성
+
                         .antMatchers(HttpMethod.PATCH, "/api/boards/{boardId}")
                         .access("@boardService.checkMember(principal,T(Long).parseLong(#boardId))") // 게시판 글 수정
                         .antMatchers(HttpMethod.DELETE, "/api/boards/{boardId}")
@@ -73,6 +74,7 @@ public class SecurityConfiguration  {
                         .access("@commentService.checkMember(principal,T(Long).parseLong(#commentId))")// 댓글 수정
                         .antMatchers(HttpMethod.DELETE, "/api/comments/{commentId}")
                         .access("@commentService.checkMember(principal,T(Long).parseLong(#commentId))")// 댓글 삭제
+
                         .antMatchers("/api/auths/logout").hasRole("USER") // 로그아웃
                         .antMatchers("/api/members/{member-id}").hasRole("USER") // 마이페이지 확인, 회원정보 수정
 
