@@ -25,7 +25,7 @@ const MyChallengeUpload = () => {
 
   const getChallengeData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/challenges/${challengeId}`);
+      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/challenges/details/${challengeId}`);
       setChallengeData(response.data);
     } catch (error) {
       console.error(error);
