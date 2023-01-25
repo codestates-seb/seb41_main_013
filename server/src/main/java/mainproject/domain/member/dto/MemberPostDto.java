@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mainproject.domain.image.entity.Image;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -31,4 +32,11 @@ public class MemberPostDto {
     @Length(min = 8, max = 16, message = "비밀번호는 8자 이상, 16자 이하로 입력해주세요")
     @ApiModelProperty(value = "회원-비밀번호")
     private String password;
+
+    @ApiModelProperty(hidden = true)
+    public Image getImage() {
+        Image image = new Image();
+        image.setImageId(1L);   // TODO: 기본값을 기본 프로필 이미지로 변경
+        return image;
+    }
 }

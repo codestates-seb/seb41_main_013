@@ -46,14 +46,27 @@ public class ChallengeController {
     }
 
     final String postChallengeDescription = "hostMemberId: 회원번호 (로그인 후 챌린지 생성 가능)" + "\r\n" +
-            "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
+            "category: 카테고리 ([우리동네, 운동, 생활, 기타] 중 입력)" + "\r\n" +
             "title: 챌린지 제목 (50자까지 입력 가능) " + "\r\n" +
             "content: 챌린지 설명 (500자까지 입력 가능) " + "\r\n" +
+            "challengeImageId: 챌린지 이미지번호 (이미지 업로드 후 사용 가능, 생략 가능)" + "\r\n" +
             "startAt: 챌린지 시작 날짜 예) 2023-02-01 (내일 이후부터 선택 가능)" + "\r\n" +
-            "endAt: 챌린지 종료 날짜 (시작 날짜 이후로 설정 가능)" + "\r\n" +
+            "endAt: 챌린지 종료 날짜 예) 2023-03-31 (시작 날짜 이후로 설정 가능)" + "\r\n" +
             "frequency: 인증 빈도 (생략 가능, default = 매일)" + "\r\n" +
-            "snapshotStartAt: 인증 시작 시간 예) 00:00:00 (생략 가능, default = 00:00:00)" + "\r\n" +
-            "snapshotEndAt: 인증 종료 시간 (시작 시간 이후로 설정 가능, 생략 가능, default = 23:59:59)";
+            "snapshotStartAt: 인증 시작 시간 예) 00:00 / 00:00:00 (생략 가능, default = 00:00:00)" + "\r\n" +
+            "snapshotEndAt: 인증 종료 시간 예) 22:00 / 23:59:59 (시작 시간 이후로 설정 가능, 생략 가능, default = 23:59:59)";
+
+    // 챌린지 상세조회
+    @ApiOperation(value = "챌린지 상세조회")
+    @ApiParam(name = "챌린지번호 입력", value = "챌린지번호 입력", required = true)
+    @GetMapping("/{challenge-id}")
+    public ResponseEntity getChallenge(@PathVariable("challenge-id") @Positive long challengeId) {
+        Challenge challenge = challengeService.findChallenge(challengeId);
+
+        ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     // 챌린지 목록 최신순 조회
     @ApiOperation(value = "챌린지 목록 최신순 조회")
@@ -65,7 +78,6 @@ public class ChallengeController {
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
 
     // 챌린지 목록 참여자순 조회
