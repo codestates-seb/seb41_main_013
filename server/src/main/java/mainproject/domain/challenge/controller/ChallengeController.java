@@ -3,6 +3,7 @@ package mainproject.domain.challenge.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import mainproject.domain.challenge.dto.ChallengeDetailResponseDto;
 import mainproject.domain.challenge.dto.ChallengePostDto;
 import mainproject.domain.challenge.dto.ChallengeResponseDto;
 import mainproject.domain.challenge.entity.Challenge;
@@ -71,7 +72,7 @@ public class ChallengeController {
                                        @RequestParam @Positive @Nullable Long memberId) {
         Challenge challenge = challengeService.findChallenge(challengeId);
 
-        ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
+        ChallengeDetailResponseDto response = mapper.challengeToChallengeDetailResponseDto(challenge);
 
         String checkChallenging = "로그인이 필요합니다.";
 
@@ -79,7 +80,9 @@ public class ChallengeController {
             checkChallenging = challengeService.checkChallenging(challengeId, memberId);
         }
 
-        return new ResponseEntity<>(List.of(response, checkChallenging), HttpStatus.OK);
+        response.setCheckChallenging(checkChallenging);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 챌린지 목록 최신순 조회
