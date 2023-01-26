@@ -15,7 +15,7 @@ export const Input = (props) => {
 				lineHeight={props.lineHeight}
 				onChange={props.onChange}
 				borderColor={props.borderColor}
-			></StyledInput>
+			/>
 		</>
 	);
 };
@@ -29,8 +29,9 @@ export const InputAuth = (props) => {
 				type={props.type}
 				value={props.value}
 				onChange={props.onChange}
-				border={props.border}
+				error={props.error}
 				fontSize={props.fontSize}
+				id={props.id}
 			/>
 		</Wrapper>
 	);
@@ -56,12 +57,13 @@ const StyledLabel = styled.div`
 
 const AuthInput = styled.input`
 	width: ${(props) => props.width || "34rem"};
-	border: 0.1rem solid #4d4d4d;
+	//border: 0.1rem solid #4d4d4d;
 	height: 3rem;
 	border-radius: 0.8rem;
 	font-size: 1.4rem;
 	padding-left: 1rem;
-	border-color: ${(props) => props.border || "#4d4d4d"};
+	border: ${(props) =>
+		`0.1rem solid ${props.error ? props.theme.color.red : "#4d4d4d"}`};
 `;
 
 const Wrapper = styled.div`

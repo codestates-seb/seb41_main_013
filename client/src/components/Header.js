@@ -4,8 +4,19 @@ import { ArrowLeft } from "./NavItem";
 import theme from "./theme";
 import { IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export const MainHeader = () => {
+	// const [login, setLogin] = useState(false);
+	// const token = localStorage.getItem("accessToken");
+	// // const member = useSelector((state) => state.member.isLogin);
+
+	// useEffect(() => {
+	// 	if (token) {
+	// 		setLogin(true);
+	// 	}
+	// }, []);
 	return (
 		<Main>
 			<Link to="/">
@@ -18,6 +29,16 @@ export const MainHeader = () => {
 				/>
 			</Link>
 			<div>
+				{/* {login ? null : (
+					<>
+						<Link to="/login">
+							<Btn btnText="로그인" color="black" width="6rem" />
+						</Link>
+						<Link to="/signup">
+							<Btn btnText="회원가입" color="black" width="6rem" />
+						</Link>
+					</>
+				)} */}
 				<Link to="/login">
 					<Btn btnText="로그인" color="black" width="6rem" />
 				</Link>

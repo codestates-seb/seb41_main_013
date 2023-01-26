@@ -1,12 +1,16 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { postMembers } from "../apis/base";
 import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import { Modal } from "../components/Modal";
 import theme from "../components/theme";
 
 export const SignUp = () => {
+	const [isOpenModal, setIsOpenModal] = useState(false);
+
 	const navigate = useNavigate();
 
 	const [userInput, setUserInput] = useState({
@@ -17,22 +21,26 @@ export const SignUp = () => {
 	});
 
 	const [inputErr, setInputErr] = useState({
-		name: false,
+		name: true,
 		email: false,
 		password: false,
 		passwordCheck: false,
-		overLap: false, // 이메일 중복
+		overLap: false,
 	});
 
-	const [isOpenModal, setIsOpenModal] = useState(false);
+	const handleInputChange = (e) => {
+		const { value, id } = e.target;
+		console.log(`${id} : ${value}`);
 
-	const onChangeName = (e) => {
-		setUserInput((prevState) => {
-			return { ...prevState, name: e.target.value };
-		});
-		setInputErr((prevState) => {
-			return { ...prevState, name: false };
-		});
+		setUserInput((prev) => ({
+			...prev,
+			[id]: value,
+		}));
+
+		setInputErr((prev) => ({
+			...prev,
+			[id]: false,
+		}));
 	};
 
 	const nameValidCheck = () => {
@@ -46,15 +54,6 @@ export const SignUp = () => {
 		return true;
 	};
 
-	const onChangeEmail = (e) => {
-		setUserInput((prevState) => {
-			return { ...prevState, email: e.target.value };
-		});
-		setInputErr((prevState) => {
-			return { ...prevState, name: false };
-		});
-	};
-
 	const emailValidCheck = () => {
 		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 		if (!userInput.email || !emailRegexp.test(userInput.email)) {
@@ -66,15 +65,6 @@ export const SignUp = () => {
 		return true;
 	};
 
-	const onChangePassword = (e) => {
-		setUserInput((prevState) => {
-			return { ...prevState, password: e.target.value };
-		});
-		setInputErr((prevState) => {
-			return { ...prevState, password: false };
-		});
-	};
-
 	const passwordValidCheck = () => {
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
 		if (!userInput.password || !passwordRegex.test(userInput.password)) {
@@ -84,15 +74,6 @@ export const SignUp = () => {
 			return false;
 		}
 		return true;
-	};
-
-	const onChangePasswordCheck = (e) => {
-		setUserInput((prevState) => {
-			return { ...prevState, passwordCheck: e.target.value };
-		});
-		setInputErr((prevState) => {
-			return { ...prevState, passwordCheck: false };
-		});
 	};
 
 	const passwordSameCheck = () => {
@@ -108,8 +89,6 @@ export const SignUp = () => {
 		return true;
 	};
 
-	// 이메일 중복 확인하는 함수
-
 	const checkValidation = () => {
 		nameValidCheck();
 		emailValidCheck();
@@ -121,30 +100,71 @@ export const SignUp = () => {
 			passwordValidCheck() &&
 			passwordSameCheck()
 		) {
-			console.log("checkValidation true");
 			return true;
 		}
-		console.log("checkValidation false");
 		return false;
 	};
 
-	const onSubmit = (e) => {
-		e.preventDefault();
-		console.log("name :", userInput.name);
-		console.log("email :", userInput.email);
-		console.log("password :", userInput.password);
-		console.log("passwordCheck :", userInput.passwordCheck);
+	// const onSubmit = (e) => {
+	// 	e.preventDefault();
 
-		if (checkValidation()) {
-			console.log("회원가입 성공");
+	// 	// const body = {
+	// 	// 	email: userInput.email,
+	// 	// 	name: userInput.name,
+	// 	// 	password: userInput.password,
+	// 	// };
+	// 	const {passwordCheck, ...body} = userInput
+
+	// 	if (checkValidation()) {
+	// 		axios
+	// 			.post("https://d276-121-129-154-70.jp.ngrok.io/api/members", body)
+	// 			.then((res) => {
+	// 				console.log(res);
+	// 				setIsOpenModal(true);
+	// 				setTimeout(() => {
+	// 					setIsOpenModal(false);
+	// 					navigate("/login");
+	// 				}, 1500);
+	// 			})
+	// 			.catch((AxiosError) => {
+	// 				setInputErr((prevState) => {
+	// 					return { ...prevState, overLap: true };
+	// 				});
+	// 			});
+	// 	} else {
+	// 		console.log("회원가입 실패");
+	// 	}
+	// };
+
+	const register = async () => {
+		try {
+			const { passwordCheck, ...body } = userInput;
+
+			const { data } = await postMembers(body);
+			console.log(data);
 			setIsOpenModal(true);
 			setTimeout(() => {
 				setIsOpenModal(false);
 				navigate("/login");
-			}, 1500);
-		} else {
-			console.log("회원가입 실패");
+			}); // 진짜 앵간하면 사용하면 안됨 => js event or task queue
+		} catch (e) {
+			setInputErr((prev) => ({
+				...prev,
+				overLap: true,
+			}));
 		}
+	};
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+
+		const isValid = checkValidation();
+		if (!isValid) {
+			console.log("Fail");
+			return;
+		}
+
+		register();
 	};
 
 	return (
@@ -157,9 +177,10 @@ export const SignUp = () => {
 					label="이름"
 					type="text"
 					value={userInput.name}
-					onChange={onChangeName}
-					border={inputErr.name && `${theme.color.red}`}
+					onChange={handleInputChange}
+					error={inputErr.name}
 					fontSize="1.5rem"
+					id="name"
 				/>
 				{inputErr.name && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
 			</div>
@@ -169,18 +190,21 @@ export const SignUp = () => {
 					label="이메일"
 					type="email"
 					value={userInput.email}
-					onChange={onChangeEmail}
-					border={inputErr.email && `${theme.color.red}`}
+					onChange={handleInputChange}
+					error={inputErr.email}
+					id="email"
 				/>
 				{inputErr.email && <p>올바른 이메일 형식으로 입력해주세요.</p>}
+				{inputErr.overLap && <p>중복되는 이메일이 존재합니다.</p>}
 			</div>
 			<div>
 				<InputAuth
 					label="비밀번호"
 					type="password"
 					value={userInput.password}
-					onChange={onChangePassword}
-					border={inputErr.password && `${theme.color.red}`}
+					onChange={handleInputChange}
+					error={inputErr.password}
+					id="password"
 				/>
 				{inputErr.password && (
 					<p>
@@ -193,8 +217,9 @@ export const SignUp = () => {
 					label="비밀번호 확인"
 					type="password"
 					value={userInput.passwordCheck}
-					onChange={onChangePasswordCheck}
-					border={inputErr.passwordCheck && `${theme.color.red}`}
+					onChange={handleInputChange}
+					error={inputErr.passwordCheck}
+					id="passwordCheck"
 				/>
 				{inputErr.passwordCheck && <p>비밀번호가 일치하지 않습니다.</p>}
 			</div>

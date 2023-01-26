@@ -3,9 +3,20 @@ import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import theme from "../components/theme";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { loginAccount } from "../counter/userSlice";
 
 export const SignIn = () => {
+	const member = useSelector((state) => state.member.isLogin);
+
+	useEffect(() => {
+		if (member === true) {
+			return navigate("/");
+		}
+	}, []);
+
 	const [userInput, setUserInput] = useState({
 		email: "",
 		password: "",
@@ -14,10 +25,11 @@ export const SignIn = () => {
 	const [inputErr, setInputErr] = useState({
 		email: false,
 		passowrd: false,
-		signIn: false, // 로그인 에러 => 아이디 또는 비밀번호를 확인하세요.
+		signIn: false,
 	});
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const onChangeEmail = (e) => {
 		setUserInput((prevState) => {
@@ -62,19 +74,33 @@ export const SignIn = () => {
 		emailValidCheck();
 		passwordValidCheck();
 		if (emailValidCheck() && passwordValidCheck()) {
-			console.log("true");
 			return true;
 		}
-		console.log("fail");
 		return false;
 	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+		const body = {
+			email: userInput.email,
+			password: userInput.password,
+		};
 		if (validCheck()) {
-			// 로그인 요청 보내기
-			console.log("로그인 성공! 홈으로 이동");
-			navigate("/");
+			axios
+				.post("https://b4f7-121-129-154-70.jp.ngrok.io/api/auths/login", body)
+				.then((res) => {
+					console.log(res);
+					if (res.data === "Login Successful!") {
+						localStorage.setItem("accessToken", res.headers.authorization);
+						// dispatch(loginAccount(res));
+						navigate("/");
+					}
+				})
+				.catch((AxiosError) => {
+					setInputErr((prevState) => {
+						return { ...prevState, signIn: true };
+					});
+				});
 		} else {
 			console.log("로그인 실패!");
 			setInputErr((prevState) => {
@@ -108,6 +134,7 @@ export const SignIn = () => {
 						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
 					</p>
 				)}
+				{inputErr.signIn && <p>이메일 또는 비밀번호를 확인하세요.</p>}
 			</div>
 			<div>
 				<Btn
@@ -116,7 +143,6 @@ export const SignIn = () => {
 					width="34rem"
 					type="submit"
 				></Btn>
-				{/* {loginErr && <p>이메일 또는 비밀번호를 확인하세요.</p>} */}
 			</div>
 			<FindPw to="/findPw">비밀번호 찾기</FindPw>
 		</Wrapper>

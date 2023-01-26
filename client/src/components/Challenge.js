@@ -2,8 +2,6 @@
 // MyChallenge
 // MyPageChallenge
 import styled from "styled-components";
-import sample from "../images/example2.jpeg";
-import challenge from "../images/challenge.png";
 import { Btn } from "./Button";
 import theme from "./theme";
 import { IoClose } from "react-icons/io5";
@@ -11,7 +9,7 @@ import { IoClose } from "react-icons/io5";
 export const CompletedChallenge = (props) => {
 	return (
 		<CompleteChallengeContainer>
-			<img alt="challenge" src={props.src || sample} />
+			<img alt="challenge" src={props.src || "/images/example2.jpeg"} />
 			{props.title}
 		</CompleteChallengeContainer>
 	);
@@ -20,7 +18,7 @@ export const CompletedChallenge = (props) => {
 export const CreatedChallenge = (props) => {
 	return (
 		<CreateChallengeContainer>
-			<ChallengeImg src={props.src || sample}>
+			<ChallengeImg src={props.src || "images/example2.jpeg"}>
 				<Btn
 					className="deleteBtn"
 					onClick={props.onClick}
@@ -40,7 +38,7 @@ export const ChallengeState = (props) => {
 	return (
 		<ChallengeStateContainer>
 			<div className="title">
-				<img alt="challengeState" src={challenge} />
+				<img alt="challengeState" src="images/challenge.png" />
 				<span>챌린지 현황</span>
 			</div>
 			<div className="container">

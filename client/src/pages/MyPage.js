@@ -53,9 +53,9 @@ export const MyPage = (props) => {
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
 			<MypageSetting
 				menuOpen={menuOpen}
-				setMenuOpen={setMenuOpen}
 				modalToLogout={modalToLogout}
 				modalToQuit={modalToQuit}
+				onClick={toggleMenu}
 			/>
 			<div />
 			<div className="userInfo">
