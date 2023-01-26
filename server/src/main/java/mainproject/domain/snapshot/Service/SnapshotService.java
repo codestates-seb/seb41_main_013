@@ -11,7 +11,6 @@ import mainproject.domain.snapshot.Repository.SnapshotRepository;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class SnapshotService {
@@ -70,9 +68,7 @@ public class SnapshotService {
     }
 
     // 챌린지의 모든 참가자들의 인증사진 최신순 조회
-    public Page<Snapshot> findSnapshots(long challengeId) {
-        List<Snapshot> snapshots = snapshotRepository.findByChallenge_ChallengeId(challengeId);
-
-        return new PageImpl<>(snapshots, PageRequest.of(0, 30, Sort.by("createdAt").descending()), snapshots.size());
+    public Page<Snapshot> findSnapshots(long challengeId, int page) {
+        return snapshotRepository.findByChallenge_ChallengeId(challengeId, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
     }
 }
