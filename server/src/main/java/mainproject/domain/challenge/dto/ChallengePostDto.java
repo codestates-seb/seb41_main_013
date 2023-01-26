@@ -52,7 +52,7 @@ public class ChallengePostDto {
     }
 
     @NotNull(message = "시작 날짜를 선택하세요.")
-    //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.") // 챌린지 상태변화 테스트시 주석 처리
+    //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.") // TODO: 테스트를 위해 주석 처리. 배포 시 주석 제거
     @ApiModelProperty(required = true, example = "2023-02-01")
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate startAt;
@@ -65,7 +65,7 @@ public class ChallengePostDto {
     @AssertTrue(message = "종료 날짜는 시작 날짜 이후부터 선택 가능합니다.")
     @ApiModelProperty(hidden = true)
     public boolean isValidChallengePeriod() {
-        return endAt.compareTo(startAt) >= 0;
+        return !endAt.isBefore(startAt);
     }
 
     @ApiModelProperty(hidden = true)
@@ -77,7 +77,7 @@ public class ChallengePostDto {
     }
 
     @NotNull(message = "인증 빈도를 선택하세요.")
-    @ApiModelProperty(required = false, example = "매일")
+    @ApiModelProperty(example = "매일")
     private Frequency frequency = Frequency.매일; // 기본값 - 매일
 
     @ApiModelProperty(example = "00:00:00")
@@ -91,6 +91,6 @@ public class ChallengePostDto {
     @AssertTrue(message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
     @ApiModelProperty(hidden = true)
     public boolean isValidSnapshotTime() {
-        return snapshotEndAt.compareTo(snapshotStartAt) >= 0;
+        return !snapshotEndAt.isBefore(snapshotStartAt);
     }
 }

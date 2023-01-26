@@ -161,9 +161,8 @@ public class ChallengeService {
     // 챌린지 존재여부 검증
     public Challenge findVerifiedChallenge(long challengeId) {
         Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
-        Challenge findChallenge = optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
 
-        return findChallenge;
+        return optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
     }
 
     // 챌린지 시작 전 여부 검증(챌린지 신청, 삭제 시)

@@ -22,6 +22,7 @@ public class ChallengerMapper {
 
         return challenger;
     }
+
     public ChallengerResponseDto challengerToChallengerResponseDto(Challenger challenger) {
         if (challenger == null) {
             return null;
@@ -29,7 +30,7 @@ public class ChallengerMapper {
 
         ChallengerResponseDto challengerResponseDto = new ChallengerResponseDto();
 
-        challengerResponseDto.setMemberId(challenger.getMember().getId() );
+        challengerResponseDto.setMemberId(challenger.getMember().getId());
         challengerResponseDto.setMemberName(challenger.getMember().getName());
         challengerResponseDto.setProfileImageId(challenger.getMember().getImage().getImageId());
         challengerResponseDto.setChallengeId(challenger.getChallenge().getChallengeId());
@@ -47,12 +48,11 @@ public class ChallengerMapper {
             return null;
         }
 
-        List<ChallengerResponseDto> list = new ArrayList<ChallengerResponseDto>(challengers.size());
+        List<ChallengerResponseDto> list = new ArrayList<>(challengers.size());
         for (Challenger challenger : challengers) {
             list.add(challengerToChallengerResponseDto(challenger));
         }
 
         return list;
     }
-
 }

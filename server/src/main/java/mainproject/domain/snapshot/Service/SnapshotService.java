@@ -42,7 +42,8 @@ public class SnapshotService {
 
         // 진행 중인 챌린지인지 검증
         challengeService.updateChallengeStatus();   // 현재 날짜에 맞춰 챌린지 상태 변경
-        if (challenge.getChallengeStatus().equals(ChallengeStatus.종료)) { // != 진행중. 테스트시 == 종료로 변경
+        if (challenge.getChallengeStatus().equals(ChallengeStatus.종료)) { // TODO: 테스트를 위해 변경. 배포 시 삭제 후 주석 if문 활성화
+        //if (!challenge.getChallengeStatus().equals(ChallengeStatus.진행중)) {
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_IN_PROGRESS);
         }
 
@@ -58,8 +59,7 @@ public class SnapshotService {
             throw new BusinessLogicException(ExceptionCode.TIME_UNAUTHORIZED);
         }
 
-        // 진행률 업데이트
-        challenger.setSnapshotCount(challenger.getSnapshotCount() + 1);   // 인증완료일수 증가
+        challenger.setSnapshotCount(challenger.getSnapshotCount() + 1);   // 진행률 업데이트를 위해 인증일 수 증가
 
         snapshot.setMember(member);
         snapshot.setChallenge(challenge);
