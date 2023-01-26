@@ -9,7 +9,6 @@ import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

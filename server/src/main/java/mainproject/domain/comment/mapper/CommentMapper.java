@@ -19,7 +19,7 @@ public interface CommentMapper {
     @Mappings({
             @Mapping(source = "member.id", target = "memberId"),
             @Mapping(source = "member.name", target = "memberName"),
-            // @Mapping(source = "member.profileImage", target = "profileImage"),   // TODO: 이미지파일
+            @Mapping(source = "member.image.imageId", target = "profileImageId"),
             @Mapping(source = "board.boardId", target = "boardId")
     })
     CommentResponseDto commentToCommentResponseDto(Comment savedComment);

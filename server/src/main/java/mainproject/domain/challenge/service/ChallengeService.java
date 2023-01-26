@@ -8,12 +8,8 @@ import mainproject.domain.member.service.MemberService;
 import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +32,13 @@ public class ChallengeService {
         challenge.setChallengeStatus(ChallengeStatus.시작전);
 
         return challengeRepository.save(challenge);
+    }
+
+    // 챌린지 조회
+    public Challenge findChallenge(long challengeId) {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        return findVerifiedChallenge(challengeId);
     }
 
     // 챌린지 목록 최신 생성일 순 조회

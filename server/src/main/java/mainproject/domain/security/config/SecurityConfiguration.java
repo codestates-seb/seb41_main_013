@@ -13,8 +13,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.swing.text.html.HTML;
+import java.util.List;
 
 
 @EnableWebSecurity
@@ -50,12 +54,12 @@ public class SecurityConfiguration  {
                 .authorizeRequests(auth -> auth
                         .antMatchers("/h2/**").permitAll() // h2 데이터베이스 확인 가능하게
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight 요청 모두 pass
-                        .antMatchers(HttpMethod.POST, "/api/challenges").hasRole("USER") // 챌린지 생성 TODO?
+                        .antMatchers(HttpMethod.POST, "/api/challenges").hasRole("USER") // 챌린지 생성
 
                         .antMatchers(HttpMethod.DELETE, "/api/challenges/{challengeId}")
                         .access("@challengeService.checkMember(principal, T(Long).parseLong(#challengeId))") // 챌린지 삭제
 
-                        .antMatchers(HttpMethod.POST, "api/challengers").hasRole("USER")    // 챌린지 참가 TODO?
+                        .antMatchers(HttpMethod.POST, "api/challengers").hasRole("USER")    // 챌린지 참가
 
                         .antMatchers(HttpMethod.GET, "api/challengers/{memberId}/**")
                         .access("@challengerService.checkMember(principal, T(Long).parseLong(#memberId))") // 회원이 참가중or참가했던 챌린지 조회
@@ -64,17 +68,21 @@ public class SecurityConfiguration  {
                         .access("@challengerService.checkMember(principal, snapshot.getMember().getId())")   // 인증사진 등록
 
                         .antMatchers(HttpMethod.POST, "/api/boards").hasRole("USER") // 게시판 글 작성
-                        .antMatchers(HttpMethod.PATCH, "/api/boards/{board-id}")
-                        .access("@BoardService.checkMember(authentication,#BoardId)") // 게시판 글 수정
-                        .antMatchers(HttpMethod.DELETE, "/api/boards/{board-id}")
-                        .access("@BoardService.checkMember(authentication,#BoardId)")// 게시판 글 삭제
+
+                        .antMatchers(HttpMethod.PATCH, "/api/boards/{boardId}")
+                        .access("@boardService.checkMember(principal,T(Long).parseLong(#boardId))") // 게시판 글 수정
+                        .antMatchers(HttpMethod.DELETE, "/api/boards/{boardId}")
+                        .access("@boardService.checkMember(principal,T(Long).parseLong(#boardId))")// 게시판 글 삭제
                         .antMatchers(HttpMethod.POST, "/api/comments").hasRole("USER") // 댓글 작성
-                        .antMatchers(HttpMethod.PATCH, "/api/comments/{comment-id}")
-                        .access("@CommentService.checkMember(authentication,#CommentId)")// 댓글 수정
-                        .antMatchers(HttpMethod.DELETE, "/api/comments/{comment-id}")
-                        .access("@CommentService.checkMember(authentication,#CommentId)")// 댓글 삭제
+                        .antMatchers(HttpMethod.PATCH, "/api/comments/{commentId}")
+                        .access("@commentService.checkMember(principal,T(Long).parseLong(#commentId))")// 댓글 수정
+                        .antMatchers(HttpMethod.DELETE, "/api/comments/{commentId}")
+                        .access("@commentService.checkMember(principal,T(Long).parseLong(#commentId))")// 댓글 삭제
+
                         .antMatchers("/api/auths/logout").hasRole("USER") // 로그아웃
-                        .antMatchers("/api/members/{member-id}").hasRole("USER") // 마이페이지 확인, 회원정보 수정
+                        .antMatchers("/api/members/{memberId}")
+                        .access("T(domain.members.entity.Member).cast(principal).getId() " +
+                                "== T(Long).parseLong(#memberId)") // 마이페이지 확인, 회원정보 수정
 
                         .anyRequest().permitAll())
                 .logout()
@@ -87,6 +95,21 @@ public class SecurityConfiguration  {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "refreshToken"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
 }
 
 
