@@ -10,13 +10,8 @@ import { useEffect, useState } from "react";
 export const MainHeader = () => {
 	// const [login, setLogin] = useState(false);
 	// const token = localStorage.getItem("accessToken");
-	// // const member = useSelector((state) => state.member.isLogin);
+	const member = useSelector((state) => state.member.isLogin);
 
-	// useEffect(() => {
-	// 	if (token) {
-	// 		setLogin(true);
-	// 	}
-	// }, []);
 	return (
 		<Main>
 			<Link to="/">
@@ -29,7 +24,7 @@ export const MainHeader = () => {
 				/>
 			</Link>
 			<div>
-				{/* {login ? null : (
+				{member ? null : (
 					<>
 						<Link to="/login">
 							<Btn btnText="로그인" color="black" width="6rem" />
@@ -38,13 +33,7 @@ export const MainHeader = () => {
 							<Btn btnText="회원가입" color="black" width="6rem" />
 						</Link>
 					</>
-				)} */}
-				<Link to="/login">
-					<Btn btnText="로그인" color="black" width="6rem" />
-				</Link>
-				<Link to="/signup">
-					<Btn btnText="회원가입" color="black" width="6rem" />
-				</Link>
+				)}
 			</div>
 		</Main>
 	);

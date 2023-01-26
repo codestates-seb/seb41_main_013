@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	isLogin: false,
-	member_id: null,
-	member_name: null,
-	accessToken: null,
-	refreshToken: null,
+	member_id: "",
+	member_name: "",
+	// accessToken: null,
+	// refreshToken: null,
 };
 
 export const userSlice = createSlice({
@@ -14,16 +14,16 @@ export const userSlice = createSlice({
 	reducers: {
 		loginAccount: (state, action) => ({
 			...state,
-			isLogin: true,
+			isLogin: action.payload.isLogin,
 			member_id: action.payload.member_id,
 			member_name: action.payload.member_name,
-			accessToken: action.payload.accessToken,
-			refreshToken: action.payload.refreshToken,
+			// accessToken: action.payload.accessToken,
+			// refreshToken: action.payload.refreshToken,
 		}),
-		logoutAccount: (state) => {
-			state.isLogin = false;
-			state.member_name = null;
-		},
+		// logoutAccount: (state) => {
+		// 	state.isLogin = false;
+		// 	state.member_name = null;
+		// },
 	},
 });
 

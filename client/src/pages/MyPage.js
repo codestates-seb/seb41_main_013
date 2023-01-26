@@ -1,17 +1,36 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
-import { MainHeader, MypageHeader } from "../components/Header";
+import { MypageHeader } from "../components/Header";
 import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
+import theme from "../components/theme";
 
 export const MyPage = (props) => {
-	const [isLogin, setIsLogin] = useState(true);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
+	const token = localStorage.getItem("authorization");
+	const memberId = 9;
+
+	useEffect(() => {
+		axios
+			.get(`https://1ca9-121-129-154-70.jp.ngrok.io/api/members/${memberId}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: token,
+				},
+			})
+			.then((res) => console.log(res));
+	}, []);
+
+	const isLogin = useSelector((state) => state.member.isLogin);
+
 	const navigate = useNavigate();
 
 	const toggleMenu = () => {
@@ -51,24 +70,36 @@ export const MyPage = (props) => {
 				/>
 			)}
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
-			<MypageSetting
-				menuOpen={menuOpen}
-				modalToLogout={modalToLogout}
-				modalToQuit={modalToQuit}
-				onClick={toggleMenu}
-			/>
-			<div />
-			<div className="userInfo">
-				<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
+			{isLogin ? (
+				<>
+					<MypageSetting
+						menuOpen={menuOpen}
+						modalToLogout={modalToLogout}
+						modalToQuit={modalToQuit}
+						onClick={toggleMenu}
+					/>
+					<div />
+					<div className="userInfo">
+						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
 
-				{props.name || "유저이름"}
-			</div>
-			<ChallengeState />
-			<div className="challengeNav">
-				<NavTitle title="생성한 챌린지" link="/userCreate" />
-				<NavTitle title="완료한 챌린지" link="/userComplete" />
-			</div>
-			<div />
+						{props.name || "유저이름"}
+					</div>
+					<ChallengeState />
+					<div className="challengeNav">
+						<NavTitle title="생성한 챌린지" link="/userCreate" />
+						<NavTitle title="완료한 챌린지" link="/userComplete" />
+					</div>
+					<div />
+				</>
+			) : (
+				<div className="noneLogin">
+					<p>로그인이 필요해요..</p>
+					<p>로그인 하러 가기</p>
+					<Link to="/login">
+						<Btn btnText="클릭" background={theme.color.green} />
+					</Link>
+				</div>
+			)}
 		</MypageWrapper>
 	);
 };
@@ -103,5 +134,14 @@ const MypageWrapper = styled.div`
 			height: 45%;
 			border-radius: 50%;
 		}
+	}
+
+	.noneLogin {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		font-size: 2rem;
+		gap: 1rem;
 	}
 `;

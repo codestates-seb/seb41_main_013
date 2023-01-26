@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { HomeCategory } from "../components/Category";
 import { HomeChallengeItem } from "../components/ChallengeItem";
 import { BackToTopBtn } from "../components/Button";
+import { useSelector } from "react-redux";
 
 const Home = () => {
 	const categoryId = 1;
 	const challengeId = 1;
+	const member = useSelector((state) => state);
+	console.log(member);
 
 	return (
 		<HomeWrapper>

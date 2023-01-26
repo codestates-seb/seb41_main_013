@@ -3,20 +3,12 @@ import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import theme from "../components/theme";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { loginAccount } from "../counter/userSlice";
+import { postAuth } from "../apis/base";
 
 export const SignIn = () => {
-	const member = useSelector((state) => state.member.isLogin);
-
-	useEffect(() => {
-		if (member === true) {
-			return navigate("/");
-		}
-	}, []);
-
 	const [userInput, setUserInput] = useState({
 		email: "",
 		password: "",
@@ -24,21 +16,29 @@ export const SignIn = () => {
 
 	const [inputErr, setInputErr] = useState({
 		email: false,
-		passowrd: false,
+		password: false,
 		signIn: false,
 	});
 
+	// const member = useSelector((state) => state.member.isLogin);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const onChangeEmail = (e) => {
-		setUserInput((prevState) => {
-			return { ...prevState, email: e.target.value };
-		});
-		setInputErr((prevState) => {
-			return { ...prevState, email: false };
-		});
+	const handleInputChange = (e) => {
+		const { value, id } = e.target;
+		// console.log(`${id} : ${value}`);
+
+		setUserInput((prev) => ({
+			...prev,
+			[id]: value,
+		}));
+
+		setInputErr((prev) => ({
+			...prev,
+			[id]: false,
+		}));
 	};
+
 	const emailValidCheck = () => {
 		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 		if (!userInput.email || !emailRegexp.test(userInput.email)) {
@@ -48,15 +48,6 @@ export const SignIn = () => {
 			return false;
 		}
 		return true;
-	};
-
-	const onChangePassword = (e) => {
-		setUserInput((prevState) => {
-			return { ...prevState, password: e.target.value };
-		});
-		setInputErr((prevState) => {
-			return { ...prevState, password: false };
-		});
 	};
 
 	const passwordValidCheck = () => {
@@ -79,34 +70,35 @@ export const SignIn = () => {
 		return false;
 	};
 
+	const login = async () => {
+		try {
+			const body = userInput;
+
+			const data = await postAuth(body);
+			console.log(data);
+			localStorage.setItem("authorization", data.headers.authorization);
+			localStorage.setItem("refreshToken", data.headers.refreshtoken);
+			dispatch(loginAccount({ isLogin: true }));
+			navigate("/");
+		} catch (e) {
+			console.log(e);
+			setInputErr((prev) => ({
+				...prev,
+				signIn: true,
+			}));
+		}
+	};
+
 	const onSubmit = (e) => {
 		e.preventDefault();
-		const body = {
-			email: userInput.email,
-			password: userInput.password,
-		};
-		if (validCheck()) {
-			axios
-				.post("https://b4f7-121-129-154-70.jp.ngrok.io/api/auths/login", body)
-				.then((res) => {
-					console.log(res);
-					if (res.data === "Login Successful!") {
-						localStorage.setItem("accessToken", res.headers.authorization);
-						// dispatch(loginAccount(res));
-						navigate("/");
-					}
-				})
-				.catch((AxiosError) => {
-					setInputErr((prevState) => {
-						return { ...prevState, signIn: true };
-					});
-				});
-		} else {
-			console.log("로그인 실패!");
-			setInputErr((prevState) => {
-				return { ...prevState, signIn: true };
-			});
+
+		const isValid = validCheck();
+		if (!isValid) {
+			console.log("fail");
+			return;
 		}
+
+		login();
 	};
 
 	return (
@@ -116,24 +108,25 @@ export const SignIn = () => {
 					label="이메일"
 					type="email"
 					value={userInput.email}
-					onChange={onChangeEmail}
-					border={inputErr.emailErr && `${theme.color.red}`}
+					onChange={handleInputChange}
+					id="email"
+					error={inputErr.email}
+					errmsg={inputErr.email && "올바른 이메일 형식으로 입력해주세요."}
 				/>
-				{inputErr.emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
 					label="비밀번호"
 					type="password"
 					value={userInput.password}
-					onChange={onChangePassword}
-					border={inputErr.passwordErr && `${theme.color.red}`}
+					onChange={handleInputChange}
+					id="password"
+					error={inputErr.password}
+					errmsg={
+						inputErr.password &&
+						"비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요."
+					}
 				/>
-				{inputErr.passwordErr && (
-					<p>
-						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
-					</p>
-				)}
 				{inputErr.signIn && <p>이메일 또는 비밀번호를 확인하세요.</p>}
 			</div>
 			<div>

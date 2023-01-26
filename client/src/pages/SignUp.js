@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postMembers } from "../apis/base";
@@ -6,6 +7,7 @@ import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import { Modal } from "../components/Modal";
 import theme from "../components/theme";
+import { loginAccount } from "../counter/userSlice";
 
 export const SignUp = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
@@ -27,9 +29,12 @@ export const SignUp = () => {
 		overLap: false,
 	});
 
+	const dispatch = useDispatch();
+	const member = useSelector((state) => state);
+
 	const handleInputChange = (e) => {
 		const { value, id } = e.target;
-		console.log(`${id} : ${value}`);
+		// console.log(`${id} : ${value}`);
 
 		setUserInput((prev) => ({
 			...prev,
@@ -103,11 +108,6 @@ export const SignUp = () => {
 		}
 		return false;
 	};
-	// 			.catch((AxiosError) => {
-	// 				setInputErr((prevState) => {
-	// 					return { ...prevState, overLap: true };
-	// 				});
-	// 			});
 
 	const register = async () => {
 		try {
@@ -115,6 +115,11 @@ export const SignUp = () => {
 
 			const { data } = await postMembers(body);
 			console.log(data);
+			console.log(data.id, typeof data.id, data.name, typeof data.name);
+			dispatch(
+				loginAccount({ member_id: `${data.id}`, member_name: `${data.name}` }),
+			);
+			console.log(member);
 			setIsOpenModal(true);
 			setTimeout(() => {
 				setIsOpenModal(false);
@@ -156,7 +161,6 @@ export const SignUp = () => {
 					errmsg={inputErr.name && "특수문자 없이 3글자 이상 입력해주세요."}
 				/>
 			</div>
-
 			<div>
 				<InputAuth
 					label="이메일"
