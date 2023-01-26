@@ -14,7 +14,7 @@ spring:
     password: 1q2w3e4r
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: 13.124.231.145
+    host: localhost
     port: 6379
   mvc:
     pathmatch:
