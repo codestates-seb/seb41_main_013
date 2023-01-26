@@ -14,11 +14,11 @@ public class MemberResponseDto {
 
     private String name;
 
-    //private Image profileImage;  // TODO: 이미지파일
-
     private String email;
 
     private String password;
+
+    private long profileImageId;
 
     private List<String> roles;
 }

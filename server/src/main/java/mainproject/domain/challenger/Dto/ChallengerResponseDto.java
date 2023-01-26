@@ -9,10 +9,9 @@ public class ChallengerResponseDto {
     private String challengerId;
     private long memberId;
     private String memberName;
-    // private Image profileImage;  // TODO: 이미지파일
+    private long profileImageId;
     private long challengeId;
     private String challengeName;
-    // private Image challengeImage;    // TODO: 이미지파일
-    // TODO: 참가자 수
+    private long challengeImageId;
     private LocalDateTime createdAt;
 }

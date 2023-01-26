@@ -1,8 +1,4 @@
 import styled from "styled-components";
-import town from "../images/town.png";
-import exercise from "../images/exercise.png";
-import life from "../images/life.png";
-import etc from "../images/etc.png";
 import theme from "./theme";
 import { Btn } from "./Button";
 import { useState } from "react";
@@ -12,10 +8,26 @@ import { Link } from "react-router-dom";
 export const HomeCategory = (props) => {
 	return (
 		<MainCategoryContainer>
-			<Category title="우리동네" src={town} NavTo={`/${props.NavTo}/0`} />
-			<Category title="운동" src={exercise} NavTo={`/${props.NavTo}/1`} />
-			<Category title="규칙적인 생활" src={life} NavTo={`/${props.NavTo}/2`} />
-			<Category title="기타" src={etc} NavTo={`/${props.NavTo}/3`} />
+			<Category
+				title="우리동네"
+				src="/images/town.png"
+				NavTo={`/${props.NavTo}/0`}
+			/>
+			<Category
+				title="운동"
+				src="/images/exercise.png"
+				NavTo={`/${props.NavTo}/1`}
+			/>
+			<Category
+				title="규칙적인 생활"
+				src="/images/life.png"
+				NavTo={`/${props.NavTo}/2`}
+			/>
+			<Category
+				title="기타"
+				src="/images/etc.png"
+				NavTo={`/${props.NavTo}/3`}
+			/>
 		</MainCategoryContainer>
 	);
 };
