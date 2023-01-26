@@ -30,9 +30,9 @@ export const InputAuth = (props) => {
 				value={props.value}
 				onChange={props.onChange}
 				error={props.error}
-				fontSize={props.fontSize}
 				id={props.id}
 			/>
+			<p>{props.errmsg}</p>
 		</Wrapper>
 	);
 };

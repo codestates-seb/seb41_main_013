@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postMembers } from "../apis/base";
@@ -21,7 +20,7 @@ export const SignUp = () => {
 	});
 
 	const [inputErr, setInputErr] = useState({
-		name: true,
+		name: false,
 		email: false,
 		password: false,
 		passwordCheck: false,
@@ -104,37 +103,11 @@ export const SignUp = () => {
 		}
 		return false;
 	};
-
-	// const onSubmit = (e) => {
-	// 	e.preventDefault();
-
-	// 	// const body = {
-	// 	// 	email: userInput.email,
-	// 	// 	name: userInput.name,
-	// 	// 	password: userInput.password,
-	// 	// };
-	// 	const {passwordCheck, ...body} = userInput
-
-	// 	if (checkValidation()) {
-	// 		axios
-	// 			.post("https://d276-121-129-154-70.jp.ngrok.io/api/members", body)
-	// 			.then((res) => {
-	// 				console.log(res);
-	// 				setIsOpenModal(true);
-	// 				setTimeout(() => {
-	// 					setIsOpenModal(false);
-	// 					navigate("/login");
-	// 				}, 1500);
-	// 			})
 	// 			.catch((AxiosError) => {
 	// 				setInputErr((prevState) => {
 	// 					return { ...prevState, overLap: true };
 	// 				});
 	// 			});
-	// 	} else {
-	// 		console.log("회원가입 실패");
-	// 	}
-	// };
 
 	const register = async () => {
 		try {
@@ -146,7 +119,7 @@ export const SignUp = () => {
 			setTimeout(() => {
 				setIsOpenModal(false);
 				navigate("/login");
-			}); // 진짜 앵간하면 사용하면 안됨 => js event or task queue
+			}, 1500);
 		} catch (e) {
 			setInputErr((prev) => ({
 				...prev,
@@ -178,11 +151,10 @@ export const SignUp = () => {
 					type="text"
 					value={userInput.name}
 					onChange={handleInputChange}
-					error={inputErr.name}
-					fontSize="1.5rem"
 					id="name"
+					error={inputErr.name}
+					errmsg={inputErr.name && "특수문자 없이 3글자 이상 입력해주세요."}
 				/>
-				{inputErr.name && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
 			</div>
 
 			<div>
@@ -191,10 +163,10 @@ export const SignUp = () => {
 					type="email"
 					value={userInput.email}
 					onChange={handleInputChange}
-					error={inputErr.email}
 					id="email"
+					error={inputErr.email}
+					errmsg={inputErr.email && "올바른 이메일 형식으로 입력해주세요."}
 				/>
-				{inputErr.email && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 				{inputErr.overLap && <p>중복되는 이메일이 존재합니다.</p>}
 			</div>
 			<div>
@@ -203,14 +175,13 @@ export const SignUp = () => {
 					type="password"
 					value={userInput.password}
 					onChange={handleInputChange}
-					error={inputErr.password}
 					id="password"
+					error={inputErr.password}
+					errmsg={
+						inputErr.password &&
+						"비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요."
+					}
 				/>
-				{inputErr.password && (
-					<p>
-						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
-					</p>
-				)}
 			</div>
 			<div>
 				<InputAuth
@@ -218,10 +189,10 @@ export const SignUp = () => {
 					type="password"
 					value={userInput.passwordCheck}
 					onChange={handleInputChange}
-					error={inputErr.passwordCheck}
 					id="passwordCheck"
+					error={inputErr.passwordCheck}
+					errmsg={inputErr.passwordCheck && "비밀번호가 일치하지 않습니다"}
 				/>
-				{inputErr.passwordCheck && <p>비밀번호가 일치하지 않습니다.</p>}
 			</div>
 			<Btn
 				btnText="확인"
