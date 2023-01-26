@@ -19,6 +19,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -50,8 +52,7 @@ public class SecurityConfiguration  {
                 .apply(new CustomFilterConfiguration(jwtTokenizer, authService))
                 .and()
 
-                .cors() // CORS 설정
-                .and()
+                .cors(withDefaults()) // CORS 설정
 
                 .authorizeRequests(auth -> auth
                         .antMatchers("/h2/**").permitAll() // h2 데이터베이스 확인 가능하게
