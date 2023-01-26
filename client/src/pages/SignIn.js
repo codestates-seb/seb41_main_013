@@ -5,7 +5,7 @@ import theme from "../components/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginAccount } from "../counter/userSlice";
+import { signin } from "../redux/userSlice";
 import { postAuth } from "../apis/base";
 
 export const SignIn = () => {
@@ -76,9 +76,9 @@ export const SignIn = () => {
 
 			const data = await postAuth(body);
 			console.log(data);
-			localStorage.setItem("authorization", data.headers.authorization);
-			localStorage.setItem("refreshToken", data.headers.refreshtoken);
-			dispatch(loginAccount({ isLogin: true }));
+			// localStorage.setItem("authorization", data.headers.authorization);
+			// localStorage.setItem("refreshToken", data.headers.refreshtoken);
+			dispatch(signin());
 			navigate("/");
 		} catch (e) {
 			console.log(e);

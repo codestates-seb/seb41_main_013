@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const MainHeader = () => {
-	const member = useSelector((state) => state.member.isLogin);
+	const isLogin = useSelector((state) => state.loginStatus.status);
 
 	return (
 		<Main>
@@ -21,7 +21,7 @@ export const MainHeader = () => {
 				/>
 			</Link>
 			<div>
-				{member ? null : (
+				{isLogin ? null : (
 					<>
 						<Link to="/login">
 							<Btn btnText="로그인" color="black" width="6rem" />
@@ -39,9 +39,7 @@ export const MainHeader = () => {
 export const TitleHeader = (props) => {
 	return (
 		<Title>
-			<ArrowLeft
-				onClick={props.onClick}
-			/>
+			<ArrowLeft onClick={props.onClick} />
 			{props.title}
 			<div />
 		</Title>

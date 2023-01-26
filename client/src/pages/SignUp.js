@@ -7,7 +7,7 @@ import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import { Modal } from "../components/Modal";
 import theme from "../components/theme";
-import { loginAccount } from "../counter/userSlice";
+import { loginAccount } from "../redux/userSlice";
 
 export const SignUp = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);

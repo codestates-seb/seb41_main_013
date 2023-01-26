@@ -16,12 +16,8 @@ export const Input = React.forwardRef((props, ref) => {
 				lineHeight={props.lineHeight}
 				onChange={props.onChange}
 				borderColor={props.borderColor}
-<<<<<<< HEAD
-			/>
-=======
 				{...props.register}
 			></StyledInput>
->>>>>>> dev
 		</>
 	);
 });

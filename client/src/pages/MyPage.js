@@ -10,26 +10,27 @@ import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
+import { signin } from "../redux/userSlice";
 
 export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-	const token = localStorage.getItem("authorization");
-	const memberId = 9;
+	// const memberId = 9;
 
-	useEffect(() => {
-		axios
-			.get(`https://1ca9-121-129-154-70.jp.ngrok.io/api/members/${memberId}`, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: token,
-				},
-			})
-			.then((res) => console.log(res));
-	}, []);
+	// useEffect(() => {
+	// 	axios
+	// 		.get(`https://1ca9-121-129-154-70.jp.ngrok.io/api/members/${memberId}`, {
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 				Authorization: token,
+	// 			},
+	// 		})
+	// 		.then((res) => console.log(res));
+	// }, []);
 
-	const isLogin = useSelector((state) => state.member.isLogin);
+	const isLogin = useSelector((state) => state.loginStatus.status);
+	console.log(isLogin);
 
 	const navigate = useNavigate();
 
