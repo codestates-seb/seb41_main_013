@@ -29,9 +29,6 @@ export const SignUp = () => {
 		overLap: false,
 	});
 
-	const dispatch = useDispatch();
-	const member = useSelector((state) => state);
-
 	const handleInputChange = (e) => {
 		const { value, id } = e.target;
 		// console.log(`${id} : ${value}`);
@@ -115,11 +112,6 @@ export const SignUp = () => {
 
 			const { data } = await postMembers(body);
 			console.log(data);
-			console.log(data.id, typeof data.id, data.name, typeof data.name);
-			dispatch(
-				loginAccount({ member_id: `${data.id}`, member_name: `${data.name}` }),
-			);
-			console.log(member);
 			setIsOpenModal(true);
 			setTimeout(() => {
 				setIsOpenModal(false);

@@ -5,11 +5,8 @@ import theme from "./theme";
 import { IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 export const MainHeader = () => {
-	// const [login, setLogin] = useState(false);
-	// const token = localStorage.getItem("accessToken");
 	const member = useSelector((state) => state.member.isLogin);
 
 	return (

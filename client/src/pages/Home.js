@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 const Home = () => {
 	const categoryId = 1;
 	const challengeId = 1;
-	const member = useSelector((state) => state);
-	console.log(member);
+	// const member = useSelector((state) => state);
+	// console.log(member);
 
 	return (
 		<HomeWrapper>

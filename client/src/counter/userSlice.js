@@ -4,7 +4,7 @@ const initialState = {
 	isLogin: false,
 	member_id: "",
 	member_name: "",
-	// accessToken: null,
+	accessToken: null,
 	// refreshToken: null,
 };
 
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
 			isLogin: action.payload.isLogin,
 			member_id: action.payload.member_id,
 			member_name: action.payload.member_name,
-			// accessToken: action.payload.accessToken,
+			accessToken: action.payload.accessToken,
 			// refreshToken: action.payload.refreshToken,
 		}),
 		// logoutAccount: (state) => {
