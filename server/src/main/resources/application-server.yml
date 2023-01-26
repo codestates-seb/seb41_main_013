@@ -1,10 +1,13 @@
-배포환경에서 application.yml에 적용할 텍스트입니다. (배포 주소 설정, mysql DB 적용)
-
 spring:
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+    hibernate:
+      ddl-auto: create-drop # 확인 필요
+    properties:
+      hibernate:
+        format_sql: true
   datasource:
     url: jdbc:mysql:/database-deploy-challenge.cm4utdzctazn.ap-northeast-2.rds.amazonaws.com:13306/mainproject?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
@@ -27,4 +30,4 @@ jwt:
   ATExpiration: 10
   RTExpiration: 420
 config:
-  domain: http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com/
+  domain: http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com
