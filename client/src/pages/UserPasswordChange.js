@@ -8,12 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "../components/Modal";
 
 export const UserPasswordChange = () => {
-	const navigate = useNavigate();
-
-	const handleBack = () => {
-		navigate(-1);
-	};
-
 	const [password, setPassword] = useState("");
 	const [newpassword, setnewPassword] = useState("");
 	const [passwordCheck, setPasswordCheck] = useState("");
@@ -21,11 +15,14 @@ export const UserPasswordChange = () => {
 	const [currentPwErr, setCurrentPwErr] = useState(false);
 	const [newPwErr, setNewPwErr] = useState(false);
 	const [newPwCheckErr, setNewPwCheckErr] = useState(false);
-
-	// 현재 비밀번호와 새로운 비밀번호 같은지 확인
 	const [sameErr, setSameErr] = useState(false);
-
 	const [saveModal, setSaveModal] = useState(false);
+
+	const navigate = useNavigate();
+
+	const handleBack = () => {
+		navigate(-1);
+	};
 
 	const onChangePw = (e) => {
 		setPassword(e.target.value);
