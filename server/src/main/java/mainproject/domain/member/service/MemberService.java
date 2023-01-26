@@ -57,6 +57,8 @@ public class MemberService {
                 .ifPresent(name -> findMember.setName(name));
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
+        Optional.ofNullable(member.getImage())
+                .ifPresent(image -> findMember.setImage(image));
 
         Member saveMember = memberRepository.save(findMember);
 

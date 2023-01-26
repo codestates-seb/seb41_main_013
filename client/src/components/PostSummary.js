@@ -24,6 +24,7 @@ export const PostSummary = (props) => {
 					imgURL={props.imgULR}
 					writer={props.writer}
 					date={formatDate(props.date)}
+					margin="0 0 1rem 0"
 				/>
 			</PostSumContainer>
 		</>
@@ -31,7 +32,7 @@ export const PostSummary = (props) => {
 };
 
 const PostSumContainer = styled.div`
-	width: 36rem;
+	width: 100%;
 	height: 16rem;
 	border-bottom: 1px solid ${theme.color.gray};
 
@@ -61,7 +62,6 @@ const PostSumContainer = styled.div`
 			line-height: 1.6rem;
 			text-align: left;
 
-			width: 36rem;
 			height: 9.8rem;
 			overflow: hidden;
 		}

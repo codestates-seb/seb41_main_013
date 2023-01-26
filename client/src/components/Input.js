@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import React from "react";
 
-export const Input = (props) => {
+export const Input = React.forwardRef((props, ref) => {
 	return (
 		<>
 			<StyledLabel>{props.label}</StyledLabel>
@@ -15,10 +16,15 @@ export const Input = (props) => {
 				lineHeight={props.lineHeight}
 				onChange={props.onChange}
 				borderColor={props.borderColor}
+<<<<<<< HEAD
 			/>
+=======
+				{...props.register}
+			></StyledInput>
+>>>>>>> dev
 		</>
 	);
-};
+});
 
 export const InputAuth = (props) => {
 	return (
@@ -71,7 +77,6 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 36.4rem;
-
 	span {
 		padding-left: 2rem;
 		font-size: ${(props) => props.fontSize || "1.3rem"};

@@ -59,7 +59,7 @@ export const SelectCategory = () => {
 			<>
 				<Btn
 					btnText={props.text}
-					width={"17.3rem"}
+					width={"48%"}
 					background={click[props.num] ? theme.color.green : theme.color.gray}
 					color={click[props.num] ? theme.color.white : theme.color.navy}
 					onClick={() => handleBtnClick(props.num)}
@@ -71,10 +71,14 @@ export const SelectCategory = () => {
 
 	return (
 		<SelectCategoryContainer>
-			<SelectCategoryItem num={0} text="우리 동네" />
-			<SelectCategoryItem num={1} text="운동" />
-			<SelectCategoryItem num={2} text="규칙적인 생활" />
-			<SelectCategoryItem num={3} text="기타" />
+			<div className="twoCa">
+				<SelectCategoryItem num={0} text="우리 동네" />
+				<SelectCategoryItem num={1} text="운동" />
+			</div>
+			<div className="twoCa">
+				<SelectCategoryItem num={2} text="규칙적인 생활" />
+				<SelectCategoryItem num={3} text="기타" />
+			</div>
 		</SelectCategoryContainer>
 	);
 };
@@ -113,7 +117,17 @@ const CategoryItemContainer = styled.div`
 `;
 
 const SelectCategoryContainer = styled.div`
-	width: 38rem;
+	width: 100%;
 	height: 8.6rem;
 	margin-bottom: 1rem;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.twoCa {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+	}
 `;

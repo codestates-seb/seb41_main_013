@@ -1,46 +1,63 @@
-// todo: HomeCategory Navto props
 import styled from "styled-components";
 import { HomeCategory } from "../components/Category";
 import { HomeChallengeItem } from "../components/ChallengeItem";
 import { BackToTopBtn } from "../components/Button";
-import { useSelector } from "react-redux";
+import { Loading } from "../components/Loading";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
-	const categoryId = 1;
-	const challengeId = 1;
-	// const member = useSelector((state) => state);
-	// console.log(member);
+	const [challenges, setChallenges] = useState([]);
+	const [page, setPage] = useState(1);
+	const [hasMoreData, setHasMoreData] = useState(true);
+
+	useEffect(() => {
+		getAllChallengesList();
+	}, []);
+
+	const getAllChallengesList = async () => {
+		if (!hasMoreData) return;
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/hot?page=${page}`,
+			);
+			if (response.data.length < 10) {
+				setHasMoreData(false);
+			}
+			setChallenges([...challenges, ...response.data]);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const loadMoreData = () => {
+		setPage(page + 1);
+		getAllChallengesList();
+	};
 
 	return (
 		<HomeWrapper>
 			<HomeCategory NavTo="challenges" />
 			<StyledH1>BEST</StyledH1>
-			{/* map */}
-			<HomeChallengeItemContainer>
-				{/* <HomeChallengeItem
-          imgUrl={challenge.imgUrl}
-          challengeTitle={challenge.title}
-          challengerNum={challenge.challengerNum}
-          challengeFrequency={challenge.frequency}
-          challengeDate={challenge.date}
-        /> */}
-				<HomeChallengeItem
-					imgUrl=""
-					challengeTitle="아침 8시 기상 후 조깅하기"
-					challengerNum="299명"
-					challengeFrequency="주 3일"
-					challengeDate="1.18 - 1.25"
-					NavTo={`/challenges/${categoryId}/${challengeId}`}
-				/>
-				<HomeChallengeItem
-					imgUrl=""
-					challengeTitle="아침 8시 기상 후 조깅하기"
-					challengerNum="299명"
-					challengeFrequency="주 3일"
-					challengeDate="1.18 - 1.25"
-					NavTo={`/challenges/${categoryId}/${challengeId}`}
-				/>
-			</HomeChallengeItemContainer>
+			<InfiniteScroll
+				className="infinite-scroll"
+				dataLength={challenges.length}
+				next={loadMoreData}
+				hasMore={hasMoreData}
+				loader={<Loading />}
+			>
+				{challenges.map((challenge) => (
+					<HomeChallengeItem
+						imgUrl={challenge.imageUrl}
+						challengeTitle={challenge.title}
+						challengerNum={challenge.challengerCount}
+						challengeFrequency={challenge.frequency}
+						challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+						NavTo={`/challenges/${challenge.categoryId}/${challenge.challengeId}`}
+					/>
+				))}
+			</InfiniteScroll>
 			<BackToTopBtn />
 		</HomeWrapper>
 	);
@@ -49,15 +66,20 @@ const Home = () => {
 const HomeWrapper = styled.div`
 	margin-top: 15rem;
 	margin-bottom: 6.5rem;
+
+	& .infinite-scroll {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		::-webkit-scrollbar {
+			display: none;
+		}
+	}
 `;
 
 const StyledH1 = styled.h1`
 	font-size: 2rem;
-`;
-
-const HomeChallengeItemContainer = styled.div`
-	display: flex;
-	flex-wrap: wrap;
 `;
 
 export default Home;

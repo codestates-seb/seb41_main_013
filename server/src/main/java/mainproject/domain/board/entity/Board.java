@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mainproject.domain.comment.entity.Comment;
-
-import mainproject.domain.comment.entity.Comment;
+import mainproject.domain.image.entity.Image;
 import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
@@ -25,11 +24,7 @@ public class Board implements Serializable {
     private long boardId;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "MEMBER_ID",referencedColumnName = "ID"),
-            @JoinColumn(name = "HOST_MEMBER_NAME", referencedColumnName = "NAME")
-            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
-    })
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     public void setMember(Member member) {
@@ -47,8 +42,16 @@ public class Board implements Serializable {
 
     private String content;
 
-    //private Image boardImage;  // TODO: 이미지파일
+    @OneToOne
+    @JoinColumn(name = "BOARD_IMAGE_ID")
+    private Image image;
 
+    public void setImage(Image image) {
+        this.image = image;
+        if (this.image.getBoard() != this) {
+            this.image.setBoard(this);
+        }
+    }
 
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
@@ -64,4 +67,6 @@ public class Board implements Serializable {
             comment.setBoard(this);
         }
     }
+
+
 }
