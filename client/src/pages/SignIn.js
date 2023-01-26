@@ -20,7 +20,6 @@ export const SignIn = () => {
 		signIn: false,
 	});
 
-	// const member = useSelector((state) => state.member.isLogin);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 

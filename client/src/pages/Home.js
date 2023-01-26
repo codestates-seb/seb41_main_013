@@ -36,6 +36,13 @@ const Home = () => {
 		getAllChallengesList();
 	};
 
+	const categoryId = {
+		"우리 동네": "0",
+		운동: "1",
+		"규칙적인 생활": "2",
+		기타: "3",
+	};
+
 	return (
 		<HomeWrapper>
 			<HomeCategory NavTo="challenges" />
@@ -54,7 +61,9 @@ const Home = () => {
 						challengerNum={challenge.challengerCount}
 						challengeFrequency={challenge.frequency}
 						challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
-						NavTo={`/challenges/${challenge.categoryId}/${challenge.challengeId}`}
+						NavTo={`/challenges/${categoryId[challenge.category]}/${
+							challenge.challengeId
+						}`}
 					/>
 				))}
 			</InfiniteScroll>
@@ -69,6 +78,7 @@ const HomeWrapper = styled.div`
 
 	& .infinite-scroll {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 
