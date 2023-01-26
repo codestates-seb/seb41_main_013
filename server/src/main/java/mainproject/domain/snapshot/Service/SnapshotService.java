@@ -60,6 +60,9 @@ public class SnapshotService {
             throw new BusinessLogicException(ExceptionCode.TIME_UNAUTHORIZED);
         }
 
+        // 진행률 업데이트
+        challenger.setSnapshotCount(challenger.getSnapshotCount() + 1);   // 인증완료일수 증가
+
         snapshot.setMember(member);
         snapshot.setChallenge(challenge);
         snapshot.setSnapshotId(snapshotId);

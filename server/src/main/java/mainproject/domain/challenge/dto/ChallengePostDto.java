@@ -9,6 +9,7 @@ import mainproject.domain.member.entity.Member;
 import mainproject.global.category.Category;
 
 import javax.validation.constraints.*;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +41,7 @@ public class ChallengePostDto {
     private String content;
 
     @Positive
-    @ApiModelProperty(required = false, example = "1")
+    @ApiModelProperty(example = "1")
     private long challengeImageId = 1L; // TODO: 기본값을 기본 챌린지 이미지로 변경
 
     @ApiModelProperty(hidden = true)
@@ -67,15 +68,23 @@ public class ChallengePostDto {
         return endAt.compareTo(startAt) >= 0;
     }
 
+    @ApiModelProperty(hidden = true)
+    private int challengeDay;
+
+    @ApiModelProperty(hidden = true)
+    public int getChallengeDay() {
+        return (int) Duration.between(startAt.atStartOfDay(), endAt.atStartOfDay()).toDays() + 1;
+    }
+
     @NotNull(message = "인증 빈도를 선택하세요.")
     @ApiModelProperty(required = false, example = "매일")
     private Frequency frequency = Frequency.매일; // 기본값 - 매일
 
-    @ApiModelProperty(required = false, example = "00:00:00")
+    @ApiModelProperty(example = "00:00:00")
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalTime snapshotStartAt = LocalTime.parse("00:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"));  // 기본값 - 00:00:00
 
-    @ApiModelProperty(required = false, example = "23:59:00")
+    @ApiModelProperty(example = "23:59:00")
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalTime snapshotEndAt = LocalTime.parse("23:59:59", DateTimeFormatter.ofPattern("HH:mm:ss"));    // 기본값 - 23:59:59
 
