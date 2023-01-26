@@ -15,14 +15,18 @@ export const loginStatusSlice = createSlice({
 
 export const loginUserInfoSlice = createSlice({
 	name: "loginUserInfo",
-	initialState: { loginUserInfo: {} },
+	initialState: {
+		loginUserInfo: {},
+	},
 	reducers: {
 		getLoginUser: (state, action) => {
 			state.loginUserInfo = action.payload;
+			console.log("state.loginUserInfo :", state.loginUserInfo);
 		},
 	},
 });
 
 export const { signin, signout } = loginStatusSlice.actions;
+export const { getLoginUser } = loginUserInfoSlice.actions;
 
 export default loginStatusSlice;

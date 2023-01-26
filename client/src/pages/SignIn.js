@@ -5,7 +5,7 @@ import theme from "../components/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signin } from "../redux/userSlice";
+import { getLoginUser, signin } from "../redux/userSlice";
 import { postAuth } from "../apis/base";
 
 export const SignIn = () => {
@@ -20,7 +20,6 @@ export const SignIn = () => {
 		signIn: false,
 	});
 
-	// const member = useSelector((state) => state.member.isLogin);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -76,6 +75,14 @@ export const SignIn = () => {
 
 			const data = await postAuth(body);
 			console.log(data);
+			console.log(data.data);
+			console.log(data.headers.authorization);
+			dispatch(
+				getLoginUser({
+					memberId: data.data,
+					accessToken: data.headers.authorization,
+				}),
+			);
 			// localStorage.setItem("authorization", data.headers.authorization);
 			// localStorage.setItem("refreshToken", data.headers.refreshtoken);
 			dispatch(signin());

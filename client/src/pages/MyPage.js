@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Btn } from "../components/Button";
@@ -11,6 +11,7 @@ import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
 import { signin } from "../redux/userSlice";
+import { signout } from "../redux/userSlice";
 
 export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -30,7 +31,8 @@ export const MyPage = (props) => {
 	// }, []);
 
 	const isLogin = useSelector((state) => state.loginStatus.status);
-	console.log(isLogin);
+	// console.log(isLogin);
+	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 
@@ -43,6 +45,7 @@ export const MyPage = (props) => {
 	};
 
 	const onClickToLogout = () => {
+		dispatch(signout());
 		navigate("/");
 	};
 
