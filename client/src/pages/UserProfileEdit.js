@@ -45,13 +45,14 @@ export const UserProfileEdit = () => {
 	const handleBack = () => {
 		navigate(-1);
 	};
+
 	return (
 		<>
 			<MainHeader />
 			<Container onSubmit={onSubmit}>
 				{saveModal && <Modal modalText="수정 완료!" />}
 				<div />
-				<ImageUploader />
+				<ImageUploader width="20rem" height="20rem" />
 				<div>
 					<InputAuth
 						type="text"

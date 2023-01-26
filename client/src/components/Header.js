@@ -4,8 +4,11 @@ import { ArrowLeft } from "./NavItem";
 import theme from "./theme";
 import { IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const MainHeader = () => {
+	const isLogin = useSelector((state) => state.loginStatus.status);
+
 	return (
 		<Main>
 			<Link to="/">
@@ -18,12 +21,16 @@ export const MainHeader = () => {
 				/>
 			</Link>
 			<div>
-				<Link to="/login">
-					<Btn btnText="로그인" color="black" width="6rem" />
-				</Link>
-				<Link to="/signup">
-					<Btn btnText="회원가입" color="black" width="6rem" />
-				</Link>
+				{isLogin ? null : (
+					<>
+						<Link to="/login">
+							<Btn btnText="로그인" color="black" width="6rem" />
+						</Link>
+						<Link to="/signup">
+							<Btn btnText="회원가입" color="black" width="6rem" />
+						</Link>
+					</>
+				)}
 			</div>
 		</Main>
 	);
@@ -32,9 +39,7 @@ export const MainHeader = () => {
 export const TitleHeader = (props) => {
 	return (
 		<Title>
-			<ArrowLeft
-				onClick={props.onClick}
-			/>
+			<ArrowLeft onClick={props.onClick} />
 			{props.title}
 			<div />
 		</Title>
