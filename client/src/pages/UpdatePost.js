@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CreatepostContainer } from "./CreatePost";
 import { useState } from "react";
 import { ErrorContainer } from "./CreatePost";
+import axios from "axios";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -28,6 +29,8 @@ export const UpdatePost = () => {
 	const [categoryError, setCategoryError] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
+	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
+	const token = null;
 
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
@@ -53,9 +56,30 @@ export const UpdatePost = () => {
 			setCreateModal(true);
 		}
 	};
-	const handleUpdatePost = () => {
+
+	const postBody = JSON.stringify({
+		boardImageId: 0,
+		category: category[value],
+		content: content,
+		memberId: 0,
+		title: title,
+	});
+	const handleUpdatePost = async () => {
 		//글 등록 함수
-		navigate(`/post/${postId}`);
+		try {
+			const response = await axios.patch(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
+				postBody,
+				{
+					headers: { "Content-Type": "application/json", Authorization: token },
+				},
+			);
+			if (response.status === 200) {
+				navigate("/community");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 	const handleChangeValue = (n) => {
 		setValue(n);

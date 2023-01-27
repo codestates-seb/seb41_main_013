@@ -41,7 +41,7 @@ export const PostDetail = () => {
 			);
 			setPost(response.data.data);
 		} catch (error) {
-			//console.error(error);
+			console.error(error);
 		}
 	};
 

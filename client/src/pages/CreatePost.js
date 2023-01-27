@@ -1,8 +1,9 @@
 //글 수정 페이지
 import theme from "../components/theme";
-import styled, { ThemeContext } from "styled-components";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 //import { handleCheck } from "../function/postFunction";
 
 //components
@@ -22,6 +23,8 @@ export const CreatePost = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const navigate = useNavigate();
+	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
+	const token = null;
 
 	const handleChangeValue = (n) => {
 		setValue(n);
@@ -32,11 +35,33 @@ export const CreatePost = () => {
 	const handleChangeContent = (e) => {
 		setContent(e.target.value);
 	};
-	const handleCreatePost = () => {
+
+	const postBody = JSON.stringify({
+		boardImageId: 0,
+		category: category[value],
+		content: content,
+		memberId: 0,
+		title: title,
+	});
+	const handleCreatePost = async () => {
 		//글 등록 함수
-		navigate("/community");
+		try {
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
+				postBody,
+				{
+					headers: { "Content-Type": "application/json", Authorization: token },
+				},
+			);
+			if (response.status === 200) {
+				navigate("/community");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
-	const handleCheck = (props) => {
+
+	const handleCheck = () => {
 		//글 작성/수정 - 유효성 검사 함수
 		if (title.length < 5) setTitleError(true);
 		else setTitleError(false);
