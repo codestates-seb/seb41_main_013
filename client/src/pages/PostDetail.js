@@ -39,9 +39,9 @@ export const PostDetail = () => {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 			);
-			setPost(response.data);
+			setPost(response.data.data);
 		} catch (error) {
-			console.error(error);
+			//console.error(error);
 		}
 	};
 
@@ -99,10 +99,9 @@ export const PostDetail = () => {
 						btnText={`카테고리 > ${category[post.categoryId]}`}
 						onClick={() => navigate(`/community/${post.categoryId}`)}
 					/>
-
 					<div className="title">{post.title}</div>
 					<div className="content">{post.content}</div>
-					<WriterInfo writer={post.writer} date={post.date} />
+					<WriterInfo writer={post.memberName} date={post.createdAt} />
 				</InfiniteScroll>
 				<div className="btns">
 					<Btn

@@ -13,7 +13,7 @@ import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading";
 
 //dummy
-//import { CommunityList } from "../data/dummy";
+import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
 	const user = true; //유저 정보 (from 로컬스토리지)
@@ -71,6 +71,17 @@ export const Community = () => {
 					loader={<Loading />}
 				>
 					{postList.map((post) => (
+						<div className="m">
+							<PostSummary
+								title={post.title}
+								content={post.content}
+								writer={post.memberName}
+								postId={post.boardId}
+								date={post.createdAt}
+							/>
+						</div>
+					))}
+					{/*{CommunityList.map((post) => (
 						<div className="margin">
 							<PostSummary
 								title={post.title}
@@ -79,7 +90,7 @@ export const Community = () => {
 								postId={post.postId}
 							/>
 						</div>
-					))}
+					))}*/}
 				</InfiniteScroll>
 			</CommunityContainer>
 			<CreateBtn onClick={handleCreate} NavTo={!createModal && "/createPost"} />
@@ -97,6 +108,9 @@ export const CommunityContainer = styled.div`
 	}
 	.marg {
 		margin-top: 5rem;
+		margin-bottom: 1rem;
+	}
+	.m {
 		margin-bottom: 1rem;
 	}
 	& .infinite-scroll {
