@@ -5,8 +5,9 @@ import theme from "../components/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { signin } from "../redux/userSlice";
+import { getLoginUser, signin } from "../redux/userSlice";
 import { postAuth } from "../apis/base";
+import axios from "axios";
 
 export const SignIn = () => {
 	const [userInput, setUserInput] = useState({
@@ -20,7 +21,6 @@ export const SignIn = () => {
 		signIn: false,
 	});
 
-	// const member = useSelector((state) => state.member.isLogin);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -76,7 +76,13 @@ export const SignIn = () => {
 
 			const data = await postAuth(body);
 			console.log(data);
-			// localStorage.setItem("authorization", data.headers.authorization);
+			dispatch(
+				getLoginUser({
+					memberId: data.data,
+					accessToken: data.headers.authorization,
+				}),
+			);
+			localStorage.setItem("authorization", data.headers.authorization);
 			// localStorage.setItem("refreshToken", data.headers.refreshtoken);
 			dispatch(signin());
 			navigate("/");

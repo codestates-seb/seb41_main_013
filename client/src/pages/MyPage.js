@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getMembers } from "../apis/base";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
@@ -10,29 +11,47 @@ import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
-import { signin } from "../redux/userSlice";
+import { signout } from "../redux/userSlice";
 
 export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-	// const memberId = 9;
+	const [userInfo, setUserInfo] = useState("");
 
-	// useEffect(() => {
-	// 	axios
-	// 		.get(`https://1ca9-121-129-154-70.jp.ngrok.io/api/members/${memberId}`, {
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 				Authorization: token,
-	// 			},
-	// 		})
-	// 		.then((res) => console.log(res));
-	// }, []);
+	const { memberId, accessToken } = useSelector(
+		(state) => state.loginUserInfo.loginUserInfo,
+	);
+	// console.log(memberId, accessToken);
+
+	useEffect(() => {
+		getUserInfo();
+	}, []);
+
+	const getUserInfo = async () => {
+		try {
+			const result = await axios.get(
+				`https://93da-121-129-154-70.jp.ngrok.io
+				/api/members/${memberId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log(result.data);
+			setUserInfo(result.data);
+			console.log(userInfo);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	const isLogin = useSelector((state) => state.loginStatus.status);
-	console.log(isLogin);
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen);
@@ -43,6 +62,7 @@ export const MyPage = (props) => {
 	};
 
 	const onClickToLogout = () => {
+		dispatch(signout());
 		navigate("/");
 	};
 
@@ -83,7 +103,7 @@ export const MyPage = (props) => {
 					<div className="userInfo">
 						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
 
-						{props.name || "유저이름"}
+						{userInfo.name || "유저이름"}
 					</div>
 					<ChallengeState />
 					<div className="challengeNav">

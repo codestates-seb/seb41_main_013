@@ -76,17 +76,14 @@ public class ChallengerService {
 
         String challengerId = "M" + memberId + "_C" + challengeId;
         Optional<Challenger> optionalChallenger = challengerRepository.findById(challengerId);
-        Challenger findChallenger = optionalChallenger.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGER_NOT_FOUND));
 
-        return findChallenger;
+        return optionalChallenger.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGER_NOT_FOUND));
     }
 
     public boolean checkMember(Member principal, long memberId) {
         List<Challenger> optionalChallenger = challengerRepository.findByMember_Id(memberId);
 
         return !optionalChallenger.isEmpty()
-                && optionalChallenger.stream()
-                .filter(c -> !c.getMember().getEmail().equals(principal.getEmail()))
-                .count() > 0;
+                && optionalChallenger.stream().anyMatch(c -> !c.getMember().getEmail().equals(principal.getEmail()));
     }
 }
