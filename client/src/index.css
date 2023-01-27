@@ -5,11 +5,8 @@
 	font-size: 62.5%;
 }
 
-html,
-body,
-#root,
-.App {
-	height: 100%;
+html, body, #root {
+  height: 100%;
 }
 
 body {
@@ -17,7 +14,8 @@ body {
 	padding: 0 1.3rem;
 	max-width: 480px;
 	min-width: 390px;
-	/* min-height: 100vh; */
-	/* overflow: scroll; */
-	margin: 0 auto;
+	/* max-height: 844px; */
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
