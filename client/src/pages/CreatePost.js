@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 //import { handleCheck } from "../function/postFunction";
 
 //components
@@ -126,23 +128,28 @@ export const CreatePost = () => {
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>
-			<Btn
-				btnText="완료"
-				background={theme.color.green}
-				width="100%"
-				height="4.8rem"
-				onClick={handleCheck}
-				margin="10rem 0.6rem 1rem 0.6rem"
-			/>
+			<div className="btn">
+				<Btn
+					btnText="완료"
+					background={theme.color.green}
+					width="98.3%"
+					height="4.8rem"
+					onClick={handleCheck}
+					margin="10rem 0.6rem 1rem 0.6rem"
+				/>
+			</div>
 		</CreatepostContainer>
 	);
 };
 
 export const CreatepostContainer = styled.div`
 	margin-top: 5.5rem;
-	height: 66.5rem;
+	margin-bottom: 6.5rem;
 	overflow-y: scroll;
-	overflow-x: hidden;
+	height: 66rem;
+	::-webkit-scrollbar {
+		display: none;
+	}
 	p {
 		font-family: "Inter";
 		font-style: normal;

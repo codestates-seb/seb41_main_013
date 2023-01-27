@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -92,26 +91,25 @@ export const PostDetail = () => {
 						onClickGry={() => setCreateDdModal(false)}
 					/>
 				)}
-				<InfiniteScroll className="infinite-scroll" loader={<Loading />}>
-					<TitleHeader
-						title={
-							post.title.length > 10
-								? post.title.slice(0, 11) + "..."
-								: post.title
-						}
-					/>
-					<Btn
-						background={theme.color.green}
-						size="0.9rem"
-						width="13rem"
-						height="2rem"
-						btnText={`카테고리 > ${category[post.categoryId]}`}
-						onClick={() => navigate(`/community/${post.categoryId}`)}
-					/>
-					<div className="title">{post.title}</div>
-					<div className="content">{post.content}</div>
-					<WriterInfo writer={post.memberName} date={post.createdAt} />
-				</InfiniteScroll>
+
+				<TitleHeader
+					title={
+						post.title.length > 10
+							? post.title.slice(0, 11) + "..."
+							: post.title
+					}
+				/>
+				<Btn
+					background={theme.color.green}
+					size="0.9rem"
+					width="13rem"
+					height="2rem"
+					btnText={`카테고리 > ${category[post.categoryId]}`}
+					onClick={() => navigate(`/community/${post.categoryId}`)}
+				/>
+				<div className="title">{post.title}</div>
+				<div className="content">{post.content}</div>
+				<WriterInfo writer={post.memberName} date={post.createdAt} />
 				<div className="btns">
 					<Btn
 						background={theme.color.green}
@@ -170,7 +168,6 @@ const PostDetailContainer = styled.div`
 	.btns {
 		text-align: center;
 	}
-
 	.commentNum {
 		font-weight: 600;
 		line-height: 3rem;
