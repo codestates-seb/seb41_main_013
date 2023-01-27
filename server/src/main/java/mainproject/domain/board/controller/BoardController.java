@@ -14,6 +14,7 @@ import mainproject.global.dto.SingleResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -97,7 +98,7 @@ public class BoardController {
     }
 
 
-    @ApiOperation(value = "글 검색", notes = "게시판에 등록된 글을 검색합니다.")
+@ApiOperation(value = "글 검색", notes = "게시판에 등록된 글을 검색합니다.")
     @GetMapping("/search")
     public ResponseEntity searchBoards(@RequestParam(required = false, defaultValue = "1") int page,
                                           @RequestParam(required = false, defaultValue = "15") int size,
@@ -110,6 +111,19 @@ public class BoardController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pageBoards), HttpStatus.OK);
     }
+
+
+
+  /*  @GetMapping("/search")
+    public String searchBoards(String keyword, Model model) {
+        List<Board> searchList = boardService.search(keyword);
+
+        model.addAttribute("searchList", searchList);
+
+        return "board-search";
+    }
+
+   */
 
     @ApiOperation(value = "글 삭제", notes = "등록된 글을 삭제합니다.")
     @DeleteMapping("/{board-id}")

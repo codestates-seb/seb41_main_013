@@ -51,6 +51,9 @@ public class SecurityConfiguration  {
                 .apply(new CustomFilterConfiguration(jwtTokenizer, authService))
                 .and()
 
+                .cors()
+                .and()
+
                 .authorizeRequests(auth -> auth
                         .antMatchers("/h2/**").permitAll() // h2 데이터베이스 확인 가능하게
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight 요청 모두 pass

@@ -95,6 +95,6 @@ public class MemberController {
 
     }
 
-            ;
+
 
 }

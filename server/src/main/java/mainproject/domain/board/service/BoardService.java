@@ -106,4 +106,14 @@ public class BoardService {
     }
 
 
+
+
+  /*  @Transactional
+    public List<Board> search(String keyword) {
+        List<Board> boardList = boardRepository.findByTitleContaining(keyword);
+        return boardList;
+    }
+
+   */
+
 }
