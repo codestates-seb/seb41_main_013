@@ -64,9 +64,18 @@ export const PostDetail = () => {
 		}
 	};
 
-	const handleDeletePost = () => {
+	const handleDeletePost = async () => {
 		//해당 글을 삭제하는 함수
-		navigate("/community");
+		try {
+			const response = await axios.delete(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards${boardId}`,
+			);
+			if (response.status === 200) {
+				navigate("/community");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
