@@ -52,10 +52,12 @@ export const UserCreateChallenge = () => {
 };
 
 const ChallengeWrap = styled.div`
+	border: 1px solid red;
 	width: 100%;
 	/* height: 79.2rem; */
 	overflow: scroll;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	position: absolute;
 `;

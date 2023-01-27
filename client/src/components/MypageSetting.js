@@ -19,7 +19,6 @@ export const MypageSetting = (props) => {
 			/>
 			<div>
 				<NavTitle title="프로필 수정" link="/editProfile" width="100%" />
-				<NavTitle title="비밀번호 변경" link="/changePw" width="100%" />
 				<NavTitle title="로그아웃" width="100%" onClick={modalToLogout} />
 				<NavTitle title="회원탈퇴" width="100%" onClick={modalToQuit} />
 			</div>
