@@ -3,6 +3,7 @@ package mainproject.domain.challenge.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import mainproject.domain.challenge.dto.ChallengeDetailResponseDto;
 import mainproject.domain.challenge.dto.ChallengePostDto;
 import mainproject.domain.challenge.dto.ChallengeResponseDto;
 import mainproject.domain.challenge.entity.Challenge;
@@ -71,7 +72,7 @@ public class ChallengeController {
                                        @RequestParam @Positive @Nullable Long memberId) {
         Challenge challenge = challengeService.findChallenge(challengeId);
 
-        ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
+        ChallengeDetailResponseDto response = mapper.challengeToChallengeDetailResponseDto(challenge);
 
         String checkChallenging = "로그인이 필요합니다.";
 
@@ -79,15 +80,19 @@ public class ChallengeController {
             checkChallenging = challengeService.checkChallenging(challengeId, memberId);
         }
 
-        return new ResponseEntity<>(List.of(response, checkChallenging), HttpStatus.OK);
+        response.setCheckChallenging(checkChallenging);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 챌린지 목록 최신순 조회
     @ApiOperation(value = "챌린지 목록 최신순 조회")
     @GetMapping("/new")
     public ResponseEntity getNewChallenges(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
-                                               @RequestParam @Nullable Category category) {
-        Page<Challenge> pageChallenges = challengeService.findNewChallenges(category);
+                                               @RequestParam @Nullable Category category,
+                                           @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                           @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        Page<Challenge> pageChallenges = challengeService.findNewChallenges(category, page - 1);
 
         List<Challenge> challenges = pageChallenges.getContent();
 
@@ -100,8 +105,10 @@ public class ChallengeController {
     @ApiOperation(value = "챌린지 목록 참여자순 조회")
     @GetMapping("/hot")
     public ResponseEntity getHotChallenges(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
-                                               @RequestParam @Nullable Category category) {
-        Page<Challenge> pageChallenges = challengeService.findHotChallenges(category);
+                                               @RequestParam @Nullable Category category,
+                                           @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                           @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        Page<Challenge> pageChallenges = challengeService.findHotChallenges(category, page - 1);
 
         List<Challenge> challenges = pageChallenges.getContent();
 
@@ -114,8 +121,10 @@ public class ChallengeController {
     @ApiOperation(value = "회원이 생성한 챌린지 조회")
     @GetMapping("/host/{member-id}")
     public ResponseEntity getCreateChallenges(@ApiParam(value = "회원번호 입력", required = true)
-                                                  @PathVariable("member-id") @Positive long memberId) {
-        Page<Challenge> pageChallenges = challengeService.findCreateChallenges(memberId);
+                                                  @PathVariable("member-id") @Positive long memberId,
+                                              @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                              @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        Page<Challenge> pageChallenges = challengeService.findCreateChallenges(memberId, page - 1);
 
         List<Challenge> challenges = pageChallenges.getContent();
 
@@ -130,8 +139,10 @@ public class ChallengeController {
     public ResponseEntity getSearchChallenges(@ApiParam(value = "100자까지 입력 가능", required = true)
                                                   @RequestParam @NotNull(message = "검색어를 입력하세요.")
                                                   @Size(max = 100, message = "검색어는 100자까지 입력 가능합니다.")
-                                                  String query) {
-        Page<Challenge> pageChallenges = challengeService.searchChallenges(query);
+                                                  String query,
+                                              @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                              @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        Page<Challenge> pageChallenges = challengeService.searchChallenges(query, page - 1);
 
         List<Challenge> challenges = pageChallenges.getContent();
 
