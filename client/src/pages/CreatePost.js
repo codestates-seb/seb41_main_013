@@ -48,6 +48,8 @@ export const CreatePost = () => {
 			titleError === false &&
 			contentError === false &&
 			categoryError === false &&
+			title !== "" &&
+			content !== "" &&
 			value !== -1
 		) {
 			//에러가 하나도 없을 경우

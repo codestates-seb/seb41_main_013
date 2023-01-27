@@ -2,7 +2,9 @@
 import theme from "../components/theme";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -12,20 +14,37 @@ import { WriterInfo } from "../components/WriterInfo";
 import { BackToTopBtn } from "../components/Button";
 import { WriteComment } from "../components/WriteComment";
 import { Modal, TwoBtnModal } from "../components/Modal";
+import { Loading } from "../components/Loading";
 
 //dummy
-import { CommunityList } from "../data/dummy";
+//import { CommunityList } from "../data/dummy";
 
 export const PostDetail = () => {
 	const navigate = useNavigate();
-	const { postId } = useParams();
+	const { boardId } = useParams();
 	const category = ["우리 동네", "운동", "규칙적인 생활", "기타"];
-	const post = CommunityList.filter((el) => el.postId == postId)[0];
+	//const post = CommunityList.filter((el) => el.postId == postId)[0];
 
 	const user = null; //유저 정보 (from 로컬스토리지)
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
 	const [createDdModal, setCreateDdModal] = useState(false);
+
+	const [post, setPost] = useState({});
+	useEffect(() => {
+		getPost();
+	}, []);
+	const getPost = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
+			);
+			setPost(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	const handleCreate = (func) => {
 		//로그인이 되어 있지 않다면
 		if (func === "update") {
@@ -34,7 +53,7 @@ export const PostDetail = () => {
 				setTimeout(() => {
 					setCreateUModal(false);
 				}, 1000);
-			} else navigate(`/post/${postId}/update`);
+			} else navigate(`/post/${boardId}/update`);
 		} else {
 			if (!user) {
 				setCreateDModal(true);
@@ -64,24 +83,27 @@ export const PostDetail = () => {
 						onClickGry={() => setCreateDdModal(false)}
 					/>
 				)}
-				<TitleHeader
-					title={
-						post.title.length > 10
-							? post.title.slice(0, 11) + "..."
-							: post.title
-					}
-				/>
-				<Btn
-					background={theme.color.green}
-					size="0.9rem"
-					width="13rem"
-					height="2rem"
-					btnText={`카테고리 > ${category[post.categoryId]}`}
-					onClick={() => navigate(`/community/${post.categoryId}`)}
-				/>
-				<div className="title">{post.title}</div>
-				<div className="content">{post.content}</div>
-				<WriterInfo writer={post.writer} date={post.date} />
+				<InfiniteScroll className="infinite-scroll" loader={<Loading />}>
+					<TitleHeader
+						title={
+							post.title.length > 10
+								? post.title.slice(0, 11) + "..."
+								: post.title
+						}
+					/>
+					<Btn
+						background={theme.color.green}
+						size="0.9rem"
+						width="13rem"
+						height="2rem"
+						btnText={`카테고리 > ${category[post.categoryId]}`}
+						onClick={() => navigate(`/community/${post.categoryId}`)}
+					/>
+
+					<div className="title">{post.title}</div>
+					<div className="content">{post.content}</div>
+					<WriterInfo writer={post.writer} date={post.date} />
+				</InfiniteScroll>
 				<div className="btns">
 					<Btn
 						background={theme.color.green}
