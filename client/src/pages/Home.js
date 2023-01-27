@@ -31,45 +31,42 @@ const Home = () => {
 		}
 	};
 
-	const loadMoreData = () => {
-		setPage(page + 1);
-		getAllChallengesList();
-	};
+  const loadMoreData = () => {
+    setPage(page + 1);
+    getAllChallengesList();
+  };
 
 	const categoryId = {
 		"우리 동네": "0",
-		운동: "1",
+		"운동": "1",
 		"규칙적인 생활": "2",
-		기타: "3",
+		"기타": "3",
 	};
-
-	return (
-		<HomeWrapper>
-			<HomeCategory NavTo="challenges" />
-			<StyledH1>BEST</StyledH1>
-			<InfiniteScroll
+  
+  return (
+    <HomeWrapper>
+      <HomeCategory NavTo="challenges" />
+      <StyledH1>BEST</StyledH1>
+      <InfiniteScroll
 				className="infinite-scroll"
-				dataLength={challenges.length}
-				next={loadMoreData}
-				hasMore={hasMoreData}
-				loader={<Loading />}
-			>
-				{challenges.map((challenge) => (
-					<HomeChallengeItem
-						imgUrl={challenge.imageUrl}
-						challengeTitle={challenge.title}
-						challengerNum={challenge.challengerCount}
-						challengeFrequency={challenge.frequency}
-						challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
-						NavTo={`/challenges/${categoryId[challenge.category]}/${
-							challenge.challengeId
-						}`}
-					/>
-				))}
-			</InfiniteScroll>
-			<BackToTopBtn />
-		</HomeWrapper>
-	);
+        dataLength={challenges.length}
+        next={loadMoreData}
+        hasMore={hasMoreData}
+        loader={<Loading />}
+      >
+        {challenges.map((challenge) => (
+          <HomeChallengeItem
+            imgUrl={challenge.imageUrl}
+            challengeTitle={challenge.title}
+            challengerNum={challenge.challengerCount}
+            challengeFrequency={challenge.frequency}
+            challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+            NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
+          />))}
+      </InfiniteScroll>
+      <BackToTopBtn />
+    </HomeWrapper>
+  );
 };
 
 const HomeWrapper = styled.div`
@@ -78,7 +75,7 @@ const HomeWrapper = styled.div`
 
 	& .infinite-scroll {
 		display: flex;
-		flex-wrap: wrap;
+    flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
 
