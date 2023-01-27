@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getLoginUser, signin } from "../redux/userSlice";
 import { postAuth } from "../apis/base";
+import axios from "axios";
 
 export const SignIn = () => {
 	const [userInput, setUserInput] = useState({
@@ -81,7 +82,7 @@ export const SignIn = () => {
 					accessToken: data.headers.authorization,
 				}),
 			);
-			// localStorage.setItem("authorization", data.headers.authorization);
+			localStorage.setItem("authorization", data.headers.authorization);
 			// localStorage.setItem("refreshToken", data.headers.refreshtoken);
 			dispatch(signin());
 			navigate("/");
