@@ -18,8 +18,12 @@ export const Community = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const handleCreate = () => {
 		//로그인이 되어 있지 않다면
-		if (!user) setCreateModal(true);
-		else Navigate("./createPost");
+		if (!user) {
+			setCreateModal(true);
+			setTimeout(() => {
+				setCreateModal(false);
+			}, 1000);
+		} else Navigate("./createPost");
 	};
 	return (
 		<>
