@@ -53,7 +53,7 @@ public class ImageService {
             throw new BusinessLogicException(ExceptionCode.IMAGE_EMPTY);
         }
         else if (file.getOriginalFilename() == null ||
-                !file.getOriginalFilename().matches("^[a-zA-Zㄱ-ㅎ가-힣0-9-_]+\\.(jpg|JPG|png|jpeg|JPEG|heif|heic)$")) {
+                !file.getOriginalFilename().matches("^[a-zA-Zㄱ-ㅎ가-힣0-9-_ ]+\\.(jpg|JPG|png|jpeg|JPEG|heif|heic)$")) {
             throw new BusinessLogicException(ExceptionCode.FILE_NAME_NOT_VALID);
         }
     }
