@@ -42,4 +42,7 @@ public class Challenger implements Serializable {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private int snapshotCount = 0;
 }

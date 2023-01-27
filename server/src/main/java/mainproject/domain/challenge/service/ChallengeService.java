@@ -61,39 +61,29 @@ public class ChallengeService {
     }
 
     // 챌린지 목록 최신 생성일 순 조회
-    public Page<Challenge> findNewChallenges(Category category) {
+    public Page<Challenge> findNewChallenges(Category category, int page) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         if (category == null) {
-            return challengeRepository.findAll(PageRequest.of(0, 10, Sort.by("createdAt").descending()));
+            return challengeRepository.findAll(PageRequest.of(page, 10, Sort.by("createdAt").descending()));
         } else {
-            List<Challenge> challenges = challengeRepository.findAll().stream()
-                    .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
-                    .collect(Collectors.toList());
-
-            return new PageImpl<>(challenges, PageRequest.of(0, 10), challenges.size());
+            return challengeRepository.findByCategory(category, PageRequest.of(page, 10, Sort.by("createdAt").descending()));
         }
     }
 
     // 챌린지 목록 참여자순 조회
-    public Page<Challenge> findHotChallenges(Category category) {
+    public Page<Challenge> findHotChallenges(Category category, int page) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         if (category == null) {
-            return challengeRepository.findAll(PageRequest.of(0, 10, Sort.by("challengerCount").descending()));
+            return challengeRepository.findAll(PageRequest.of(page, 10, Sort.by("challengerCount").descending()));
         } else {
-            List<Challenge> challenges = challengeRepository.findAll().stream()
-                    .filter(c -> c.getCategory().equals(category))
-                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
-                    .collect(Collectors.toList());
-
-            return new PageImpl<>(challenges, PageRequest.of(0, 10), challenges.size());
+            return challengeRepository.findByCategory(category, PageRequest.of(page, 10, Sort.by("challengerCount").descending()));
         }
     }
 
     // 회원이 생성한 챌린지 조회
-    public Page<Challenge> findCreateChallenges(long memberId) {
+    public Page<Challenge> findCreateChallenges(long memberId, int page) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         List<Challenge> challenges = challengeRepository.findByMember_Id(memberId).stream()
@@ -101,11 +91,15 @@ public class ChallengeService {
                         .thenComparing(Challenge::getCreatedAt))    // 2차 정렬: 같은 상태의 챌린지 내에서 생성일 순으로 정렬
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(challenges, PageRequest.of(0, 10), challenges.size());
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), challenges.size());
+
+        return new PageImpl<>(challenges.subList(start, end), pageRequest, challenges.size());
     }
 
     // 챌린지 검색(제목+내용) - 검색결과는 인기순(참여자순)으로 출력
-    public Page<Challenge> searchChallenges(String query) {
+    public Page<Challenge> searchChallenges(String query, int page) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
 
         String[] words = query.split(" ");
@@ -123,7 +117,11 @@ public class ChallengeService {
                 .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(results, PageRequest.of(0, 10), results.size());
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), results.size());
+
+        return new PageImpl<>(results.subList(start, end), pageRequest, results.size());
     }
 
     // 챌린지 삭제
@@ -163,9 +161,8 @@ public class ChallengeService {
     // 챌린지 존재여부 검증
     public Challenge findVerifiedChallenge(long challengeId) {
         Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
-        Challenge findChallenge = optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
 
-        return findChallenge;
+        return optionalChallenge.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_FOUND));
     }
 
     // 챌린지 시작 전 여부 검증(챌린지 신청, 삭제 시)

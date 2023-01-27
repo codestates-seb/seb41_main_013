@@ -14,4 +14,5 @@ public class ChallengerResponseDto {
     private String challengeName;
     private long challengeImageId;
     private LocalDateTime createdAt;
+    private int progress;
 }
