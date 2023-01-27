@@ -20,7 +20,6 @@ export const Community = () => {
 		//로그인이 되어 있지 않다면
 		if (!user) setCreateModal(true);
 		else Navigate("./createPost");
-		console.log("hi");
 	};
 	return (
 		<>

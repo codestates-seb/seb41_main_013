@@ -1,8 +1,8 @@
 //글 상세 조회 페이지
 import theme from "../components/theme";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -11,6 +11,7 @@ import { Comment } from "../components/Comment";
 import { WriterInfo } from "../components/WriterInfo";
 import { BackToTopBtn } from "../components/Button";
 import { WriteComment } from "../components/WriteComment";
+import { Modal, TwoBtnModal } from "../components/Modal";
 
 //dummy
 import { CommunityList } from "../data/dummy";
@@ -21,9 +22,39 @@ export const PostDetail = () => {
 	const category = ["우리 동네", "운동", "규칙적인 생활", "기타"];
 	const post = CommunityList.filter((el) => el.postId == postId)[0];
 
+	const user = null; //유저 정보 (from 로컬스토리지)
+	const [createUModal, setCreateUModal] = useState(false);
+	const [createDModal, setCreateDModal] = useState(false);
+	const [createDdModal, setCreateDdModal] = useState(false);
+	const handleCreate = (func) => {
+		//로그인이 되어 있지 않다면
+		if (func === "update") {
+			if (!user) setCreateUModal(true);
+			else navigate(`/post/${postId}/update`);
+		} else {
+			if (!user) setCreateDModal(true);
+			else setCreateDdModal(true);
+		}
+	};
+
+	const handleDeletePost = () => {
+		//해당 글을 삭제하는 함수
+	};
+
 	return (
 		<>
 			<PostDetailContainer>
+				{createUModal && <Modal modalText="글 작성자만 수정이 가능합니다." />}
+				{createDModal && <Modal modalText="글 작성자만 삭제가 가능합니다." />}
+				{createDdModal && (
+					<TwoBtnModal
+						modalText="정말 삭제하시겠습니까?"
+						btnTextOrg="삭제"
+						onClickOrg={handleDeletePost}
+						btnTextGry="취소"
+						onClickGry={() => setCreateDdModal(false)}
+					/>
+				)}
 				<TitleHeader
 					title={
 						post.title.length > 10
@@ -46,12 +77,13 @@ export const PostDetail = () => {
 					<Btn
 						background={theme.color.green}
 						btnText="수정"
-						onClick={() => navigate(`/post/${postId}/update`)}
+						onClick={handleCreate("update")}
 					/>
 					<Btn
 						background={theme.color.gray}
 						btnText="삭제"
 						color={theme.color.navy}
+						onClick={handleCreate("del")}
 					/>
 				</div>
 				<WriteComment

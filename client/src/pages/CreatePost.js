@@ -68,7 +68,6 @@ export const CreatePost = () => {
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>
-
 			<Btn
 				btnText="완료"
 				background={theme.color.green}
