@@ -79,7 +79,7 @@ export const OurPath = () => {
 			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
 				<Route path="/signup" element={<SignUp />} />
 				<Route path="/login" element={<SignIn />} />
-				<Route path="/findPw" element={<FindPassword />} />
+				{/* <Route path="/findPw" element={<FindPassword />} /> */}
 			</Route>
 		</Routes>
 		// </Suspense>

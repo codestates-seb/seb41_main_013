@@ -1,10 +1,7 @@
 import axios from "axios";
 
-// const axiosInstance = axios.create({
-// 	baseURL: "http://ec2-3-39-238-119.ap-northeast-2.compute.amazonaws.com:8080",
-// });
 const axiosInstance = axios.create({
-	baseURL: "https://93da-121-129-154-70.jp.ngrok.io",
+	baseURL: `${process.env.REACT_APP_SERVER_URL}`,
 });
 
 export const postMembers = (data) => axiosInstance.post("/api/members", data);

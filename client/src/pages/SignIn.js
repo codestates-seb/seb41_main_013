@@ -73,7 +73,7 @@ export const SignIn = () => {
 	const login = async () => {
 		try {
 			const body = userInput;
-
+			console.log(body);
 			const data = await postAuth(body);
 			console.log(data);
 			dispatch(
