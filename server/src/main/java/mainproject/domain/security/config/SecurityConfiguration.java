@@ -30,11 +30,14 @@ public class SecurityConfiguration  {
     private final JwtTokenizer jwtTokenizer;
     private final AuthService authService;
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .headers().frameOptions().disable() // h2 콘솔 화면을 사용하기 위해 옵션을 disable
                 .and()
+
 
                 .csrf().disable()  // CSRF(Cross-Site Request Forgery) 공격에 대한 Spring Security에 대한 설정을 비활성화 // (rest api이므로 csrf 보안이 필요없으므로 disable처리)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 스프링시큐리티의 세션정책이다 스프링시큐리티가
@@ -53,6 +56,7 @@ public class SecurityConfiguration  {
                 .and()
 
                 .cors(withDefaults()) // CORS 설정
+
 
                 .authorizeRequests(auth -> auth
                         .antMatchers("/h2/**").permitAll() // h2 데이터베이스 확인 가능하게
@@ -84,7 +88,7 @@ public class SecurityConfiguration  {
 
                         .antMatchers("/api/auths/logout").hasRole("USER") // 로그아웃
                         .antMatchers("/api/members/{memberId}")
-                        .access("T(domain.members.entity.Member).cast(principal).getId() " +
+                        .access("T(mainproject.domain.member.entity.Member).cast(principal).getId() " +
                                 "== T(Long).parseLong(#memberId)") // 마이페이지 확인, 회원정보 수정
 
                         .anyRequest().permitAll())
