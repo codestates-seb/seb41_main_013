@@ -4,7 +4,7 @@ export const loginStatusSlice = createSlice({
 	name: "loginStatus",
 	initialState: { status: false },
 	reducers: {
-		signin: (state, action) => {
+		signin: (state) => {
 			state.status = true;
 		},
 		signout: (state) => {

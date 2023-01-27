@@ -32,9 +32,9 @@ export const MyPage = (props) => {
 
 	const isLogin = useSelector((state) => state.loginStatus.status);
 	// console.log(isLogin);
-	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen);
