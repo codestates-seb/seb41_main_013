@@ -75,6 +75,8 @@ const Home = () => {
 const HomeWrapper = styled.div`
 	margin-top: 15rem;
 	margin-bottom: 6.5rem;
+	/* width: 100%;
+	background-color: lightcoral; */
 
 	& .infinite-scroll {
 		display: flex;

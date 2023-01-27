@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getMembers } from "../apis/base";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
@@ -10,27 +11,66 @@ import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
-import { signin, signout } from "../redux/userSlice";
+import { signout, getLoginUser } from "../redux/userSlice";
 
 export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-	// const memberId = 9;
 
-	// useEffect(() => {
-	// 	axios
-	// 		.get(`https://1ca9-121-129-154-70.jp.ngrok.io/api/members/${memberId}`, {
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 				Authorization: token,
-	// 			},
-	// 		})
-	// 		.then((res) => console.log(res));
-	// }, []);
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+
+	useEffect(() => {
+		getUserInfo();
+	}, []);
+
+	const getUserInfo = async () => {
+		try {
+			const result = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			// console.log(result.data);
+			dispatch(
+				getLoginUser({
+					...loginUserInfo,
+					name: result.data.name,
+					profileImageId: result.data.profileImageId,
+				}),
+			);
+			// console.log(loginUserInfo);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const deleteUser = async () => {
+		try {
+			const result = await axios.delete(
+				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log(result);
+			localStorage.removeItem("authorization");
+			dispatch(getLoginUser(""));
+			dispatch(signout());
+			// navigate("/");
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	const isLogin = useSelector((state) => state.loginStatus.status);
-	// console.log(isLogin);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -52,6 +92,10 @@ export const MyPage = (props) => {
 		setQuitModal(!quitModal);
 	};
 
+	const onClickToQuit = () => {
+		deleteUser();
+	};
+
 	return (
 		<MypageWrapper>
 			{logoutModal && (
@@ -69,7 +113,7 @@ export const MyPage = (props) => {
 					btnTextOrg="탈퇴"
 					btnTextGry="취소"
 					onClickGry={modalToQuit}
-					onClickOrg={onClickToLogout}
+					onClickOrg={onClickToQuit}
 				/>
 			)}
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
@@ -85,7 +129,7 @@ export const MyPage = (props) => {
 					<div className="userInfo">
 						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
 
-						{props.name || "유저이름"}
+						{loginUserInfo.name || "유저이름"}
 					</div>
 					<ChallengeState />
 					<div className="challengeNav">
@@ -109,6 +153,7 @@ export const MyPage = (props) => {
 
 const MypageWrapper = styled.div`
 	/* border: 1px solid orange; */
+	/* background-color: aliceblue; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
