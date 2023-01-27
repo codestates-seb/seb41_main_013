@@ -4,7 +4,6 @@ package mainproject.domain.member.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
 import mainproject.domain.member.dto.MemberPatchDto;
 import mainproject.domain.member.dto.MemberPostDto;
 import mainproject.domain.member.entity.Member;
@@ -56,7 +55,7 @@ public class MemberController {
 
         Member response = memberService.findMember(id);
 
-        return  new ResponseEntity(mapper.memberToMemberResponseDto(response),
+        return  new ResponseEntity(mapper.memberToMemberResponseDtoV2(response),
                 HttpStatus.OK);
 
     }
@@ -95,6 +94,5 @@ public class MemberController {
 
     }
 
-            ;
 
 }

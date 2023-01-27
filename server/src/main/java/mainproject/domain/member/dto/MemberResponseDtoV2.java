@@ -9,13 +9,14 @@ import java.util.List;
 @Data // 매퍼 사용시 데이타를 이용하여 의존성 주입
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberResponseDto {
+public class MemberResponseDtoV2 {
     private long id;
 
     private String name;
 
     private String email;
 
+    private String password;
 
     private long profileImageId;
 

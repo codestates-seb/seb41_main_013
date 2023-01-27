@@ -33,7 +33,7 @@ public class AuthController {
         response.addHeader("Authorization", tokenDto.getAccessToken());
         response.addHeader("refreshToken", tokenDto.getRefreshToken());
 
-        return new ResponseEntity<>("Login Successful!", HttpStatus.OK);
+        return new ResponseEntity<>(tokenDto.getId(), HttpStatus.OK);
     }
     final String postloginDescription = "email: 로그아웃 할 이메일을 입력합니다 예: (adc@naver.com)" +"\r\n"+
             "password: 비밀번호를 입력합니다 예:(12345678)";
