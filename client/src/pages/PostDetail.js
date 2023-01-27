@@ -29,16 +29,25 @@ export const PostDetail = () => {
 	const handleCreate = (func) => {
 		//로그인이 되어 있지 않다면
 		if (func === "update") {
-			if (!user) setCreateUModal(true);
-			else navigate(`/post/${postId}/update`);
+			if (!user) {
+				setCreateUModal(true);
+				setTimeout(() => {
+					setCreateUModal(false);
+				}, 1000);
+			} else navigate(`/post/${postId}/update`);
 		} else {
-			if (!user) setCreateDModal(true);
-			else setCreateDdModal(true);
+			if (!user) {
+				setCreateDModal(true);
+				setTimeout(() => {
+					setCreateDModal(false);
+				}, 1000);
+			} else setCreateDdModal(true);
 		}
 	};
 
 	const handleDeletePost = () => {
 		//해당 글을 삭제하는 함수
+		navigate("/community");
 	};
 
 	return (
@@ -77,13 +86,13 @@ export const PostDetail = () => {
 					<Btn
 						background={theme.color.green}
 						btnText="수정"
-						onClick={handleCreate("update")}
+						onClick={() => handleCreate("update")}
 					/>
 					<Btn
 						background={theme.color.gray}
 						btnText="삭제"
 						color={theme.color.navy}
-						onClick={handleCreate("del")}
+						onClick={() => handleCreate("del")}
 					/>
 				</div>
 				<WriteComment

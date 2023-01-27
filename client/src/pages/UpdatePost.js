@@ -11,6 +11,7 @@ import { ImageUploader } from "../components/ImageUploader";
 import { Input } from "../components/Input";
 import { Btn } from "../components/Button";
 import { SelectCategory } from "../components/Category";
+import { TwoBtnModal } from "../components/Modal";
 
 //dummy
 import { CommunityList } from "../data/dummy";
@@ -25,6 +26,8 @@ export const UpdatePost = () => {
 	const [titleError, setTitleError] = useState(false);
 	const [contentError, setContentError] = useState(false);
 	const [categoryError, setCategoryError] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
+	const [value, setValue] = useState(-1); //카테고리 번호
 
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
@@ -38,14 +41,37 @@ export const UpdatePost = () => {
 		else setTitleError(false);
 		if (content.length < 20) setContentError(true);
 		else setContentError(false);
-		if (!titleError && !contentError && !categoryError) {
-			//모달 창 ("글 작성을 완료하시겠습니까?")
-			navigate(`/community`); //커뮤니티 홈 페이지(또는 카테고리 페이지)로 이동
+		if (value === -1) setCategoryError(true);
+		else setCategoryError(false);
+		if (
+			titleError === false &&
+			contentError === false &&
+			categoryError === false &&
+			value !== -1
+		) {
+			//에러가 하나도 없을 경우
+			setCreateModal(true);
 		}
+	};
+	const handleUpdatePost = () => {
+		//글 등록 함수
+		navigate(`/post/${postId}`);
+	};
+	const handleChangeValue = (n) => {
+		setValue(n);
 	};
 
 	return (
 		<CreatepostContainer>
+			{createModal && (
+				<TwoBtnModal
+					modalText="글 작성을 완료하시겠습니까?"
+					btnTextOrg="완료"
+					onClickOrg={handleUpdatePost}
+					btnTextGry="취소"
+					onClickGry={() => setCreateModal(false)}
+				/>
+			)}
 			<TitleHeader title="글 수정하기" />
 			<p>제목</p>
 			<Input
@@ -73,11 +99,10 @@ export const UpdatePost = () => {
 			<p>사진</p>
 			<ImageUploader />
 			<p>카테고리</p>
-			<SelectCategory />
+			<SelectCategory onClick={handleChangeValue} />
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>
-
 			<Btn
 				btnText="완료"
 				background={theme.color.green}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-infinite-scroll-component": "^6.1.0",
+    "redux-persist": "^6.0.0"
+  }
+}

@@ -36,7 +36,7 @@ const CreateChallenge = () => {
 		"운동": "1",
 		"규칙적인 생활": "2",
 		"기타": "3",
-	}
+	};
 
 	const onSubmit = async (data) => {
 		// console.log(data);

@@ -1,7 +1,7 @@
 //글 수정 페이지
 import theme from "../components/theme";
 import styled, { ThemeContext } from "styled-components";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 //import { handleCheck } from "../function/postFunction";
 
@@ -11,6 +11,7 @@ import { ImageUploader } from "../components/ImageUploader";
 import { Input } from "../components/Input";
 import { Btn } from "../components/Button";
 import { SelectCategory } from "../components/Category";
+import { TwoBtnModal } from "../components/Modal";
 
 export const CreatePost = () => {
 	const [title, setTitle] = useState("");
@@ -18,12 +19,22 @@ export const CreatePost = () => {
 	const [titleError, setTitleError] = useState(false);
 	const [contentError, setContentError] = useState(false);
 	const [categoryError, setCategoryError] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
+	const [value, setValue] = useState(-1); //카테고리 번호
+	const navigate = useNavigate();
 
+	const handleChangeValue = (n) => {
+		setValue(n);
+	};
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
 	};
 	const handleChangeContent = (e) => {
 		setContent(e.target.value);
+	};
+	const handleCreatePost = () => {
+		//글 등록 함수
+		navigate("/community");
 	};
 	const handleCheck = (props) => {
 		//글 작성/수정 - 유효성 검사 함수
@@ -31,10 +42,30 @@ export const CreatePost = () => {
 		else setTitleError(false);
 		if (content.length < 20) setContentError(true);
 		else setContentError(false);
+		if (value === -1) setCategoryError(true);
+		else setCategoryError(false);
+		if (
+			titleError === false &&
+			contentError === false &&
+			categoryError === false &&
+			value !== -1
+		) {
+			//에러가 하나도 없을 경우
+			setCreateModal(true);
+		}
 	};
 
 	return (
 		<CreatepostContainer>
+			{createModal && (
+				<TwoBtnModal
+					modalText="글 작성을 완료하시겠습니까?"
+					btnTextOrg="완료"
+					onClickOrg={handleCreatePost}
+					btnTextGry="취소"
+					onClickGry={() => setCreateModal(false)}
+				/>
+			)}
 			<TitleHeader title="글 작성하기" />
 			<p>제목</p>
 			<Input
@@ -64,7 +95,7 @@ export const CreatePost = () => {
 			<p>사진</p>
 			<ImageUploader />
 			<p>카테고리</p>
-			<SelectCategory />
+			<SelectCategory onClick={handleChangeValue} />
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>
@@ -82,7 +113,9 @@ export const CreatePost = () => {
 
 export const CreatepostContainer = styled.div`
 	margin-top: 5.5rem;
-	margin-bottom: 6.5rem;
+	height: 66.5rem;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	p {
 		font-family: "Inter";
 		font-style: normal;
