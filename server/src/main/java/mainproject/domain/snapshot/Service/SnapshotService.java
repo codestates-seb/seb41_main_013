@@ -11,7 +11,6 @@ import mainproject.domain.snapshot.Repository.SnapshotRepository;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class SnapshotService {
@@ -44,7 +42,8 @@ public class SnapshotService {
 
         // 진행 중인 챌린지인지 검증
         challengeService.updateChallengeStatus();   // 현재 날짜에 맞춰 챌린지 상태 변경
-        if (challenge.getChallengeStatus().equals(ChallengeStatus.종료)) { // != 진행중. 테스트시 == 종료로 변경
+        if (challenge.getChallengeStatus().equals(ChallengeStatus.종료)) { // TODO: 테스트를 위해 변경. 배포 시 삭제 후 주석 if문 활성화
+        //if (!challenge.getChallengeStatus().equals(ChallengeStatus.진행중)) {
             throw new BusinessLogicException(ExceptionCode.CHALLENGE_NOT_IN_PROGRESS);
         }
 
@@ -60,6 +59,8 @@ public class SnapshotService {
             throw new BusinessLogicException(ExceptionCode.TIME_UNAUTHORIZED);
         }
 
+        challenger.setSnapshotCount(challenger.getSnapshotCount() + 1);   // 진행률 업데이트를 위해 인증일 수 증가
+
         snapshot.setMember(member);
         snapshot.setChallenge(challenge);
         snapshot.setSnapshotId(snapshotId);
@@ -67,9 +68,7 @@ public class SnapshotService {
     }
 
     // 챌린지의 모든 참가자들의 인증사진 최신순 조회
-    public Page<Snapshot> findSnapshots(long challengeId) {
-        List<Snapshot> snapshots = snapshotRepository.findByChallenge_ChallengeId(challengeId);
-
-        return new PageImpl<>(snapshots, PageRequest.of(0, 30, Sort.by("createdAt").descending()), snapshots.size());
+    public Page<Snapshot> findSnapshots(long challengeId, int page) {
+        return snapshotRepository.findByChallenge_ChallengeId(challengeId, PageRequest.of(page, 30, Sort.by("createdAt").descending()));
     }
 }

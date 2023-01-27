@@ -12,6 +12,7 @@ import mainproject.global.dto.MultiResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
@@ -47,10 +48,12 @@ public class SnapshotController {
 
     // 챌린지의 모든 참가자들의 인증사진 최신순 조회
     @ApiOperation(value = "챌린지의 모든 참가자들의 인증사진 최신순 조회")
-    @ApiParam(name = "챌린지번호 입력", value = "챌린지번호 입력", required = true)
     @GetMapping("/{challenge-id}")
-    public ResponseEntity getSnapshots(@PathVariable("challenge-id") @Positive long challengeId) {
-        Page<Snapshot> pageSnapshots = snapshotService.findSnapshots(challengeId);
+    public ResponseEntity getSnapshots(@ApiParam(value = "챌린지번호 입력", required = true)
+                                           @PathVariable("challenge-id") @Positive long challengeId,
+                                       @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                       @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        Page<Snapshot> pageSnapshots = snapshotService.findSnapshots(challengeId, page - 1);
 
         List<Snapshot> snapshots = pageSnapshots.getContent();
 

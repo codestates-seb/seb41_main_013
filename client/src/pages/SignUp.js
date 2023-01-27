@@ -109,7 +109,7 @@ export const SignUp = () => {
 	const register = async () => {
 		try {
 			const { passwordCheck, ...body } = userInput;
-
+			console.log(body);
 			const { data } = await postMembers(body);
 			console.log(data);
 			setIsOpenModal(true);

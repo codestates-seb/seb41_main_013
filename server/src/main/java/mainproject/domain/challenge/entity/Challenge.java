@@ -64,6 +64,9 @@ public class Challenge implements Serializable {
     @Column(nullable = false)
     private LocalDate endAt;
 
+    @Column(nullable = false, updatable = false)
+    private int challengeDay;
+
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Frequency frequency;
