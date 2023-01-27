@@ -37,11 +37,11 @@ const MyChallenge = () => {
 		getMyChallengesList();
 	};
 
-  const categoryId = {
+	const categoryId = {
 		"우리 동네": "0",
-		"운동": "1",
+		운동: "1",
 		"규칙적인 생활": "2",
-		"기타": "3",
+		기타: "3",
 	};
 
 	return (
