@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getMembers } from "../apis/base";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
+import { Loading } from "../components/Loading";
 import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
@@ -17,35 +17,41 @@ export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		getUserInfo();
 	}, []);
 
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const isLogin = useSelector((state) => state.loginStatus.status);
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const getUserInfo = async () => {
-		try {
-			const result = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
-				{
-					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+		if (isLogin) {
+			try {
+				const result = await axios.get(
+					`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
+					{
+						withCredentials: true,
 					},
-					withCredentials: true,
-				},
-			);
-			// console.log(result.data);
-			dispatch(
-				getLoginUser({
-					...loginUserInfo,
-					name: result.data.name,
-					profileImageId: result.data.profileImageId,
-				}),
-			);
-			// console.log(loginUserInfo);
-		} catch (e) {
-			console.log(e);
+				);
+				// console.log(result.data);
+				dispatch(
+					getLoginUser({
+						...loginUserInfo,
+						name: result.data.name,
+						profileImageId: result.data.profileImageId,
+					}),
+				);
+				setIsLoading(false);
+				// console.log(loginUserInfo);
+			} catch (e) {
+				console.log(e);
+				setIsLoading(true);
+			}
 		}
 	};
 
@@ -54,26 +60,19 @@ export const MyPage = (props) => {
 			const result = await axios.delete(
 				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
 				{
-					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
-					},
 					withCredentials: true,
 				},
 			);
 			console.log(result);
 			localStorage.removeItem("authorization");
+			localStorage.removeItem("refreshToken");
 			dispatch(getLoginUser(""));
 			dispatch(signout());
-			// navigate("/");
+			navigate("/");
 		} catch (e) {
 			console.log(e);
 		}
 	};
-
-	const isLogin = useSelector((state) => state.loginStatus.status);
-
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
 
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen);
@@ -84,6 +83,9 @@ export const MyPage = (props) => {
 	};
 
 	const onClickToLogout = () => {
+		localStorage.removeItem("authorization");
+		localStorage.removeItem("refreshToken");
+		dispatch(getLoginUser(""));
 		dispatch(signout());
 		navigate("/");
 	};
@@ -118,26 +120,30 @@ export const MyPage = (props) => {
 			)}
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
 			{isLogin ? (
-				<>
-					<MypageSetting
-						menuOpen={menuOpen}
-						modalToLogout={modalToLogout}
-						modalToQuit={modalToQuit}
-						onClick={toggleMenu}
-					/>
-					<div />
-					<div className="userInfo">
-						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
+				isLoading ? (
+					<Loading />
+				) : (
+					<>
+						<MypageSetting
+							menuOpen={menuOpen}
+							modalToLogout={modalToLogout}
+							modalToQuit={modalToQuit}
+							onClick={toggleMenu}
+						/>
+						<div />
+						<div className="userInfo">
+							<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
 
-						{loginUserInfo.name || "유저이름"}
-					</div>
-					<ChallengeState />
-					<div className="challengeNav">
-						<NavTitle title="생성한 챌린지" link="/userCreate" />
-						<NavTitle title="완료한 챌린지" link="/userComplete" />
-					</div>
-					<div />
-				</>
+							{loginUserInfo.name || "유저이름"}
+						</div>
+						<ChallengeState />
+						<div className="challengeNav">
+							<NavTitle title="생성한 챌린지" link="/userCreate" />
+							<NavTitle title="완료한 챌린지" link="/userComplete" />
+						</div>
+						<div />
+					</>
+				)
 			) : (
 				<div className="noneLogin">
 					<p>로그인이 필요해요..</p>
@@ -153,7 +159,6 @@ export const MyPage = (props) => {
 
 const MypageWrapper = styled.div`
 	/* border: 1px solid orange; */
-	/* background-color: aliceblue; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
