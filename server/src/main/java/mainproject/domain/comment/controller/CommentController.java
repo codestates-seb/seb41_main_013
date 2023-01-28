@@ -95,7 +95,7 @@ public class CommentController {
     */
    @ApiOperation(value = "댓글 조회", notes = "댓글을 조회합니다.")
    @GetMapping("/{board-id}")
-   public ResponseEntity getAnswers(@PathVariable("board-id") long boardId,
+   public ResponseEntity getComments(@PathVariable("board-id") long boardId,
                                     @RequestParam(defaultValue = "1") @Nullable @Positive int page){
        List<Comment> comments = commentService.findComments(boardId, page-1);
 
