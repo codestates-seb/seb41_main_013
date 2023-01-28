@@ -2,8 +2,8 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { PostSummary } from "../components/PostSummary";
@@ -12,6 +12,7 @@ import { SearchInput } from "../components/SearchInput";
 import { HomeCategory } from "../components/Category";
 import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading";
+import { NoDataDiv } from "../components/NoData";
 
 //dummy
 //import { CommunityList } from "../data/dummy";
@@ -19,11 +20,12 @@ import { Loading } from "../components/Loading";
 export const Community = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const isLogin = useSelector((state) => state.loginStatus.status);
 
 	const [createModal, setCreateModal] = useState(false);
 	const handleCreate = () => {
 		//로그인이 되어 있지 않다면
-		if (!loginUserInfo) {
+		if (!isLogin) {
 			setCreateModal(true);
 			setTimeout(() => {
 				setCreateModal(false);
@@ -32,17 +34,13 @@ export const Community = () => {
 	};
 
 	const [postList, setPostList] = useState([]);
+	const [hasData, setHasData] = useState(true);
 	const [page, setPage] = useState(1);
 	const [hasMoreData, setHasMoreData] = useState(true);
+
 	useEffect(() => {
 		getPostList();
-		console.log(loginUserInfo);
 	}, []);
-
-	const loadMoreData = () => {
-		setPage(page + 1);
-		getPostList();
-	};
 
 	const getPostList = async () => {
 		if (!hasMoreData) return;
@@ -56,13 +54,21 @@ export const Community = () => {
 					withCredentials: true,
 				},
 			);
+			if (response.data.data.length === 0) {
+				setHasData(false);
+			}
 			if (response.data.length < 10) {
 				setHasMoreData(false);
 			}
-			setPostList([...postList, ...response.data]);
+			setPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const loadMoreData = () => {
+		setPage(page + 1);
+		getPostList();
 	};
 
 	return (
@@ -73,25 +79,30 @@ export const Community = () => {
 				<div className="margin">
 					<SearchInput />
 				</div>
-				<InfiniteScroll
-					className="infinite-scroll"
-					dataLength={postList.length}
-					next={loadMoreData}
-					hasMore={hasMoreData}
-					loader={<Loading />}
-				>
-					{postList.map((post) => (
-						<div className="m">
-							<PostSummary
-								title={post.title}
-								content={post.content}
-								writer={post.memberName}
-								postId={post.boardId}
-								date={post.createdAt}
-							/>
-						</div>
-					))}
-					{/*{CommunityList.map((post) => (
+				{hasData ? (
+					<InfiniteScroll
+						className="infinite-scroll"
+						dataLength={postList.length}
+						next={loadMoreData}
+						hasMore={hasMoreData}
+						loader={<Loading />}
+					>
+						{postList.map((post) => (
+							<div className="m">
+								<PostSummary
+									title={post.title}
+									content={post.content}
+									writer={post.memberName}
+									postId={post.boardId}
+									date={post.createdAt}
+								/>
+							</div>
+						))}
+					</InfiniteScroll>
+				) : (
+					<NoDataDiv text="등록된 글이" />
+				)}
+				{/*{CommunityList.map((post) => (
 						<div className="margin">
 							<PostSummary
 								title={post.title}
@@ -101,7 +112,6 @@ export const Community = () => {
 							/>
 						</div>
 					))}*/}
-				</InfiniteScroll>
 			</CommunityContainer>
 			<CreateBtn onClick={handleCreate} NavTo={!createModal && "/createPost"} />
 			<BackToTopBtn />
