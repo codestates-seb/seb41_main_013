@@ -22,6 +22,10 @@ export const UpdatePost = () => {
 	const { boardId } = useParams();
 	const navigate = useNavigate();
 	//const post = CommunityList.filter((el) => el.postId == postId)[0];
+	const [post, setPost] = useState({});
+	useEffect(() => {
+		getPost();
+	}, []);
 
 	const [title, setTitle] = useState(post.title);
 	const [content, setContent] = useState(post.content);
@@ -34,10 +38,6 @@ export const UpdatePost = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 
-	const [post, setPost] = useState({});
-	useEffect(() => {
-		getPost();
-	}, []);
 	const getPost = async () => {
 		try {
 			const response = await axios.get(
@@ -84,8 +84,11 @@ export const UpdatePost = () => {
 		boardImageId: 0,
 		category: category[value],
 		content: content,
-		memberId: 0,
+		memberId: loginUserInfo.memberId,
 		title: title,
+		createdAt: new Date(),
+		memberName: loginUserInfo.name,
+		profileImageId: loginUserInfo.profileImageId,
 	});
 	const handleUpdatePost = async () => {
 		//글 등록 함수

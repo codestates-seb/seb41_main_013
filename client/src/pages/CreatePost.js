@@ -42,8 +42,11 @@ export const CreatePost = () => {
 		boardImageId: 0,
 		category: category[value],
 		content: content,
-		memberId: 0,
+		memberId: loginUserInfo.memberId,
 		title: title,
+		createdAt: new Date(),
+		memberName: loginUserInfo.name,
+		profileImageId: loginUserInfo.profileImageId,
 	});
 	const handleCreatePost = async () => {
 		//글 등록 함수
