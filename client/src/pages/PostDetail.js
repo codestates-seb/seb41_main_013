@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -15,6 +16,7 @@ import { BackToTopBtn } from "../components/Button";
 import { WriteComment } from "../components/WriteComment";
 import { Modal, TwoBtnModal } from "../components/Modal";
 import { Loading } from "../components/Loading";
+import { NoDataDiv } from "../components/NoData";
 
 //dummy
 import { CommunityList } from "../data/dummy";
@@ -32,10 +34,12 @@ export const PostDetail = () => {
 	const [createDModal, setCreateDModal] = useState(false);
 	const [createDdModal, setCreateDdModal] = useState(false);
 
+	const [hasPostData, setHasPostData] = useState(true);
+	const [hasCommentData, setHasCommentData] = useState(true);
+	const [hasMoreCommentData, setHasMoreCommentData] = useState(true);
+	const [commentPage, setCommentPage] = useState(1);
+
 	/*const [post, setPost] = useState({});
-	useEffect(() => {
-		getPost();
-	}, []);
 	const getPost = async () => {
 		try {
 			const response = await axios.get(
@@ -47,11 +51,43 @@ export const PostDetail = () => {
 					withCredentials: true,
 				},
 			);
+			if (response.data.data.length === 0) {
+				setHasPostData(false);
+			}
 			setPost(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
 	};*/
+
+	const [commentList, setCommentList] = useState([]);
+	useEffect(() => {
+		//getPost();
+		getCommentList();
+	}, []);
+	const getCommentList = async () => {
+		if (!hasMoreCommentData) return;
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/comments/${boardId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			if (response.data.data.length === 0) {
+				setHasCommentData(false);
+			}
+			if (response.data.length < 10) {
+				setHasMoreCommentData(false);
+			}
+			setCommentList(response.data.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const handleCreate = (func) => {
 		//로그인된 유저 정보와 글의 작성자 정보가 다른 경우
@@ -91,6 +127,10 @@ export const PostDetail = () => {
 			console.error(error);
 		}
 	};
+	const loadMoreCommentData = () => {
+		setCommentPage(commentPage + 1);
+		getCommentList();
+	};
 
 	return (
 		<>
@@ -106,7 +146,6 @@ export const PostDetail = () => {
 						onClickGry={() => setCreateDdModal(false)}
 					/>
 				)}
-
 				<TitleHeader
 					title={
 						post.title.length > 10
@@ -122,8 +161,13 @@ export const PostDetail = () => {
 					btnText={`카테고리 > ${category[post.categoryId]}`}
 					onClick={() => navigate(`/community/${post.categoryId}`)}
 				/>
+
 				<div className="title">{post.title}</div>
-				<div className="content">{post.content}</div>
+				{hasPostData ? (
+					<div className="content">{post.content}</div>
+				) : (
+					<NoDataDiv text="등록된 글이" />
+				)}
 				<WriterInfo writer={post.memberName} date={post.createdAt} />
 				<div className="btns">
 					<Btn
@@ -143,11 +187,29 @@ export const PostDetail = () => {
 					placeholder="댓글을 입력해주세요."
 				/>
 				<div className="commentNum">댓글 {post.commentList.length}</div>
-				{post.commentList.map((el) => (
-					<div>
-						<Comment comment={el.comment} writer={el.writer} date={el.date} />
+				{hasCommentData ? (
+					<InfiniteScroll
+						className="infinite-scroll"
+						dataLength={commentList.length}
+						next={loadMoreCommentData}
+						hasMore={hasMoreCommentData}
+						loader={<Loading />}
+					>
+						{commentList.map((el) => (
+							<div>
+								<Comment
+									comment={el.comment}
+									writer={el.writer}
+									date={el.date}
+								/>
+							</div>
+						))}
+					</InfiniteScroll>
+				) : (
+					<div className="margin">
+						<NoDataDiv text="등록된 댓글이" />
 					</div>
-				))}
+				)}
 				<BackToTopBtn />
 			</PostDetailContainer>
 		</>
@@ -190,5 +252,8 @@ const PostDetailContainer = styled.div`
 	.commentNum {
 		font-weight: 600;
 		line-height: 3rem;
+	}
+	.margin {
+		margin-bottom: 1rem;
 	}
 `;
