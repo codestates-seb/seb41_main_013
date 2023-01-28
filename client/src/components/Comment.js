@@ -7,13 +7,54 @@ import { useState } from "react";
 import { Btn } from "./Button";
 import { WriterInfo } from "./WriterInfo";
 import { WriteComment } from "./WriteComment";
+import { Modal, TwoBtnModal } from "../components/Modal";
 
 //props : 댓글 내용
 export const Comment = (props) => {
+	const user = true; //유저 정보 (from 로컬스토리지)
 	const [update, setUpdate] = useState(false);
+	const [createUModal, setCreateUModal] = useState(false);
+	const [createDModal, setCreateDModal] = useState(false);
+	const [createDdModal, setCreateDdModal] = useState(false);
+
+	const handleDeleteComment = () => {
+		//댓글 삭제 함수
+		setCreateDdModal(false);
+	};
+	const handleCreate = (func) => {
+		//로그인이 되어 있지 않다면
+		if (func === "update") {
+			if (!user) {
+				setCreateUModal(true);
+				setTimeout(() => {
+					setCreateUModal(false);
+				}, 1000);
+			} else {
+				setUpdate(true);
+			}
+		} else {
+			if (!user) {
+				setCreateDModal(true);
+				setTimeout(() => {
+					setCreateDModal(false);
+				}, 1000);
+			} else setCreateDdModal(true);
+		}
+	};
 
 	return (
 		<CommentContainer>
+			{createUModal && <Modal modalText="댓글 작성자만 수정이 가능합니다." />}
+			{createDModal && <Modal modalText="댓글 작성자만 삭제가 가능합니다." />}
+			{createDdModal && (
+				<TwoBtnModal
+					modalText="정말 삭제하시겠습니까?"
+					btnTextOrg="삭제"
+					onClickOrg={handleDeleteComment}
+					btnTextGry="취소"
+					onClickGry={() => setCreateDdModal(false)}
+				/>
+			)}
 			<div className="comment">
 				{update || <p>{props.comment}</p>}
 
@@ -25,7 +66,7 @@ export const Comment = (props) => {
 							width={"4rem"}
 							height={"2.5rem"}
 							size={"1rem"}
-							onClick={() => setUpdate(true)}
+							onClick={() => handleCreate("update")}
 						/>
 						<Btn
 							btnText={"삭제"}
@@ -34,6 +75,7 @@ export const Comment = (props) => {
 							width={"4rem"}
 							height={"2.5rem"}
 							size={"1rem"}
+							onClick={() => handleCreate("del")}
 						/>
 					</div>
 				)}

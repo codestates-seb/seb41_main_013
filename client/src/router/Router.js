@@ -70,8 +70,8 @@ export const OurPath = () => {
 					element={<CommunityCategoryBoard />}
 				/>
 				<Route path="/createPost" element={<CreatePost />} />
-				<Route path="/post/:postId/update" element={<UpdatePost />} />
-				<Route path="/post/:postId" element={<PostDetail />} />
+				<Route path="/post/:boardId/update" element={<UpdatePost />} />
+				<Route path="/post/:boardId" element={<PostDetail />} />
 			</Route>
 			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
 				<Route path="/signup" element={<SignUp />} />
