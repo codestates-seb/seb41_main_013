@@ -108,14 +108,14 @@ public class SecurityConfiguration  {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedOriginPatterns(List.of("*"));  // 모든 출처(Origin)에 대해 스크립트 기반 HTTP 통신을 허용하도록 설정한다.
+        configuration.setAllowedMethods(List.of("*")); // 파라미터로 지정한 HTTP Methood에 대한 HTTP 통신을 허용한다.
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization", "refreshToken"));
         configuration.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();  // CorsConfigurationSource  인터페이스의 구현 클래스 UrlBasedCorsConfigurationSource  클래스의 객체를 생성
+        source.registerCorsConfiguration("/**", configuration); // 모든 URL에 앞에서 구성한 CORS 정책(CorsConfiguration)을 적용한다.
 
         return source;
     }
