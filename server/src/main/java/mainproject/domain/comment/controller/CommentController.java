@@ -39,9 +39,8 @@ public class CommentController {
     @ApiOperation(value = "댓글 등록")
     @PostMapping("/{board-id}")
 
-    public ResponseEntity postComment(@ApiParam(name = "댓글 등록", value = postCommentDescription)
-                                          @PathVariable("board-id") long boardId,
-
+    public ResponseEntity postComment(@PathVariable("board-id") long boardId,
+                                      @ApiParam(name = "댓글 등록", value = postCommentDescription)
                                       @RequestBody CommentPostDto commentPostDto){
         Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
         Comment savedComment = commentService.createComment(comment, boardId);

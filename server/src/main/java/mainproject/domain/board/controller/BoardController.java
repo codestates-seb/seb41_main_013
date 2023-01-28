@@ -9,12 +9,16 @@ import mainproject.domain.board.dto.BoardPostDto;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.mapper.BoardMapper;
 import mainproject.domain.board.service.BoardService;
+
+import mainproject.global.category.Category;
 import mainproject.global.dto.MultiResponseDto;
 import mainproject.global.dto.SingleResponseDto;
 import org.springframework.data.domain.Page;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,10 +90,13 @@ public class BoardController {
 
     @ApiOperation(value = "글 전체 조회", notes = "글을 전체 조회합니다.")
     @GetMapping
-    public ResponseEntity getBoards(@Positive @RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity getBoards(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
+                                    @RequestParam Category category,
+                                    @Positive @RequestParam(defaultValue = "1") Integer page,
                                     @Positive @RequestParam(defaultValue = "15") Integer size) {
 
-        Page<Board> pagedBoards = boardService.findBoards(page - 1, size);
+
+        Page<Board> pagedBoards = boardService.findBoards(category,page - 1, size);
         List<Board> boards = pagedBoards.getContent();
 
         return new ResponseEntity<>(
