@@ -6,14 +6,20 @@ import { Input } from "../components/Input";
 import { HomeChallengeItem } from "../components/ChallengeItem";
 import { Loading } from "../components/Loading";
 import axios from "axios";
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useLocation } from "react-router-dom";
+import { NoDataDiv } from '../components/NoData';
 
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
   const [challenges, setChallenges] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMoreData, setHasMoreData] = useState(true);
+  const [hasData, setHasData] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  const location = useLocation();
+  const categoryNum = location.pathname.split("/")[2];
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
@@ -23,16 +29,27 @@ const HomeCategoryBoard = () => {
     getAllChallengesList();
   }, [selectedOption]);
 
+  const category = {
+		"0" : "우리 동네",
+		"1" : "운동",
+		"2" : "규칙적인 생활",
+		"3" : "기타",
+	};
+
   const getAllChallengesList = async () => {
     if(!hasMoreData) return;
     try {
-      let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?page=${page}`;
+      let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?category=${category[categoryNum]}&page=${page}`;
       if (searchTerm !== "") {
         url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
       }
+      console.log(url);
       const response = await axios.get(url);
-      if (response.data.length < 10) { setHasMoreData(false); }
-      setChallenges([...challenges, ...response.data]);
+      if (response.data.data === 0) {
+        setHasData(false);
+      }
+      if (response.data.data.length < 10) { setHasMoreData(false); }
+      setChallenges([...challenges, ...response.data.data]);
     } catch (error) {
       console.error(error);
     }
@@ -41,6 +58,7 @@ const HomeCategoryBoard = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1);
+    setHasMoreData(true);
     getAllChallengesList();
   };
 
@@ -61,21 +79,23 @@ const HomeCategoryBoard = () => {
       <TitleHeader
         title={challenges.category}
       />
-      <StyledInput
-        placeholder="검색어를 입력해주세요"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyUp={(e) => {
-          if (e.key === "Enter") {
-            handleSearch(e);
-          }
-        }}
-      />
+      <div className="searchSort">
+        <StyledInput
+          placeholder="검색어를 입력해주세요"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleSearch(e);
+            }
+          }}
+        />
       <StyledSelect value={selectedOption} onChange={handleChange}>
         <option value="new">최신</option>
         <option value="hot">인기</option>
       </StyledSelect>
-      <InfiniteScroll
+      
+      { hasData ? (<InfiniteScroll
         className="infinite-scroll"
         dataLength={challenges.length}
         next={loadMoreData}
@@ -90,21 +110,46 @@ const HomeCategoryBoard = () => {
             challengeFrequency={challenge.frequency}
             challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
             NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
+            paddingTop="0"
+            paddingBottom="1.3rem"
           />))}
-      </InfiniteScroll>
+      </InfiniteScroll>)
+      :
+      (<NoDataDiv
+        text="관련된 챌린지" />)
+      }
+      </div>
       <BackToTopBtn />
     </HomeCategoryBoardWrapper>
   );
 };
 
 const HomeCategoryBoardWrapper = styled.div`
-  margin-top: 5.2rem;
+  position: absolute;
+	left: 0;
+	top: 5.2rem;
+  bottom: 0;
+	width: 100%;
+  height: auto;
+	padding: 0 1.3rem;
+
+  & .searchSort {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  & .infinite-scroll-component__outerdiv {
+		overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			display: none;
+		}
+	}
 
   & .infinite-scroll {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
 
     ::-webkit-scrollbar {
       display: none;
@@ -121,12 +166,14 @@ const StyledInput = styled.input`
   font-size: 1.3rem;
   font-family: "Inter";
 	font-style: normal;
-`
+`;
 
 const StyledSelect = styled.select`
   height: 2.5rem;
+  width: 5.4rem;
   font-size: 1.3rem;
   border-radius: 0.8rem;
+  margin-bottom: 1.3rem;
 `;
 
 export default HomeCategoryBoard;
