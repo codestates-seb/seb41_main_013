@@ -17,7 +17,7 @@ export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+	// const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		getUserInfo();
@@ -51,11 +51,11 @@ export const MyPage = (props) => {
 						profileImageId: result.data.profileImageId,
 					}),
 				);
-				setIsLoading(false);
+				// setIsLoading(false);
 				// console.log(loginUserInfo);
 			} catch (e) {
 				console.log(e);
-				setIsLoading(true);
+				// setIsLoading(true);
 			}
 		}
 	};
@@ -65,6 +65,9 @@ export const MyPage = (props) => {
 			const result = await axios.delete(
 				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
 				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
 					withCredentials: true,
 				},
 			);
@@ -89,7 +92,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			console.log("userdoing :", userdoing.data);
+			// console.log("userdoing :", userdoing.data);
 
 			const usercomplete = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenged`,
@@ -100,7 +103,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			console.log("usercomplete :", usercomplete.data);
+			// console.log("usercomplete :", usercomplete.data);
 
 			const usercreate = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}/`,
@@ -111,7 +114,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			console.log("usercreate :", usercreate.data.data);
+			// console.log("usercreate :", usercreate.data.data);
 		} catch (e) {
 			console.log(e);
 		}
