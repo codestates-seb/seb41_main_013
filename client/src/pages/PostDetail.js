@@ -127,6 +127,7 @@ export const PostDetail = () => {
 			console.error(error);
 		}
 	};
+
 	const loadMoreCommentData = () => {
 		setCommentPage(commentPage + 1);
 		getCommentList();
@@ -185,6 +186,8 @@ export const PostDetail = () => {
 				<WriteComment
 					margin="1rem 0 1rem 0"
 					placeholder="댓글을 입력해주세요."
+					boardId={boardId}
+					func="create"
 				/>
 				<div className="commentNum">댓글 {post.commentList.length}</div>
 				{hasCommentData ? (
@@ -201,6 +204,8 @@ export const PostDetail = () => {
 									comment={el.comment}
 									writer={el.writer}
 									date={el.date}
+									commentId={el.commentId}
+									boardId={boardId}
 								/>
 							</div>
 						))}

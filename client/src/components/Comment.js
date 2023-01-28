@@ -2,6 +2,8 @@ import theme from "./theme";
 import styled from "styled-components";
 import { formatDate } from "./PostSummary";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 //components
 import { Btn } from "./Button";
@@ -11,20 +13,41 @@ import { Modal, TwoBtnModal } from "../components/Modal";
 
 //props : 댓글 내용
 export const Comment = (props) => {
-	const user = true; //유저 정보 (from 로컬스토리지)
+	//유저 정보
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const isLogin = useSelector((state) => state.loginStatus.status);
+
+	const commentId = props.commentId;
 	const [update, setUpdate] = useState(false);
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
 	const [createDdModal, setCreateDdModal] = useState(false);
 
-	const handleDeleteComment = () => {
+	const handleDeleteComment = async () => {
 		//댓글 삭제 함수
 		setCreateDdModal(false);
+		try {
+			const response = await axios.delete(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards${commentId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			if (response.status === 200) {
+				console.log("댓글 삭제 완료");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
+
 	const handleCreate = (func) => {
 		//로그인이 되어 있지 않다면
 		if (func === "update") {
-			if (!user) {
+			if (!isLogin) {
 				setCreateUModal(true);
 				setTimeout(() => {
 					setCreateUModal(false);
@@ -33,7 +56,7 @@ export const Comment = (props) => {
 				setUpdate(true);
 			}
 		} else {
-			if (!user) {
+			if (!isLogin) {
 				setCreateDModal(true);
 				setTimeout(() => {
 					setCreateDModal(false);
@@ -57,7 +80,6 @@ export const Comment = (props) => {
 			)}
 			<div className="comment">
 				{update || <p>{props.comment}</p>}
-
 				{update || (
 					<div>
 						<Btn
@@ -80,7 +102,14 @@ export const Comment = (props) => {
 					</div>
 				)}
 			</div>
-			{update && <WriteComment comment={props.comment} />}
+			{update && (
+				<WriteComment
+					comment={props.comment}
+					boardId={props.boardId}
+					func="update"
+					commentId={commentId}
+				/>
+			)}
 			<WriterInfo
 				writer={props.writer}
 				date={formatDate(props.date)}
