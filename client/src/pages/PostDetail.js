@@ -17,7 +17,7 @@ import { Modal, TwoBtnModal } from "../components/Modal";
 import { Loading } from "../components/Loading";
 
 //dummy
-//import { CommunityList } from "../data/dummy";
+import { CommunityList } from "../data/dummy";
 
 export const PostDetail = () => {
 	//유저 정보
@@ -26,13 +26,13 @@ export const PostDetail = () => {
 	const navigate = useNavigate();
 	const { boardId } = useParams();
 	const category = ["우리 동네", "운동", "규칙적인 생활", "기타"];
-	//const post = CommunityList.filter((el) => el.postId == postId)[0];
+	const post = CommunityList.filter((el) => el.postId == boardId)[0];
 
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
 	const [createDdModal, setCreateDdModal] = useState(false);
 
-	const [post, setPost] = useState({});
+	/*const [post, setPost] = useState({});
 	useEffect(() => {
 		getPost();
 	}, []);
@@ -51,7 +51,7 @@ export const PostDetail = () => {
 		} catch (error) {
 			console.error(error);
 		}
-	};
+	};*/
 
 	const handleCreate = (func) => {
 		//로그인된 유저 정보와 글의 작성자 정보가 다른 경우
@@ -160,8 +160,14 @@ const PostDetailContainer = styled.div`
 
 	display: flex;
 	flex-direction: column;
-	margin-top: 6rem;
-	margin-bottom: 6.5rem;
+
+	position: absolute;
+	left: 0;
+	top: 5.2rem;
+	bottom: 6.5rem;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 1.3rem;
 
 	.title {
 		font-weight: 600;
@@ -174,15 +180,9 @@ const PostDetailContainer = styled.div`
 		font-weight: 400;
 		font-size: 1.3rem;
 		line-height: 1.8rem;
-
-		height: 28.5rem;
-		overflow: auto;
-		border: 0.1rem solid #4d4d4d;
-		border-radius: 0.8rem;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
+	}
+	::-webkit-scrollbar {
+		display: none;
 	}
 	.btns {
 		text-align: center;

@@ -146,10 +146,13 @@ export const CreatePost = () => {
 };
 
 export const CreatepostContainer = styled.div`
-	margin-top: 5.5rem;
-	margin-bottom: 6.5rem;
+	position: absolute;
+	left: 0;
+	top: 5.2rem;
+	bottom: 6.5rem;
 	overflow-y: scroll;
-	height: 68rem;
+	width: 100%;
+	padding: 0 1.3rem;
 
 	::-webkit-scrollbar {
 		display: none;
