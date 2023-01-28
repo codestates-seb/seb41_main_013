@@ -13,6 +13,7 @@ import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading";
+import { NoDataDiv } from "../components/NoData";
 
 //dummy
 //import { CommunityList } from "../data/dummy";
@@ -37,6 +38,7 @@ export const CommunityCategoryBoard = () => {
 
 	const [postList, setPostList] = useState([]);
 	const [page, setPage] = useState(1);
+	const [hasData, setHasData] = useState(true);
 	const [hasMoreData, setHasMoreData] = useState(true);
 	useEffect(() => {
 		getPostList();
@@ -58,10 +60,13 @@ export const CommunityCategoryBoard = () => {
 					withCredentials: true,
 				},
 			);
+			if (response.data.data.length === 0) {
+				setHasData(false);
+			}
 			if (response.data.length < 10) {
 				setHasMoreData(false);
 			}
-			setPostList([...postList, ...response.data]);
+			setPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -75,24 +80,28 @@ export const CommunityCategoryBoard = () => {
 				<div className="marg">
 					<SearchInput />
 				</div>
-				<InfiniteScroll
-					className="infinite-scroll"
-					dataLength={postList.length}
-					next={loadMoreData}
-					hasMore={hasMoreData}
-					loader={<Loading />}
-				>
-					{postList
-						.filter((post) => post.categoryId == categoryId)
-						.map((cpost) => (
-							<PostSummary
-								title={cpost.title}
-								content={cpost.content}
-								writer={cpost.writer}
-								postId={cpost.postId}
-							/>
-						))}
-				</InfiniteScroll>
+				{hasData ? (
+					<InfiniteScroll
+						className="infinite-scroll"
+						dataLength={postList.length}
+						next={loadMoreData}
+						hasMore={hasMoreData}
+						loader={<Loading />}
+					>
+						{postList
+							.filter((post) => post.categoryId == categoryId)
+							.map((cpost) => (
+								<PostSummary
+									title={cpost.title}
+									content={cpost.content}
+									writer={cpost.writer}
+									postId={cpost.postId}
+								/>
+							))}
+					</InfiniteScroll>
+				) : (
+					<NoDataDiv text="등록된 글이" />
+				)}
 			</CommunityContainer>
 			<CreateBtn onClick={handleCreate} NavTo={!createModal && "/createPost"} />
 			<BackToTopBtn />
