@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const CreateChallenge = () => {
 	const {
@@ -35,6 +36,10 @@ const CreateChallenge = () => {
 	});
 	const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
 	const [cancelModalVisible, setCancelModalVisible] = useState(false);
+
+	const { memberId, accessToken } = useSelector(
+		(state) => state.loginUserInfo.loginUserInfo,
+	);
 
 	const navigate = useNavigate();
 	const categoryId = {
@@ -62,29 +67,32 @@ const CreateChallenge = () => {
 			const formData = new FormData();
 			formData.append("image", img[0]);
 
-			const response = await axios.post(
-				`${process.env.REACT_APP_SERVER_URL}/api/upload`,
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				},
-			);
-			const snapshotImageId = response.data.snapshotImageId;
+			const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${accessToken}`,
+        },
+				withCredentials: true,
+      });
+      const snapshotImageId = response.data.snapshotImageId;
 
-			const response2 = await axios.post("/api/challenges", {
+			const response2 = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/challenges`, {
 				category: category,
 				challengeImageId: snapshotImageId,
 				content: content,
 				endAt: endAt,
 				frequency: frequency,
-				// hostMemberId: memberId,
+				hostMemberId: memberId,
 				snapshotEndAt: snapshotEndAt,
 				snapshotStartAt: snapshotStartAt,
 				startAt: startAt,
-				title: title,
-			});
+				title: title
+			}, {
+        headers: {
+						Authorization: `Bearer ${accessToken}`,
+        },
+				withCredentials: true,
+      });
 			if (response2.status === 200) {
 				navigate(`/challenges/${categoryId[category]}`);
 			}
@@ -268,7 +276,7 @@ const CreateChallenge = () => {
 					fontWeight="700"
 					size="1.4rem"
 					btnText="등록하기"
-					margin="0"
+					margin="0 0 1.3rem 0"
 					type="submit"
 				/>
 			</WrapperContainer>
@@ -382,8 +390,17 @@ const StyledForm = styled.form`
 `;
 
 const WrapperContainer = styled.div`
-	margin-top: 5.2rem;
-	padding-bottom: 1.3rem;
+	position: absolute;
+	left: 0;
+	top: 5.2rem;
+	bottom: 0;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 1.3rem;
+
+	::-webkit-scrollbar {
+  	display: none;
+	}
 `;
 
 const StyledBtn = styled.button`
