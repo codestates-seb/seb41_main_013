@@ -7,7 +7,10 @@ import theme from "./theme";
 
 export const HomeChallengeItem = (props) => {
   return (
-      <HomeChallengeItemWrapper>
+      <HomeChallengeItemWrapper
+        paddingTop={props.paddingTop}
+        paddingBottom={props.paddingBottom}
+      >
         <StyledLink to={props.NavTo}>
           <img src={props.imgUrl} alt={props.challengeTitle} />
           <ChallengeTitle>{props.challengeTitle}</ChallengeTitle>
@@ -58,7 +61,8 @@ export const MyChallengeItem = (props) => {
 const HomeChallengeItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 1.3rem;
+  padding-top: ${(props) => props.paddingTop || "1.3rem"};
+  padding-bottom: ${(props) => props.paddingBottom || "0"};
   padding-left: 1.3rem;
   padding-right: 1.3rem;
   width: 50%;
