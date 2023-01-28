@@ -7,10 +7,14 @@ import { ErrorContainer } from "../pages/CreatePost";
 //components
 import { Input } from "./Input";
 import { Btn } from "./Button";
+import { Modal, TwoBtnModal } from "../components/Modal";
 
 export const WriteComment = (props) => {
+	const user = true; //유저 정보 (from 로컬스토리지)
 	const [comment, setComment] = useState(props.comment || "");
 	const [commentError, setCommentError] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
+	const [createCModal, setCreateCModal] = useState(false);
 
 	const handleChangeComment = (e) => {
 		setComment(e.target.value);
@@ -18,10 +22,38 @@ export const WriteComment = (props) => {
 	const handleCheck = (props) => {
 		//글 작성/수정 - 유효성 검사 함수
 		if (!comment) setCommentError(true);
-		else setCommentError(false);
+		else {
+			setCommentError(false);
+			if (!user) {
+				//로그인이 되어 있지 않다면
+				setCreateModal(true);
+				setTimeout(() => {
+					setCreateModal(false);
+				}, 1000);
+				setComment("");
+			} else {
+				setCreateCModal(true);
+			}
+		}
 	};
+	const handleCreateComment = () => {
+		//댓글 등록 함수
+		setCreateCModal(false);
+		setComment("");
+	};
+
 	return (
 		<UpdateCommentContainer>
+			{createModal && <Modal modalText="로그인 이후 댓글 작성이 가능합니다." />}
+			{createCModal && (
+				<TwoBtnModal
+					modalText="댓글 작성을 완료하시겠습니까?"
+					btnTextOrg="완료"
+					onClickOrg={handleCreateComment}
+					btnTextGry="취소"
+					onClickGry={() => setCreateCModal(false)}
+				/>
+			)}
 			<div className="input">
 				<Input
 					placeholder={props.placeholder || ""}
