@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getMembers } from "../apis/base";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
+import { Loading } from "../components/Loading";
 import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
@@ -17,35 +17,46 @@ export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	// const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		getUserInfo();
+		getUserStatus();
 	}, []);
 
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const isLogin = useSelector((state) => state.loginStatus.status);
+	const accessToken = localStorage.getItem("authorization");
+
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const getUserInfo = async () => {
-		try {
-			const result = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
-				{
-					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+		if (isLogin) {
+			try {
+				const result = await axios.get(
+					`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
+					{
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						},
+						withCredentials: true,
 					},
-					withCredentials: true,
-				},
-			);
-			// console.log(result.data);
-			dispatch(
-				getLoginUser({
-					...loginUserInfo,
-					name: result.data.name,
-					profileImageId: result.data.profileImageId,
-				}),
-			);
-			// console.log(loginUserInfo);
-		} catch (e) {
-			console.log(e);
+				);
+				// console.log(result.data);
+				dispatch(
+					getLoginUser({
+						...loginUserInfo,
+						name: result.data.name,
+						profileImageId: result.data.profileImageId,
+					}),
+				);
+				// setIsLoading(false);
+				// console.log(loginUserInfo);
+			} catch (e) {
+				console.log(e);
+				// setIsLoading(true);
+			}
 		}
 	};
 
@@ -55,7 +66,7 @@ export const MyPage = (props) => {
 				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
@@ -64,16 +75,50 @@ export const MyPage = (props) => {
 			localStorage.removeItem("authorization");
 			dispatch(getLoginUser(""));
 			dispatch(signout());
-			// navigate("/");
+			navigate("/");
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
-	const isLogin = useSelector((state) => state.loginStatus.status);
+	const getUserStatus = async () => {
+		try {
+			const userdoing = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenging`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			// console.log("userdoing :", userdoing.data);
 
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+			const usercomplete = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenged`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			// console.log("usercomplete :", usercomplete.data);
+
+			const usercreate = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}/`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			// console.log("usercreate :", usercreate.data.data);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen);
@@ -84,6 +129,8 @@ export const MyPage = (props) => {
 	};
 
 	const onClickToLogout = () => {
+		localStorage.removeItem("authorization");
+		dispatch(getLoginUser(""));
 		dispatch(signout());
 		navigate("/");
 	};
@@ -153,7 +200,6 @@ export const MyPage = (props) => {
 
 const MypageWrapper = styled.div`
 	/* border: 1px solid orange; */
-	/* background-color: aliceblue; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
