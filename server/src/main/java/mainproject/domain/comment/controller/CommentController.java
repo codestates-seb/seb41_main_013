@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -94,12 +95,15 @@ public class CommentController {
     */
    @ApiOperation(value = "댓글 조회", notes = "댓글을 조회합니다.")
    @GetMapping("/{board-id}")
-   public ResponseEntity getAnswers(@PathVariable("board-id") long boardId){
-       List<Comment> comments = commentService.findComments(boardId);
+   public ResponseEntity getAnswers(@PathVariable("board-id") long boardId,
+                                    @RequestParam(defaultValue = "1") @Nullable @Positive int page){
+       List<Comment> comments = commentService.findComments(boardId, page-1);
 
        return new ResponseEntity<>(
                new SingleResponseDto<>(commentMapper.commentsToCommentResponseDtos(comments)), HttpStatus.OK);
    }
+
+
     @ApiOperation(value = "댓글 삭제", notes = "등록된 댓글을 삭제합니다.")
     @DeleteMapping("/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") long commentId){
