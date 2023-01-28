@@ -147,6 +147,7 @@ export const CreatepostContainer = styled.div`
 	margin-bottom: 6.5rem;
 	overflow-y: scroll;
 	height: 66rem;
+
 	::-webkit-scrollbar {
 		display: none;
 	}

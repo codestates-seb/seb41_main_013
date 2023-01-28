@@ -13,10 +13,10 @@ import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading";
 
 //dummy
-import { CommunityList } from "../data/dummy";
+//import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
-	const user = true; //유저 정보 (from 로컬스토리지)
+	const user = null; //유저 정보 (from 로컬스토리지)
 	const [createModal, setCreateModal] = useState(false);
 	const handleCreate = () => {
 		//로그인이 되어 있지 않다면
