@@ -23,6 +23,7 @@ export const UserProfileEdit = () => {
 		newPwCheckErr: false,
 	});
 	const [saveModal, setSaveModal] = useState(false);
+	const [image, setImage] = useState("");
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -31,6 +32,35 @@ export const UserProfileEdit = () => {
 	};
 
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
+
+	const onImageChange = (data) => {
+		setImage(data);
+		console.log(image);
+		imgUpload();
+	};
+
+	const imgUpload = async () => {
+		const frm = new FormData();
+		frm.append("img", image);
+		console.log(frm);
+		try {
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER_URL}/api/upload`,
+				frm,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log(response);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	const handleInputChange = (e) => {
 		const { value, id } = e.target;
@@ -100,13 +130,13 @@ export const UserProfileEdit = () => {
 				password: userInput.newPassword,
 				profileImageId: loginUserInfo.profileImageId,
 			};
-			// console.log(body);
+			console.log(body);
 			const response = await axios.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
 				body,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
@@ -122,8 +152,9 @@ export const UserProfileEdit = () => {
 				}),
 			);
 			// console.log("loginUserInfo :", loginUserInfo);
-			// setSaveModal(true);
+			setSaveModal(true);
 			setTimeout(() => {
+				setSaveModal(false);
 				navigate("/mypage");
 			}, 1000);
 		} catch (e) {
@@ -146,9 +177,13 @@ export const UserProfileEdit = () => {
 		<>
 			<MainHeader />
 			<Container onSubmit={onSubmit}>
-				{saveModal && <Modal modalText="변경 완료! 다시 로그인해주세요!" />}
+				{saveModal && <Modal modalText="프로필 수정 완료!!" />}
 				<div />
-				<ImageUploader width="20rem" height="20rem" />
+				<ImageUploader
+					width="20rem"
+					height="20rem"
+					onImageChange={onImageChange}
+				/>
 				<div>
 					<InputAuth
 						type="text"
@@ -204,14 +239,15 @@ export const UserProfileEdit = () => {
 };
 
 const Container = styled.form`
-	/* border: 1px solid black; */
+	/* border: 1px solid red; */
 	width: 100%;
-	/* height: 79.2rem; */
+	/* height: 100vh; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	gap: 10rem;
+	margin-top: 5.2rem;
+	gap: 3rem;
 
 	input {
 		margin: 0 auto;

@@ -1,6 +1,6 @@
 import { Routes, Route, Outlet } from "react-router-dom";
-// import { Suspense } from "react";
-// import { Loading } from "../components/Loading";
+import { Suspense } from "react";
+import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
 import { MainHeader, MypageHeader, TitleHeader } from "../components/Header";
 // challenge
@@ -37,7 +37,7 @@ const Overlaps = ({ hasHeader, hasFooter }) => {
 
 export const OurPath = () => {
 	return (
-		// {/* // <Suspense fallback={<Loading />}> */}
+		<Suspense fallback={<Loading />}>
 		<Routes>
 			<Route element={<Overlaps hasHeader={false} hasFooter={false} />}>
 				<Route path="/userCreate" element={<UserCreateChallenge />} />
@@ -70,14 +70,14 @@ export const OurPath = () => {
 					element={<CommunityCategoryBoard />}
 				/>
 				<Route path="/createPost" element={<CreatePost />} />
-				<Route path="/post/:postId/update" element={<UpdatePost />} />
-				<Route path="/post/:postId" element={<PostDetail />} />
+				<Route path="/post/:boardId/update" element={<UpdatePost />} />
+				<Route path="/post/:boardId" element={<PostDetail />} />
 			</Route>
 			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
 				<Route path="/signup" element={<SignUp />} />
 				<Route path="/login" element={<SignIn />} />
 			</Route>
 		</Routes>
-		// </Suspense>
+		</Suspense>
 	);
 };

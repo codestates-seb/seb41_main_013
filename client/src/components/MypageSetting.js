@@ -27,7 +27,7 @@ export const MypageSetting = (props) => {
 };
 
 const SettingWrapper = styled.div`
-	border: 1px solid black;
+	border-bottom: 1px solid black;
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 	padding: 2rem 1.3rem;
