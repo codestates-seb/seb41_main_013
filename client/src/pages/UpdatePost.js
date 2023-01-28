@@ -2,9 +2,10 @@
 import theme from "../components/theme";
 import { useParams, useNavigate } from "react-router-dom";
 import { CreatepostContainer } from "./CreatePost";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ErrorContainer } from "./CreatePost";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -15,12 +16,12 @@ import { SelectCategory } from "../components/Category";
 import { TwoBtnModal } from "../components/Modal";
 
 //dummy
-import { CommunityList } from "../data/dummy";
+//import { CommunityList } from "../data/dummy";
 
 export const UpdatePost = () => {
-	const { postId } = useParams();
+	const { boardId } = useParams();
 	const navigate = useNavigate();
-	const post = CommunityList.filter((el) => el.postId == postId)[0];
+	//const post = CommunityList.filter((el) => el.postId == postId)[0];
 
 	const [title, setTitle] = useState(post.title);
 	const [content, setContent] = useState(post.content);
@@ -30,7 +31,29 @@ export const UpdatePost = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
-	const token = null;
+	//유저 정보
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+
+	const [post, setPost] = useState({});
+	useEffect(() => {
+		getPost();
+	}, []);
+	const getPost = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			setPost(response.data.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
@@ -71,7 +94,10 @@ export const UpdatePost = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
 				postBody,
 				{
-					headers: { "Content-Type": "application/json", Authorization: token },
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
 				},
 			);
 			if (response.status === 200) {

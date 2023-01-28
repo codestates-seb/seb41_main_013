@@ -4,9 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
-
-//import { handleCheck } from "../function/postFunction";
+import { useSelector } from "react-redux";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -26,7 +24,9 @@ export const CreatePost = () => {
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const navigate = useNavigate();
 	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
-	const token = null;
+
+	//유저 정보
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 
 	const handleChangeValue = (n) => {
 		setValue(n);
@@ -52,7 +52,10 @@ export const CreatePost = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
 				postBody,
 				{
-					headers: { "Content-Type": "application/json", Authorization: token },
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
 				},
 			);
 			if (response.status === 200) {
