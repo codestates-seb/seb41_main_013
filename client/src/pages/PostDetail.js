@@ -164,6 +164,10 @@ const PostDetailContainer = styled.div`
 		overflow: auto;
 		border: 0.1rem solid #4d4d4d;
 		border-radius: 0.8rem;
+
+		::-webkit-scrollbar {
+			display: none;
+		}
 	}
 	.btns {
 		text-align: center;
