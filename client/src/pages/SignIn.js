@@ -82,11 +82,10 @@ export const SignIn = () => {
 				}),
 			);
 			localStorage.setItem("authorization", data.headers.authorization);
-			localStorage.setItem("refreshToken", data.headers.refreshtoken);
-			// localStorage.setItem('expiredTime' , data) // 만료시간 저장
-			axios.defaults.headers.common[
-				"Authorization"
-			] = `Bearer ${data.headers.authorization}`;
+			// localStorage.setItem("expiredTime", expires); // 만료시간 저장
+			// axios.defaults.headers.common[
+			// 	"Authorization"
+			// ] = `Bearer ${data.headers.authorization}`;
 			dispatch(signin());
 			navigate("/");
 		} catch (e) {

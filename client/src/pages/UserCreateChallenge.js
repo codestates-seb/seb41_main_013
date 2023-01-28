@@ -54,10 +54,15 @@ export const UserCreateChallenge = () => {
 const ChallengeWrap = styled.div`
 	border: 1px solid red;
 	width: 100%;
-	/* height: 79.2rem; */
-	overflow: scroll;
+	height: 79.2rem;
+	overflow-y: scroll;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	position: absolute;
+
+	margin-top: 5.2rem;
+	/* margin-bottom: 2rem; */
+	/* position: absolute;
+	top: 5.2rem; */
 `;

@@ -21,10 +21,12 @@ export const MyPage = (props) => {
 
 	useEffect(() => {
 		getUserInfo();
+		getUserStatus();
 	}, []);
 
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const isLogin = useSelector((state) => state.loginStatus.status);
+	const accessToken = localStorage.getItem("authorization");
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -35,6 +37,9 @@ export const MyPage = (props) => {
 				const result = await axios.get(
 					`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
 					{
+						headers: {
+							Authorization: `Bearer ${accessToken}`,
+						},
 						withCredentials: true,
 					},
 				);
@@ -65,10 +70,48 @@ export const MyPage = (props) => {
 			);
 			console.log(result);
 			localStorage.removeItem("authorization");
-			localStorage.removeItem("refreshToken");
 			dispatch(getLoginUser(""));
 			dispatch(signout());
 			navigate("/");
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const getUserStatus = async () => {
+		try {
+			const userdoing = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenging`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log("userdoing :", userdoing.data);
+
+			const usercomplete = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenged`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log("usercomplete :", usercomplete.data);
+
+			const usercreate = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}/`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log("usercreate :", usercreate.data.data);
 		} catch (e) {
 			console.log(e);
 		}
@@ -84,7 +127,6 @@ export const MyPage = (props) => {
 
 	const onClickToLogout = () => {
 		localStorage.removeItem("authorization");
-		localStorage.removeItem("refreshToken");
 		dispatch(getLoginUser(""));
 		dispatch(signout());
 		navigate("/");
@@ -120,30 +162,26 @@ export const MyPage = (props) => {
 			)}
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
 			{isLogin ? (
-				isLoading ? (
-					<Loading />
-				) : (
-					<>
-						<MypageSetting
-							menuOpen={menuOpen}
-							modalToLogout={modalToLogout}
-							modalToQuit={modalToQuit}
-							onClick={toggleMenu}
-						/>
-						<div />
-						<div className="userInfo">
-							<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
+				<>
+					<MypageSetting
+						menuOpen={menuOpen}
+						modalToLogout={modalToLogout}
+						modalToQuit={modalToQuit}
+						onClick={toggleMenu}
+					/>
+					<div />
+					<div className="userInfo">
+						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
 
-							{loginUserInfo.name || "유저이름"}
-						</div>
-						<ChallengeState />
-						<div className="challengeNav">
-							<NavTitle title="생성한 챌린지" link="/userCreate" />
-							<NavTitle title="완료한 챌린지" link="/userComplete" />
-						</div>
-						<div />
-					</>
-				)
+						{loginUserInfo.name || "유저이름"}
+					</div>
+					<ChallengeState />
+					<div className="challengeNav">
+						<NavTitle title="생성한 챌린지" link="/userCreate" />
+						<NavTitle title="완료한 챌린지" link="/userComplete" />
+					</div>
+					<div />
+				</>
 			) : (
 				<div className="noneLogin">
 					<p>로그인이 필요해요..</p>

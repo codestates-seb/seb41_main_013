@@ -1,12 +1,43 @@
+import { useSelect } from "@mui/base";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BackToTopBtn } from "../components/Button";
 import { CompletedChallenge } from "../components/Challenge";
 import { TitleHeader } from "../components/Header";
 
 export const UserCompleteChallenge = () => {
+	// const [completeChallenge, setCompleteChallenge] = useState([]);
+
+	// useEffect(() => {
+	// 	getCompleteChallenge();
+	// }, []);
+
+	// const accessToken = localStorage.getItem("authorization");
+	// const { loginUserInfo } = useSelect((state) => state.loginUserInfo);
+	// console.log(accessToken, loginUserInfo);
+
+	// const getCompleteChallenge = async () => {
+	// 	try {
+	// 		const usercomplete = await axios.get(
+	// 			`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenged`,
+	// 			{
+	// 				headers: {
+	// 					Authorization: `Bearer ${accessToken}`,
+	// 				},
+	// 				withCredentials: true,
+	// 			},
+	// 		);
+	// 		console.log(usercomplete);
+	// 		setCompleteChallenge(usercomplete.data);
+	// 	} catch (e) {
+	// 		console.log(e);
+	// 	}
+	// };
 	return (
 		<>
 			<TitleHeader title="완료한 챌린지" />
+
 			<ChallengeWrap>
 				<CompletedChallenge
 					title="3끼 챙겨먹기"
@@ -29,10 +60,15 @@ export const UserCompleteChallenge = () => {
 };
 
 const ChallengeWrap = styled.div`
+	border: 1px solid red;
 	width: 100%;
-	/* height: 79.2rem; */
-	overflow: scroll;
+	height: 79.2rem;
+	overflow-y: scroll;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin-top: 5.2rem;
+	/* margin-bottom: 2rem; */
+	/* position: absolute;
+	top: 5.2rem; */
 `;

@@ -6,7 +6,6 @@ const axiosInstance = axios.create({
 
 export const postMembers = (data) => axiosInstance.post("/api/members", data);
 export const postAuth = (data) => axiosInstance.post("/api/auths/login", data);
-export const getMembers = () => axiosInstance.get(`/api/members`);
 
 // 이미지 업로드
 export const postImg = (formData) =>
