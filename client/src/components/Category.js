@@ -45,15 +45,8 @@ const Category = (props) => {
 
 // SelectCategory
 //props : X
-export const SelectCategory = () => {
+export const SelectCategory = (props) => {
 	const [click, setClick] = useState([false, false, false, false]);
-
-	//클릭하면 카테고리 버튼 색상이 회색 -> 초록색으로
-	const handleBtnClick = (num) => {
-		let newClick = click.map((el, idx) => idx === num);
-		setClick(newClick);
-	};
-
 	const SelectCategoryItem = (props) => {
 		return (
 			<>
@@ -62,22 +55,45 @@ export const SelectCategory = () => {
 					width={"48%"}
 					background={click[props.num] ? theme.color.green : theme.color.gray}
 					color={click[props.num] ? theme.color.white : theme.color.navy}
-					onClick={() => handleBtnClick(props.num)}
+					onClick={props.onClick}
 					margin="0.6rem"
 				/>
 			</>
 		);
 	};
 
+	const handleClick = (n) => {
+		// 이 버튼을 눌러서 부모의 상태를 바꿀 순 없을까?
+		props.onClick(n);
+		//클릭하면 카테고리 버튼 색상이 회색 -> 초록색으로
+		let newClick = click.map((el, idx) => idx === n);
+		setClick(newClick);
+	};
 	return (
 		<SelectCategoryContainer>
 			<div className="twoCa">
-				<SelectCategoryItem num={0} text="우리 동네" />
-				<SelectCategoryItem num={1} text="운동" />
+				<SelectCategoryItem
+					num={0}
+					text="우리 동네"
+					onClick={() => handleClick(0)}
+				/>
+				<SelectCategoryItem
+					num={1}
+					text="운동"
+					onClick={() => handleClick(1)}
+				/>
 			</div>
 			<div className="twoCa">
-				<SelectCategoryItem num={2} text="규칙적인 생활" />
-				<SelectCategoryItem num={3} text="기타" />
+				<SelectCategoryItem
+					num={2}
+					text="규칙적인 생활"
+					onClick={() => handleClick(2)}
+				/>
+				<SelectCategoryItem
+					num={3}
+					text="기타"
+					onClick={() => handleClick(3)}
+				/>
 			</div>
 		</SelectCategoryContainer>
 	);
