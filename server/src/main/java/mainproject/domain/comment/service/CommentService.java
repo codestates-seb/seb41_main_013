@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,7 +62,7 @@ public class CommentService {
     }
 
 
-    public Page<Comment> findComments(int page, int size){
+  /*  public Page<Comment> findComments( int page, int size){
 
 
         Page<Comment> findAllComment = commentRepository.findAll(
@@ -70,6 +71,12 @@ public class CommentService {
         return findAllComment;
     }
 
+   */
+
+    public List<Comment> findComments(long boardId) {
+        Board board = boardRepository.findByBoardId(boardId);
+        return commentRepository.findAllByBoard(board);
+    }
 // 필터걸기 추가
 
 

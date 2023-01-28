@@ -3,17 +3,16 @@ package mainproject.domain.board.service;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.respository.BoardRepository;
 
-import mainproject.domain.challenge.entity.Challenge;
+
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
+import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-
-import org.springframework.security.core.Authentication;
 
 import org.springframework.stereotype.Service;
 
@@ -65,13 +64,13 @@ public class BoardService {
         return findVerifiedMember(boardId);
     }
 
-    public Page<Board> findBoards(int page, int size){
+    public Page<Board> findBoards(Category category, int page, int size) {
 
-        // sort 수정 필요!
-        Page<Board> findAllBoard = boardRepository.findAll(
-                PageRequest.of(page, size, Sort.by("boardId").descending()));
-
-        return findAllBoard;
+        if (category == null) {
+            return boardRepository.findAll(PageRequest.of(page, 15, Sort.by("boardId").descending()));
+        } else {
+            return boardRepository.findByCategory(category, PageRequest.of(page, 15, Sort.by("boardId").descending()));
+        }
     }
 
 
@@ -104,6 +103,5 @@ public class BoardService {
 
         return boards;
     }
-
 
 }

@@ -19,7 +19,6 @@ export const MypageSetting = (props) => {
 			/>
 			<div>
 				<NavTitle title="프로필 수정" link="/editProfile" width="100%" />
-				<NavTitle title="비밀번호 변경" link="/changePw" width="100%" />
 				<NavTitle title="로그아웃" width="100%" onClick={modalToLogout} />
 				<NavTitle title="회원탈퇴" width="100%" onClick={modalToQuit} />
 			</div>
@@ -28,7 +27,7 @@ export const MypageSetting = (props) => {
 };
 
 const SettingWrapper = styled.div`
-	border: 1px solid black;
+	border-bottom: 1px solid black;
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 	padding: 2rem 1.3rem;

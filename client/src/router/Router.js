@@ -1,6 +1,6 @@
 import { Routes, Route, Outlet } from "react-router-dom";
-// import { Suspense } from "react";
-// import { Loading } from "../components/Loading";
+import { Suspense } from "react";
+import { Loading } from "../components/Loading";
 import { Footer } from "../components/Footer";
 import { MainHeader, MypageHeader, TitleHeader } from "../components/Header";
 // challenge
@@ -15,11 +15,9 @@ import MyChallengeOthers from "../pages/MyChallengeOthers";
 import { MyPage } from "../pages/MyPage";
 import { UserCreateChallenge } from "../pages/UserCreateChallenge";
 import { UserCompleteChallenge } from "../pages/UserCompleteChallenge";
-import { UserPasswordChange } from "../pages/UserPasswordChange";
 import { UserProfileEdit } from "../pages/UserProfileEdit";
 import { SignUp } from "../pages/SignUp";
 import { SignIn } from "../pages/SignIn";
-import { FindPassword } from "../pages/FindPassword";
 //community
 import { Community } from "../pages/Community";
 import { CommunityCategoryBoard } from "../pages/CommunityCategoryBoard";
@@ -39,12 +37,11 @@ const Overlaps = ({ hasHeader, hasFooter }) => {
 
 export const OurPath = () => {
 	return (
-		// {/* // <Suspense fallback={<Loading />}> */}
+		<Suspense fallback={<Loading />}>
 		<Routes>
 			<Route element={<Overlaps hasHeader={false} hasFooter={false} />}>
 				<Route path="/userCreate" element={<UserCreateChallenge />} />
 				<Route path="/userComplete" element={<UserCompleteChallenge />} />
-				<Route path="/changePw" element={<UserPasswordChange />} />
 				<Route path="/editProfile" element={<UserProfileEdit />} />
 				<Route path="/challenges/:categoryId" element={<HomeCategoryBoard />} />
 				<Route
@@ -73,15 +70,14 @@ export const OurPath = () => {
 					element={<CommunityCategoryBoard />}
 				/>
 				<Route path="/createPost" element={<CreatePost />} />
-				<Route path="/post/:postId/update" element={<UpdatePost />} />
-				<Route path="/post/:postId" element={<PostDetail />} />
+				<Route path="/post/:boardId/update" element={<UpdatePost />} />
+				<Route path="/post/:boardId" element={<PostDetail />} />
 			</Route>
 			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
 				<Route path="/signup" element={<SignUp />} />
 				<Route path="/login" element={<SignIn />} />
-				<Route path="/findPw" element={<FindPassword />} />
 			</Route>
 		</Routes>
-		// </Suspense>
+		</Suspense>
 	);
 };

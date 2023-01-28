@@ -13,62 +13,90 @@ import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import React from 'react';
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const CreateChallenge = () => {
-  const { register, handleSubmit, formState: { errors }, 
-	setValue, watch, setError } = useForm({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		setValue,
+		watch,
+		setError,
+	} = useForm({
 		defaultValues: {
 			startAt: null,
 			endAt: null,
 			snapshotStartAt: null,
 			snapshotEndAt: null,
-		}
+		},
 	});
 	const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
 	const [cancelModalVisible, setCancelModalVisible] = useState(false);
 
+	const { memberId, accessToken } = useSelector(
+		(state) => state.loginUserInfo.loginUserInfo,
+	);
+
 	const navigate = useNavigate();
 	const categoryId = {
 		"우리 동네": "0",
-		"운동": "1",
+		운동: "1",
 		"규칙적인 생활": "2",
-		"기타": "3",
+		기타: "3",
 	};
 
 	const onSubmit = async (data) => {
 		// console.log(data);
-		const { title, category, img, startAt, endAt, frequency, snapshotStartAt, snapshotEndAt, content } = data;
+		const {
+			title,
+			category,
+			img,
+			startAt,
+			endAt,
+			frequency,
+			snapshotStartAt,
+			snapshotEndAt,
+			content,
+		} = data;
 		// console.log(img[0]);
 		try {
 			const formData = new FormData();
-    	formData.append("image", img[0]);
+			formData.append("image", img[0]);
 
 			const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
         headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+            "Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${accessToken}`,
+        },
+				withCredentials: true,
       });
       const snapshotImageId = response.data.snapshotImageId;
 
-			const response2 = await axios.post("/api/challenges", {
+			const response2 = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/challenges`, {
 				category: category,
 				challengeImageId: snapshotImageId,
 				content: content,
 				endAt: endAt,
 				frequency: frequency,
-				// hostMemberId: memberId,
+				hostMemberId: memberId,
 				snapshotEndAt: snapshotEndAt,
 				snapshotStartAt: snapshotStartAt,
 				startAt: startAt,
 				title: title
-			});
+			}, {
+        headers: {
+						Authorization: `Bearer ${accessToken}`,
+        },
+				withCredentials: true,
+      });
 			if (response2.status === 200) {
 				navigate(`/challenges/${categoryId[category]}`);
 			}
-		} catch(error) {
+		} catch (error) {
 			console.error(error);
 		}
 	};
@@ -81,29 +109,25 @@ const CreateChallenge = () => {
 
 	return (
 		<StyledForm onSubmit={handleSubmit(formSubmit)}>
-			<TitleHeader title="챌린지 생성하기" onClick={() => setCancelModalVisible(true)} />
+			<TitleHeader
+				title="챌린지 생성하기"
+				onClick={() => setCancelModalVisible(true)}
+			/>
 			<WrapperContainer>
 				<Wrapper>
 					<Input
 						label="제목"
 						placeholder="챌린지 제목을 입력해주세요"
 						name="title"
-						register={register("title", {required: "제목을 입력해주세요."})}
+						register={register("title", { required: "제목을 입력해주세요." })}
 						borderColor={errors.title ? theme.color.red : ""}
 					/>
 					{errors.title && <p>{errors.title.message}</p>}
 				</Wrapper>
 				<Wrapper>
 					<Label>카테고리</Label>
-					<BtnWrapper
-						borderColor={errors.category?.message && theme.color.red}
-					>
-						{[
-							"우리 동네",
-							"운동",
-							"규칙적인 생활",
-							"기타"
-						].map((el, idx) => (
+					<BtnWrapper borderColor={errors.category?.message && theme.color.red}>
+						{["우리 동네", "운동", "규칙적인 생활", "기타"].map((el, idx) => (
 							<StyledBtn
 								key={idx}
 								type="button"
@@ -113,7 +137,9 @@ const CreateChallenge = () => {
 								}}
 								className={`${el === watch("category") ? "selected" : ""}`}
 								value={el}
-								register={register("category", {required: "카테고리를 선택해주세요."})}
+								register={register("category", {
+									required: "카테고리를 선택해주세요.",
+								})}
 								width="49%"
 							>
 								{el}
@@ -128,7 +154,7 @@ const CreateChallenge = () => {
 						width="9rem"
 						height="9rem"
 						name="img"
-						register={register("img", {required: "사진을 업로드 해주세요."})}
+						register={register("img", { required: "사진을 업로드 해주세요." })}
 						borderColor={errors.img ? theme.color.red : ""}
 					/>
 					{errors.img && <p>{errors.img.message}</p>}
@@ -138,18 +164,22 @@ const CreateChallenge = () => {
 					<PickersWrapper>
 						<DatePickers
 							name="startAt"
-							register={register("startAt", {required: "시작 날짜를 선택해주세요."})}
+							register={register("startAt", {
+								required: "시작 날짜를 선택해주세요.",
+							})}
 							onDateChange={(date) => {
-								setValue("startAt", date)
+								setValue("startAt", date);
 								console.log(date);
 							}}
 						/>
 						<DatePickers
 							name="endAt"
-							register={register("endAt", {required: "종료 날짜를 선택해주세요."})}
+							register={register("endAt", {
+								required: "종료 날짜를 선택해주세요.",
+							})}
 							startAt={watch("startAt")}
 							onDateChange={(date) => {
-								setValue("endAt", date)
+								setValue("endAt", date);
 								console.log(date);
 							}}
 						/>
@@ -175,12 +205,14 @@ const CreateChallenge = () => {
 								key={idx}
 								type="button"
 								onClick={() => {
-									setValue("frequency", el)
+									setValue("frequency", el);
 									setError("frequency", null);
 								}}
 								className={`${el === watch("frequency") ? "selected" : ""}`}
 								value={el}
-								register={register("frequency", {required: "빈도를 선택해주세요."})}
+								register={register("frequency", {
+									required: "빈도를 선택해주세요.",
+								})}
 								width="15%"
 							>
 								{el}
@@ -194,18 +226,22 @@ const CreateChallenge = () => {
 					<PickersWrapper>
 						<TimePickers
 							name="snapshotStartAt"
-							register={register("snapshotStartAt", {required: "인증 시작 시간을 선택해주세요."})}
+							register={register("snapshotStartAt", {
+								required: "인증 시작 시간을 선택해주세요.",
+							})}
 							onTimeChange={(time) => {
-								setValue("snapshotStartAt", time)
+								setValue("snapshotStartAt", time);
 								// console.log(time);
 							}}
 						/>
 						<TimePickers
 							name="snapshotEndAt"
-							register={register("snapshotEndAt", {required: "인증 종료 시간을 선택해주세요."})}
+							register={register("snapshotEndAt", {
+								required: "인증 종료 시간을 선택해주세요.",
+							})}
 							snapshotStartAt={watch("snapshotStartAt")}
 							onTimeChange={(time) => {
-								setValue("snapshotEndAt", time)
+								setValue("snapshotEndAt", time);
 								// console.log(time);
 							}}
 						/>
@@ -219,7 +255,9 @@ const CreateChallenge = () => {
 						placeholder="인증방법을 포함하여 챌린지에 대한 소개를 작성해주세요"
 						rows="12"
 						name="content"
-						register={register("content", {required: "챌린지 소개를 작성해주세요."})}
+						register={register("content", {
+							required: "챌린지 소개를 작성해주세요.",
+						})}
 						borderColor={errors.content ? theme.color.red : ""}
 					/>
 					{errors.content && <p>{errors.content.message}</p>}
@@ -238,26 +276,30 @@ const CreateChallenge = () => {
 					fontWeight="700"
 					size="1.4rem"
 					btnText="등록하기"
-					margin="0"
+					margin="0 0 1.3rem 0"
 					type="submit"
 				/>
 			</WrapperContainer>
-      {cancelModalVisible && <TwoBtnModal 
-        modalText="작성을 취소하시겠습니까?"
-        btnTextOrg="네"
-        btnTextGry="아니요"
-				onClickOrg={() => navigate("/mychallenge")}
-        onClickGry={() => setCancelModalVisible(false)}
-      />}
-      {twoBtnModalVisible && <TwoBtnModal 
-        modalText="등록하시겠습니까?"
-        btnTextOrg="확인"
-        btnTextGry="취소"
-				onClickOrg={handleSubmit(onSubmit)}
-        onClickGry={() => setTwoBtnModalVisible(false)}
-      />}
-    </StyledForm>
-  );
+			{cancelModalVisible && (
+				<TwoBtnModal
+					modalText="작성을 취소하시겠습니까?"
+					btnTextOrg="네"
+					btnTextGry="아니요"
+					onClickOrg={() => navigate("/mychallenge")}
+					onClickGry={() => setCancelModalVisible(false)}
+				/>
+			)}
+			{twoBtnModalVisible && (
+				<TwoBtnModal
+					modalText="등록하시겠습니까?"
+					btnTextOrg="확인"
+					btnTextGry="취소"
+					onClickOrg={handleSubmit(onSubmit)}
+					onClickGry={() => setTwoBtnModalVisible(false)}
+				/>
+			)}
+		</StyledForm>
+	);
 };
 
 const DatePickers = (props) => {
@@ -266,13 +308,13 @@ const DatePickers = (props) => {
 
 	const handleDateChange = (e) => {
 		setDate(e);
-		if(props.name === "endAt") {
-			if(e.isBefore(props.startAt)) {
+		if (props.name === "endAt") {
+			if (e.isBefore(props.startAt)) {
 				setDate(props.startAt);
-        setOneBtnModalVisible(true);
+				setOneBtnModalVisible(true);
 			}
 		}
-		if(props.onDateChange) {
+		if (props.onDateChange) {
 			props.onDateChange(e);
 		}
 	};
@@ -284,14 +326,18 @@ const DatePickers = (props) => {
 					inputFormat="YYYY/MM/DD"
 					value={date}
 					onChange={handleDateChange}
-					renderInput={(params) => <TextField {...params} {...props.register} />}
+					renderInput={(params) => (
+						<TextField {...params} {...props.register} />
+					)}
 				/>
 			</LocalizationProvider>
-			{oneBtnModalVisible && <OneBtnModal
-        modalText="종료 날짜는 시작 날짜보다 앞설 수 없습니다. 다시 선택해주세요."
-        btnText="확인"
-        onClick={() => setOneBtnModalVisible(false)}
-      />}
+			{oneBtnModalVisible && (
+				<OneBtnModal
+					modalText="종료 날짜는 시작 날짜보다 앞설 수 없습니다. 다시 선택해주세요."
+					btnText="확인"
+					onClick={() => setOneBtnModalVisible(false)}
+				/>
+			)}
 		</>
 	);
 };
@@ -302,13 +348,13 @@ const TimePickers = (props) => {
 
 	const handleTimeChange = (e) => {
 		setTime(e);
-		if(props.name === "snapshotEndAt") {
-			if((e.isBefore(props.snapshotStartAt))) {
+		if (props.name === "snapshotEndAt") {
+			if (e.isBefore(props.snapshotStartAt)) {
 				setTime(props.snapshotStartAt);
-        setOneBtnModalVisible(true);
+				setOneBtnModalVisible(true);
 			}
 		}
-		if(props.onTimeChange) {
+		if (props.onTimeChange) {
 			props.onTimeChange(e);
 		}
 	};
@@ -320,14 +366,18 @@ const TimePickers = (props) => {
 					inputFormat="HH:mm A"
 					value={time}
 					onChange={handleTimeChange}
-					renderInput={(params) => <TextField {...params} {...props.register} />}
+					renderInput={(params) => (
+						<TextField {...params} {...props.register} />
+					)}
 				/>
 			</LocalizationProvider>
-			{oneBtnModalVisible && <OneBtnModal
-        modalText="인증 종료 시간은 인증 시작 시간보다 앞설 수 없습니다. 다시 선택해주세요."
-        btnText="확인"
-        onClick={() => setOneBtnModalVisible(false)}
-      />}
+			{oneBtnModalVisible && (
+				<OneBtnModal
+					modalText="인증 종료 시간은 인증 시작 시간보다 앞설 수 없습니다. 다시 선택해주세요."
+					btnText="확인"
+					onClick={() => setOneBtnModalVisible(false)}
+				/>
+			)}
 		</>
 	);
 };
@@ -340,8 +390,17 @@ const StyledForm = styled.form`
 `;
 
 const WrapperContainer = styled.div`
-	margin-top: 5.2rem;
-	padding-bottom: 1.3rem;
+	position: absolute;
+	left: 0;
+	top: 5.2rem;
+	bottom: 0;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 1.3rem;
+
+	::-webkit-scrollbar {
+  	display: none;
+	}
 `;
 
 const StyledBtn = styled.button`
