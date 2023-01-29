@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postMembers } from "../apis/base";
@@ -7,7 +6,6 @@ import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import { Modal } from "../components/Modal";
 import theme from "../components/theme";
-import { loginAccount } from "../redux/userSlice";
 
 export const SignUp = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
@@ -109,9 +107,9 @@ export const SignUp = () => {
 	const register = async () => {
 		try {
 			const { passwordCheck, ...body } = userInput;
-			console.log(body);
+			// console.log(body);
 			const { data } = await postMembers(body);
-			console.log(data);
+			// console.log(data);
 			setIsOpenModal(true);
 			setTimeout(() => {
 				setIsOpenModal(false);

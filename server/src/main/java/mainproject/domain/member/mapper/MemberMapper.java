@@ -49,20 +49,6 @@ public class MemberMapper {
 
     }
 
-    public MemberResponseDtoV2 memberToMemberResponseDtoV2(Member member) {
-        if (member == null ) return null;
-
-        MemberResponseDtoV2 responseDto = new MemberResponseDtoV2();
-
-        responseDto.setId(member.getId());
-        responseDto.setName(member.getName());
-        responseDto.setPassword(member.getPassword());
-        responseDto.setEmail(member.getEmail());
-        responseDto.setProfileImageId(member.getImage().getImageId());
-
-        return responseDto;
-
-    }
     public List<MemberResponseDto> membersToMemberResponses (List<Member> members){
         if (members == null) return null;
 
