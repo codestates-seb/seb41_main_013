@@ -13,11 +13,12 @@ export const MainHeader = () => {
 		<Main>
 			<Link to="/">
 				<Btn
-					btnText="Logo"
-					background={`${theme.color.green}`}
-					color="black"
+					btnText="C & C"
+					color={theme.color.green}
 					width="10.5rem"
 					height="3.2rem"
+					size="1.6rem"
+					fontFamily="BMDOHYEON"
 				/>
 			</Link>
 			<div>
@@ -74,6 +75,7 @@ const Main = styled.div`
 	margin: 0 auto;
 	/* z-index: 999; */
 	padding: 0 1.3rem;
+	font-family: "establishRoomNo703OTF";
 `;
 
 const Title = styled.div`
