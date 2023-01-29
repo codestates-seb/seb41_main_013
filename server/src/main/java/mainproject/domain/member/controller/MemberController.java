@@ -55,7 +55,7 @@ public class MemberController {
 
         Member response = memberService.findMember(id);
 
-        return  new ResponseEntity(mapper.memberToMemberResponseDtoV2(response),
+        return  new ResponseEntity(mapper.memberToMemberResponseDto(response),
                 HttpStatus.OK);
 
     }
