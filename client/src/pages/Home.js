@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import { HomeCategory } from "../components/Category";
 import { HomeChallengeItem } from "../components/ChallengeItem";
-import { BackToTopBtn, Btn } from "../components/Button";
+import { BackToTopBtn } from "../components/Button";
 import { Loading } from "../components/Loading";
 import { NoData } from "../components/NoData";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Link } from "react-router-dom";
-import theme from "../components/theme";
 import { useSelector } from "react-redux";
 
 const Home = () => {
@@ -38,7 +36,7 @@ const Home = () => {
 				},
 			);
 			if (response.data.data.length === 0) { setHasData(false); }
-			if (response.data.length < 10) {
+			if (response.data.data.length < 10) {
 				setHasMoreData(false);
 			}
 			console.log(response.data.data);
@@ -101,7 +99,7 @@ const HomeWrapper = styled.div`
 
 	& .infinite-scroll-component__outerdiv {
 		position: relative;
-		top: 2.5rem;
+		top: 4.5rem;
 		overflow-y: scroll;
 		height: 100%;
 
@@ -121,9 +119,11 @@ const HomeWrapper = styled.div`
 `;
 
 const StyledH1 = styled.h1`
-	font-size: 2rem;
-	height: 2.5rem;
+	font-size: 2.5rem;
+	height: 3rem;
 	position: fixed;
+	left: 2.6rem;
+	top: 16rem;
 `;
 
 export default Home;
