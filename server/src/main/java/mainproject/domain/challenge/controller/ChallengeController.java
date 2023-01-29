@@ -51,8 +51,8 @@ public class ChallengeController {
 
     final String postChallengeDescription = "hostMemberId: 회원번호 (로그인 후 챌린지 생성 가능)" + "\r\n" +
             "category: 카테고리 ([우리동네, 운동, 생활, 기타] 중 입력)" + "\r\n" +
-            "title: 챌린지 제목 (50자까지 입력 가능) " + "\r\n" +
-            "content: 챌린지 설명 (500자까지 입력 가능) " + "\r\n" +
+            "title: 챌린지 제목" + "\r\n" +
+            "content: 챌린지 설명" + "\r\n" +
             "challengeImageId: 챌린지 이미지번호 (이미지 업로드 후 사용 가능, 생략 가능)" + "\r\n" +
             "startAt: 챌린지 시작 날짜 예) 2023-02-01 (내일 이후부터 선택 가능)" + "\r\n" +
             "endAt: 챌린지 종료 날짜 예) 2023-03-31 (시작 날짜 이후로 설정 가능)" + "\r\n" +
