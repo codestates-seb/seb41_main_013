@@ -6,10 +6,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import mainproject.domain.board.dto.BoardPatchDto;
 import mainproject.domain.board.dto.BoardPostDto;
+import mainproject.domain.board.dto.BoardResponseDto;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.mapper.BoardMapper;
 import mainproject.domain.board.service.BoardService;
 
+import mainproject.domain.challenge.dto.ChallengeResponseDto;
+import mainproject.domain.challenge.entity.Challenge;
 import mainproject.global.category.Category;
 import mainproject.global.dto.MultiResponseDto;
 import mainproject.global.dto.SingleResponseDto;
@@ -19,11 +22,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
@@ -91,8 +97,8 @@ public class BoardController {
     @ApiOperation(value = "글 전체 조회", notes = "글을 전체 조회합니다.")
     @GetMapping
     public ResponseEntity getBoards(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
-                                    @RequestParam Category category,
-                                    @Positive @RequestParam(defaultValue = "1") Integer page,
+                                    @RequestParam @Nullable  Category category,
+                                    @Positive @RequestParam(defaultValue = "1") @Nullable Integer page,
                                     @Positive @RequestParam(defaultValue = "15") Integer size) {
 
 
@@ -105,32 +111,24 @@ public class BoardController {
     }
 
 
-@ApiOperation(value = "글 검색", notes = "게시판에 등록된 글을 검색합니다.")
+    @ApiOperation(value = "검색(제목+내용)")
     @GetMapping("/search")
-    public ResponseEntity searchBoards(@RequestParam(required = false, defaultValue = "1") int page,
-                                          @RequestParam(required = false, defaultValue = "15") int size,
-                                          @RequestParam(required = false, defaultValue = "boardId") String tab,
-                                          @RequestParam String q) {
+    public ResponseEntity getSearchBoards(@ApiParam(value = "100자까지 입력 가능", required = true)
+                                              @RequestParam @NotNull(message = "검색어를 입력하세요.")
+                                              @Size(max = 100, message = "검색어는 100자까지 입력 가능합니다.")
+                                              String query,
+                                              @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                              @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        Page<Board> pageBoards = boardService.searchBoards(query, page - 1);
 
-        Page<Board> pageBoards = boardService.searchBoards(page - 1, size, tab, q);
         List<Board> boards = pageBoards.getContent();
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pageBoards), HttpStatus.OK);
+        List<BoardResponseDto> response = boardMapper.boardsToBoardResponseDtos(boards);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(response, pageBoards), HttpStatus.OK);
     }
 
 
-
-  /*  @GetMapping("/search")
-    public String searchBoards(String keyword, Model model) {
-        List<Board> searchList = boardService.search(keyword);
-
-        model.addAttribute("searchList", searchList);
-
-        return "board-search";
-    }
-
-   */
 
     @ApiOperation(value = "글 삭제", notes = "등록된 글을 삭제합니다.")
     @DeleteMapping("/{board-id}")
