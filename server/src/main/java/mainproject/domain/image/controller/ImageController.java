@@ -57,7 +57,6 @@ public class ImageController {
     public String generatePresignedUrl() {
         Regions clientRegion = Regions.DEFAULT_REGION;
         String bucketName = "s3://bucket-deploy-challenge/";
-        //String bucketName = "http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com/";
         String objectKey = "";
 
         String accessKey = "${AWS_ACCESS_KEY}";
