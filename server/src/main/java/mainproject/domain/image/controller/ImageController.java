@@ -56,25 +56,26 @@ public class ImageController {
     @GetMapping
     public String generatePresignedUrl() {
         Regions clientRegion = Regions.DEFAULT_REGION;
-        String accessKey = "${cloud.aws.credentials.access-key}";
-        String secretKey = "${cloud.aws.credentials.secret-key}";
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
         String bucketName = "s3://bucket-deploy-challenge/";
         //String bucketName = "http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com/";
         String objectKey = "";
+
+        String accessKey = "${cloud.aws.credentials.access-key}";
+        String secretKey = "${cloud.aws.credentials.secret-key}";
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                 .withRegion(clientRegion)
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .build();
 
-        // Set the presigned URL to expire after ten minutes.
+        // URL 유효시간을 10분으로 설정
         Date expiration = new Date();
         long expTimeMillis = Instant.now().toEpochMilli();
         expTimeMillis += 1000 * 60 * 10;
         expiration.setTime(expTimeMillis);
 
-        // Generate the presigned URL.
+        // URL 발급
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
                 new GeneratePresignedUrlRequest(bucketName, objectKey)
                         .withMethod(HttpMethod.PUT)
