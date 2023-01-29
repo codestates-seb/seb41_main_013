@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
@@ -17,7 +17,11 @@ export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-	// const [isLoading, setIsLoading] = useState(true);
+	const [challengeStatus, setChallengeStatus] = useState({
+		participate: "",
+		complete: "",
+		create: "",
+	});
 
 	useEffect(() => {
 		getUserInfo();
@@ -51,11 +55,9 @@ export const MyPage = (props) => {
 						profileImageId: result.data.profileImageId,
 					}),
 				);
-				// setIsLoading(false);
 				// console.log(loginUserInfo);
 			} catch (e) {
 				console.log(e);
-				// setIsLoading(true);
 			}
 		}
 	};
@@ -93,6 +95,9 @@ export const MyPage = (props) => {
 				},
 			);
 			// console.log("userdoing :", userdoing.data);
+			setChallengeStatus((prev) => {
+				return { ...prev, participate: userdoing.data.length };
+			});
 
 			const usercomplete = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenged`,
@@ -104,6 +109,9 @@ export const MyPage = (props) => {
 				},
 			);
 			// console.log("usercomplete :", usercomplete.data);
+			setChallengeStatus((prev) => {
+				return { ...prev, complete: usercomplete.data.length };
+			});
 
 			const usercreate = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}/`,
@@ -115,6 +123,9 @@ export const MyPage = (props) => {
 				},
 			);
 			// console.log("usercreate :", usercreate.data.data);
+			setChallengeStatus((prev) => {
+				return { ...prev, create: usercreate.data.length };
+			});
 		} catch (e) {
 			console.log(e);
 		}
@@ -178,7 +189,11 @@ export const MyPage = (props) => {
 
 						{loginUserInfo.name || "유저이름"}
 					</div>
-					<ChallengeState />
+					<ChallengeState
+						doing={challengeStatus.participate}
+						complete={challengeStatus.complete}
+						create={challengeStatus.create}
+					/>
 					<div className="challengeNav">
 						<NavTitle title="생성한 챌린지" link="/userCreate" />
 						<NavTitle title="완료한 챌린지" link="/userComplete" />
@@ -199,7 +214,7 @@ export const MyPage = (props) => {
 };
 
 const MypageWrapper = styled.div`
-	/* border: 1px solid orange; */
+	/* border: 1px solid black; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
@@ -207,6 +222,14 @@ const MypageWrapper = styled.div`
 	align-items: center;
 	justify-content: space-around;
 	gap: 2rem;
+	position: absolute;
+	left: 0;
+
+	${(menuOpen) =>
+		menuOpen &&
+		css`
+			/* background-color: rgba(0, 0, 0, 0.2); */
+		`}
 
 	.challengeNav {
 		width: 100%;

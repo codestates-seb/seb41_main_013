@@ -75,7 +75,7 @@ export const SignIn = () => {
 			const body = userInput;
 			// console.log(body);
 			const data = await postAuth(body);
-			console.log(data);
+			console.log("data :", data);
 			dispatch(
 				getLoginUser({
 					memberId: data.data,

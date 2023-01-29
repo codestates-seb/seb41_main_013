@@ -99,7 +99,7 @@ const StyledBasicBtn = styled.button`
 	font-style: normal;
 	font-weight: ${(props) => props.fontWeight || "400"};
 	font-size: ${(props) => props.size || "1.3rem"};
-	line-height: 1.6rem;
+	line-height: 1.9rem;
 	color: ${(props) => props.color || "white"};
 `;
 
