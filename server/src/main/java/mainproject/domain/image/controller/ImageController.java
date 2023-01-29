@@ -1,12 +1,18 @@
 package mainproject.domain.image.controller;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.HttpMethod;
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -27,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -49,13 +56,16 @@ public class ImageController {
 
         ImageResponseDto response = mapper.imageToImageResponseDto(image);
 
+        /*
         File convertedFile = convertFile(file);
-
         response.setUrl(upload(convertedFile));
+         */
+        response.setUrl("generatePresignedUrl()");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /*
     // MultipartFile을 File로 변환
     private File convertFile(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());
@@ -96,33 +106,47 @@ public class ImageController {
             System.out.println("파일이 삭제되지 못했습니다.");
         }
     }
+     */
 
     @ApiOperation(value = "presignedURL 획득")
     @GetMapping
-    public String generatePresignedUrl() {
+    public void generatePresignedUrl() throws IOException {
         Regions clientRegion = Regions.DEFAULT_REGION;
-        String bucketName = "s3://bucket-deploy-challenge";
-        String objectKey = "test.txt";
+        String accessKey = "${cloud.aws.credentials.access-key}";
+        String secretKey = "${cloud.aws.credentials.secret-key}";
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+        String bucketName = "s3://bucket-deploy-challenge/";
+        //String bucketName = "http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com/";
+        String objectKey = "";
 
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withRegion(clientRegion)
-                .withCredentials(new ProfileCredentialsProvider())
-                .build();
+        try {
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion(clientRegion)
+                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    .build();
 
-        // Set the presigned URL to expire after one hour.
-        java.util.Date expiration = new java.util.Date();
-        long expTimeMillis = Instant.now().toEpochMilli();
-        expTimeMillis += 1000 * 60 * 60;
-        expiration.setTime(expTimeMillis);
+            // Set the presigned URL to expire after ten minutes.
+            Date expiration = new Date();
+            long expTimeMillis = Instant.now().toEpochMilli();
+            expTimeMillis += 1000 * 60 * 10;
+            expiration.setTime(expTimeMillis);
 
-        // Generate the presigned URL.
-        System.out.println("Generating pre-signed URL.");
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(bucketName, objectKey)
-                        .withMethod(HttpMethod.PUT)
-                        .withExpiration(expiration);
-        URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+            // Generate the presigned URL.
+            System.out.println("Generating pre-signed URL.");
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(bucketName, objectKey)
+                            .withMethod(HttpMethod.PUT)
+                            .withExpiration(expiration);
+            generatePresignedUrlRequest.addRequestParameter(Headers.S3_CANNED_ACL,
+                    CannedAccessControlList.PublicRead.toString());
+            URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
 
-        return url.toString();
+            // return url.toString();
+            System.out.println("Pre-Signed URL: " + url.toString());
+        } catch (AmazonServiceException e) {
+            e. printStackTrace();
+        } catch (SdkClientException e) {
+            e.printStackTrace();
+        }
     }
 }
