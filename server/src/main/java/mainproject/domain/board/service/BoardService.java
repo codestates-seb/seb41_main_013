@@ -10,14 +10,18 @@ import mainproject.global.category.Category;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -67,9 +71,9 @@ public class BoardService {
     public Page<Board> findBoards(Category category, int page, int size) {
 
         if (category == null) {
-            return boardRepository.findAll(PageRequest.of(page, 15, Sort.by("boardId").descending()));
+            return boardRepository.findAll(PageRequest.of(page, 15, Sort.by("createdAt").descending()));
         } else {
-            return boardRepository.findByCategory(category, PageRequest.of(page, 15, Sort.by("boardId").descending()));
+            return boardRepository.findByCategory(category, PageRequest.of(page, 15, Sort.by("createdAt").descending()));
         }
     }
 
@@ -83,6 +87,37 @@ public class BoardService {
     }
 
 
+    public Page<Board> searchBoards(String query, int page) {
+
+        String[] words = query.split(" ");
+        List<Board> results = new ArrayList<>();
+
+        for (String w : words) {
+            List<Board> result =
+                    boardRepository.findAll().stream()
+                            .filter(c -> c.getTitle().contains(w) || c.getContent().contains(w))
+                            .collect(Collectors.toList());
+            results.addAll(result);
+        }
+
+        results = results.stream()
+                .sorted(Comparator.comparing(Board::getBoardId).reversed())
+                .collect(Collectors.toList());
+
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), results.size());
+
+        return new PageImpl<>(results.subList(start, end), pageRequest, results.size());
+    }
+
+
+    public void deleteBoard(long boardId) {
+        boardRepository.deleteById(boardId);
+    }
+
+
+
 
     public boolean checkMember(Member principal, long boardId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
@@ -91,17 +126,5 @@ public class BoardService {
                 && optionalBoard.get().getMember().getEmail().equals(principal.getEmail());
     }
 
-
-    public void deleteBoard(long boardId) {
-        boardRepository.deleteById(boardId);
-    }
-
-    public Page<Board> searchBoards(int page, int size, String tab, String q) {
-
-         Page<Board> boards = boardRepository.findByTitleContaining(q, PageRequest.of(page, size,
-                Sort.by(tab).descending()));
-
-        return boards;
-    }
 
 }

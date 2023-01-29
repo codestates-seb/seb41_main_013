@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useSelector } from "react-redux";
 
 //components
 import { PostSummary } from "../components/PostSummary";
@@ -16,11 +17,13 @@ import { Loading } from "../components/Loading";
 //import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
-	const user = null; //유저 정보 (from 로컬스토리지)
+	//유저 정보
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+
 	const [createModal, setCreateModal] = useState(false);
 	const handleCreate = () => {
 		//로그인이 되어 있지 않다면
-		if (!user) {
+		if (!loginUserInfo) {
 			setCreateModal(true);
 			setTimeout(() => {
 				setCreateModal(false);
@@ -33,6 +36,7 @@ export const Community = () => {
 	const [hasMoreData, setHasMoreData] = useState(true);
 	useEffect(() => {
 		getPostList();
+		console.log(loginUserInfo);
 	}, []);
 
 	const loadMoreData = () => {
@@ -45,6 +49,12 @@ export const Community = () => {
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
+				{
+					headers: {
+						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+					},
+					withCredentials: true,
+				},
 			);
 			if (response.data.length < 10) {
 				setHasMoreData(false);
