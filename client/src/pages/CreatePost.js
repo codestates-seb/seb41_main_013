@@ -48,6 +48,7 @@ export const CreatePost = () => {
 		memberName: loginUserInfo.name,
 		profileImageId: loginUserInfo.profileImageId,
 	});
+
 	const handleCreatePost = async () => {
 		//글 등록 함수
 		try {
@@ -56,6 +57,7 @@ export const CreatePost = () => {
 				postBody,
 				{
 					headers: {
+						"Content-Type": "application/json",
 						Authorization: `Bearer ${loginUserInfo.accessToken}`,
 					},
 					withCredentials: true,

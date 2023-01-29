@@ -52,7 +52,7 @@ export const CommunityCategoryBoard = () => {
 		if (!hasMoreData) return;
 		try {
 			const response = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/?category=${category[categoryId]}`,
 				{
 					headers: {
 						Authorization: `Bearer ${loginUserInfo.accessToken}`,
@@ -66,6 +66,7 @@ export const CommunityCategoryBoard = () => {
 			if (response.data.length < 10) {
 				setHasMoreData(false);
 			}
+			if (response.status === 200) console.log("성공");
 			setPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
