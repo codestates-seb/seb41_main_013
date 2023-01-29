@@ -60,8 +60,8 @@ public class ImageController {
         //String bucketName = "http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com/";
         String objectKey = "";
 
-        String accessKey = "${cloud.aws.credentials.access-key}";
-        String secretKey = "${cloud.aws.credentials.secret-key}";
+        String accessKey = "${AWS_ACCESS_KEY}";
+        String secretKey = "${AWS_SECRET_KEY}";
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()

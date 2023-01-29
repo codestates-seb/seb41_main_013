@@ -23,8 +23,3 @@ jwt:
   key: kevin12341234123412341234123412341234adsfgeeettwaeaafasfsadf
   ATExpiration: 10
   RTExpiration: 420
-cloud:
-  aws:
-    credentials:
-      access-key: AKIA6QXUELQPCRN4CHU5
-      secret-key: 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
