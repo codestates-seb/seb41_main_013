@@ -40,7 +40,7 @@ public class ImageController {
     }
 
     @ApiOperation(value = "이미지파일 업로드")
-    @PostMapping
+    @PutMapping
     public ResponseEntity postImage(@ApiParam(value = "파일 업로드", required = true)
                                         @RequestParam MultipartFile file) throws IOException {
         Image image = imageService.uploadImage(file);
@@ -56,7 +56,7 @@ public class ImageController {
     @GetMapping
     public String generatePresignedUrl() {
         Regions clientRegion = Regions.DEFAULT_REGION;
-        String bucketName = "s3://bucket-deploy-challenge/";
+        String bucketName = "bucket-deploy-challenge";
         String objectKey = "";
 
         String accessKey = "${AWS_ACCESS_KEY}";
