@@ -73,11 +73,12 @@ public class CommentService {
 
    */
 
-    public List<Comment> findComments(long boardId) {
+    public List<Comment> findComments(long boardId, int page) {
         Board board = boardRepository.findByBoardId(boardId);
-        return commentRepository.findAllByBoard(board);
+
+        return commentRepository.findAllByBoard(board, PageRequest.of(page, 10, Sort.by("createdAt").descending()));
     }
-// 필터걸기 추가
+
 
 
     public boolean checkMember(Member principal, long commentId) {
