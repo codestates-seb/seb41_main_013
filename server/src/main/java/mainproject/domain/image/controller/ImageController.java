@@ -17,6 +17,7 @@ import mainproject.domain.image.dto.ImageResponseDto;
 import mainproject.domain.image.entity.Image;
 import mainproject.domain.image.mapper.ImageMapper;
 import mainproject.domain.image.service.ImageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -53,6 +54,12 @@ public class ImageController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Value("${AWS_ACCESS_KEY}")
+    private String accessKey;
+
+    @Value("${AWS_SECRET_KEY}")
+    private String secretKey;
+
     @ApiOperation(value = "presignedURL 획득")
     @GetMapping
     public String generatePresignedUrl(@Nullable String fileName) {
@@ -60,8 +67,6 @@ public class ImageController {
         String bucketName = "bucket-deploy-challenge";
         String objectKey = "upload/" + fileName;
 
-        String accessKey = "${AWS_ACCESS_KEY}";
-        String secretKey = "${AWS_SECRET_KEY}";
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
