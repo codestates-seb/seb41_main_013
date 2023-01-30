@@ -56,9 +56,9 @@ public class ImageController {
     @ApiOperation(value = "presignedURL 획득")
     @GetMapping
     public String generatePresignedUrl(@Nullable String fileName) {
-        Regions clientRegion = Regions.DEFAULT_REGION;
+        Regions clientRegion = Regions.AP_NORTHEAST_2;
         String bucketName = "bucket-deploy-challenge";
-        String objectKey = "/" + fileName;
+        String objectKey = "upload/" + fileName;
 
         String accessKey = "${AWS_ACCESS_KEY}";
         String secretKey = "${AWS_SECRET_KEY}";
