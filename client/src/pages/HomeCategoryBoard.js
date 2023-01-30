@@ -10,6 +10,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation } from "react-router-dom";
 import { NoDataDiv } from '../components/NoData';
 import { useSelector } from "react-redux";
+import { random } from "../images/random";
 
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
@@ -116,7 +117,8 @@ const HomeCategoryBoard = () => {
       >
         {challenges.map((challenge) => (
           <HomeChallengeItem
-            imgUrl={challenge.imageUrl}
+            // imgUrl={challenge.imageUrl}
+            imgUrl={random[Math.floor(Math.random() * random.length)]}
             challengeTitle={challenge.title}
             challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}

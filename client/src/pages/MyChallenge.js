@@ -6,6 +6,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { NoDataDiv } from "../components/NoData";
+import { random } from "../images/random";
 
 const MyChallenge = () => {
 	const [challenges, setChallenges] = useState([]);
@@ -55,14 +56,16 @@ const MyChallenge = () => {
 					<MyChallengeItemContainer>
 						{challenges.map((challenge) => (
 							<MyChallengeItem
-								imgUrl={challenge.imageUrl}
+								// imgUrl={challenge.imageUrl}
+								imgUrl={random[Math.floor(Math.random() * random.length)]}
 								challengeTitle={challenge.challengeName}
-								challengerNum={challenge.challengerCount}
+								challengerNum={`${challenge.challengerCount}명`}
 								challengeFrequency={challenge.frequency}
 								challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
 								challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
 								progress={challenge.progress}
 								NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
+								challengeId={challenge.challengeId}
 							/>))}
 					</MyChallengeItemContainer>
 					<CreateBtn NavTo="/challenges/create" />
