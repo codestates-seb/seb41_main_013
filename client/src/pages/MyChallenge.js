@@ -12,9 +12,11 @@ const MyChallenge = () => {
 	const [hasData, setHasData] = useState(true);
 	const isLogin = useSelector((state) => state.loginStatus.status);
 
-	const { memberId, accessToken } = useSelector(
+	const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
+	const accessToken = localStorage.getItem("authorization");
+	console.log(accessToken);
 
 	useEffect(() => {
 		getMyChallengesList();
@@ -41,9 +43,9 @@ const MyChallenge = () => {
 	};
 
 	const categoryId = {
-		"우리 동네": "0",
+		우리동네: "0",
 		운동: "1",
-		"규칙적인 생활": "2",
+		생활습관: "2",
 		기타: "3",
 	};
 
@@ -56,10 +58,10 @@ const MyChallenge = () => {
 							{challenges.map((challenge) => (
 								<MyChallengeItem
 									imgUrl={challenge.imageUrl}
-									challengeTitle={challenge.title}
+									challengeTitle={challenge.challengeName}
 									challengerNum={challenge.challengerCount}
 									challengeFrequency={challenge.frequency}
-									challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+									challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
 									challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
 									progress={challenge.progress}
 									NavTo={`/challenges/${categoryId[challenge.category]}/${
@@ -73,7 +75,7 @@ const MyChallenge = () => {
 					</MyChallengeWrapper>
 				) : (
 					<>
-						<NoDataDiv text="등록된 마이챌린지가" />
+						<NoDataDiv text="등록된 마이챌린지" />
 						<CreateBtn NavTo="/challenges/create" />
 					</>
 				)
