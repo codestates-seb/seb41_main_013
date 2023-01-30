@@ -20,7 +20,6 @@ export const CreatedChallenge = (props) => {
 		<CreateChallengeContainer>
 			<ChallengeImg src={props.src || "images/example2.jpeg"}>
 				<Btn
-					className="deleteBtn"
 					onClick={props.onClick}
 					btnText={<IoClose />}
 					width="1.5rem"
@@ -60,7 +59,7 @@ export const ChallengeState = (props) => {
 };
 
 const ChallengeStateContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 100%;
 	height: 15rem;
 	display: flex;
@@ -81,7 +80,7 @@ const ChallengeStateContainer = styled.div`
 	}
 
 	.container {
-		width: 100%;
+		/* width: 100%; */
 		height: 8.1rem;
 		display: flex;
 		padding: 0 1rem;
@@ -125,10 +124,6 @@ const ChallengeImg = styled.div`
 	background-position: center center;
 	width: 16rem;
 	height: 14.5rem;
-
-	/* .deleteBtn {
-		display: none;
-	} */
 `;
 
 const CreateChallengeContainer = styled.div`

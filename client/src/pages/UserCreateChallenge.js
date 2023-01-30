@@ -56,9 +56,10 @@ export const UserCreateChallenge = () => {
 						btnTextOrg="삭제"
 						btnTextGry="취소"
 						onClickGry={onClickToCancel}
+						// onClickOrg={}
 					/>
 				)}
-				{createChallenge.length === 0 ? (
+				{/* {createChallenge.length === 0 ? (
 					<div className="noData">
 						<p>생성한 챌린지가 없어요.</p>
 						<p>새로운 챌린지를 만들러 가볼까요?</p>
@@ -78,8 +79,8 @@ export const UserCreateChallenge = () => {
 							</div>
 						);
 					})
-				)}
-				{/* <CreatedChallenge
+				)} */}
+				<CreatedChallenge
 					onClick={deleteChallengeBtn}
 					deleteChall={deleteChall}
 					title="3끼 챙겨먹기"
@@ -95,7 +96,7 @@ export const UserCreateChallenge = () => {
 				<CreatedChallenge title="일주일에 책 한권 이상 읽기" />
 				<CreatedChallenge title="매일 헬스장 출석 체크" />
 				<CreatedChallenge title="아이고 힘들어" />
-				<CreatedChallenge title="아이고 힘들어" /> */}
+				<CreatedChallenge title="아이고 힘들어" />
 			</ChallengeWrap>
 			<BackToTopBtn bottom="3rem" />
 		</>
