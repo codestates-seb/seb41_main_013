@@ -21,5 +21,5 @@ logging:
           jpa: DEBUG
 jwt:
   key: kevin12341234123412341234123412341234adsfgeeettwaeaafasfsadf
-  ATExpiration: 10
+  ATExpiration: 420
   RTExpiration: 420
