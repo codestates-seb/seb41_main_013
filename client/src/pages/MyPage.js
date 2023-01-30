@@ -50,7 +50,7 @@ export const MyPage = (props) => {
 						withCredentials: true,
 					},
 				);
-				// console.log(result.data);
+				console.log(result.data);
 				dispatch(
 					getLoginUser({
 						...loginUserInfo,

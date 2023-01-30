@@ -28,6 +28,7 @@ export const CreatedChallenge = (props) => {
 					background={`${theme.color.orange}`}
 				/>
 			</ChallengeImg>
+			<p>{props.challengeId}</p>
 			{props.title}
 		</CreateChallengeContainer>
 	);
@@ -135,5 +136,9 @@ const CreateChallengeContainer = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	font-size: 1.4rem;
-	margin-top: 2.5rem;
+	/* margin-top: 2.5rem; */
+
+	p {
+		font-size: 1.3rem;
+	}
 `;

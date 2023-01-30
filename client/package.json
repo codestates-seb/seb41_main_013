@@ -56,5 +56,6 @@
 	"devDependencies": {
 		"eslint-config-prettier": "^8.6.0",
 		"prettier": "^2.8.2"
-	}
+	},
+	"proxy" : "https://89d0-121-129-154-70.jp.ngrok.io"
 }
