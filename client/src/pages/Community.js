@@ -19,7 +19,7 @@ import { NoDataDiv } from "../components/NoData";
 
 export const Community = () => {
 	//유저 정보
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
 	const isLogin = useSelector((state) => state.loginStatus.status);
 
 	const [createModal, setCreateModal] = useState(false);
@@ -49,7 +49,7 @@ export const Community = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},

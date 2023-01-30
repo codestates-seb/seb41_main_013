@@ -23,12 +23,13 @@ export const CommunityCategoryBoard = () => {
 	const { categoryId } = useParams();
 	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
 	//유저 정보
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
+	const isLogin = useSelector((state) => state.loginStatus.status);
 
 	const [createModal, setCreateModal] = useState(false);
 	const handleCreate = () => {
 		//로그인이 되어 있지 않다면
-		if (!loginUserInfo) {
+		if (!isLogin) {
 			setCreateModal(true);
 			setTimeout(() => {
 				setCreateModal(false);
@@ -55,7 +56,7 @@ export const CommunityCategoryBoard = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards/?category=${category[categoryId]}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},

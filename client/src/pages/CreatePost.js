@@ -27,6 +27,7 @@ export const CreatePost = () => {
 
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
 
 	const handleChangeValue = (n) => {
 		setValue(n);
@@ -58,7 +59,7 @@ export const CreatePost = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},

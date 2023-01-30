@@ -36,6 +36,7 @@ export const UpdatePost = () => {
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
 	//유저 정보
+	const accessToken = localStorage.getItem("authorization");
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 
 	const getPost = async () => {
@@ -44,7 +45,7 @@ export const UpdatePost = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},

@@ -24,6 +24,7 @@ import { CommunityList } from "../data/dummy";
 export const PostDetail = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
@@ -72,7 +73,7 @@ export const PostDetail = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${boardId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
