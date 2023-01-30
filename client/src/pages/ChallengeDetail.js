@@ -9,6 +9,7 @@ import { TwoBtnModal } from "../components/Modal";
 import { FaRegBookmark, FaBookmark, FaShareAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { random } from "../images/random";
 
 const ChallengeDetail = () => {
   const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
@@ -21,7 +22,7 @@ const ChallengeDetail = () => {
   const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
-
+  
   useEffect(() => {
     getChallengeData();
   }, []);
@@ -58,7 +59,7 @@ const ChallengeDetail = () => {
         // },
         withCredentials: true,
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         setBtnVisible(true);
         setTwoBtnModalVisible(false);
       }
@@ -73,7 +74,7 @@ const ChallengeDetail = () => {
         title={challengeData.title}
       />
       <ChallengeDetailWrapper>
-        <StyledImg src={challengeData.imageUrl} alt={challengeData.title} />
+        <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt={challengeData.title} />
         <StyledH1>제목</StyledH1>
         <StyledH1>{challengeData.title}</StyledH1>
         <InfoTag

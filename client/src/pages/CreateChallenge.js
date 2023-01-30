@@ -183,6 +183,14 @@ const CreateChallenge = () => {
 					{errors.img && <p>{errors.img.message}</p>}
 				</Wrapper> */}
 				<Wrapper>
+					<Label>사진</Label>
+					<ImageUploader
+						width="9rem"
+						height="9rem"
+						name="img"
+					/>
+				</Wrapper>
+				<Wrapper>
 					<Label>기간</Label>
 					<PickersWrapper>
 						<DatePickers

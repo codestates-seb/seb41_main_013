@@ -4,6 +4,7 @@ import { HomeChallengeItem } from "../components/ChallengeItem";
 import { BackToTopBtn } from "../components/Button";
 import { Loading } from "../components/Loading";
 import { NoData } from "../components/NoData";
+import { random } from "../images/random";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -64,7 +65,8 @@ const Home = () => {
       >
         {challenges.map((challenge) => (
           <HomeChallengeItem
-            imgUrl={challenge.imageUrl}
+            // imgUrl={challenge.imageUrl}
+						imgUrl={random[Math.floor(Math.random() * random.length)]}
             challengeTitle={challenge.title}
             challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}

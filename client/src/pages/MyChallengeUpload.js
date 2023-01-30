@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 
 const MyChallengeUpload = () => {
-	const [challengeData, setChallengeData] = useState(null);
+	const [challengeData, setChallengeData] = useState([]);
 	const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
 	const [oneBtnModalVisible, setOneBtnModalVisible] = useState(false);
 	const [image, setImage] = useState(null);
@@ -40,8 +40,8 @@ const MyChallengeUpload = () => {
 
 	const handleBtnClick = () => {
 		const currentTime = dayjs();
-		const startTime = dayjs(challengeData.snapshotStartAt, "HH:mm:ss");
-		const endTime = dayjs(challengeData.snapshotEndAt, "HH:mm:ss");
+		const startTime = dayjs(challengeData.snapshotStartAt, "HH:mm");
+		const endTime = dayjs(challengeData.snapshotEndAt, "HH:mm");
 
 		if (currentTime.isBetween(startTime, endTime)) {
 			setTwoBtnModalVisible(true);
@@ -51,30 +51,30 @@ const MyChallengeUpload = () => {
 	};
 
 	const handleOrgClick = async () => {
-		const formData = new FormData();
-		formData.append("image", image);
 
 		try {
-			const response = await axios.post(
-				`${process.env.REACT_APP_SERVER_URL}/api/upload`,
-				formData,
+			const presignedUrlResponse = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, image, {
+					headers: {
+					"Content-Type": image.type,
+					}
+				});
+			console.log(presignedUrlResponse);
+
+			if (presignedUrlResponse.status === 200) {
+				// const presignedUrl = presignedUrlResponse.data;
+
+				console.log(image);
+				const uploadResponse = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/upload`, image, 
 				{
 					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				},
-			);
-			const snapshotImageId = response.data.snapshotImageId;
-			const response2 = await axios.post(
-				`${process.env.REACT_APP_SERVER_URL}/api/snapshots`,
-				{
-					challengeId,
-					memberId,
-					snapshotImageId,
-				},
-			);
-			if (response2.status === 200) {
-				navigate(`/mychallenge/${challengeId}/others`);
+					"Content-Type": image.type,
+					}
+				});
+				console.log(uploadResponse);
+
+				if (uploadResponse.status === 200) {
+					navigate(`/mychallenge/${challengeId}/others`);
+				}
 			}
 		} catch (error) {
 			console.error(error);

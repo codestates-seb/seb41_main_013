@@ -19,7 +19,7 @@ export const HomeCategory = (props) => {
 				NavTo={`/${props.NavTo}/1`}
 			/>
 			<Category
-				title="규칙적인 생활"
+				title="생활습관"
 				src="/images/life.png"
 				NavTo={`/${props.NavTo}/2`}
 			/>
