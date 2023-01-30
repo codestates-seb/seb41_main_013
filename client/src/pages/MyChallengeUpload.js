@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const MyChallengeUpload = () => {
 	const [challengeData, setChallengeData] = useState(null);
@@ -18,6 +19,9 @@ const MyChallengeUpload = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const challengeId = location.pathname.split("/")[2];
+	const { memberId } = useSelector(
+		(state) => state.loginUserInfo.loginUserInfo,
+	);
 
 	useEffect(() => {
 		getChallengeData();
@@ -65,7 +69,7 @@ const MyChallengeUpload = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/snapshots`,
 				{
 					challengeId,
-					// memberId,
+					memberId,
 					snapshotImageId,
 				},
 			);
@@ -80,7 +84,7 @@ const MyChallengeUpload = () => {
 	return (
 		<MyChallengeUploadContainer>
 			<TitleHeader
-			// title={challengeData.title}
+				title={challengeData.title}
 			/>
 			<MyChallengeUploadWrapper>
 				<ImageUploader
