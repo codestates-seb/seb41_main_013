@@ -59,7 +59,7 @@ public class BoardController {
 
     final String postBoardDescription = "MemberId: 회원번호 (회원 등록 후 글 등록 가능)" + "\r\n" +
 
-            "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
+            "category: 카테고리 (우리동네, 운동, 생활습관, 기타 중 입력)" + "\r\n" +
             "title: 게시글 제목 (50자까지 입력 가능) " + "\r\n" +
             "content: 게시글내용 (500자까지 입력 가능) ";
 
@@ -80,7 +80,7 @@ public class BoardController {
 
 
     final String patchBoardDescription = "MemberId: 회원번호 " + "\r\n" +
-            "category: 카테고리 (우리동네, 운동, 생활, 기타 중 입력)" + "\r\n" +
+            "category: 카테고리 (우리동네, 운동, 생활습관, 기타 중 입력)" + "\r\n" +
             "title: 게시글 제목  " + "\r\n" +
             "content: 게시글내용  " ;
 
