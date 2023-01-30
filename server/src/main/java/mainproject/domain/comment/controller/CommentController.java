@@ -11,10 +11,9 @@ import mainproject.domain.comment.dto.CommentResponseDto;
 import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.comment.mapper.CommentMapper;
 import mainproject.domain.comment.service.CommentService;
-import mainproject.global.dto.MultiResponseDto;
+
 
 import mainproject.global.dto.SingleResponseDto;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -77,26 +76,10 @@ public class CommentController {
             "createdAt: 댓글 작성 시간"+ "\r\n" +
             "modifiedAt: 댓글 수정 시간";
 
-   /*
-    @ApiOperation(value = "댓글 조회", notes = "댓글을 조회합니다.")
-    @GetMapping("/{board-id}")
-    public ResponseEntity getComments(@PathVariable("board-id") @Positive long boardId,
-                                      @Positive @RequestParam(defaultValue = "1") Integer page,
-                                      @Positive @RequestParam(defaultValue = "15") Integer size) {
-
-        Page<Comment> pagedComments = commentService.findComments( page -1, size);
-        List<Comment> comments = pagedComments.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(commentMapper.commentsToCommentResponseDtos(comments), pagedComments),
-                HttpStatus.OK);
-    }
-
-    */
    @ApiOperation(value = "댓글 조회", notes = "댓글을 조회합니다.")
    @GetMapping("/{board-id}")
    public ResponseEntity getComments(@PathVariable("board-id") long boardId,
-                                    @RequestParam(defaultValue = "1") @Nullable @Positive int page){
+                                     @RequestParam(defaultValue = "1") @Nullable @Positive int page){
        List<Comment> comments = commentService.findComments(boardId, page-1);
 
        return new ResponseEntity<>(
