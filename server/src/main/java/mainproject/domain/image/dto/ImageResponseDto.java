@@ -10,5 +10,6 @@ public class ImageResponseDto {
     private String originalFileName;
     private String storedFileName;
     private long fileSize;
+    private String presignedUrl;
     private LocalDateTime createdAt;
 }

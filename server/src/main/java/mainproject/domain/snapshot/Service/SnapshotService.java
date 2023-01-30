@@ -48,8 +48,9 @@ public class SnapshotService {
         }
 
         // 오늘 이미 인증한 회원인지 검증
-        String snapshotDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String snapshotId = "M" + memberId + "_C" + challengeId + "_" + snapshotDate;
+        String challengerId = challenger.getChallengerId() + "_";
+        int snapshotDate = Integer.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        String snapshotId = challengerId + snapshotDate;
         if (snapshotRepository.findById(snapshotId).isPresent()) {
             throw new BusinessLogicException(ExceptionCode.SNAPSHOT_TODAY_ALREADY_EXISTS);
         }
@@ -58,6 +59,23 @@ public class SnapshotService {
         if (LocalTime.now().isBefore(challenge.getSnapshotStartAt()) || LocalTime.now().isAfter(challenge.getSnapshotEndAt())) {
             throw new BusinessLogicException(ExceptionCode.TIME_UNAUTHORIZED);
         }
+
+        // 빈도수 검증 - 월요일을 기준으로 회원의 인증사진 등록횟수가 챌린지 빈도수를 초과했는지 검증
+        int frequency = challenge.getFrequency().ordinal() + 1;
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+        if (frequency < dayOfWeek) {
+            while (dayOfWeek > 0) {
+                dayOfWeek--;
+                snapshotDate--;
+                if (snapshotRepository.findById(challengerId + snapshotDate).isPresent()) {
+                    frequency--;
+                }
+            }
+            if (frequency == 0) {
+                throw new BusinessLogicException(ExceptionCode.SNAPSHOT_FREQUENCY_EXCEEDED);
+            }
+        }
+
 
         challenger.setSnapshotCount(challenger.getSnapshotCount() + 1);   // 진행률 업데이트를 위해 인증일 수 증가
 
