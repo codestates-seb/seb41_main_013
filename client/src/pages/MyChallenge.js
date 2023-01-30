@@ -16,8 +16,7 @@ const MyChallenge = () => {
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
 	const accessToken = localStorage.getItem("authorization");
-	console.log(accessToken)
-
+	console.log(accessToken);
 
 	useEffect(() => {
 		getMyChallengesList();
@@ -42,9 +41,9 @@ const MyChallenge = () => {
 	};
 
   const categoryId = {
-		"우리 동네": "0",
+		"우리동네": "0",
 		"운동": "1",
-		"규칙적인 생활": "2",
+		"생활습관": "2",
 		"기타": "3",
 	};
 
@@ -60,7 +59,7 @@ const MyChallenge = () => {
 								challengeTitle={challenge.challengeName}
 								challengerNum={challenge.challengerCount}
 								challengeFrequency={challenge.frequency}
-								challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+								challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
 								challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
 								progress={challenge.progress}
 								NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}

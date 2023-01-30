@@ -5,7 +5,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSelector } from "react-redux";
 
 const MyChallengeOthers = () => {
   const [imagesUrl, setImagesUrl] = useState([]);
@@ -14,9 +13,8 @@ const MyChallengeOthers = () => {
 
   const location = useLocation();
   const challengeId = location.pathname.split("/")[2];
-  const { accessToken } = useSelector(
-		(state) => state.loginUserInfo.loginUserInfo,
-	);
+  const accessToken = localStorage.getItem("authorization");
+
 
   useEffect(() => {
     getAllImages();
