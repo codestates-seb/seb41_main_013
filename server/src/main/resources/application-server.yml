@@ -4,7 +4,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
-      ddl-auto: validate  # create
+      ddl-auto: validate  # create / validate
     properties:
       hibernate:
         format_sql: true
