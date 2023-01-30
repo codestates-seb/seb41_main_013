@@ -34,7 +34,7 @@ export const UpdatePost = () => {
 	const [categoryError, setCategoryError] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
-	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
+	const category = ["우리동네", "운동", "생활습관", "기타"];
 	//유저 정보
 	const accessToken = localStorage.getItem("authorization");
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
@@ -99,7 +99,7 @@ export const UpdatePost = () => {
 				postBody,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},

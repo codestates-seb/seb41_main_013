@@ -19,7 +19,7 @@ export const HomeCategory = (props) => {
 				NavTo={`/${props.NavTo}/1`}
 			/>
 			<Category
-				title="규칙적인 생활"
+				title="생활습관"
 				src="/images/life.png"
 				NavTo={`/${props.NavTo}/2`}
 			/>
@@ -86,7 +86,7 @@ export const SelectCategory = (props) => {
 			<div className="twoCa">
 				<SelectCategoryItem
 					num={2}
-					text="규칙적인 생활"
+					text="생활습관"
 					onClick={() => handleClick(2)}
 				/>
 				<SelectCategoryItem

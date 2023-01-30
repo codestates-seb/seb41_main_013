@@ -21,7 +21,7 @@ import { NoDataDiv } from "../components/NoData";
 //props : 카테고리명 - 우리 동네/운동/규칙적인 생활/기타
 export const CommunityCategoryBoard = () => {
 	const { categoryId } = useParams();
-	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
+	const category = ["우리동네", "운동", "생활습관", "기타"];
 	//유저 정보
 	const accessToken = localStorage.getItem("authorization");
 	const isLogin = useSelector((state) => state.loginStatus.status);

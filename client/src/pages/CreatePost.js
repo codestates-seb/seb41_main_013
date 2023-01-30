@@ -23,7 +23,7 @@ export const CreatePost = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const navigate = useNavigate();
-	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
+	const category = ["우리동네", "운동", "생활습관", "기타"];
 
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);

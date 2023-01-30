@@ -28,7 +28,7 @@ export const PostDetail = () => {
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
-	const category = ["우리 동네", "운동", "규칙적인 생활", "기타"];
+	const category = ["우리 동네", "운동", "생활습관", "기타"];
 	const post = CommunityList.filter((el) => el.postId == boardId)[0];
 
 	const [createUModal, setCreateUModal] = useState(false);
@@ -116,7 +116,7 @@ export const PostDetail = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards${boardId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
