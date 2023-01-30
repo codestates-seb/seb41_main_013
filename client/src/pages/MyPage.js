@@ -2,16 +2,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
-import { Loading } from "../components/Loading";
 import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
 import { signout, getLoginUser } from "../redux/userSlice";
+import profileImg0 from "../images/profileImg0.png";
+import profileImg1 from "../images/profileImg1.png";
+import profileImg2 from "../images/profileImg2.png";
+import profileImg3 from "../images/profileImg3.png";
 
 export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -61,6 +64,16 @@ export const MyPage = (props) => {
 			}
 		}
 	};
+
+	const profileImgBox = [profileImg0, profileImg1, profileImg2, profileImg3];
+	const randomIdx = Math.floor(Math.random() * profileImgBox.length);
+
+	if (!loginUserInfo.profileImg) {
+		dispatch(
+			getLoginUser({ ...loginUserInfo, profileImg: profileImgBox[randomIdx] }),
+		);
+		console.log(loginUserInfo);
+	}
 
 	const deleteUser = async () => {
 		try {
@@ -185,7 +198,7 @@ export const MyPage = (props) => {
 					/>
 					<div />
 					<div className="userInfo">
-						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
+						<img src={`${loginUserInfo.profileImg}`} alt="avatar" />
 
 						{loginUserInfo.name || "유저이름"}
 					</div>
@@ -224,12 +237,6 @@ const MypageWrapper = styled.div`
 	gap: 2rem;
 	position: absolute;
 	left: 0;
-
-	${(menuOpen) =>
-		menuOpen &&
-		css`
-			/* background-color: rgba(0, 0, 0, 0.2); */
-		`}
 
 	.challengeNav {
 		width: 100%;
