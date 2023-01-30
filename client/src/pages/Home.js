@@ -15,9 +15,9 @@ const Home = () => {
 	const [hasMoreData, setHasMoreData] = useState(true);
 	const [hasData, setHasData] = useState(true);
 
-	const { accessToken } = useSelector(
-		(state) => state.loginUserInfo.loginUserInfo,
-	);
+	// const { accessToken } = useSelector(
+	// 	(state) => state.loginUserInfo.loginUserInfo,
+	// );
 
 	useEffect(() => {
 		getAllChallengesList();
@@ -29,9 +29,9 @@ const Home = () => {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/hot?page=${page}`,
 				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
+					// headers: {
+					// 	Authorization: `Bearer ${accessToken}`,
+					// },
 					withCredentials: true,
 				},
 			);
@@ -74,9 +74,9 @@ const Home = () => {
           <HomeChallengeItem
             imgUrl={challenge.imageUrl}
             challengeTitle={challenge.title}
-            challengerNum={challenge.challengerCount}
+            challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}
-            challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+            challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
             NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
           />))}
       </InfiniteScroll>

@@ -12,9 +12,12 @@ const MyChallenge = () => {
 	const [hasData, setHasData] = useState(true);
   const isLogin = useSelector((state) => state.loginStatus.status);
 
-	const { memberId, accessToken } = useSelector(
+	const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
+	const accessToken = localStorage.getItem("authorization");
+	console.log(accessToken)
+
 
 	useEffect(() => {
 		getMyChallengesList();
@@ -54,7 +57,7 @@ const MyChallenge = () => {
 						{challenges.map((challenge) => (
 							<MyChallengeItem
 								imgUrl={challenge.imageUrl}
-								challengeTitle={challenge.title}
+								challengeTitle={challenge.challengeName}
 								challengerNum={challenge.challengerCount}
 								challengeFrequency={challenge.frequency}
 								challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
