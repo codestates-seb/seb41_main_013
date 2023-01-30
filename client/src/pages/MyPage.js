@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
-import { TwoBtnModal } from "../components/Modal";
+import { OneBtnModal, TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
@@ -17,9 +17,12 @@ import profileImg2 from "../images/profileImg2.png";
 import profileImg3 from "../images/profileImg3.png";
 
 export const MyPage = (props) => {
+	const [modal, setModal] = useState({
+		logout: false,
+		quit: false,
+		success: false,
+	});
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [logoutModal, setLogoutModal] = useState(false);
-	const [quitModal, setQuitModal] = useState(false);
 	const [challengeStatus, setChallengeStatus] = useState({
 		participate: "",
 		complete: "",
@@ -50,7 +53,7 @@ export const MyPage = (props) => {
 						withCredentials: true,
 					},
 				);
-				console.log(result.data);
+				// console.log(result.data);
 				dispatch(
 					getLoginUser({
 						...loginUserInfo,
@@ -72,7 +75,7 @@ export const MyPage = (props) => {
 		dispatch(
 			getLoginUser({ ...loginUserInfo, profileImg: profileImgBox[randomIdx] }),
 		);
-		console.log(loginUserInfo);
+		// console.log(loginUserInfo);
 	}
 
 	const deleteUser = async () => {
@@ -90,7 +93,9 @@ export const MyPage = (props) => {
 			localStorage.removeItem("authorization");
 			dispatch(getLoginUser(""));
 			dispatch(signout());
-			navigate("/");
+			setModal((prev) => {
+				return { ...prev, success: true };
+			});
 		} catch (e) {
 			console.log(e);
 		}
@@ -149,7 +154,9 @@ export const MyPage = (props) => {
 	};
 
 	const modalToLogout = () => {
-		setLogoutModal(!logoutModal);
+		setModal((prev) => {
+			return { ...prev, logout: true };
+		});
 	};
 
 	const onClickToLogout = () => {
@@ -159,32 +166,48 @@ export const MyPage = (props) => {
 		navigate("/");
 	};
 
+	const modalToCancel = () => {
+		setModal(false);
+	};
+
 	const modalToQuit = () => {
-		setQuitModal(!quitModal);
+		setModal((prev) => {
+			return { ...prev, quit: true };
+		});
 	};
 
 	const onClickToQuit = () => {
+		setModal((prev) => {
+			return { ...prev, quit: false };
+		});
 		deleteUser();
 	};
 
 	return (
 		<MypageWrapper>
-			{logoutModal && (
+			{modal.logout && (
 				<TwoBtnModal
 					modalText="로그아웃 하시겠습니까?"
 					btnTextOrg="로그아웃"
 					btnTextGry="취소"
-					onClickGry={modalToLogout}
+					onClickGry={modalToCancel}
 					onClickOrg={onClickToLogout}
 				/>
 			)}
-			{quitModal && (
+			{modal.quit && (
 				<TwoBtnModal
 					modalText="정말 탈퇴하시겠습니까?"
 					btnTextOrg="탈퇴"
 					btnTextGry="취소"
-					onClickGry={modalToQuit}
+					onClickGry={modalToCancel}
 					onClickOrg={onClickToQuit}
+				/>
+			)}
+			{modal.success && (
+				<OneBtnModal
+					modalText="탈퇴되었습니다!"
+					btnText="확인"
+					onClick={() => navigate("/")}
 				/>
 			)}
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
