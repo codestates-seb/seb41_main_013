@@ -6,18 +6,25 @@ import styled from "styled-components";
 import { Btn } from "../components/Button";
 import { ChallengeState } from "../components/Challenge";
 import { MypageHeader } from "../components/Header";
-import { Loading } from "../components/Loading";
 import { TwoBtnModal } from "../components/Modal";
 import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
 import { signout, getLoginUser } from "../redux/userSlice";
+import profileImg0 from "../images/profileImg0.png";
+import profileImg1 from "../images/profileImg1.png";
+import profileImg2 from "../images/profileImg2.png";
+import profileImg3 from "../images/profileImg3.png";
 
 export const MyPage = (props) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [logoutModal, setLogoutModal] = useState(false);
 	const [quitModal, setQuitModal] = useState(false);
-	// const [isLoading, setIsLoading] = useState(true);
+	const [challengeStatus, setChallengeStatus] = useState({
+		participate: "",
+		complete: "",
+		create: "",
+	});
 
 	useEffect(() => {
 		getUserInfo();
@@ -51,14 +58,22 @@ export const MyPage = (props) => {
 						profileImageId: result.data.profileImageId,
 					}),
 				);
-				// setIsLoading(false);
 				// console.log(loginUserInfo);
 			} catch (e) {
 				console.log(e);
-				// setIsLoading(true);
 			}
 		}
 	};
+
+	const profileImgBox = [profileImg0, profileImg1, profileImg2, profileImg3];
+	const randomIdx = Math.floor(Math.random() * profileImgBox.length);
+
+	if (!loginUserInfo.profileImg) {
+		dispatch(
+			getLoginUser({ ...loginUserInfo, profileImg: profileImgBox[randomIdx] }),
+		);
+		console.log(loginUserInfo);
+	}
 
 	const deleteUser = async () => {
 		try {
@@ -93,6 +108,9 @@ export const MyPage = (props) => {
 				},
 			);
 			// console.log("userdoing :", userdoing.data);
+			setChallengeStatus((prev) => {
+				return { ...prev, participate: userdoing.data.length };
+			});
 
 			const usercomplete = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${loginUserInfo.memberId}/challenged`,
@@ -104,6 +122,9 @@ export const MyPage = (props) => {
 				},
 			);
 			// console.log("usercomplete :", usercomplete.data);
+			setChallengeStatus((prev) => {
+				return { ...prev, complete: usercomplete.data.length };
+			});
 
 			const usercreate = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}/`,
@@ -115,6 +136,9 @@ export const MyPage = (props) => {
 				},
 			);
 			// console.log("usercreate :", usercreate.data.data);
+			setChallengeStatus((prev) => {
+				return { ...prev, create: usercreate.data.length };
+			});
 		} catch (e) {
 			console.log(e);
 		}
@@ -174,11 +198,15 @@ export const MyPage = (props) => {
 					/>
 					<div />
 					<div className="userInfo">
-						<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar" />
+						<img src={`${loginUserInfo.profileImg}`} alt="avatar" />
 
 						{loginUserInfo.name || "유저이름"}
 					</div>
-					<ChallengeState />
+					<ChallengeState
+						doing={challengeStatus.participate}
+						complete={challengeStatus.complete}
+						create={challengeStatus.create}
+					/>
 					<div className="challengeNav">
 						<NavTitle title="생성한 챌린지" link="/userCreate" />
 						<NavTitle title="완료한 챌린지" link="/userComplete" />
@@ -199,7 +227,7 @@ export const MyPage = (props) => {
 };
 
 const MypageWrapper = styled.div`
-	/* border: 1px solid orange; */
+	/* border: 1px solid black; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
@@ -207,6 +235,8 @@ const MypageWrapper = styled.div`
 	align-items: center;
 	justify-content: space-around;
 	gap: 2rem;
+	position: absolute;
+	left: 0;
 
 	.challengeNav {
 		width: 100%;

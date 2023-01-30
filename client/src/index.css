@@ -12,7 +12,8 @@ body,
 }
 
 body {
-	border: 1px solid black;
+	/* border-right: 1px solid black;
+	border-left: 1px solid black; */
 	padding: 0 1.3rem;
 	max-width: 480px;
 	min-width: 390px;
@@ -20,4 +21,12 @@ body {
 	position: fixed;
 	left: 50%;
 	transform: translate(-50%, 0);
+}
+
+@font-face {
+	font-family: "BMDOHYEON";
+	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
+		format("woff");
+	font-weight: normal;
+	font-style: normal;
 }
