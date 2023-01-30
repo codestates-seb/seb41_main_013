@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { PostSummary } from "../components/PostSummary";
@@ -11,11 +10,10 @@ import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 import { HomeCategory } from "../components/Category";
 import { Modal } from "../components/Modal";
-import { Loading } from "../components/Loading";
 import { NoDataDiv } from "../components/NoData";
 
 //dummy
-//import { CommunityList } from "../data/dummy";
+import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
 	//유저 정보
@@ -35,15 +33,12 @@ export const Community = () => {
 
 	const [postList, setPostList] = useState([]);
 	const [hasData, setHasData] = useState(true);
-	const [page, setPage] = useState(1);
-	const [hasMoreData, setHasMoreData] = useState(true);
 
 	useEffect(() => {
 		getPostList();
 	}, []);
 
 	const getPostList = async () => {
-		if (!hasMoreData) return;
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
@@ -57,90 +52,50 @@ export const Community = () => {
 			if (response.data.data.length === 0) {
 				setHasData(false);
 			}
-			if (response.data.length < 10) {
-				setHasMoreData(false);
-			}
 			setPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	const loadMoreData = () => {
-		setPage(page + 1);
-		getPostList();
-	};
-
 	return (
-		<>
+		<CommunityContainer>
 			{createModal && <Modal modalText="로그인 이후 글 작성이 가능합니다." />}
 			<HomeCategory NavTo="community" />
-			<CommunityContainer>
-				<div className="margin">
-					<SearchInput />
-				</div>
-				{hasData ? (
-					<InfiniteScroll
-						className="infinite-scroll"
-						dataLength={postList.length}
-						next={loadMoreData}
-						hasMore={hasMoreData}
-						loader={<Loading />}
-					>
-						{postList.map((post) => (
-							<div className="m">
-								<PostSummary
-									title={post.title}
-									content={post.content}
-									writer={post.memberName}
-									postId={post.boardId}
-									date={post.createdAt}
-								/>
-							</div>
-						))}
-					</InfiniteScroll>
-				) : (
-					<NoDataDiv text="등록된 글이" />
-				)}
-				{/*{CommunityList.map((post) => (
-						<div className="margin">
+			<SearchInput />
+			{hasData ? (
+				<div>
+					{postList.map((post) => (
+						<div className="m">
 							<PostSummary
 								title={post.title}
 								content={post.content}
-								writer={post.writer}
-								postId={post.postId}
+								writer={post.memberName}
+								postId={post.boardId}
+								date={post.createdAt}
 							/>
 						</div>
-					))}*/}
-			</CommunityContainer>
+					))}
+				</div>
+			) : (
+				<NoDataDiv text="등록된 글이" />
+			)}
 			<CreateBtn onClick={handleCreate} NavTo={!createModal && "/createPost"} />
 			<BackToTopBtn />
-		</>
+		</CommunityContainer>
 	);
 };
 
-export const CommunityContainer = styled.div`
-	margin-bottom: 6.5rem;
+const CommunityContainer = styled.div`
+	position: absolute;
+	left: 0;
+	top: 15rem;
+	bottom: 6.5rem;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 1.3rem;
 
-	.margin {
-		margin-top: 15rem;
-		margin-bottom: 1rem;
-	}
-	.marg {
-		margin-top: 5rem;
-		margin-bottom: 1rem;
-	}
-	.m {
-		margin-bottom: 1rem;
-	}
-	& .infinite-scroll {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
+	::-webkit-scrollbar {
+		display: none;
 	}
 `;

@@ -37,8 +37,6 @@ export const PostDetail = () => {
 
 	const [hasPostData, setHasPostData] = useState(true);
 	const [hasCommentData, setHasCommentData] = useState(true);
-	const [hasMoreCommentData, setHasMoreCommentData] = useState(true);
-	const [commentPage, setCommentPage] = useState(1);
 
 	/*const [post, setPost] = useState({});
 	const getPost = async () => {
@@ -67,7 +65,6 @@ export const PostDetail = () => {
 		getCommentList();
 	}, []);
 	const getCommentList = async () => {
-		if (!hasMoreCommentData) return;
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${boardId}`,
@@ -80,9 +77,6 @@ export const PostDetail = () => {
 			);
 			if (response.data.data.length === 0) {
 				setHasCommentData(false);
-			}
-			if (response.data.length < 10) {
-				setHasMoreCommentData(false);
 			}
 			setCommentList(response.data.data);
 		} catch (error) {
@@ -127,11 +121,6 @@ export const PostDetail = () => {
 		} catch (error) {
 			console.error(error);
 		}
-	};
-
-	const loadMoreCommentData = () => {
-		setCommentPage(commentPage + 1);
-		getCommentList();
 	};
 
 	return (
@@ -190,15 +179,9 @@ export const PostDetail = () => {
 					boardId={boardId}
 					func="create"
 				/>
-				<div className="commentNum">댓글 {post.commentList.length}</div>
+				{/*<div className="commentNum">댓글 {commentList.length}</div>*/}
 				{hasCommentData ? (
-					<InfiniteScroll
-						className="infinite-scroll"
-						dataLength={commentList.length}
-						next={loadMoreCommentData}
-						hasMore={hasMoreCommentData}
-						loader={<Loading />}
-					>
+					<div>
 						{commentList.map((el) => (
 							<div>
 								<Comment
@@ -210,7 +193,7 @@ export const PostDetail = () => {
 								/>
 							</div>
 						))}
-					</InfiniteScroll>
+					</div>
 				) : (
 					<div className="margin">
 						<NoDataDiv text="등록된 댓글이" />
@@ -248,21 +231,9 @@ const PostDetailContainer = styled.div`
 		font-weight: 400;
 		font-size: 1.3rem;
 		line-height: 1.8rem;
-<<<<<<< HEAD
 	}
 	::-webkit-scrollbar {
 		display: none;
-=======
-
-		height: 28.5rem;
-		overflow: auto;
-		border: 0.1rem solid #4d4d4d;
-		border-radius: 0.8rem;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
->>>>>>> bc6b1d4c3e8e40d31f5752612f7ab67f33257a18
 	}
 	.btns {
 		text-align: center;
