@@ -24,7 +24,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
@@ -42,14 +41,14 @@ public class ImageController {
     }
 
     @ApiOperation(value = "이미지파일 업로드")
-    @PostMapping
+    @PutMapping
     public ResponseEntity postImage(@ApiParam(value = "파일 업로드", required = true)
-                                        @RequestParam MultipartFile file) throws IOException {
+                                        @RequestParam MultipartFile file) {
         Image image = imageService.uploadImage(file);
 
         ImageResponseDto response = mapper.imageToImageResponseDto(image);
 
-        response.setPresignedUrl(generatePresignedUrl(response.getOriginalFileName()));
+        response.setPresignedUrl(generatePresignedUrlGet(response.getFileName()));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -60,9 +59,7 @@ public class ImageController {
     @Value("${AWS_SECRET_KEY}")
     private String secretKey;
 
-    @ApiOperation(value = "presignedURL 획득")
-    @GetMapping
-    public String generatePresignedUrl(@Nullable String fileName) {
+    private String generatePresignedUrlGet(@Nullable String fileName) {
         Regions clientRegion = Regions.AP_NORTHEAST_2;
         String bucketName = "bucket-deploy-challenge";
         String objectKey = "upload/" + fileName;
@@ -83,7 +80,7 @@ public class ImageController {
         // URL 발급
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
                 new GeneratePresignedUrlRequest(bucketName, objectKey)
-                        .withMethod(HttpMethod.PUT)
+                        .withMethod(HttpMethod.GET)
                         .withExpiration(expiration);
         generatePresignedUrlRequest.addRequestParameter(Headers.S3_CANNED_ACL,
                 CannedAccessControlList.PublicRead.toString());
@@ -92,9 +89,35 @@ public class ImageController {
         return url.toString();
     }
 
-    @ApiOperation(value = "이미지파일 조회")
-    @GetMapping("/{fileName}")
-    public ResponseEntity getImage(@PathVariable("fileName") String fileName) {
-        return new ResponseEntity<>(generatePresignedUrl(fileName), HttpStatus.OK);
+    @ApiOperation(value = "presignedURL 획득")
+    @GetMapping
+    public String generatePresignedUrlPost() {
+        Regions clientRegion = Regions.AP_NORTHEAST_2;
+        String bucketName = "bucket-deploy-challenge";
+        String objectKey = "upload/";
+
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                .withRegion(clientRegion)
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .build();
+
+        // URL 유효시간 24시간으로 설정
+        Date expiration = new Date();
+        long expTimeMillis = Instant.now().toEpochMilli();
+        expTimeMillis += 1000 * 60 * 60 * 24;
+        expiration.setTime(expTimeMillis);
+
+        // URL 발급
+        GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                new GeneratePresignedUrlRequest(bucketName, objectKey)
+                        .withMethod(HttpMethod.GET)
+                        .withExpiration(expiration);
+        generatePresignedUrlRequest.addRequestParameter(Headers.S3_CANNED_ACL,
+                CannedAccessControlList.PublicRead.toString());
+        URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+
+        return url.toString();
     }
 }

@@ -20,10 +20,7 @@ public class Image {
     private long imageId;
 
     @Column(nullable = false)
-    private String originalFileName;
-
-    @Column(nullable = false)
-    private String storedFileName;
+    private String fileName;
 
     @Column(nullable = false)
     private long fileSize;
