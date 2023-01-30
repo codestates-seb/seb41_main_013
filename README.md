@@ -14,9 +14,9 @@
 
 ### Front-End
 
-- <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/CSS Modules-1572B6?style=for-the-badge&logo=CSS Modules&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black">
+- <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black">
 
-- <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/Webpack-8DD6F9?style=for-the-badge&logo=Webpack&logoColor=black"> <img src="https://img.shields.io/badge/Babel-F9DC3E?style=for-the-badge&logo=Babel&logoColor=black">
+- <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"> 
 
 - <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=ESLint&logoColor=white"> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=black">
 
@@ -38,12 +38,9 @@
 
 ## 팀 커뮤니케이션 방식
 
+- 커뮤니케이션 툴: 디스코드
 - AM 10시 정기 회의 실시
-- 비속어 사용 금지
-- 지각하지 않기
-- 불참 시 사유 최소 하루 전 공유
-- 지킬 수 있는 업무 설정
-- 존댓말 사용
+- PM 1시 ~ 5시 상시 회의
 
 <br>
 
@@ -58,3 +55,6 @@
 | refactor | 코드 리팩토링                                         |
 | test     | 테스트 코드를 생성하거나 수정 하는 경우               |
 | chore    | 빌드 테스트, 패키지 매니저 설정                       |
+| design   | CSS 등 사용자 UI 디자인 변경                          |
+| rename   | 파일 / 폴더명 변경                                    |
+| remove   | 파일 / 폴더 삭제                                      |
