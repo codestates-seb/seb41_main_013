@@ -247,9 +247,21 @@ const PostDetailContainer = styled.div`
 		font-weight: 400;
 		font-size: 1.3rem;
 		line-height: 1.8rem;
+<<<<<<< HEAD
 	}
 	::-webkit-scrollbar {
 		display: none;
+=======
+
+		height: 28.5rem;
+		overflow: auto;
+		border: 0.1rem solid #4d4d4d;
+		border-radius: 0.8rem;
+
+		::-webkit-scrollbar {
+			display: none;
+		}
+>>>>>>> bc6b1d4c3e8e40d31f5752612f7ab67f33257a18
 	}
 	.btns {
 		text-align: center;

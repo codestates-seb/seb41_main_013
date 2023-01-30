@@ -9,6 +9,7 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation } from "react-router-dom";
 import { NoDataDiv } from '../components/NoData';
+import { useSelector } from "react-redux";
 
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
@@ -20,6 +21,9 @@ const HomeCategoryBoard = () => {
   
   const location = useLocation();
   const categoryNum = location.pathname.split("/")[2];
+  const { accessToken } = useSelector(
+		(state) => state.loginUserInfo.loginUserInfo,
+	);
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
@@ -44,7 +48,15 @@ const HomeCategoryBoard = () => {
         url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
       }
       console.log(url);
-      const response = await axios.get(url);
+      const response = await axios.get(url,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				});
+      console.log(response.data);
+			console.log(response.data.data);
       if (response.data.data === 0) {
         setHasData(false);
       }
