@@ -3,27 +3,27 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BackToTopBtn, Btn } from "../components/Button";
 import { Link } from "react-router-dom";
-import { ChallengeState, CreatedChallenge } from "../components/Challenge";
+import { CreatedChallenge } from "../components/Challenge";
 import { TitleHeader } from "../components/Header";
-import { TwoBtnModal } from "../components/Modal";
+import { OneBtnModal, TwoBtnModal } from "../components/Modal";
 import { useSelector } from "react-redux";
 import theme from "../components/theme";
 
 export const UserCreateChallenge = () => {
-	// const [createChallenge, setCreateChallenge] = useState({
-	// 	challengeId: "",
-	// 	challengeStatus: "",
-	// 	challengerCount: 0,
-	// });
 	const [createChallenge, setCreateChallenge] = useState([
 		{
-			id: "",
+			challengeId: "",
 			title: "",
 			status: "",
 			count: "",
 		},
 	]);
-	const [deleteChall, setDeleteChall] = useState(false);
+	const [challengeId, setChallengeId] = useState(0);
+	const [modalOpen, setModalOpen] = useState({
+		request: false,
+		refuse: false,
+		success: false,
+	});
 
 	useEffect(() => {
 		getCreateChallenge();
@@ -35,6 +35,7 @@ export const UserCreateChallenge = () => {
 	const getCreateChallenge = async () => {
 		try {
 			const usercreate = await axios.get(
+				// ${loginUserInfo.hostMemberId} 로 변경
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/1`,
 				{
 					headers: {
@@ -44,45 +45,82 @@ export const UserCreateChallenge = () => {
 				},
 			);
 			const { data } = usercreate.data;
-			// console.log(data);
-			// data.map((el) => console.log(el));
-			setCreateChallenge(data);
-			setCreateChallenge(data.filter(({}) => ({})));
 
-			// console.log(createChallenge);
+			setCreateChallenge(
+				data.map((el) => {
+					return {
+						challengeId: el.challengeId,
+						title: el.title,
+						status: el.challengeStatus,
+						count: el.challengerCount,
+					};
+				}),
+			);
 		} catch (e) {
 			console.log(e);
 		}
 	};
-	console.log("createChallenge : ", createChallenge);
-	const deleteChallengeBtn = () => {
-		setDeleteChall(!deleteChall);
-		// console.log(deleteChall);
-	};
+	// console.log("createChallenge : ", createChallenge);
 
 	const onClickToCancel = () => {
-		setDeleteChall(!deleteChall);
+		setModalOpen(false);
 	};
 
-	// const challengeDelete = async () => {
+	const deleteChallenge = async (challengeId) => {
+		// 챌린지 삭제 요청
+		try {
+			const response = await axios.delete(
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/${challengeId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			console.log(response);
+			setModalOpen((prev) => {
+				return { ...prev, success: false };
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
-	// }
-
-	// const onClickToDelete = () => {
-
-	// }
+	const onClickToDelete = () => {
+		setModalOpen((prev) => {
+			return { ...prev, request: false };
+		});
+		deleteChallenge(challengeId);
+	};
 
 	return (
 		<>
 			<TitleHeader title="생성한 챌린지" />
 			<ChallengeWrap>
-				{deleteChall && (
+				{modalOpen.request && (
 					<TwoBtnModal
 						modalText="정말 삭제하시겠습니까?"
 						btnTextOrg="삭제"
 						btnTextGry="취소"
 						onClickGry={onClickToCancel}
-						// onClickOrg={}
+						onClickOrg={onClickToDelete}
+					/>
+				)}
+				{modalOpen.refuse && (
+					<OneBtnModal
+						modalText="참여자가 0명이고 시작전인 챌린지만 삭제 가능합니다."
+						btnText="확인"
+						background={theme.color.orange}
+						onClick={onClickToCancel}
+					/>
+				)}
+				{modalOpen.success && (
+					<OneBtnModal
+						modalText="삭제되었습니다."
+						btnText="확인"
+						background={theme.color.orange}
+						onClick={onClickToCancel}
 					/>
 				)}
 				{createChallenge.length === 0 ? (
@@ -99,14 +137,29 @@ export const UserCreateChallenge = () => {
 					</div>
 				) : (
 					createChallenge.map((challenge, index) => {
-						// console.log(challenge.challengeId);
+						const onClick = () => {
+							if (challenge.status === "시작전" && challenge.count === 0) {
+								console.log("삭제 가능");
+								setModalOpen((prev) => {
+									return { ...prev, request: true };
+								});
+								setChallengeId(challenge.challengeId);
+							} else {
+								console.log(
+									"참여자가 0명이거나 챌린지 시작 전인 경우만 삭제 가능합니다.",
+								);
+								setModalOpen((prev) => {
+									return { ...prev, refuse: true };
+								});
+							}
+						};
 						return (
-							<div key={index} className="div">
+							<div key={index} className="challenge">
 								<CreatedChallenge
 									title={challenge.title}
 									src={challenge.src}
 									challengeId={challenge.challengeId}
-									onClick={deleteChallengeBtn}
+									onClick={onClick}
 								/>
 							</div>
 						);
@@ -119,20 +172,17 @@ export const UserCreateChallenge = () => {
 };
 
 const ChallengeWrap = styled.div`
-	/* border: 1px solid black; */
 	width: 100%;
-	/* height: 100vh; */
 	overflow-y: scroll;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	margin-top: 5.2rem;
 	gap: 1rem;
-	/* margin-bottom: 2rem; */
-	/* position: absolute;
-	top: 5.2rem; */
 
 	.noData {
+		width: 100%;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -142,8 +192,7 @@ const ChallengeWrap = styled.div`
 		font-size: 2rem;
 	}
 
-	.div {
-		/* border: 1px solid red; */
+	.challenge {
 		height: 19.3rem;
 	}
 `;

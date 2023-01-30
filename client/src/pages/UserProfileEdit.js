@@ -179,11 +179,11 @@ export const UserProfileEdit = () => {
 			<Container onSubmit={onSubmit}>
 				{saveModal && <Modal modalText="프로필 수정 완료!!" />}
 				<div />
-				<ImageUploader
+				{/* <ImageUploader
 					width="20rem"
 					height="20rem"
 					onImageChange={onImageChange}
-				/>
+				/> */}
 				<div>
 					<InputAuth
 						type="text"
