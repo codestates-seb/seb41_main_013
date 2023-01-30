@@ -47,9 +47,10 @@ public class ImageController {
         this.mapper = mapper;
     }
 
-    @ApiOperation(value = "1. 이미지를 버킷에 업로드하기 위한 presignedURL 발급")
+    @ApiOperation(value = "1. 이미지를 버킷에 업로드하기 위한 presignedURL 생성")
     @PostMapping
-    public ResponseEntity generatePutPresignedURL(@RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity generatePresignedURL(@ApiParam(value = "파일 업로드", required = true)
+                                                      @RequestParam MultipartFile file) throws IOException {
         Regions clientRegion = Regions.AP_NORTHEAST_2;
         String bucketName = "bucket-deploy-challenge";
         String objectKey = "upload/" + file.getOriginalFilename();
@@ -83,7 +84,7 @@ public class ImageController {
 
     }
 
-    @ApiOperation(value = "2. 이미지파일 정보 DB에 업로드, S3 버킷에 업로드 후 조회를 위한 URL 출력")
+    @ApiOperation(value = "2. 이미지파일 정보 DB에 업로드, S3 버킷에 업로드 후 이미지 조회를 위한 presignedURL 출력")
     @PutMapping
     public ResponseEntity postImage(@ApiParam(value = "파일 업로드", required = true)
                                         @RequestParam MultipartFile file) {
