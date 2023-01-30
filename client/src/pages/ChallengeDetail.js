@@ -5,7 +5,6 @@ import theme from "../components/theme";
 import { Btn } from "../components/Button";
 import { TitleHeader } from "../components/Header";
 import { InfoTag } from "../components/Tag";
-import dummyimage from "../assets/images/dummyimage.JPG";
 import { TwoBtnModal } from "../components/Modal";
 import { FaRegBookmark, FaBookmark, FaShareAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
@@ -73,7 +72,6 @@ const ChallengeDetail = () => {
         title={challengeData.title}
       />
       <ChallengeDetailWrapper>
-        <StyledImg src={dummyimage} alt="" />
         <StyledImg src={challengeData.imageUrl} alt={challengeData.title} />
         <StyledH1>제목</StyledH1>
         <StyledH1>{challengeData.title}</StyledH1>

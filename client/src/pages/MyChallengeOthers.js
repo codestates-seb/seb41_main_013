@@ -32,10 +32,10 @@ const MyChallengeOthers = () => {
         },
         withCredentials: true,
       });
-      if (response.data.length < 30) {
+      if (response.data.data.length < 30) {
 				setHasMoreData(false);
 			}
-      setImagesUrl([...imagesUrl, ...response.data]);
+      setImagesUrl([...imagesUrl, ...response.data.data]);
     } catch (error) {
       console.error(error);
     }
@@ -49,7 +49,7 @@ const MyChallengeOthers = () => {
   return (
     <MyChallengeOthersWrapper>
       <TitleHeader
-        title={imagesUrl.title}
+        title={imagesUrl.challengeName}
       />
       <InfiniteScroll
 				className="infinite-scroll"
