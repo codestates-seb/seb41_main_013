@@ -7,6 +7,8 @@ import mainproject.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 @Service
@@ -48,10 +50,19 @@ public class ImageService {
     public void verifiedImage(MultipartFile file) {
         if (file.isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.IMAGE_EMPTY);
-        }
-        else if (file.getOriginalFilename() == null ||
+        } else if (file.getOriginalFilename() == null ||
                 !file.getOriginalFilename().matches("^[a-zA-Zㄱ-ㅎ가-힣0-9-_ ]+\\.(jpg|JPG|png|jpeg|JPEG|heif|heic)$")) {
             throw new BusinessLogicException(ExceptionCode.FILE_NAME_NOT_VALID);
         }
+    }
+
+    // MultipartFile -> File 변환
+    public File convertFile(MultipartFile file) throws IOException {
+        File convertedFile = new File(file.getOriginalFilename());
+
+        FileOutputStream fos = new FileOutputStream(convertedFile);
+        fos.write(file.getBytes());
+
+        return convertedFile;
     }
 }
