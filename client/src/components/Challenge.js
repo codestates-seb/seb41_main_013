@@ -16,6 +16,7 @@ export const CompletedChallenge = (props) => {
 };
 
 export const CreatedChallenge = (props) => {
+	// console.log(props.challengeId);
 	return (
 		<CreateChallengeContainer>
 			<ChallengeImg src={props.src || "images/example2.jpeg"}>
@@ -28,6 +29,7 @@ export const CreatedChallenge = (props) => {
 					background={`${theme.color.orange}`}
 				/>
 			</ChallengeImg>
+			<p>Challenge Id : {props.challengeId}</p>
 			{props.title}
 		</CreateChallengeContainer>
 	);
@@ -102,7 +104,7 @@ const ChallengeStateContainer = styled.div`
 `;
 
 const CompleteChallengeContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 18rem;
 	height: 18.3rem;
 	display: flex;
@@ -110,7 +112,7 @@ const CompleteChallengeContainer = styled.div`
 	align-items: center;
 	gap: 1rem;
 	font-size: 1.4rem;
-	margin-top: 2rem;
+	/* margin-top: 2rem; */
 
 	img {
 		width: 16rem;
@@ -127,7 +129,7 @@ const ChallengeImg = styled.div`
 `;
 
 const CreateChallengeContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 18rem;
 	height: 19.3rem;
 	display: flex;
@@ -135,5 +137,9 @@ const CreateChallengeContainer = styled.div`
 	align-items: center;
 	justify-content: space-evenly;
 	font-size: 1.4rem;
-	margin-top: 2.5rem;
+	/* margin-top: 2.5rem; */
+
+	p {
+		font-size: 1.3rem;
+	}
 `;
