@@ -19,18 +19,28 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long imageId;
 
-    @Column(nullable = false)
+    private String fileName;
+
     private String originalFileName;
 
-    @Column(nullable = false)
-    private String storedFileName;
+    private String remotePath;
 
-    @Column(nullable = false)
     private long fileSize;
 
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    public static Image createImage(String fileName, String originalFileName, String remotePath, long fileSize) {
+
+        Image image = new Image();
+        image.fileName = fileName;
+        image.originalFileName = originalFileName;
+        image.remotePath = remotePath;
+        image.fileSize = fileSize;
+
+        return image;
+    }
 
     @OneToOne(mappedBy = "image")
     private Member member;
