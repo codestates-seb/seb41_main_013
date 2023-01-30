@@ -40,7 +40,6 @@ public class ChallengePostDto {
     @ApiModelProperty(required = true, example = "우리동네에서 운동 후 하루에 한 번 인증사진을 등록하시면 됩니다.")
     private String content;
 
-    /*
     @Positive
     @ApiModelProperty(example = "1")
     private long challengeImageId = 1L; // TODO: 기본값을 기본 챌린지 이미지로 변경
@@ -51,8 +50,6 @@ public class ChallengePostDto {
         image.setImageId(challengeImageId);
         return image;
     }
-
-     */
 
     @NotNull(message = "시작 날짜를 선택하세요.")
     //@Future(message = "시작 날짜는 내일 이후부터 선택 가능합니다.") // TODO: 테스트를 위해 주석 처리. 배포 시 주석 제거

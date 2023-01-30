@@ -7,6 +7,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.Headers;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,9 +17,9 @@ import mainproject.domain.image.dto.ImageResponseDto;
 import mainproject.domain.image.entity.Image;
 import mainproject.domain.image.mapper.ImageMapper;
 import mainproject.domain.image.service.ImageService;
-import mainproject.domain.image.service.ImageServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,27 +33,32 @@ import java.util.Date;
 @Api(tags = "이미지파일 업로드")
 public class ImageController {
     private final ImageService imageService;
+    private final ImageMapper mapper;
 
-    public ImageController(ImageService imageService) {
+    public ImageController(ImageService imageService, ImageMapper mapper) {
         this.imageService = imageService;
+        this.mapper = mapper;
     }
 
     @ApiOperation(value = "이미지파일 업로드")
     @PostMapping
     public ResponseEntity postImage(@ApiParam(value = "파일 업로드", required = true)
                                         @RequestParam MultipartFile file) throws IOException {
-        ImageResponseDto response = imageService.saveImage(file);
+        Image image = imageService.uploadImage(file);
+
+        ImageResponseDto response = mapper.imageToImageResponseDto(image);
+
+        response.setPresignedUrl(generatePresignedUrl(response.getOriginalFileName()));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-/*
     @ApiOperation(value = "presignedURL 획득")
     @GetMapping
-    public String generatePresignedUrl() {
-        Regions clientRegion = Regions.AP_NORTHEAST_2;
+    public String generatePresignedUrl(@Nullable String fileName) {
+        Regions clientRegion = Regions.DEFAULT_REGION;
         String bucketName = "bucket-deploy-challenge";
-        String objectKey = "";
+        String objectKey = "/" + fileName;
 
         String accessKey = "${AWS_ACCESS_KEY}";
         String secretKey = "${AWS_SECRET_KEY}";
@@ -71,9 +78,10 @@ public class ImageController {
         // URL 발급
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
                 new GeneratePresignedUrlRequest(bucketName, objectKey)
-                        .withMethod(HttpMethod.GET)
+                        .withMethod(HttpMethod.PUT)
                         .withExpiration(expiration);
-        //generatePresignedUrlRequest.addRequestParameter(Headers.SECURITY_TOKEN, );
+        generatePresignedUrlRequest.addRequestParameter(Headers.S3_CANNED_ACL,
+                CannedAccessControlList.PublicRead.toString());
         URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
 
         return url.toString();
@@ -82,8 +90,6 @@ public class ImageController {
     @ApiOperation(value = "이미지파일 조회")
     @GetMapping("/{fileName}")
     public ResponseEntity getImage(@PathVariable("fileName") String fileName) {
-        return new ResponseEntity<>(generatePresignedUrl() + fileName, HttpStatus.OK);
+        return new ResponseEntity<>(generatePresignedUrl(fileName), HttpStatus.OK);
     }
-
- */
 }
