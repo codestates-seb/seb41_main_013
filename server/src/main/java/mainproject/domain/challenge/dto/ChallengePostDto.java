@@ -86,7 +86,7 @@ public class ChallengePostDto {
 
     @ApiModelProperty(example = "23:59")
     @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING)
-    private LocalTime snapshotEndAt = LocalTime.parse("23:59:59", DateTimeFormatter.ofPattern("HH:mm:ss"));    // 기본값 - 23:59:59
+    private LocalTime snapshotEndAt = LocalTime.parse("23:59:00", DateTimeFormatter.ofPattern("HH:mm:ss"));    // 기본값 - 23:59:59
 
     @AssertTrue(message = "종료 시간은 시작 시간 이후부터 선택 가능합니다.")
     @ApiModelProperty(hidden = true)
