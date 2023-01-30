@@ -12,6 +12,7 @@ public enum ExceptionCode {
     CHALLENGER_NOT_FOUND(404, "참가 중인 챌린지가 아닙니다."),
     SNAPSHOT_TODAY_ALREADY_EXISTS(403, "오늘 이미 인증한 챌린지입니다"),
     TIME_UNAUTHORIZED(403, "챌린지 인증 가능 시간이 아닙니다."),
+    SNAPSHOT_FREQUENCY_EXCEEDED(403, "이번 주 챌린지 인증 횟수를 이미 달성했습니다."),
     IMAGE_EMPTY(400, "이미지 파일이 존재하지 않습니다."),
     FILE_NAME_NOT_VALID(400, "파일명이 유효하지 않습니다."),
     MEMBER_NOT_FOUND(404, "Member not found"),
