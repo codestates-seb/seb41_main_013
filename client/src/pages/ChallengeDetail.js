@@ -13,12 +13,12 @@ import { useSelector } from "react-redux";
 const ChallengeDetail = () => {
   const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
   const [btnVisible, setBtnVisible] = useState(false);
-  const [challengeData, setChallengeData] = useState(null);
+  const [challengeData, setChallengeData] = useState([]);
   
   const location = useLocation();
 	const challengeId = location.pathname.split("/")[3];
   
-  const { memberId, accessToken } = useSelector(
+  const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
 
@@ -30,11 +30,12 @@ const ChallengeDetail = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/challenges/details/${challengeId}?memberId=${memberId}`,
         {
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
+					// headers: {
+					// 	Authorization: `Bearer ${accessToken}`,
+					// },
 					withCredentials: true,
 				});
+        console.log(response.data);
       setChallengeData(response.data);
       if (response.data.checkChallenging === "참여중") { setBtnVisible(true); }
     } catch (error) {
@@ -52,9 +53,9 @@ const ChallengeDetail = () => {
         challengeId,
         memberId
       }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        // },
         withCredentials: true,
       });
       if (response.status === 200) {
@@ -76,14 +77,14 @@ const ChallengeDetail = () => {
         <StyledH1>제목</StyledH1>
         <StyledH1>{challengeData.title}</StyledH1>
         <InfoTag
-          label={challengeData.challengerCount}
+          label={`${challengeData.challengerCount}명`}
           width="4.5rem"
         />
         <SeparateLine></SeparateLine>
         <StyledUl>
-          <li>기간<div>`${challengeData.startAt} - ${challengeData.endAt}`</div></li>
+          <li>기간<div>{challengeData.startAt} - {challengeData.endAt}</div></li>
           <li>빈도<div>{challengeData.frequency}</div></li>
-          <li>인증시간<div>`${challengeData.snapshotStartAt} - ${challengeData.snapshotEndAt}`</div></li>
+          <li>인증시간<div>{challengeData.snapshotStartAt} - {challengeData.snapshotEndAt}</div></li>
         </StyledUl>
         <SeparateLine></SeparateLine>
         <StyledP>{challengeData.content}</StyledP>

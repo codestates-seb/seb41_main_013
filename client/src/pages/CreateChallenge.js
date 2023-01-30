@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { TitleHeader } from "../components/Header";
-import { TwoBtnModal, OneBtnModal } from "../components/Modal";
+import { TwoBtnModal } from "../components/Modal";
 import { Input } from "../components/Input";
 import { ImageUploader } from "../components/ImageUploader";
 import { Btn } from "../components/Button";
@@ -10,13 +10,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DatePicker } from "@mui/x-date-pickers";
 import TextField from "@mui/material/TextField";
-import dayjs from "dayjs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getLoginUser } from "../redux/userSlice";
 
 const CreateChallenge = () => {
 	const {
@@ -37,17 +37,19 @@ const CreateChallenge = () => {
 	const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
 	const [cancelModalVisible, setCancelModalVisible] = useState(false);
 
-	const { memberId, accessToken } = useSelector(
-		(state) => state.loginUserInfo.loginUserInfo,
-	);
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
+	console.log(accessToken)
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const categoryId = {
 		"우리 동네": "0",
 		운동: "1",
-		"규칙적인 생활": "2",
+		"생활습관": "2",
 		기타: "3",
 	};
+	const today = new Date();
 
 	const onSubmit = async (data) => {
 		// console.log(data);
@@ -64,36 +66,57 @@ const CreateChallenge = () => {
 		} = data;
 		// console.log(img[0]);
 		try {
-			const formData = new FormData();
-			formData.append("image", img[0]);
+			// const file = img[0];
+			// console.log(file);
+			// console.log(file.type);
 
-			const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-						Authorization: `Bearer ${accessToken}`,
-        },
-				withCredentials: true,
-      });
-      const snapshotImageId = response.data.snapshotImageId;
+			// const presignedUrl = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/upload`, {
+			// 		headers: {
+			// 		"Content-Type": file.type,
+			// 		}
+			// 	});
+			// console.log(presignedUrl);
+			
+			// if (presignedUrl.status === 200) {
+			// 	const response = await axios.put(presignedUrl.data, file, 
+			// 	{headers: {
+			// 		"Content-Type": file.type,
+			// 		}});
+			// 	console.log(response);
+			// }
+			
+			const startHour =  `${snapshotStartAt.$H}`.length === 1 ? `0${snapshotStartAt.$H}` : `${snapshotStartAt.$H}`;
+			const startMinute = `${snapshotStartAt.$m}`.length === 1 ? `0${snapshotStartAt.$m}` : `${snapshotStartAt.$m}`;
+			const endHour =  `${snapshotEndAt.$H}`.length === 1 ? `0${snapshotEndAt.$H}` : `${snapshotEndAt.$H}`;
+			const endMinute = `${snapshotEndAt.$m}`.length === 1 ? `0${snapshotEndAt.$m}` : `${snapshotEndAt.$m}`;
 
-			const response2 = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/challenges`, {
+			const payload = JSON.stringify({
 				category: category,
-				challengeImageId: snapshotImageId,
+				// challengeImageId: 1,
 				content: content,
 				endAt: endAt,
 				frequency: frequency,
-				hostMemberId: memberId,
-				snapshotEndAt: snapshotEndAt,
-				snapshotStartAt: snapshotStartAt,
+				hostMemberId: loginUserInfo.memberId,
+				snapshotEndAt: `${endHour}:${endMinute}`,
+				snapshotStartAt: `${startHour}:${startMinute}`,
 				startAt: startAt,
 				title: title
-			}, {
+			});
+
+			console.log(payload);
+
+			const response2 = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/challenges`, payload, {
         headers: {
-						Authorization: `Bearer ${accessToken}`,
+					Authorization: `Bearer ${accessToken}`,
         },
 				withCredentials: true,
       });
 			if (response2.status === 200) {
+				dispatch(
+					getLoginUser({
+							...loginUserInfo,
+							hostMemberId : response2.data.hostmemberId
+					}));
 				navigate(`/challenges/${categoryId[category]}`);
 			}
 		} catch (error) {
@@ -127,7 +150,7 @@ const CreateChallenge = () => {
 				<Wrapper>
 					<Label>카테고리</Label>
 					<BtnWrapper borderColor={errors.category?.message && theme.color.red}>
-						{["우리 동네", "운동", "규칙적인 생활", "기타"].map((el, idx) => (
+						{["우리동네", "운동", "생활습관", "기타"].map((el, idx) => (
 							<StyledBtn
 								key={idx}
 								type="button"
@@ -148,7 +171,7 @@ const CreateChallenge = () => {
 					</BtnWrapper>
 					{errors.category && <p>{errors.category.message}</p>}
 				</Wrapper>
-				<Wrapper>
+				{/* <Wrapper>
 					<Label>사진</Label>
 					<ImageUploader
 						width="9rem"
@@ -158,7 +181,7 @@ const CreateChallenge = () => {
 						borderColor={errors.img ? theme.color.red : ""}
 					/>
 					{errors.img && <p>{errors.img.message}</p>}
-				</Wrapper>
+				</Wrapper> */}
 				<Wrapper>
 					<Label>기간</Label>
 					<PickersWrapper>
@@ -168,9 +191,13 @@ const CreateChallenge = () => {
 								required: "시작 날짜를 선택해주세요.",
 							})}
 							onDateChange={(date) => {
-								setValue("startAt", date);
+								const month = `${date.$d.getMonth()+1}`.length === 1 ? `0${date.$d.getMonth()+1}` : `${date.$d.getMonth()+1}`;
+								const day = `${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
+								setValue("startAt", `${date.$y}-${month}-${day}`);
 								console.log(date);
+								console.log(watch("startAt"));
 							}}
+							minDate={today}
 						/>
 						<DatePickers
 							name="endAt"
@@ -179,9 +206,13 @@ const CreateChallenge = () => {
 							})}
 							startAt={watch("startAt")}
 							onDateChange={(date) => {
-								setValue("endAt", date);
+								const month = `${date.$d.getMonth()+1}`.length === 1 ? `0${date.$d.getMonth()+1}` : `${date.$d.getMonth()+1}`;
+								const day = `${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
+								setValue("endAt", `${date.$y}-${month}-${day}`);
 								console.log(date);
+								console.log(watch("endAt"));
 							}}
+							minDate={watch("startAt")}
 						/>
 					</PickersWrapper>
 					{errors.startAt && <p>{errors.startAt.message}</p>}
@@ -194,12 +225,12 @@ const CreateChallenge = () => {
 					>
 						{[
 							"매일",
-							"주 1일",
-							"주 2일",
-							"주 3일",
-							"주 4일",
-							"주 5일",
-							"주 6일",
+							"주1회",
+							"주2회",
+							"주3회",
+							"주4회",
+							"주5회",
+							"주6회",
 						].map((el, idx) => (
 							<StyledBtn
 								key={idx}
@@ -231,7 +262,7 @@ const CreateChallenge = () => {
 							})}
 							onTimeChange={(time) => {
 								setValue("snapshotStartAt", time);
-								// console.log(time);
+								console.log(time);
 							}}
 						/>
 						<TimePickers
@@ -242,8 +273,9 @@ const CreateChallenge = () => {
 							snapshotStartAt={watch("snapshotStartAt")}
 							onTimeChange={(time) => {
 								setValue("snapshotEndAt", time);
-								// console.log(time);
+								console.log(time);
 							}}
+							minTime={watch("snapshotStartAt")}
 						/>
 					</PickersWrapper>
 					{errors.snapshotStartAt && <p>{errors.snapshotStartAt.message}</p>}
@@ -303,17 +335,10 @@ const CreateChallenge = () => {
 };
 
 const DatePickers = (props) => {
-	const [date, setDate] = useState(null);
-	const [oneBtnModalVisible, setOneBtnModalVisible] = useState(false);
+	const [date, setDate] = useState(null);	
 
 	const handleDateChange = (e) => {
 		setDate(e);
-		if (props.name === "endAt") {
-			if (e.isBefore(props.startAt)) {
-				setDate(props.startAt);
-				setOneBtnModalVisible(true);
-			}
-		}
 		if (props.onDateChange) {
 			props.onDateChange(e);
 		}
@@ -323,37 +348,24 @@ const DatePickers = (props) => {
 		<>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<StyledDatePicker
-					inputFormat="YYYY/MM/DD"
+					inputFormat="YYYY-MM-DD"
 					value={date}
 					onChange={handleDateChange}
 					renderInput={(params) => (
 						<TextField {...params} {...props.register} />
 					)}
+					minDate={props.minDate}
 				/>
 			</LocalizationProvider>
-			{oneBtnModalVisible && (
-				<OneBtnModal
-					modalText="종료 날짜는 시작 날짜보다 앞설 수 없습니다. 다시 선택해주세요."
-					btnText="확인"
-					onClick={() => setOneBtnModalVisible(false)}
-				/>
-			)}
 		</>
 	);
 };
 
 const TimePickers = (props) => {
 	const [time, setTime] = useState(null);
-	const [oneBtnModalVisible, setOneBtnModalVisible] = useState(false);
 
 	const handleTimeChange = (e) => {
 		setTime(e);
-		if (props.name === "snapshotEndAt") {
-			if (e.isBefore(props.snapshotStartAt)) {
-				setTime(props.snapshotStartAt);
-				setOneBtnModalVisible(true);
-			}
-		}
 		if (props.onTimeChange) {
 			props.onTimeChange(e);
 		}
@@ -363,21 +375,15 @@ const TimePickers = (props) => {
 		<>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<StyledTimePicker
-					inputFormat="HH:mm A"
+					inputFormat="HH:mm"
 					value={time}
 					onChange={handleTimeChange}
 					renderInput={(params) => (
 						<TextField {...params} {...props.register} />
 					)}
+					minTime={props.minTime}
 				/>
 			</LocalizationProvider>
-			{oneBtnModalVisible && (
-				<OneBtnModal
-					modalText="인증 종료 시간은 인증 시작 시간보다 앞설 수 없습니다. 다시 선택해주세요."
-					btnText="확인"
-					onClick={() => setOneBtnModalVisible(false)}
-				/>
-			)}
 		</>
 	);
 };
