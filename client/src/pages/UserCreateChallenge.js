@@ -16,6 +16,7 @@ export const UserCreateChallenge = () => {
 			title: "",
 			status: "",
 			count: "",
+			category: "",
 		},
 	]);
 	const [challengeId, setChallengeId] = useState(0);
@@ -35,8 +36,7 @@ export const UserCreateChallenge = () => {
 	const getCreateChallenge = async () => {
 		try {
 			const usercreate = await axios.get(
-				// ${loginUserInfo.hostMemberId} 로 변경
-				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/1`,
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}`,
 				{
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
@@ -45,7 +45,7 @@ export const UserCreateChallenge = () => {
 				},
 			);
 			const { data } = usercreate.data;
-
+			console.log(data);
 			setCreateChallenge(
 				data.map((el) => {
 					return {
@@ -53,6 +53,7 @@ export const UserCreateChallenge = () => {
 						title: el.title,
 						status: el.challengeStatus,
 						count: el.challengerCount,
+						category: el.category,
 					};
 				}),
 			);
@@ -160,6 +161,7 @@ export const UserCreateChallenge = () => {
 									src={challenge.src}
 									challengeId={challenge.challengeId}
 									onClick={onClick}
+									category={challenge.category}
 								/>
 							</div>
 						);
@@ -172,13 +174,16 @@ export const UserCreateChallenge = () => {
 };
 
 const ChallengeWrap = styled.div`
+	/* border: 1px solid red; */
 	width: 100%;
+	/* height: 100vh; */
 	overflow-y: scroll;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	margin-top: 5.2rem;
 	gap: 1rem;
+	padding-bottom: 10rem;
 
 	.noData {
 		width: 100%;
@@ -194,5 +199,6 @@ const ChallengeWrap = styled.div`
 
 	.challenge {
 		height: 19.3rem;
+		/* border: 1px solid red; */
 	}
 `;
