@@ -46,7 +46,6 @@ export const CreatePost = () => {
 			.post(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
 				{
-					boardImageId: 1,
 					category: category[value],
 					content: content,
 					memberId: loginUserInfo.memberId,
