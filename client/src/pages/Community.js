@@ -12,10 +12,7 @@ import { SearchInput } from "../components/SearchInput";
 import { HomeCategory } from "../components/Category";
 import { Modal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
-<<<<<<< HEAD
 import { Loading } from "../components/Loading";
-=======
->>>>>>> 6f6f3d987b793446ad19303bef95f0f34a12ff95
 
 export const Community = () => {
 	//유저 정보

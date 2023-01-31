@@ -39,21 +39,10 @@ export const CreatePost = () => {
 		setContent(e.target.value);
 	};
 
-	const postBody = {
-		category: category[value],
-		content: content,
-		memberId: loginUserInfo.memberId,
-		title: title,
-	};
-<<<<<<< HEAD
-
-=======
->>>>>>> 6f6f3d987b793446ad19303bef95f0f34a12ff95
 	const handleCreatePost = async (e) => {
 		e.preventDefault();
 		//글 등록 함수
 		await axios
-<<<<<<< HEAD
 			.post(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
 				{
@@ -69,14 +58,6 @@ export const CreatePost = () => {
 					withCredentials: true,
 				},
 			)
-=======
-			.post(`${process.env.REACT_APP_SERVER_URL}/api/boards`, postBody, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-				withCredentials: true,
-			})
->>>>>>> 6f6f3d987b793446ad19303bef95f0f34a12ff95
 			.then((response) => {
 				if (response.status === 201) {
 					navigate("/community");
