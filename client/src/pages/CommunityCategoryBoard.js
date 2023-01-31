@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 //components
 import { PostSummary } from "../components/PostSummary";
