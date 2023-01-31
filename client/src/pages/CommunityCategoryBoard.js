@@ -13,9 +13,6 @@ import { SearchInput } from "../components/SearchInput";
 import { Modal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
 
-//dummy
-import { CommunityList } from "../data/dummy";
-
 //props : 카테고리명 - 우리 동네/운동/규칙적인 생활/기타
 export const CommunityCategoryBoard = () => {
 	const { categoryId } = useParams();
@@ -82,7 +79,10 @@ export const CommunityCategoryBoard = () => {
 			) : (
 				<NoDataDiv text="등록된 글이" />
 			)}
-			<CreateBtn onClick={handleCreate} NavTo={!createModal && "/createPost"} />
+			<CreateBtn
+				onClick={handleCreate}
+				NavTo={isLogin ? "/createPost" : `/community/${categoryId}`}
+			/>
 			<BackToTopBtn />
 		</CommunitycContainer>
 	);
