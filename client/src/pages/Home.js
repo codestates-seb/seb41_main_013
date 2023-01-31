@@ -29,10 +29,10 @@ const Home = () => {
 					withCredentials: true,
 				},
 			);
-			if (response.data.data.length === 0) {
+			if (response.data.length === 0) {
 				setHasData(false);
 			}
-			setChallenges(response.data.data);
+			setChallenges(response.data);
 			// if (response.data.data.length < 10) {
 			// 	setHasMoreData(false);
 			// }
