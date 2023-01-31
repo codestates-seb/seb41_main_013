@@ -14,6 +14,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     List<Challenge> findByMember_Id(long memberId);
 
-    // Page<Challenge> findByCategory(Category category, Pageable pageable);
-    List<Challenge> findByCategory(Category category);  // 무한스크롤 적용X
+    Page<Challenge> findByCategory(Category category, Pageable pageable);
 }
