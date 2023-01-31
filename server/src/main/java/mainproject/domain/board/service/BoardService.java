@@ -56,8 +56,8 @@ public class BoardService {
                 .ifPresent(content -> findboard.setContent(content));
         Optional.ofNullable(board.getCategory())
                 .ifPresent(category -> findboard.setCategory(category));
-        Optional.ofNullable(board.getImage())
-                .ifPresent(image -> findboard.setImage(image));
+//        Optional.ofNullable(board.getImage())
+//                .ifPresent(image -> findboard.setImage(image));
         return boardRepository.save(findboard);
 
 

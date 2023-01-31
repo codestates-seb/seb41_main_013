@@ -5,11 +5,16 @@ import styled from "styled-components";
 import { Btn } from "./Button";
 import theme from "./theme";
 import { IoClose } from "react-icons/io5";
+import { random } from "../images/random";
+import { Link } from "react-router-dom";
 
 export const CompletedChallenge = (props) => {
 	return (
 		<CompleteChallengeContainer>
-			<img alt="challenge" src={props.src || "/images/example2.jpeg"} />
+			<img
+				alt="challenge"
+				src={props.src || random[Math.floor(Math.random() * random.length)]}
+			/>
 			{props.title}
 		</CompleteChallengeContainer>
 	);
@@ -17,21 +22,33 @@ export const CompletedChallenge = (props) => {
 
 export const CreatedChallenge = (props) => {
 	// console.log(props.challengeId);
+	const categoryId = {
+		우리동네: "0",
+		운동: "1",
+		생활습관: "2",
+		기타: "3",
+	};
 	return (
-		<CreateChallengeContainer>
-			<ChallengeImg src={props.src || "images/example2.jpeg"}>
-				<Btn
+		<ChallengeLink
+			to={`/challenges/${categoryId[props.category]}/${props.challengeId}`}
+		>
+			<CreateChallengeContainer>
+				<ChallengeImg
+					src={props.src || random[Math.floor(Math.random() * random.length)]}
+				>
+					{/* <Btn
 					onClick={props.onClick}
 					btnText={<IoClose />}
 					width="1.5rem"
 					height="1.5rem"
 					size="1.4rem"
 					background={`${theme.color.orange}`}
-				/>
-			</ChallengeImg>
-			<p>Challenge Id : {props.challengeId}</p>
-			{props.title}
-		</CreateChallengeContainer>
+				/> */}
+				</ChallengeImg>
+				<p>Challenge Id : {props.challengeId}</p>
+				{props.title}
+			</CreateChallengeContainer>
+		</ChallengeLink>
 	);
 };
 
@@ -142,4 +159,9 @@ const CreateChallengeContainer = styled.div`
 	p {
 		font-size: 1.3rem;
 	}
+`;
+
+const ChallengeLink = styled(Link)`
+	text-decoration: none;
+	color: black;
 `;

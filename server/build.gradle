@@ -41,8 +41,6 @@ dependencies {
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
-
-
 tasks.named('test') {
 	useJUnitPlatform()
 }

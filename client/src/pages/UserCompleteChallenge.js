@@ -77,6 +77,7 @@ const ChallengeWrap = styled.div`
 	justify-content: center;
 	margin-top: 5.2rem;
 	gap: 1rem;
+	padding-bottom: 10rem;
 
 	.noData {
 		width: 100%;

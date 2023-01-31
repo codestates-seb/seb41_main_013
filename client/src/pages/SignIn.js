@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getLoginUser, signin } from "../redux/userSlice";
 import { postAuth } from "../apis/base";
-import axios from "axios";
 
 export const SignIn = () => {
 	const [userInput, setUserInput] = useState({
@@ -83,9 +82,7 @@ export const SignIn = () => {
 			);
 			localStorage.setItem("authorization", data.headers.authorization);
 			// localStorage.setItem("expiredTime", expires); // 만료시간 저장
-			// axios.defaults.headers.common[
-			// 	"Authorization"
-			// ] = `Bearer ${data.headers.authorization}`;
+
 			dispatch(signin());
 			navigate("/");
 		} catch (e) {

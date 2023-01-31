@@ -22,7 +22,7 @@ public interface BoardMapper {
             @Mapping(source = "member.id", target = "memberId"),
             @Mapping(source = "member.name", target = "memberName"),
             @Mapping(source = "member.image.imageId", target = "profileImageId"),
-            @Mapping(source = "image.imageId", target = "boardImageId")
+      //      @Mapping(source = "image.imageId", target = "boardImageId")
     })
     BoardResponseDto boardToBoardResponseDto(Board board);
 
