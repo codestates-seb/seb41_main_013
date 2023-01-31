@@ -174,8 +174,9 @@ export const UserCreateChallenge = () => {
 };
 
 const ChallengeWrap = styled.div`
+	/* border: 1px solid red; */
 	width: 100%;
-	height: 100vh;
+	/* height: 100vh; */
 	overflow-y: scroll;
 	display: flex;
 	flex-wrap: wrap;
@@ -198,5 +199,6 @@ const ChallengeWrap = styled.div`
 
 	.challenge {
 		height: 19.3rem;
+		/* border: 1px solid red; */
 	}
 `;
