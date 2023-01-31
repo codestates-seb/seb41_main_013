@@ -6,15 +6,18 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { NoDataDiv } from "../components/NoData";
+import { random } from "../images/random";
 
 const MyChallenge = () => {
 	const [challenges, setChallenges] = useState([]);
 	const [hasData, setHasData] = useState(true);
   const isLogin = useSelector((state) => state.loginStatus.status);
 
-	const { memberId, accessToken } = useSelector(
+	const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
+	const accessToken = localStorage.getItem("authorization");
+	console.log(accessToken);
 
 	useEffect(() => {
 		getMyChallengesList();
@@ -39,9 +42,9 @@ const MyChallenge = () => {
 	};
 
   const categoryId = {
-		"우리 동네": "0",
+		"우리동네": "0",
 		"운동": "1",
-		"규칙적인 생활": "2",
+		"생활습관": "2",
 		"기타": "3",
 	};
 
@@ -53,14 +56,16 @@ const MyChallenge = () => {
 					<MyChallengeItemContainer>
 						{challenges.map((challenge) => (
 							<MyChallengeItem
-								imgUrl={challenge.imageUrl}
-								challengeTitle={challenge.title}
-								challengerNum={challenge.challengerCount}
+								// imgUrl={challenge.imageUrl}
+								imgUrl={random[Math.floor(Math.random() * random.length)]}
+								challengeTitle={challenge.challengeName}
+								challengerNum={`${challenge.challengerCount}명`}
 								challengeFrequency={challenge.frequency}
-								challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+								challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
 								challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
 								progress={challenge.progress}
 								NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
+								challengeId={challenge.challengeId}
 							/>))}
 					</MyChallengeItemContainer>
 					<CreateBtn NavTo="/challenges/create" />

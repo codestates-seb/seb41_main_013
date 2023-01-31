@@ -29,9 +29,9 @@ export const Footer = () => {
 };
 
 const FooterContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 100%;
-	max-width: 480px;
+	/* max-width: 480px; */
 	height: 6.5rem;
 	display: flex;
 	background-color: white;

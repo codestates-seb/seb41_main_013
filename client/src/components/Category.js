@@ -19,7 +19,7 @@ export const HomeCategory = (props) => {
 				NavTo={`/${props.NavTo}/1`}
 			/>
 			<Category
-				title="규칙적인 생활"
+				title="생활습관"
 				src="/images/life.png"
 				NavTo={`/${props.NavTo}/2`}
 			/>
@@ -100,7 +100,7 @@ export const SelectCategory = (props) => {
 };
 
 const MainCategoryContainer = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	width: 100%;
 	max-width: 480px;
 	height: 9.8rem;
@@ -112,7 +112,6 @@ const MainCategoryContainer = styled.div`
 	right: 0;
 	left: 0;
 	margin: 0 auto;
-	/* z-index: 9999; */
 	background-color: white;
 `;
 

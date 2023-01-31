@@ -27,7 +27,7 @@ export const MypageSetting = (props) => {
 };
 
 const SettingWrapper = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 	padding: 2rem 1.3rem;
@@ -35,6 +35,7 @@ const SettingWrapper = styled.div`
 	width: 100%;
 	max-width: 480px;
 	opacity: 0;
+	box-shadow: 0 10px 5px -5px ${theme.color.green};
 	background-color: white;
 	position: fixed;
 	top: 5.2rem;

@@ -9,6 +9,8 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation } from "react-router-dom";
 import { NoDataDiv } from '../components/NoData';
+import { useSelector } from "react-redux";
+import { random } from "../images/random";
 
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
@@ -23,6 +25,11 @@ const HomeCategoryBoard = () => {
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
+    console.log(e.target.value);
+    // setChallenges([]);
+    setPage(1);
+    setHasMoreData(true);
+    getAllChallengesList();
   }
 
   useEffect(() => {
@@ -30,9 +37,9 @@ const HomeCategoryBoard = () => {
   }, [selectedOption]);
 
   const category = {
-		"0" : "우리 동네",
+		"0" : "우리동네",
 		"1" : "운동",
-		"2" : "규칙적인 생활",
+		"2" : "생활습관",
 		"3" : "기타",
 	};
 
@@ -44,12 +51,18 @@ const HomeCategoryBoard = () => {
         url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
       }
       console.log(url);
-      const response = await axios.get(url);
-      if (response.data.data === 0) {
+      const response = await axios.get(url,
+				{
+					withCredentials: true,
+				});
+      console.log(response.data);
+			console.log(response.data.data);
+      if (response.data.data.length === 0) {
         setHasData(false);
       }
-      if (response.data.data.length < 10) { setHasMoreData(false); }
-      setChallenges([...challenges, ...response.data.data]);
+      // if (response.data.data.length < 10) { setHasMoreData(false); }
+      // setChallenges([...challenges, ...response.data.data]);
+      setChallenges([...response.data.data]);
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +83,7 @@ const HomeCategoryBoard = () => {
   const categoryId = {
 		"우리 동네": "0",
 		"운동": "1",
-		"규칙적인 생활": "2",
+		"생활습관": "2",
 		"기타": "3",
 	};
 
@@ -104,12 +117,14 @@ const HomeCategoryBoard = () => {
       >
         {challenges.map((challenge) => (
           <HomeChallengeItem
-            imgUrl={challenge.imageUrl}
+            // imgUrl={challenge.imageUrl}
+            imgUrl={random[Math.floor(Math.random() * random.length)]}
             challengeTitle={challenge.title}
-            challengerNum={challenge.challengerCount}
+            challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}
-            challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+            challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
             NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
+            key={challenge.challengeId}
             paddingTop="0"
             paddingBottom="1.3rem"
           />))}

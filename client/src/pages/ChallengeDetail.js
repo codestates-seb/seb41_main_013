@@ -5,24 +5,24 @@ import theme from "../components/theme";
 import { Btn } from "../components/Button";
 import { TitleHeader } from "../components/Header";
 import { InfoTag } from "../components/Tag";
-import dummyimage from "../assets/images/dummyimage.JPG";
 import { TwoBtnModal } from "../components/Modal";
 import { FaRegBookmark, FaBookmark, FaShareAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { random } from "../images/random";
 
 const ChallengeDetail = () => {
   const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
   const [btnVisible, setBtnVisible] = useState(false);
-  const [challengeData, setChallengeData] = useState(null);
+  const [challengeData, setChallengeData] = useState([]);
   
   const location = useLocation();
 	const challengeId = location.pathname.split("/")[3];
   
-  const { memberId, accessToken } = useSelector(
+  const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
-
+  
   useEffect(() => {
     getChallengeData();
   }, []);
@@ -31,11 +31,12 @@ const ChallengeDetail = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/challenges/details/${challengeId}?memberId=${memberId}`,
         {
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
+					// headers: {
+					// 	Authorization: `Bearer ${accessToken}`,
+					// },
 					withCredentials: true,
 				});
+        console.log(response.data);
       setChallengeData(response.data);
       if (response.data.checkChallenging === "참여중") { setBtnVisible(true); }
     } catch (error) {
@@ -53,12 +54,12 @@ const ChallengeDetail = () => {
         challengeId,
         memberId
       }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        // },
         withCredentials: true,
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         setBtnVisible(true);
         setTwoBtnModalVisible(false);
       }
@@ -73,19 +74,18 @@ const ChallengeDetail = () => {
         title={challengeData.title}
       />
       <ChallengeDetailWrapper>
-        <StyledImg src={dummyimage} alt="" />
-        <StyledImg src={challengeData.imageUrl} alt={challengeData.title} />
+        <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt={challengeData.title} />
         <StyledH1>제목</StyledH1>
         <StyledH1>{challengeData.title}</StyledH1>
         <InfoTag
-          label={challengeData.challengerCount}
+          label={`${challengeData.challengerCount}명`}
           width="4.5rem"
         />
         <SeparateLine></SeparateLine>
         <StyledUl>
-          <li>기간<div>`${challengeData.startAt} - ${challengeData.endAt}`</div></li>
+          <li>기간<div>{challengeData.startAt} - {challengeData.endAt}</div></li>
           <li>빈도<div>{challengeData.frequency}</div></li>
-          <li>인증시간<div>`${challengeData.snapshotStartAt} - ${challengeData.snapshotEndAt}`</div></li>
+          <li>인증시간<div>{challengeData.snapshotStartAt} - {challengeData.snapshotEndAt}</div></li>
         </StyledUl>
         <SeparateLine></SeparateLine>
         <StyledP>{challengeData.content}</StyledP>
