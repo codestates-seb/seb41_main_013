@@ -85,6 +85,7 @@ public class ChallengeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /*
     // 챌린지 목록 최신순 조회
     @ApiOperation(value = "챌린지 목록 최신순 조회")
     @GetMapping("/new")
@@ -115,6 +116,56 @@ public class ChallengeController {
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
+    }
+     */
+    // 챌린지 목록 최신순 조회(전체 카테고리 조회 시 무한스크롤 적용X)
+    @ApiOperation(value = "챌린지 목록 최신순 조회")
+    @GetMapping("/new")
+    public ResponseEntity getNewChallenges(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
+                                               @RequestParam @Nullable Category category,
+                                           @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                           @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        if (category == null) {
+            List<Challenge> challenges = challengeService.findNewChallengesTemp();
+
+            List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else {
+            Page<Challenge> pageChallenges = challengeService.findNewChallenges(category, page - 1);
+
+            List<Challenge> challenges = pageChallenges.getContent();
+
+            List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+            return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
+        }
+    }
+
+    // 챌린지 목록 참여자순 조회(전체 카테고리 조회 시 무한스크롤 적용X)
+    @ApiOperation(value = "챌린지 목록 참여자순 조회")
+    @GetMapping("/hot")
+    public ResponseEntity getHotChallenges(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
+                                               @RequestParam @Nullable Category category,
+                                           @ApiParam(value = "페이지 - 미입력시 첫 페이지 출력")
+                                           @RequestParam(defaultValue = "1") @Nullable @Positive int page) {
+        if (category == null) {
+            List<Challenge> challenges = challengeService.findHotChallengesTemp();
+
+            List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else {
+            Page<Challenge> pageChallenges = challengeService.findHotChallenges(category, page - 1);
+
+            List<Challenge> challenges = pageChallenges.getContent();
+
+            List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+            return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
+        }
     }
 
     // 회원이 생성한 챌린지 조회
