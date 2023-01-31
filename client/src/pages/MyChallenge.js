@@ -50,7 +50,6 @@ const MyChallenge = () => {
 		기타: "3",
 	};
 
-<<<<<<< HEAD
 	return (
 		<Wrapper>
 			{isLogin ? (
@@ -59,9 +58,10 @@ const MyChallenge = () => {
 						<MyChallengeItemContainer>
 							{challenges.map((challenge) => (
 								<MyChallengeItem
-									imgUrl={challenge.imageUrl}
+									// imgUrl={challenge.imageUrl}
+									imgUrl={random[Math.floor(Math.random() * random.length)]}
 									challengeTitle={challenge.challengeName}
-									challengerNum={challenge.challengerCount}
+									challengerNum={`${challenge.challengerCount}명`}
 									challengeFrequency={challenge.frequency}
 									challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
 									challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
@@ -69,6 +69,7 @@ const MyChallenge = () => {
 									NavTo={`/challenges/${categoryId[challenge.category]}/${
 										challenge.challengeId
 									}`}
+									challengeId={challenge.challengeId}
 								/>
 							))}
 						</MyChallengeItemContainer>
@@ -86,46 +87,6 @@ const MyChallenge = () => {
 			)}
 		</Wrapper>
 	);
-=======
-  return (
-    <Wrapper>
-      {isLogin ?
-			 	 hasData ? (
-        <MyChallengeWrapper>
-					<MyChallengeItemContainer>
-						{challenges.map((challenge) => (
-							<MyChallengeItem
-								// imgUrl={challenge.imageUrl}
-								imgUrl={random[Math.floor(Math.random() * random.length)]}
-								challengeTitle={challenge.challengeName}
-								challengerNum={`${challenge.challengerCount}명`}
-								challengeFrequency={challenge.frequency}
-								challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
-								challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
-								progress={challenge.progress}
-								NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
-								challengeId={challenge.challengeId}
-							/>))}
-					</MyChallengeItemContainer>
-					<CreateBtn NavTo="/challenges/create" />
-					<BackToTopBtn />
-        </MyChallengeWrapper>
-       ) 
-			 :
-			 (
-				<>
-					<NoDataDiv
-						text="등록된 마이챌린지"
-					/>
-					<CreateBtn NavTo="/challenges/create" />
-				</>
-			 )
-			 : (
-        <Logout />
-      )}
-    </Wrapper>
-  );
->>>>>>> 261df737941e33cfda6878fc7ef0a0ab11c3df52
 };
 
 const Wrapper = styled.div`

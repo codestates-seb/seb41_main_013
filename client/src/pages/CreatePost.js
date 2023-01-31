@@ -45,31 +45,26 @@ export const CreatePost = () => {
 		content: content,
 		memberId: loginUserInfo.memberId,
 		title: title,
-		createdAt: new Date(),
-		memberName: loginUserInfo.name,
-		profileImageId: loginUserInfo.profileImageId,
 	});
 
-	const handleCreatePost = async () => {
+	const handleCreatePost = async (e) => {
+		e.preventDefault();
 		//글 등록 함수
-		try {
-			const response = await axios.post(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
-				postBody,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${accessToken}`,
-					},
-					withCredentials: true,
+		await axios
+			.post(`${process.env.REACT_APP_SERVER_URL}/api/boards`, postBody, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
 				},
-			);
-			if (response.status === 200) {
-				navigate("/community");
-			}
-		} catch (error) {
-			console.error(error);
-		}
+				withCredentials: true,
+			})
+			.then((response) => {
+				if (response.status === 200) {
+					navigate("/community");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	const handleCheck = () => {

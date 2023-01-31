@@ -33,12 +33,15 @@ export const Community = () => {
 
 	const [postList, setPostList] = useState([]);
 	const [hasData, setHasData] = useState(true);
+	const [page, setPage] = useState(1);
+	const [hasMoreData, setHasMoreData] = useState(true);
 
 	useEffect(() => {
 		getPostList();
 	}, []);
 
 	const getPostList = async () => {
+		if (!hasMoreData) return;
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
@@ -52,10 +55,19 @@ export const Community = () => {
 			if (response.data.data.length === 0) {
 				setHasData(false);
 			}
+			if (response.data.data.length < 10) {
+				setHasMoreData(false);
+			}
+			console.log(response.data.data);
 			setPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const loadMoreData = () => {
+		setPage(page + 1);
+		getPostList();
 	};
 
 	return (

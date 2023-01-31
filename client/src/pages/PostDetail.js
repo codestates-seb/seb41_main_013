@@ -5,7 +5,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -15,11 +14,10 @@ import { WriterInfo } from "../components/WriterInfo";
 import { BackToTopBtn } from "../components/Button";
 import { WriteComment } from "../components/WriteComment";
 import { Modal, TwoBtnModal } from "../components/Modal";
-import { Loading } from "../components/Loading";
 import { NoDataDiv } from "../components/NoData";
 
 //dummy
-import { CommunityList } from "../data/dummy";
+//import { CommunityList } from "../data/dummy";
 
 export const PostDetail = () => {
 	//유저 정보
@@ -28,8 +26,8 @@ export const PostDetail = () => {
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
-	const category = ["우리 동네", "운동", "생활습관", "기타"];
-	const post = CommunityList.filter((el) => el.postId == boardId)[0];
+	const category = { 우리동네: 0, 운동: 1, 생활습관: 2, 기타: 3 };
+	//const post = CommunityList.filter((el) => el.postId == boardId)[0];
 
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
@@ -38,7 +36,7 @@ export const PostDetail = () => {
 	const [hasPostData, setHasPostData] = useState(true);
 	const [hasCommentData, setHasCommentData] = useState(true);
 
-	/*const [post, setPost] = useState({});
+	const [post, setPost] = useState({});
 	const getPost = async () => {
 		try {
 			const response = await axios.get(
@@ -57,12 +55,14 @@ export const PostDetail = () => {
 		} catch (error) {
 			console.error(error);
 		}
-	};*/
+	};
 
 	const [commentList, setCommentList] = useState([]);
 	useEffect(() => {
-		//getPost();
+		getPost();
+
 		getCommentList();
+		console.log(post);
 	}, []);
 	const getCommentList = async () => {
 		try {
@@ -137,20 +137,20 @@ export const PostDetail = () => {
 						onClickGry={() => setCreateDdModal(false)}
 					/>
 				)}
-				<TitleHeader
+				{/*<TitleHeader
 					title={
 						post.title.length > 10
 							? post.title.slice(0, 11) + "..."
 							: post.title
 					}
-				/>
+				/>*/}
 				<Btn
 					background={theme.color.green}
 					size="0.9rem"
 					width="13rem"
 					height="2rem"
-					btnText={`카테고리 > ${category[post.categoryId]}`}
-					onClick={() => navigate(`/community/${post.categoryId}`)}
+					btnText={`카테고리 > ${post.category}`}
+					onClick={() => navigate(`/community/${category[post.category]}`)}
 				/>
 
 				<div className="title">{post.title}</div>
