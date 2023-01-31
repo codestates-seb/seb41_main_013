@@ -12,9 +12,6 @@ import { HomeCategory } from "../components/Category";
 import { Modal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
 
-//dummy
-import { CommunityList } from "../data/dummy";
-
 export const Community = () => {
 	//유저 정보
 
@@ -38,7 +35,6 @@ export const Community = () => {
 
 	useEffect(() => {
 		getPostList();
-		console.log(isLogin);
 	}, []);
 
 	const getPostList = async () => {
@@ -88,7 +84,10 @@ export const Community = () => {
 			) : (
 				<NoDataDiv text="등록된 글이" />
 			)}
-			<CreateBtn onClick={handleCreate} NavTo={"/createPost"} />
+			<CreateBtn
+				onClick={handleCreate}
+				NavTo={isLogin ? "/createPost" : "/community"}
+			/>
 			<BackToTopBtn />
 		</CommunityContainer>
 	);

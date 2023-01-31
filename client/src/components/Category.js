@@ -73,7 +73,7 @@ export const SelectCategory = (props) => {
 			<div className="twoCa">
 				<SelectCategoryItem
 					num={0}
-					text="우리 동네"
+					text="우리동네"
 					onClick={() => handleClick(0)}
 				/>
 				<SelectCategoryItem
