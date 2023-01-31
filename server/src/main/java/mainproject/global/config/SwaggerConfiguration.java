@@ -30,11 +30,11 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Title",
-                "Description",
+                "Shall we? Challenge!",
+                "다같이 운동하자!",
                 "version 1.0",
-                "https://github.com/codestates-seb/seb41_main_013",
-                new Contact("Contact Me", "https://github.com/codestates-seb/seb41_main_013", ""),
+                "http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com",
+                new Contact("Github Repository", "https://github.com/codestates-seb/seb41_main_013", ""),
                 "Edit Licenses",
                 "https://github.com/codestates-seb/seb41_main_013",
                 new ArrayList<>()
