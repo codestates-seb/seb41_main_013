@@ -53,8 +53,7 @@ export const CommunityCategoryBoard = () => {
 			if (response.data.data.length === 0) {
 				setHasData(false);
 			}
-			if (response.status === 200) console.log("성공");
-			setCPostList(response.data.data);
+			if (response.status === 200) setCPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -72,7 +71,8 @@ export const CommunityCategoryBoard = () => {
 							title={cpost.title}
 							content={cpost.content}
 							writer={cpost.writer}
-							postId={cpost.postId}
+							postId={cpost.boardId}
+							date={cpost.createdAt}
 						/>
 					))}
 				</div>

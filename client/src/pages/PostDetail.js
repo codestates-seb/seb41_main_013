@@ -61,7 +61,6 @@ export const PostDetail = () => {
 	useEffect(() => {
 		getPost();
 		getCommentList();
-		console.log(post);
 	}, []);
 
 	const getCommentList = async () => {
@@ -78,7 +77,7 @@ export const PostDetail = () => {
 			if (response.data.data.length === 0) {
 				setHasCommentData(false);
 			}
-			setCommentList([...response.data.data, ...commentList]);
+			setCommentList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -115,7 +114,7 @@ export const PostDetail = () => {
 					withCredentials: true,
 				},
 			);
-			if (response.status === 200) {
+			if (response.status === 204) {
 				navigate("/community");
 			}
 		} catch (error) {
