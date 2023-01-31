@@ -1,17 +1,11 @@
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 
 //props : 유저 이미지 파일 경로
 const Avatar = (props) => {
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
-
 	return (
 		<>
 			<StyledAvatar>
-				<img
-					src={loginUserInfo.profileImg || "/images/미모티콘.png"}
-					alt="avatar"
-				></img>
+				<img src={props.imgURL || "/images/미모티콘.png"} alt="avatar"></img>
 			</StyledAvatar>
 		</>
 	);

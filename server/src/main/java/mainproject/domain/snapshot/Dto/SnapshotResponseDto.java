@@ -9,10 +9,10 @@ public class SnapshotResponseDto {
     private String snapshotId;
     private long memberId;
     private String memberName;
-    private long profileImageId;
+    // private Image profileImage;   // TODO: 이미지파일
     private long challengeId;
     private String challengeName;
-    private long challengeImageId;
-    private long snapshotImageId;
+    // private Image challengeImage; // TODO: 이미지파일
+    // private Image snapshotImage;  // TODO: 이미지파일
     private LocalDateTime createdAt;
 }

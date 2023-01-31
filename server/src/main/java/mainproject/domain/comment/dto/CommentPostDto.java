@@ -36,7 +36,6 @@ public class CommentPostDto {
         return board;
     }
 
-
     @NotBlank
     private String content;
 }

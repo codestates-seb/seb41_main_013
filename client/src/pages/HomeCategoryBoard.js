@@ -4,208 +4,64 @@ import { BackToTopBtn } from "../components/Button";
 import { TitleHeader } from "../components/Header";
 import { Input } from "../components/Input";
 import { HomeChallengeItem } from "../components/ChallengeItem";
-import { Loading } from "../components/Loading";
-import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { useLocation } from "react-router-dom";
-import { NoDataDiv } from '../components/NoData';
-import { useSelector } from "react-redux";
-import { random } from "../images/random";
 
 const HomeCategoryBoard = () => {
-  const [selectedOption, setSelectedOption] = useState("new");
-  const [challenges, setChallenges] = useState([]);
-  // const [page, setPage] = useState(1);
-  // const [hasMoreData, setHasMoreData] = useState(true);
-  const [hasData, setHasData] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  
-  const location = useLocation();
-  const categoryNum = location.pathname.split("/")[2];
+  const [selectedOption, setSelectedOption] = useState("최신");
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
-    console.log(e.target.value);
-    // setChallenges([]);
-    // setPage(1);
-    // setHasMoreData(true);
-    getAllChallengesList();
   }
 
-  useEffect(() => {
-    getAllChallengesList();
-  }, [selectedOption]);
+  // useEffect(() => {
 
-  const category = {
-		"0" : "우리동네",
-		"1" : "운동",
-		"2" : "생활습관",
-		"3" : "기타",
-	};
-
-  const getAllChallengesList = async () => {
-    // if(!hasMoreData) return;
-    try {
-      // let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?category=${category[categoryNum]}&page=${page}`;
-      let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?category=${category[categoryNum]}`;
-      if (searchTerm !== "") {
-        // url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
-        url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?query=${searchTerm}`;
-      }
-      console.log(url);
-      const response = await axios.get(url,
-				{
-					withCredentials: true,
-				});
-      console.log(response.data);
-			console.log(response.data.data);
-      if (response.data.data.length === 0) {
-        setHasData(false);
-      }
-      // if (response.data.data.length < 10) { setHasMoreData(false); }
-      // setChallenges([...challenges, ...response.data.data]);
-      setChallenges(response.data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // setPage(1);
-    // setHasMoreData(true);
-    getAllChallengesList();
-  };
-
-  // const loadMoreData = () => {
-  //   setPage(page + 1);
-  //   getAllChallengesList();
-  // };
-
-  const categoryId = {
-		"우리 동네": "0",
-		"운동": "1",
-		"생활습관": "2",
-		"기타": "3",
-	};
+  // }, [selectedOption]);
 
   return (
-    <HomeCategoryBoardWrapper>
+    <>
       <TitleHeader
-        title={challenges.category}
+        title=""
       />
-      <div className="searchSort">
-        <StyledInput
-          placeholder="검색어를 입력해주세요"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              handleSearch(e);
-            }
-          }}
-        />
-      <StyledSelect value={selectedOption} onChange={handleChange}>
-        <option value="new">최신</option>
-        <option value="hot">인기</option>
-      </StyledSelect>
-      
-      { hasData ? (
-      // <InfiniteScroll
-      //   className="infinite-scroll"
-      //   dataLength={challenges.length}
-      //   next={loadMoreData}
-      //   hasMore={hasMoreData}
-      //   loader={<Loading />}
-      // >
+      <Input
+        placeholder="검색어를 입력해주세요"
+      />
+      <select value={selectedOption} onChange={handleChange}>
+        <option value="최신">최신</option>
+        <option value="인기">인기</option>
+      </select>
+      {/* map */}
       <HomeChallengeItemContainer>
-        {challenges.map((challenge) => (
-          <HomeChallengeItem
-            // imgUrl={challenge.imageUrl}
-            imgUrl={random[Math.floor(Math.random() * random.length)]}
-            challengeTitle={challenge.title}
-            challengerNum={`${challenge.challengerCount}명`}
-            challengeFrequency={challenge.frequency}
-            challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
-            NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
-            key={challenge.challengeId}
-            paddingTop="0"
-            paddingBottom="1.3rem"
-          />))}
+        {/* <HomeChallengeItem
+          imgUrl={challenge.imgUrl}
+          challengeTitle={challenge.title}
+          challengerNum={challenge.challengerNum}
+          challengeFrequency={challenge.frequency}
+          challengeDate={challenge.date}
+        /> */}
+        <HomeChallengeItem
+          imgUrl=""
+          challengeTitle="아침 8시 기상 후 조깅하기"
+          challengerNum="299명"
+          challengeFrequency="주 3일"
+          challengeDate="1.18 - 1.25"
+          NavTo={`/challenges/1/1`}
+        />
+        <HomeChallengeItem
+          imgUrl=""
+          challengeTitle="아침 8시 기상 후 조깅하기"
+          challengerNum="299명"
+          challengeFrequency="주 3일"
+          challengeDate="1.18 - 1.25"
+          NavTo={`/challenges/1/1`}
+        />
       </HomeChallengeItemContainer>
-      // </InfiniteScroll>
-      )
-      :
-      (<NoDataDiv
-        text="관련된 챌린지" />)
-      }
-      </div>
       <BackToTopBtn />
-    </HomeCategoryBoardWrapper>
+    </>
   );
 };
-
-const HomeCategoryBoardWrapper = styled.div`
-  position: absolute;
-	left: 0;
-	top: 5.2rem;
-  bottom: 0;
-	width: 100%;
-  height: auto;
-	padding: 0 1.3rem;
-
-  & .searchSort {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  /* & .infinite-scroll-component__outerdiv {
-		overflow-y: scroll;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
-	}
-
-  & .infinite-scroll {
-    display: flex;
-    flex-wrap: wrap;
-
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  } */
-`;
 
 const HomeChallengeItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-
-  overflow-y: scroll;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  margin: 1rem 0;
-  padding: 0.6rem;
-  border: 0.1rem solid #4d4d4d;
-  border-radius: 0.8rem;
-  font-size: 1.3rem;
-  font-family: "Inter";
-	font-style: normal;
-`;
-
-const StyledSelect = styled.select`
-  height: 2.5rem;
-  width: 5.4rem;
-  font-size: 1.3rem;
-  border-radius: 0.8rem;
-  margin-bottom: 1.3rem;
 `;
 
 export default HomeCategoryBoard;

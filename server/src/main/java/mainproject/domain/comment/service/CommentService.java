@@ -1,6 +1,5 @@
 package mainproject.domain.comment.service;
 
-
 import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.comment.repository.CommentRepository;
 import mainproject.domain.board.entity.Board;
@@ -10,15 +9,12 @@ import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -62,21 +58,19 @@ public class CommentService {
     }
 
 
+    public Page<Comment> findComments(int page, int size){
 
-    public List<Comment> findComments(long boardId, int page) {
-        Board board = boardRepository.findByBoardId(boardId);
 
-        return commentRepository.findAllByBoard(board, PageRequest.of(page, 10, Sort.by("createdAt").descending()));
+        Page<Comment> findAllComment = commentRepository.findAll(
+                PageRequest.of(page, size, Sort.by("commentId").descending()));
+
+        return findAllComment;
     }
 
+// 필터걸기 추가
 
 
-    public boolean checkMember(Member principal, long commentId) {
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
 
-        return optionalComment.isPresent()
-                && optionalComment.get().getMember().getEmail().equals(principal.getEmail());
-    }
     public void deleteComment(Long commentId) {
         Comment findComment = commentRepository.findById(commentId).orElseThrow(()-> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         //   if ( !findComment.getMember().getEmail().equals(email)){
@@ -85,7 +79,5 @@ public class CommentService {
 
         commentRepository.delete(findComment);
     }
-
-
 
 }

@@ -5,7 +5,9 @@ import { OurPath } from "./router/Router";
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
+			<div className="App">
 				<OurPath />
+			</div>
 		</ThemeProvider>
 	);
 }

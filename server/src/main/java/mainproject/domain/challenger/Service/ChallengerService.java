@@ -9,6 +9,7 @@ import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.service.MemberService;
 import mainproject.global.exception.BusinessLogicException;
 import mainproject.global.exception.ExceptionCode;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +40,10 @@ public class ChallengerService {
 
         // 회원이 이미 참가 중인 챌린지인지 검증
         String challengerId = "M" + memberId + "_C" + challengeId;
-        long duplication = challengerRepository.findById(challengerId).stream().count();
+        long duplication = challengerRepository.findById(challengerId).stream()
+                .filter(c -> c.getMember().getId() == memberId)
+                .filter(c -> c.getChallenge().getChallengeId() == challengeId)
+                .count();
         if (duplication > 0) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_START_CHALLENGE);
         }
@@ -76,14 +80,17 @@ public class ChallengerService {
 
         String challengerId = "M" + memberId + "_C" + challengeId;
         Optional<Challenger> optionalChallenger = challengerRepository.findById(challengerId);
+        Challenger findChallenger = optionalChallenger.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGER_NOT_FOUND));
 
-        return optionalChallenger.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHALLENGER_NOT_FOUND));
+        return findChallenger;
     }
 
     public boolean checkMember(Member principal, long memberId) {
         List<Challenger> optionalChallenger = challengerRepository.findByMember_Id(memberId);
 
         return !optionalChallenger.isEmpty()
-                && optionalChallenger.stream().anyMatch(c -> !c.getMember().getEmail().equals(principal.getEmail()));
+                && optionalChallenger.stream()
+                .filter(c -> !c.getMember().getEmail().equals(principal.getEmail()))
+                .count() > 0;
     }
 }

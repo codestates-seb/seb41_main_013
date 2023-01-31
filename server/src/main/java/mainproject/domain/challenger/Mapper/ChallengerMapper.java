@@ -1,86 +1,27 @@
 package mainproject.domain.challenger.Mapper;
 
-import mainproject.domain.challenger.Dto.ChallengerDetailResponseDto;
 import mainproject.domain.challenger.Dto.ChallengerPostDto;
 import mainproject.domain.challenger.Dto.ChallengerResponseDto;
 import mainproject.domain.challenger.Entity.Challenger;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ChallengerMapper {
-    public Challenger challengerPostDtoToChallenger(ChallengerPostDto challengerPostDto) {
-        if (challengerPostDto == null) {
-            return null;
-        }
+@Mapper(componentModel = "spring")
+public interface ChallengerMapper {
+    Challenger challengerPostDtoToChallenger(ChallengerPostDto challengerPostDto);
 
-        Challenger challenger = new Challenger();
+    @Mappings({
+            @Mapping(source = "member.id", target = "memberId"),
+            @Mapping(source = "member.name", target = "memberName"),
+            // @Mapping(source = "member.profileImage", target = "profileImage"),   // TODO: 이미지파일
+            @Mapping(source = "challenge.challengeId", target = "challengeId"),
+            @Mapping(source = "challenge.title", target = "challengeName")
+            // @Mapping(source = "challenge.challengeImage", target = "challengeImage")    // TODO: 이미지파일
+    })
+    ChallengerResponseDto challengerToChallengerResponseDto(Challenger challenger);
 
-        challenger.setMember(challengerPostDto.getMember());
-        challenger.setChallenge(challengerPostDto.getChallenge());
-
-        return challenger;
-    }
-
-    public ChallengerResponseDto challengerToChallengerResponseDto(Challenger challenger) {
-        if (challenger == null) {
-            return null;
-        }
-
-        ChallengerResponseDto challengerResponseDto = new ChallengerResponseDto();
-
-        challengerResponseDto.setMemberId(challenger.getMember().getId());
-        challengerResponseDto.setMemberName(challenger.getMember().getName());
-        challengerResponseDto.setProfileImageId(challenger.getMember().getImage().getImageId());
-        challengerResponseDto.setChallengeId(challenger.getChallenge().getChallengeId());
-        challengerResponseDto.setChallengeName(challenger.getChallenge().getTitle());
-        challengerResponseDto.setChallengeImageId(challenger.getChallenge().getImage().getImageId());
-        challengerResponseDto.setChallengerId(challenger.getChallengerId());
-        challengerResponseDto.setCreatedAt(challenger.getCreatedAt());
-        challengerResponseDto.setProgress(challenger.getSnapshotCount() * 100 / challenger.getChallenge().getChallengeDay());
-
-        return challengerResponseDto;
-    }
-
-    public ChallengerDetailResponseDto challengerToChallengerDetailResponseDto(Challenger challenger) {
-        if (challenger == null) {
-            return null;
-        }
-
-        ChallengerDetailResponseDto challengerDetailResponseDto = new ChallengerDetailResponseDto();
-
-        challengerDetailResponseDto.setMemberId(challenger.getMember().getId());
-        challengerDetailResponseDto.setMemberName(challenger.getMember().getName());
-        challengerDetailResponseDto.setProfileImageId(challenger.getMember().getImage().getImageId());
-        challengerDetailResponseDto.setChallengeId(challenger.getChallenge().getChallengeId());
-        challengerDetailResponseDto.setChallengeName(challenger.getChallenge().getTitle());
-        challengerDetailResponseDto.setChallengeImageId(challenger.getChallenge().getImage().getImageId());
-        challengerDetailResponseDto.setCategory(challenger.getChallenge().getCategory());
-        challengerDetailResponseDto.setStartAt(challenger.getChallenge().getStartAt());
-        challengerDetailResponseDto.setEndAt(challenger.getChallenge().getEndAt());
-        challengerDetailResponseDto.setFrequency(challenger.getChallenge().getFrequency());
-        challengerDetailResponseDto.setSnapshotStartAt(challenger.getChallenge().getSnapshotStartAt());
-        challengerDetailResponseDto.setSnapshotEndAt(challenger.getChallenge().getSnapshotEndAt());
-        challengerDetailResponseDto.setChallengerCount(challenger.getChallenge().getChallengerCount());
-        challengerDetailResponseDto.setChallengerId(challenger.getChallengerId());
-        challengerDetailResponseDto.setCreatedAt(challenger.getCreatedAt());
-        challengerDetailResponseDto.setProgress(challenger.getSnapshotCount() * 100 / challenger.getChallenge().getChallengeDay());
-
-        return challengerDetailResponseDto;
-    }
-
-    public List<ChallengerDetailResponseDto> challengersToChallengerDetailResponseDtos(List<Challenger> challengers) {
-        if (challengers == null) {
-            return null;
-        }
-
-        List<ChallengerDetailResponseDto> list = new ArrayList<>(challengers.size());
-        for (Challenger challenger : challengers) {
-            list.add(challengerToChallengerDetailResponseDto(challenger));
-        }
-
-        return list;
-    }
+    List<ChallengerResponseDto> challengersToChallengerResponseDtos(List<Challenger> challengers);
 }

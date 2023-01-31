@@ -18,7 +18,11 @@ public class Challenger implements Serializable {
     private String challengerId;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumns({
+            @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"),
+            @JoinColumn(name = "MEMBER_NAME", referencedColumnName = "NAME")
+            // @JoinColumn(name = "PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE"),  // TODO: 이미지파일
+    })
     private Member member;
 
     public void setMember(Member member) {
@@ -29,7 +33,11 @@ public class Challenger implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name = "CHALLENGE_ID")
+    @JoinColumns({
+            @JoinColumn(name = "CHALLENGE_ID", referencedColumnName = "CHALLENGE_ID"),
+            @JoinColumn(name = "CHALLENGE_NAME", referencedColumnName = "TITLE")
+            // @JoinColumn(name = "CHALLENGE_IMAGE", referencedColumnName = "CHALLENGE_IMAGE")  // TODO: 이미지파일
+    })
     private Challenge challenge;
 
     public void setChallenge(Challenge challenge) {
@@ -42,7 +50,4 @@ public class Challenger implements Serializable {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private int snapshotCount = 0;
 }
