@@ -38,6 +38,7 @@ export const Community = () => {
 
 	useEffect(() => {
 		getPostList();
+		console.log(isLogin);
 	}, []);
 
 	const getPostList = async () => {
@@ -65,11 +66,6 @@ export const Community = () => {
 		}
 	};
 
-	const loadMoreData = () => {
-		setPage(page + 1);
-		getPostList();
-	};
-
 	return (
 		<CommunityContainer>
 			{createModal && <Modal modalText="로그인 이후 글 작성이 가능합니다." />}
@@ -92,7 +88,10 @@ export const Community = () => {
 			) : (
 				<NoDataDiv text="등록된 글이" />
 			)}
-			<CreateBtn onClick={handleCreate} NavTo={!createModal && "/createPost"} />
+			<CreateBtn
+				onClick={handleCreate}
+				NavTo={isLogin == false ? "/createPost" : "/community"}
+			/>
 			<BackToTopBtn />
 		</CommunityContainer>
 	);

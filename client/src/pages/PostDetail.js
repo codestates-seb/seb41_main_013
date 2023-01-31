@@ -137,13 +137,13 @@ export const PostDetail = () => {
 						onClickGry={() => setCreateDdModal(false)}
 					/>
 				)}
-				{/*<TitleHeader
+				<TitleHeader
 					title={
-						post.title.length > 10
-							? post.title.slice(0, 11) + "..."
+						String(post.title).length > 10
+							? String(post.title).slice(0, 11) + "..."
 							: post.title
 					}
-				/>*/}
+				/>
 				<Btn
 					background={theme.color.green}
 					size="0.9rem"
