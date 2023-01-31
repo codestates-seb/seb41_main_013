@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 //components
 import { PostSummary } from "../components/PostSummary";
@@ -11,6 +12,7 @@ import { SearchInput } from "../components/SearchInput";
 import { HomeCategory } from "../components/Category";
 import { Modal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
+import { Loading } from "../components/Loading";
 
 export const Community = () => {
 	//유저 정보
@@ -31,6 +33,7 @@ export const Community = () => {
 
 	const [postList, setPostList] = useState([]);
 	const [hasData, setHasData] = useState(true);
+	const [page, setPage] = useState(1);
 	const [hasMoreData, setHasMoreData] = useState(true);
 
 	useEffect(() => {
@@ -41,7 +44,7 @@ export const Community = () => {
 		if (!hasMoreData) return;
 		try {
 			const response = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
+				`${process.env.REACT_APP_SERVER_URL}/api/boards?page=${page}`,
 				{
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
@@ -55,11 +58,15 @@ export const Community = () => {
 			if (response.data.data.length < 10) {
 				setHasMoreData(false);
 			}
-			console.log(response.data.data);
 			setPostList([...postList, ...response.data.data]);
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const loadMoreData = () => {
+		setPage(page + 1);
+		getPostList();
 	};
 
 	return (
@@ -68,7 +75,13 @@ export const Community = () => {
 			<HomeCategory NavTo="community" />
 			<SearchInput />
 			{hasData ? (
-				<div>
+				<InfiniteScroll
+					className="infinite-scroll"
+					dataLength={postList.length}
+					next={loadMoreData}
+					hasMore={hasMoreData}
+					loader={<Loading />}
+				>
 					{postList.map((post) => (
 						<div className="m">
 							<PostSummary
@@ -80,7 +93,7 @@ export const Community = () => {
 							/>
 						</div>
 					))}
-				</div>
+				</InfiniteScroll>
 			) : (
 				<NoDataDiv text="등록된 글이" />
 			)}
