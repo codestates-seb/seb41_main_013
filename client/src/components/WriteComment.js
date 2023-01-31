@@ -15,6 +15,7 @@ export const WriteComment = (props) => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const isLogin = useSelector((state) => state.loginStatus.status);
+	const accessToken = localStorage.getItem("authorization");
 
 	const [comment, setComment] = useState(props.comment || "");
 	const [commentError, setCommentError] = useState(false);
@@ -49,39 +50,46 @@ export const WriteComment = (props) => {
 		else if (props.func === "update") updateComment();
 		setComment("");
 	};
-	const commentBody = JSON.stringify({
-		comment: comment,
-	});
 
 	const createComment = async () => {
 		//댓글 생성 함수
-		try {
-			const response = await axios.post(
+		await axios
+			.post(
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${boardId}`,
-				commentBody,
+				{
+					boardId: boardId,
+					content: comment,
+					memberId: loginUserInfo.memberId,
+				},
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
-			);
-			if (response.status === 200) {
-				console.log("댓글 생성 완료");
-			}
-		} catch (error) {
-			console.error(error);
-		}
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					console.log("댓글 생성 완료");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 	const updateComment = async () => {
 		//댓글 수정 함수
 		try {
 			const response = await axios.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${props.commentId}`,
-				commentBody,
+				{
+					boardId: boardId,
+					content: comment,
+					memberId: loginUserInfo.memberId,
+				},
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},

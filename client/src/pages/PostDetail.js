@@ -60,10 +60,10 @@ export const PostDetail = () => {
 	const [commentList, setCommentList] = useState([]);
 	useEffect(() => {
 		getPost();
-
 		getCommentList();
 		console.log(post);
 	}, []);
+
 	const getCommentList = async () => {
 		try {
 			const response = await axios.get(
@@ -78,7 +78,7 @@ export const PostDetail = () => {
 			if (response.data.data.length === 0) {
 				setHasCommentData(false);
 			}
-			setCommentList(response.data.data);
+			setCommentList([...response.data.data, ...commentList]);
 		} catch (error) {
 			console.error(error);
 		}

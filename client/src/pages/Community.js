@@ -17,6 +17,7 @@ import { CommunityList } from "../data/dummy";
 
 export const Community = () => {
 	//유저 정보
+
 	const accessToken = localStorage.getItem("authorization");
 	const isLogin = useSelector((state) => state.loginStatus.status);
 
@@ -33,7 +34,6 @@ export const Community = () => {
 
 	const [postList, setPostList] = useState([]);
 	const [hasData, setHasData] = useState(true);
-	const [page, setPage] = useState(1);
 	const [hasMoreData, setHasMoreData] = useState(true);
 
 	useEffect(() => {
@@ -60,7 +60,7 @@ export const Community = () => {
 				setHasMoreData(false);
 			}
 			console.log(response.data.data);
-			setPostList(response.data.data);
+			setPostList([...postList, ...response.data.data]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -88,10 +88,7 @@ export const Community = () => {
 			) : (
 				<NoDataDiv text="등록된 글이" />
 			)}
-			<CreateBtn
-				onClick={handleCreate}
-				NavTo={isLogin == false ? "/createPost" : "/community"}
-			/>
+			<CreateBtn onClick={handleCreate} NavTo={"/createPost"} />
 			<BackToTopBtn />
 		</CommunityContainer>
 	);

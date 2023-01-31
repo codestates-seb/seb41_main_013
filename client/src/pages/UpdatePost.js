@@ -15,20 +15,17 @@ import { Btn } from "../components/Button";
 import { SelectCategory } from "../components/Category";
 import { TwoBtnModal } from "../components/Modal";
 
-//dummy
-//import { CommunityList } from "../data/dummy";
-
 export const UpdatePost = () => {
 	const { boardId } = useParams();
 	const navigate = useNavigate();
-	//const post = CommunityList.filter((el) => el.postId == postId)[0];
 	const [post, setPost] = useState({});
+
 	useEffect(() => {
 		getPost();
 	}, []);
 
-	const [title, setTitle] = useState(post.title);
-	const [content, setContent] = useState(post.content);
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
 	const [titleError, setTitleError] = useState(false);
 	const [contentError, setContentError] = useState(false);
 	const [categoryError, setCategoryError] = useState(false);
@@ -50,7 +47,13 @@ export const UpdatePost = () => {
 					withCredentials: true,
 				},
 			);
-			setPost(response.data.data);
+
+			if (response.status === 200) {
+				setPost(response.data.data);
+				console.log(post);
+				setTitle(post.title);
+				setContent(post.cotent);
+			}
 		} catch (error) {
 			console.error(error);
 		}
@@ -81,22 +84,21 @@ export const UpdatePost = () => {
 		}
 	};
 
-	const postBody = JSON.stringify({
-		boardImageId: 0,
-		category: category[value],
-		content: content,
-		memberId: loginUserInfo.memberId,
-		title: title,
-		createdAt: new Date(),
-		memberName: loginUserInfo.name,
-		profileImageId: loginUserInfo.profileImageId,
-	});
 	const handleUpdatePost = async () => {
 		//글 등록 함수
 		try {
 			const response = await axios.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
-				postBody,
+				{
+					boardImageId: 1,
+					category: category[value],
+					content: content,
+					memberId: loginUserInfo.memberId,
+					title: title,
+					createdAt: new Date(),
+					memberName: loginUserInfo.name,
+					profileImageId: loginUserInfo.profileImageId,
+				},
 				{
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
