@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useSelector } from "react-redux";
 
 //components
 import { PostSummary } from "../components/PostSummary";
@@ -54,8 +53,7 @@ export const CommunityCategoryBoard = () => {
 			if (response.data.data.length === 0) {
 				setHasData(false);
 			}
-			if (response.status === 200) console.log("성공");
-			setCPostList(response.data.data);
+			if (response.status === 200) setCPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -73,7 +71,8 @@ export const CommunityCategoryBoard = () => {
 							title={cpost.title}
 							content={cpost.content}
 							writer={cpost.writer}
-							postId={cpost.postId}
+							postId={cpost.boardId}
+							date={cpost.createdAt}
 						/>
 					))}
 				</div>
