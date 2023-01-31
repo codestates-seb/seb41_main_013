@@ -4,20 +4,16 @@ import { HomeChallengeItem } from "../components/ChallengeItem";
 import { BackToTopBtn } from "../components/Button";
 import { Loading } from "../components/Loading";
 import { NoData } from "../components/NoData";
+import { random } from "../images/random";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSelector } from "react-redux";
 
 const Home = () => {
 	const [challenges, setChallenges] = useState([]);
 	const [page, setPage] = useState(1);
 	const [hasMoreData, setHasMoreData] = useState(true);
 	const [hasData, setHasData] = useState(true);
-
-	const { accessToken } = useSelector(
-		(state) => state.loginUserInfo.loginUserInfo,
-	);
 
 	useEffect(() => {
 		getAllChallengesList();
@@ -29,9 +25,6 @@ const Home = () => {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/hot?page=${page}`,
 				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
 					withCredentials: true,
 				},
 			);
@@ -52,9 +45,9 @@ const Home = () => {
   };
 
 	const categoryId = {
-		"우리 동네": "0",
+		"우리동네": "0",
 		"운동": "1",
-		"규칙적인 생활": "2",
+		"생활습관": "2",
 		"기타": "3",
 	};
   
@@ -72,11 +65,12 @@ const Home = () => {
       >
         {challenges.map((challenge) => (
           <HomeChallengeItem
-            imgUrl={challenge.imageUrl}
+            // imgUrl={challenge.imageUrl}
+						imgUrl={random[Math.floor(Math.random() * random.length)]}
             challengeTitle={challenge.title}
-            challengerNum={challenge.challengerCount}
+            challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}
-            challengeDate={`${challenge.StartAt} - ${challenge.EndAt}`}
+            challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
             NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
           />))}
       </InfiniteScroll>

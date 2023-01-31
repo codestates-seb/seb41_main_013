@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSelector } from "react-redux";
+import { random } from "../images/random";
 
 const MyChallengeOthers = () => {
   const [imagesUrl, setImagesUrl] = useState([]);
@@ -14,9 +14,8 @@ const MyChallengeOthers = () => {
 
   const location = useLocation();
   const challengeId = location.pathname.split("/")[2];
-  const { accessToken } = useSelector(
-		(state) => state.loginUserInfo.loginUserInfo,
-	);
+  const accessToken = localStorage.getItem("authorization");
+
 
   useEffect(() => {
     getAllImages();
@@ -51,20 +50,28 @@ const MyChallengeOthers = () => {
       <TitleHeader
         title={imagesUrl.challengeName}
       />
-      <InfiniteScroll
+      {/* <InfiniteScroll
 				className="infinite-scroll"
         dataLength={imagesUrl.length}
         next={loadMoreData}
         hasMore={hasMoreData}
         loader={<Loading />}
-      >
+      > */}
         <ImageWrapper>
-          {imagesUrl.map((imageUrl) => (
+          {/* {imagesUrl.map((imageUrl) => (
             <StyledImg src={imageUrl.url} alt={imageUrl.url} />
-          ))}
+          ))} */}
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
+          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
         </ImageWrapper>
         
-      </InfiniteScroll>
+      {/* </InfiniteScroll> */}
     </MyChallengeOthersWrapper>
   );
 };
