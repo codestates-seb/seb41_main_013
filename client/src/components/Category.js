@@ -63,7 +63,6 @@ export const SelectCategory = (props) => {
 	};
 
 	const handleClick = (n) => {
-		// 이 버튼을 눌러서 부모의 상태를 바꿀 순 없을까?
 		props.onClick(n);
 		//클릭하면 카테고리 버튼 색상이 회색 -> 초록색으로
 		let newClick = click.map((el, idx) => idx === n);
@@ -86,7 +85,7 @@ export const SelectCategory = (props) => {
 			<div className="twoCa">
 				<SelectCategoryItem
 					num={2}
-					text="규칙적인 생활"
+					text="생활습관"
 					onClick={() => handleClick(2)}
 				/>
 				<SelectCategoryItem

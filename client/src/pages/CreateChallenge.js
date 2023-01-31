@@ -39,14 +39,14 @@ const CreateChallenge = () => {
 
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
-	console.log(accessToken)
+	console.log(accessToken);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const categoryId = {
 		"우리 동네": "0",
 		운동: "1",
-		"생활습관": "2",
+		생활습관: "2",
 		기타: "3",
 	};
 	const today = new Date();
@@ -76,19 +76,31 @@ const CreateChallenge = () => {
 			// 		}
 			// 	});
 			// console.log(presignedUrl);
-			
+
 			// if (presignedUrl.status === 200) {
-			// 	const response = await axios.put(presignedUrl.data, file, 
+			// 	const response = await axios.put(presignedUrl.data, file,
 			// 	{headers: {
 			// 		"Content-Type": file.type,
 			// 		}});
 			// 	console.log(response);
 			// }
-			
-			const startHour =  `${snapshotStartAt.$H}`.length === 1 ? `0${snapshotStartAt.$H}` : `${snapshotStartAt.$H}`;
-			const startMinute = `${snapshotStartAt.$m}`.length === 1 ? `0${snapshotStartAt.$m}` : `${snapshotStartAt.$m}`;
-			const endHour =  `${snapshotEndAt.$H}`.length === 1 ? `0${snapshotEndAt.$H}` : `${snapshotEndAt.$H}`;
-			const endMinute = `${snapshotEndAt.$m}`.length === 1 ? `0${snapshotEndAt.$m}` : `${snapshotEndAt.$m}`;
+
+			const startHour =
+				`${snapshotStartAt.$H}`.length === 1
+					? `0${snapshotStartAt.$H}`
+					: `${snapshotStartAt.$H}`;
+			const startMinute =
+				`${snapshotStartAt.$m}`.length === 1
+					? `0${snapshotStartAt.$m}`
+					: `${snapshotStartAt.$m}`;
+			const endHour =
+				`${snapshotEndAt.$H}`.length === 1
+					? `0${snapshotEndAt.$H}`
+					: `${snapshotEndAt.$H}`;
+			const endMinute =
+				`${snapshotEndAt.$m}`.length === 1
+					? `0${snapshotEndAt.$m}`
+					: `${snapshotEndAt.$m}`;
 
 			const payload = {
 				category: category,
@@ -100,23 +112,28 @@ const CreateChallenge = () => {
 				snapshotEndAt: `${endHour}:${endMinute}`,
 				snapshotStartAt: `${startHour}:${startMinute}`,
 				startAt: startAt,
-				title: title
+				title: title,
 			};
 
 			console.log(payload);
 
-			const response2 = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/challenges`, payload, {
-        headers: {
-					Authorization: `Bearer ${accessToken}`,
-        },
-				withCredentials: true,
-      });
+			const response2 = await axios.post(
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges`,
+				payload,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
 			if (response2.status === 201) {
 				dispatch(
 					getLoginUser({
-							...loginUserInfo,
-							hostMemberId : response2.data.hostmemberId
-					}));
+						...loginUserInfo,
+						hostMemberId: response2.data.hostmemberId,
+					}),
+				);
 				navigate(`/challenges/${categoryId[category]}`);
 			}
 		} catch (error) {
@@ -184,11 +201,7 @@ const CreateChallenge = () => {
 				</Wrapper> */}
 				<Wrapper>
 					<Label>사진</Label>
-					<ImageUploader
-						width="9rem"
-						height="9rem"
-						name="img"
-					/>
+					<ImageUploader width="9rem" height="9rem" name="img" />
 				</Wrapper>
 				<Wrapper>
 					<Label>기간</Label>
@@ -199,8 +212,12 @@ const CreateChallenge = () => {
 								required: "시작 날짜를 선택해주세요.",
 							})}
 							onDateChange={(date) => {
-								const month = `${date.$d.getMonth()+1}`.length === 1 ? `0${date.$d.getMonth()+1}` : `${date.$d.getMonth()+1}`;
-								const day = `${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
+								const month =
+									`${date.$d.getMonth() + 1}`.length === 1
+										? `0${date.$d.getMonth() + 1}`
+										: `${date.$d.getMonth() + 1}`;
+								const day =
+									`${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
 								setValue("startAt", `${date.$y}-${month}-${day}`);
 								console.log(date);
 								console.log(watch("startAt"));
@@ -214,8 +231,12 @@ const CreateChallenge = () => {
 							})}
 							startAt={watch("startAt")}
 							onDateChange={(date) => {
-								const month = `${date.$d.getMonth()+1}`.length === 1 ? `0${date.$d.getMonth()+1}` : `${date.$d.getMonth()+1}`;
-								const day = `${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
+								const month =
+									`${date.$d.getMonth() + 1}`.length === 1
+										? `0${date.$d.getMonth() + 1}`
+										: `${date.$d.getMonth() + 1}`;
+								const day =
+									`${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
 								setValue("endAt", `${date.$y}-${month}-${day}`);
 								console.log(date);
 								console.log(watch("endAt"));
@@ -231,32 +252,26 @@ const CreateChallenge = () => {
 					<BtnWrapper
 						borderColor={errors.frequency?.message && theme.color.red}
 					>
-						{[
-							"매일",
-							"주1회",
-							"주2회",
-							"주3회",
-							"주4회",
-							"주5회",
-							"주6회",
-						].map((el, idx) => (
-							<StyledBtn
-								key={idx}
-								type="button"
-								onClick={() => {
-									setValue("frequency", el);
-									setError("frequency", null);
-								}}
-								className={`${el === watch("frequency") ? "selected" : ""}`}
-								value={el}
-								register={register("frequency", {
-									required: "빈도를 선택해주세요.",
-								})}
-								width="15%"
-							>
-								{el}
-							</StyledBtn>
-						))}
+						{["매일", "주1회", "주2회", "주3회", "주4회", "주5회", "주6회"].map(
+							(el, idx) => (
+								<StyledBtn
+									key={idx}
+									type="button"
+									onClick={() => {
+										setValue("frequency", el);
+										setError("frequency", null);
+									}}
+									className={`${el === watch("frequency") ? "selected" : ""}`}
+									value={el}
+									register={register("frequency", {
+										required: "빈도를 선택해주세요.",
+									})}
+									width="15%"
+								>
+									{el}
+								</StyledBtn>
+							),
+						)}
 					</BtnWrapper>
 					{errors.frequency && <p>{errors.frequency.message}</p>}
 				</Wrapper>
@@ -343,7 +358,7 @@ const CreateChallenge = () => {
 };
 
 const DatePickers = (props) => {
-	const [date, setDate] = useState(null);	
+	const [date, setDate] = useState(null);
 
 	const handleDateChange = (e) => {
 		setDate(e);
@@ -413,7 +428,7 @@ const WrapperContainer = styled.div`
 	padding: 0 1.3rem;
 
 	::-webkit-scrollbar {
-  	display: none;
+		display: none;
 	}
 `;
 
