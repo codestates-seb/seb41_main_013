@@ -60,6 +60,7 @@ public class ChallengeService {
         }
     }
 
+    /*
     // 챌린지 목록 최신 생성일 순 조회
     public Page<Challenge> findNewChallenges(Category category, int page) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
@@ -79,6 +80,37 @@ public class ChallengeService {
             return challengeRepository.findAll(PageRequest.of(page, 10, Sort.by("challengerCount").descending()));
         } else {
             return challengeRepository.findByCategory(category, PageRequest.of(page, 10, Sort.by("challengerCount").descending()));
+        }
+    }
+     */
+
+    // 챌린지 목록 최신 생성일 순 조회(무한스크롤 적용X)
+    public List<Challenge> findNewChallengesTemp(Category category) {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        if (category == null) {
+            return challengeRepository.findAll().stream()
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
+                    .collect(Collectors.toList());
+        } else {
+            return challengeRepository.findByCategory(category).stream()
+                    .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
+                    .collect(Collectors.toList());
+        }
+    }
+
+    // 챌린지 목록 참여자순 조회(무한스크롤 적용X)
+    public List<Challenge> findHotChallengesTemp(Category category) {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        if (category == null) {
+            return challengeRepository.findAll().stream()
+                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
+                    .collect(Collectors.toList());
+        } else {
+            return challengeRepository.findByCategory(category).stream()
+                    .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
+                    .collect(Collectors.toList());
         }
     }
 

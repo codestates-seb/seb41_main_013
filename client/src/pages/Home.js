@@ -11,8 +11,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
 	const [challenges, setChallenges] = useState([]);
-	const [page, setPage] = useState(1);
-	const [hasMoreData, setHasMoreData] = useState(true);
+	// const [page, setPage] = useState(1);
+	// const [hasMoreData, setHasMoreData] = useState(true);
 	const [hasData, setHasData] = useState(true);
 
 	useEffect(() => {
@@ -20,67 +20,75 @@ const Home = () => {
 	}, []);
 
 	const getAllChallengesList = async () => {
-		if (!hasMoreData) return;
+		// if (!hasMoreData) return;
 		try {
 			const response = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/challenges/hot?page=${page}`,
+				// `${process.env.REACT_APP_SERVER_URL}/api/challenges/hot?page=${page}`,
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/hot`,
 				{
 					withCredentials: true,
 				},
 			);
-			if (response.data.data.length === 0) { setHasData(false); }
-			if (response.data.data.length < 10) {
-				setHasMoreData(false);
+			if (response.data.data.length === 0) {
+				setHasData(false);
 			}
-			console.log(response.data.data);
-			setChallenges([...challenges, ...response.data.data]);
+			setChallenges(response.data.data);
+			// if (response.data.data.length < 10) {
+			// 	setHasMoreData(false);
+			// }
+			// console.log(response.data.data);
+			// setChallenges([...challenges, ...response.data.data]);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-  const loadMoreData = () => {
-    setPage(page + 1);
-    getAllChallengesList();
-  };
+	// const loadMoreData = () => {
+	// 	setPage(page + 1);
+	// 	getAllChallengesList();
+	// };
 
 	const categoryId = {
-		"우리동네": "0",
-		"운동": "1",
-		"생활습관": "2",
-		"기타": "3",
+		우리동네: "0",
+		운동: "1",
+		생활습관: "2",
+		기타: "3",
 	};
-  
-  return (
-    <HomeWrapper>
-      <HomeCategory NavTo="challenges" />
-      <StyledH1>BEST</StyledH1>
-      { hasData ?
-			(<InfiniteScroll
-				className="infinite-scroll"
-        dataLength={challenges.length}
-        next={loadMoreData}
-        hasMore={hasMoreData}
-        loader={<Loading />}
-      >
-        {challenges.map((challenge) => (
-          <HomeChallengeItem
-            // imgUrl={challenge.imageUrl}
-						imgUrl={random[Math.floor(Math.random() * random.length)]}
-            challengeTitle={challenge.title}
-            challengerNum={`${challenge.challengerCount}명`}
-            challengeFrequency={challenge.frequency}
-            challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
-            NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
-          />))}
-      </InfiniteScroll>
-      )
-			:
-			(<NoData />)
-			}
+
+	return (
+		<HomeWrapper>
+			<HomeCategory NavTo="challenges" />
+			<StyledH1>BEST</StyledH1>
+			{hasData ? (
+				// <InfiniteScroll
+				// 	className="infinite-scroll"
+				// 	dataLength={challenges.length}
+				// 	next={loadMoreData}
+				// 	hasMore={hasMoreData}
+				// 	loader={<Loading />}
+				// >
+				<HomeChallengeItemContainer>
+					{challenges.map((challenge) => (
+						<HomeChallengeItem
+							// imgUrl={challenge.imageUrl}
+							imgUrl={random[Math.floor(Math.random() * random.length)]}
+							challengeTitle={challenge.title}
+							challengerNum={`${challenge.challengerCount}명`}
+							challengeFrequency={challenge.frequency}
+							challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
+							NavTo={`/challenges/${categoryId[challenge.category]}/${
+								challenge.challengeId
+							}`}
+						/>
+					))}
+				</HomeChallengeItemContainer>
+			) : (
+				// </InfiniteScroll>
+				<NoData />
+			)}
 			<BackToTopBtn />
-    </HomeWrapper>
-  );
+		</HomeWrapper>
+	);
 };
 
 const HomeWrapper = styled.div`
@@ -88,10 +96,11 @@ const HomeWrapper = styled.div`
 	left: 0;
 	top: 15rem;
 	bottom: 6.5rem;
+	margin-bottom: 6.5rem;
 	width: 100%;
 	padding: 0 1.3rem;
 
-	& .infinite-scroll-component__outerdiv {
+	/* & .infinite-scroll-component__outerdiv {
 		position: relative;
 		top: 4.5rem;
 		overflow-y: scroll;
@@ -104,11 +113,24 @@ const HomeWrapper = styled.div`
 
 	& .infinite-scroll {
 		display: flex;
-    flex-wrap: wrap;
+		flex-wrap: wrap;
 
 		::-webkit-scrollbar {
 			display: none;
 		}
+	} */
+`;
+
+const HomeChallengeItemContainer = styled.div`
+	position: relative;
+	top: 4.5rem;
+	overflow-y: scroll;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+
+	::-webkit-scrollbar {
+		display: none;
 	}
 `;
 

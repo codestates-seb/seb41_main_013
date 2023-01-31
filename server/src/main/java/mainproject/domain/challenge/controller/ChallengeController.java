@@ -85,6 +85,7 @@ public class ChallengeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /*
     // 챌린지 목록 최신순 조회
     @ApiOperation(value = "챌린지 목록 최신순 조회")
     @GetMapping("/new")
@@ -115,6 +116,30 @@ public class ChallengeController {
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
+    }
+     */
+    // 챌린지 목록 최신순 조회(무한스크롤 적용X)
+    @ApiOperation(value = "챌린지 목록 최신순 조회")
+    @GetMapping("/new")
+    public ResponseEntity getNewChallenges(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
+                                           @RequestParam @Nullable Category category) {
+        List<Challenge> challenges = challengeService.findNewChallengesTemp(category);
+
+        List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 챌린지 목록 참여자순 조회(무한스크롤 적용X)
+    @ApiOperation(value = "챌린지 목록 참여자순 조회")
+    @GetMapping("/hot")
+    public ResponseEntity getHotChallenges(@ApiParam(value = "카테고리 선택 - 미선택시 전체 카테고리에서 조회")
+                                           @RequestParam @Nullable Category category) {
+        List<Challenge> challenges = challengeService.findHotChallengesTemp(category);
+
+        List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 회원이 생성한 챌린지 조회
