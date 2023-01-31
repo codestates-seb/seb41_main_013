@@ -1,5 +1,6 @@
 package mainproject.domain.challenger.Mapper;
 
+import mainproject.domain.challenger.Dto.ChallengerDetailResponseDto;
 import mainproject.domain.challenger.Dto.ChallengerPostDto;
 import mainproject.domain.challenger.Dto.ChallengerResponseDto;
 import mainproject.domain.challenger.Entity.Challenger;
@@ -43,14 +44,41 @@ public class ChallengerMapper {
         return challengerResponseDto;
     }
 
-    public List<ChallengerResponseDto> challengersToChallengerResponseDtos(List<Challenger> challengers) {
+    public ChallengerDetailResponseDto challengerToChallengerDetailResponseDto(Challenger challenger) {
+        if (challenger == null) {
+            return null;
+        }
+
+        ChallengerDetailResponseDto challengerDetailResponseDto = new ChallengerDetailResponseDto();
+
+        challengerDetailResponseDto.setMemberId(challenger.getMember().getId());
+        challengerDetailResponseDto.setMemberName(challenger.getMember().getName());
+        challengerDetailResponseDto.setProfileImageId(challenger.getMember().getImage().getImageId());
+        challengerDetailResponseDto.setChallengeId(challenger.getChallenge().getChallengeId());
+        challengerDetailResponseDto.setChallengeName(challenger.getChallenge().getTitle());
+        challengerDetailResponseDto.setChallengeImageId(challenger.getChallenge().getImage().getImageId());
+        challengerDetailResponseDto.setCategory(challenger.getChallenge().getCategory());
+        challengerDetailResponseDto.setStartAt(challenger.getChallenge().getStartAt());
+        challengerDetailResponseDto.setEndAt(challenger.getChallenge().getEndAt());
+        challengerDetailResponseDto.setFrequency(challenger.getChallenge().getFrequency());
+        challengerDetailResponseDto.setSnapshotStartAt(challenger.getChallenge().getSnapshotStartAt());
+        challengerDetailResponseDto.setSnapshotEndAt(challenger.getChallenge().getSnapshotEndAt());
+        challengerDetailResponseDto.setChallengerCount(challenger.getChallenge().getChallengerCount());
+        challengerDetailResponseDto.setChallengerId(challenger.getChallengerId());
+        challengerDetailResponseDto.setCreatedAt(challenger.getCreatedAt());
+        challengerDetailResponseDto.setProgress(challenger.getSnapshotCount() * 100 / challenger.getChallenge().getChallengeDay());
+
+        return challengerDetailResponseDto;
+    }
+
+    public List<ChallengerDetailResponseDto> challengersToChallengerDetailResponseDtos(List<Challenger> challengers) {
         if (challengers == null) {
             return null;
         }
 
-        List<ChallengerResponseDto> list = new ArrayList<>(challengers.size());
+        List<ChallengerDetailResponseDto> list = new ArrayList<>(challengers.size());
         for (Challenger challenger : challengers) {
-            list.add(challengerToChallengerResponseDto(challenger));
+            list.add(challengerToChallengerDetailResponseDto(challenger));
         }
 
         return list;

@@ -69,6 +69,8 @@ const HomeChallengeItemWrapper = styled.div`
 
   & img {
     width: 100%;
+    aspect-ratio: 1/0.75;
+    object-fit: cover;
     border-radius: 0.8rem;
     margin-bottom: 0.6rem;
     cursor: pointer;
@@ -110,6 +112,8 @@ const MyChallengeItemWrapper = styled.div`
     width: 100%;
     border-radius: 0.8rem;
     cursor: pointer;
+    aspect-ratio: 1/0.75;
+    object-fit: cover;
   }
 `;
 

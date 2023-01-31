@@ -57,8 +57,8 @@ public class ChallengeController {
             "startAt: 챌린지 시작 날짜 예) 2023-02-01 (내일 이후부터 선택 가능)" + "\r\n" +
             "endAt: 챌린지 종료 날짜 예) 2023-03-31 (시작 날짜 이후로 설정 가능)" + "\r\n" +
             "frequency: 인증 빈도 (생략 가능, default = 매일)" + "\r\n" +
-            "snapshotStartAt: 인증 시작 시간 예) 00:00 / 00:00:00 (생략 가능, default = 00:00:00)" + "\r\n" +
-            "snapshotEndAt: 인증 종료 시간 예) 22:00 / 23:59:59 (시작 시간 이후로 설정 가능, 생략 가능, default = 23:59:59)" + "\r\n\r\n" +
+            "snapshotStartAt: 인증 시작 시간 예) 00:00 (생략 가능, default = 00:00:00)" + "\r\n" +
+            "snapshotEndAt: 인증 종료 시간 예) 22:00 (시작 시간 이후로 설정 가능, 생략 가능, default = 23:59:00)" + "\r\n\r\n" +
             "Responses" + "\r\n" +
             "challengeStatus: 챌린지 상태 [시작전, 진행중, 종료]" + "\r\n" +
             "challengerCount: 챌린지 참가자 수";
