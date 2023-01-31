@@ -15,8 +15,8 @@ import { random } from "../images/random";
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
   const [challenges, setChallenges] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMoreData, setHasMoreData] = useState(true);
+  // const [page, setPage] = useState(1);
+  // const [hasMoreData, setHasMoreData] = useState(true);
   const [hasData, setHasData] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   
@@ -27,8 +27,8 @@ const HomeCategoryBoard = () => {
     setSelectedOption(e.target.value);
     console.log(e.target.value);
     // setChallenges([]);
-    setPage(1);
-    setHasMoreData(true);
+    // setPage(1);
+    // setHasMoreData(true);
     getAllChallengesList();
   }
 
@@ -44,11 +44,13 @@ const HomeCategoryBoard = () => {
 	};
 
   const getAllChallengesList = async () => {
-    if(!hasMoreData) return;
+    // if(!hasMoreData) return;
     try {
-      let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?category=${category[categoryNum]}&page=${page}`;
+      // let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?category=${category[categoryNum]}&page=${page}`;
+      let url = `${process.env.REACT_APP_SERVER_URL}/api/challenges/${selectedOption}?category=${category[categoryNum]}`;
       if (searchTerm !== "") {
-        url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
+        // url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
+        url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?query=${searchTerm}`;
       }
       console.log(url);
       const response = await axios.get(url,
@@ -62,7 +64,7 @@ const HomeCategoryBoard = () => {
       }
       // if (response.data.data.length < 10) { setHasMoreData(false); }
       // setChallenges([...challenges, ...response.data.data]);
-      setChallenges([...response.data.data]);
+      setChallenges(response.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -70,15 +72,15 @@ const HomeCategoryBoard = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setPage(1);
-    setHasMoreData(true);
+    // setPage(1);
+    // setHasMoreData(true);
     getAllChallengesList();
   };
 
-  const loadMoreData = () => {
-    setPage(page + 1);
-    getAllChallengesList();
-  };
+  // const loadMoreData = () => {
+  //   setPage(page + 1);
+  //   getAllChallengesList();
+  // };
 
   const categoryId = {
 		"우리 동네": "0",
@@ -108,13 +110,15 @@ const HomeCategoryBoard = () => {
         <option value="hot">인기</option>
       </StyledSelect>
       
-      { hasData ? (<InfiniteScroll
-        className="infinite-scroll"
-        dataLength={challenges.length}
-        next={loadMoreData}
-        hasMore={hasMoreData}
-        loader={<Loading />}
-      >
+      { hasData ? (
+      // <InfiniteScroll
+      //   className="infinite-scroll"
+      //   dataLength={challenges.length}
+      //   next={loadMoreData}
+      //   hasMore={hasMoreData}
+      //   loader={<Loading />}
+      // >
+      <HomeChallengeItemContainer>
         {challenges.map((challenge) => (
           <HomeChallengeItem
             // imgUrl={challenge.imageUrl}
@@ -128,7 +132,9 @@ const HomeCategoryBoard = () => {
             paddingTop="0"
             paddingBottom="1.3rem"
           />))}
-      </InfiniteScroll>)
+      </HomeChallengeItemContainer>
+      // </InfiniteScroll>
+      )
       :
       (<NoDataDiv
         text="관련된 챌린지" />)
@@ -154,7 +160,7 @@ const HomeCategoryBoardWrapper = styled.div`
     height: 100%;
   }
 
-  & .infinite-scroll-component__outerdiv {
+  /* & .infinite-scroll-component__outerdiv {
 		overflow-y: scroll;
 
 		::-webkit-scrollbar {
@@ -169,7 +175,18 @@ const HomeCategoryBoardWrapper = styled.div`
     ::-webkit-scrollbar {
       display: none;
     }
-  }
+  } */
+`;
+
+const HomeChallengeItemContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  overflow-y: scroll;
+
+		::-webkit-scrollbar {
+			display: none;
+		}
 `;
 
 const StyledInput = styled.input`
