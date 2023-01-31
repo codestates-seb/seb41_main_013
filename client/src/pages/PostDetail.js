@@ -184,7 +184,7 @@ export const PostDetail = () => {
 						{commentList.map((el) => (
 							<div>
 								<Comment
-									comment={el.comment}
+									comment={el.content}
 									writer={el.writer}
 									date={el.date}
 									commentId={el.commentId}

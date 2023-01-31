@@ -50,9 +50,8 @@ export const UpdatePost = () => {
 
 			if (response.status === 200) {
 				setPost(response.data.data);
-				console.log(post);
-				setTitle(post.title);
-				setContent(post.cotent);
+				setTitle(response.data.data.title);
+				setContent(response.data.data.content);
 			}
 		} catch (error) {
 			console.error(error);
