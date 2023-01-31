@@ -82,6 +82,24 @@ public class ChallengeService {
         }
     }
 
+    // 챌린지 목록 최신 생성일 순 조회(전체 카테고리 조회 시 무한스크롤 적용X)
+    public List<Challenge> findNewChallengesTemp() {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        return challengeRepository.findAll().stream()
+                .sorted(Comparator.comparing(Challenge::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+    }
+
+    // 챌린지 목록 참여자순 조회(전체 카테고리 조회 시 무한스크롤 적용X)
+    public List<Challenge> findHotChallengesTemp() {
+        updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
+
+        return challengeRepository.findAll().stream()
+                .sorted(Comparator.comparing(Challenge::getChallengerCount).reversed())
+                .collect(Collectors.toList());
+    }
+
     // 회원이 생성한 챌린지 조회
     public Page<Challenge> findCreateChallenges(long memberId, int page) {
         updateChallengeStatus();    // 현재 날짜에 맞춰 챌린지 상태 변경
