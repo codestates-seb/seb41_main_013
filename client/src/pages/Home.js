@@ -28,7 +28,9 @@ const Home = () => {
 					withCredentials: true,
 				},
 			);
-			if (response.data.data.length === 0) { setHasData(false); }
+			if (response.data.data.length === 0) {
+				setHasData(false);
+			}
 			if (response.data.data.length < 10) {
 				setHasMoreData(false);
 			}
@@ -39,48 +41,50 @@ const Home = () => {
 		}
 	};
 
-  const loadMoreData = () => {
-    setPage(page + 1);
-    getAllChallengesList();
-  };
+	const loadMoreData = () => {
+		setPage(page + 1);
+		getAllChallengesList();
+	};
 
 	const categoryId = {
-		"우리동네": "0",
-		"운동": "1",
-		"생활습관": "2",
-		"기타": "3",
+		우리동네: "0",
+		운동: "1",
+		생활습관: "2",
+		기타: "3",
 	};
-  
-  return (
-    <HomeWrapper>
-      <HomeCategory NavTo="challenges" />
-      <StyledH1>BEST</StyledH1>
-      { hasData ?
-			(<InfiniteScroll
-				className="infinite-scroll"
-        dataLength={challenges.length}
-        next={loadMoreData}
-        hasMore={hasMoreData}
-        loader={<Loading />}
-      >
-        {challenges.map((challenge) => (
-          <HomeChallengeItem
-            // imgUrl={challenge.imageUrl}
-						imgUrl={random[Math.floor(Math.random() * random.length)]}
-            challengeTitle={challenge.title}
-            challengerNum={`${challenge.challengerCount}명`}
-            challengeFrequency={challenge.frequency}
-            challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
-            NavTo={`/challenges/${categoryId[challenge.category]}/${challenge.challengeId}`}
-          />))}
-      </InfiniteScroll>
-      )
-			:
-			(<NoData />)
-			}
+
+	return (
+		<HomeWrapper>
+			<HomeCategory NavTo="challenges" />
+			<StyledH1>BEST</StyledH1>
+			{hasData ? (
+				<InfiniteScroll
+					className="infinite-scroll"
+					dataLength={challenges.length}
+					next={loadMoreData}
+					hasMore={hasMoreData}
+					loader={<Loading />}
+				>
+					{challenges.map((challenge) => (
+						<HomeChallengeItem
+							// imgUrl={challenge.imageUrl}
+							imgUrl={random[Math.floor(Math.random() * random.length)]}
+							challengeTitle={challenge.title}
+							challengerNum={`${challenge.challengerCount}명`}
+							challengeFrequency={challenge.frequency}
+							challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
+							NavTo={`/challenges/${categoryId[challenge.category]}/${
+								challenge.challengeId
+							}`}
+						/>
+					))}
+				</InfiniteScroll>
+			) : (
+				<NoData />
+			)}
 			<BackToTopBtn />
-    </HomeWrapper>
-  );
+		</HomeWrapper>
+	);
 };
 
 const HomeWrapper = styled.div`
@@ -104,7 +108,7 @@ const HomeWrapper = styled.div`
 
 	& .infinite-scroll {
 		display: flex;
-    flex-wrap: wrap;
+		flex-wrap: wrap;
 
 		::-webkit-scrollbar {
 			display: none;

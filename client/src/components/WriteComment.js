@@ -3,6 +3,8 @@ import { useState } from "react";
 import theme from "./theme";
 import styled from "styled-components";
 import { ErrorContainer } from "../pages/CreatePost";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 //components
 import { Input } from "./Input";
@@ -10,11 +12,16 @@ import { Btn } from "./Button";
 import { Modal, TwoBtnModal } from "../components/Modal";
 
 export const WriteComment = (props) => {
-	const user = true; //유저 정보 (from 로컬스토리지)
+	//유저 정보
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const isLogin = useSelector((state) => state.loginStatus.status);
+	const accessToken = localStorage.getItem("authorization");
+
 	const [comment, setComment] = useState(props.comment || "");
 	const [commentError, setCommentError] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [createCModal, setCreateCModal] = useState(false);
+	const boardId = props.commentId;
 
 	const handleChangeComment = (e) => {
 		setComment(e.target.value);
@@ -24,7 +31,7 @@ export const WriteComment = (props) => {
 		if (!comment) setCommentError(true);
 		else {
 			setCommentError(false);
-			if (!user) {
+			if (!isLogin) {
 				//로그인이 되어 있지 않다면
 				setCreateModal(true);
 				setTimeout(() => {
@@ -39,7 +46,60 @@ export const WriteComment = (props) => {
 	const handleCreateComment = () => {
 		//댓글 등록 함수
 		setCreateCModal(false);
+		if (props.func === "create") createComment();
+		else if (props.func === "update") updateComment();
 		setComment("");
+	};
+
+	const createComment = async () => {
+		//댓글 생성 함수
+		await axios
+			.post(
+				`${process.env.REACT_APP_SERVER_URL}/api/comments/${boardId}`,
+				{
+					boardId: boardId,
+					content: comment,
+					memberId: loginUserInfo.memberId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					console.log("댓글 생성 완료");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	};
+	const updateComment = async () => {
+		//댓글 수정 함수
+		try {
+			const response = await axios.patch(
+				`${process.env.REACT_APP_SERVER_URL}/api/comments/${props.commentId}`,
+				{
+					boardId: boardId,
+					content: comment,
+					memberId: loginUserInfo.memberId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			if (response.status === 200) {
+				console.log("댓글 수정 완료");
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (

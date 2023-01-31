@@ -4,9 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
-
-//import { handleCheck } from "../function/postFunction";
+import { useSelector } from "react-redux";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -25,8 +23,11 @@ export const CreatePost = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const navigate = useNavigate();
-	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
-	const token = null;
+	const category = ["우리동네", "운동", "생활습관", "기타"];
+
+	//유저 정보
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
 
 	const handleChangeValue = (n) => {
 		setValue(n);
@@ -38,29 +39,33 @@ export const CreatePost = () => {
 		setContent(e.target.value);
 	};
 
-	const postBody = JSON.stringify({
-		boardImageId: 0,
-		category: category[value],
-		content: content,
-		memberId: 0,
-		title: title,
-	});
-	const handleCreatePost = async () => {
+	const handleCreatePost = async (e) => {
+		e.preventDefault();
 		//글 등록 함수
-		try {
-			const response = await axios.post(
+		await axios
+			.post(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
-				postBody,
 				{
-					headers: { "Content-Type": "application/json", Authorization: token },
+					category: category[value],
+					content: content,
+					memberId: loginUserInfo.memberId,
+					title: title,
 				},
-			);
-			if (response.status === 200) {
-				navigate("/community");
-			}
-		} catch (error) {
-			console.error(error);
-		}
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			)
+			.then((response) => {
+				if (response.status === 201) {
+					navigate("/community");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	const handleCheck = () => {
@@ -143,10 +148,13 @@ export const CreatePost = () => {
 };
 
 export const CreatepostContainer = styled.div`
-	margin-top: 5.5rem;
-	margin-bottom: 6.5rem;
+	position: absolute;
+	left: 0;
+	top: 5.2rem;
+	bottom: 6.5rem;
 	overflow-y: scroll;
-	height: 68rem;
+	width: 100%;
+	padding: 0 1.3rem;
 
 	::-webkit-scrollbar {
 		display: none;
