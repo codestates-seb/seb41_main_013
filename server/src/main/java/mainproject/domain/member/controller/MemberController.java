@@ -4,7 +4,6 @@ package mainproject.domain.member.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
 import mainproject.domain.member.dto.MemberPatchDto;
 import mainproject.domain.member.dto.MemberPostDto;
 import mainproject.domain.member.entity.Member;
@@ -19,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/members")
+@Api(tags = "회원 가입, 조회, 삭제, 수정")
 public class MemberController {
 
     private final MemberService memberService;
@@ -94,6 +94,5 @@ public class MemberController {
 
     }
 
-            ;
 
 }

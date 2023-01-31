@@ -25,6 +25,7 @@ export const PostSummary = (props) => {
 					writer={props.writer}
 					date={formatDate(props.date)}
 					margin="0 0 1rem 0"
+					randomIdx={props.randomIdx}
 				/>
 			</PostSumContainer>
 		</>

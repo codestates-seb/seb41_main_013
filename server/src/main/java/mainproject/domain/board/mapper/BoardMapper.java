@@ -20,12 +20,13 @@ public interface BoardMapper {
 
     @Mappings({
             @Mapping(source = "member.id", target = "memberId"),
-            @Mapping(source = "member.name", target = "memberName")
-            // @Mapping(source = "member.profileImage", target = "profileImage")    // TODO: 이미지파일
+            @Mapping(source = "member.name", target = "memberName"),
+            @Mapping(source = "member.image.imageId", target = "profileImageId"),
+      //      @Mapping(source = "image.imageId", target = "boardImageId")
     })
     BoardResponseDto boardToBoardResponseDto(Board board);
 
-    List<BoardResponseDto> boardsToBoardResponseDtos(List<Board> questions);
+    List<BoardResponseDto> boardsToBoardResponseDtos(List<Board> boards);
 
 
 }

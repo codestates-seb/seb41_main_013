@@ -2,6 +2,7 @@ package mainproject.domain.challenge.entity;
 
 import lombok.Data;
 import mainproject.domain.challenger.Entity.Challenger;
+import mainproject.domain.image.entity.Image;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.snapshot.Entity.Snapshot;
 import mainproject.global.category.Category;
@@ -26,11 +27,7 @@ public class Challenge implements Serializable {
     private long challengeId;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "HOST_MEMBER_ID", referencedColumnName = "ID"),
-            @JoinColumn(name = "HOST_MEMBER_NAME", referencedColumnName = "NAME")
-            // @JoinColumn(name = "HOST_PROFILE_IMAGE", referencedColumnName = "PROFILE_IMAGE")  // TODO: 이미지파일
-    })
+    @JoinColumn(name = "HOST_MEMBER_ID")
     private Member member;
 
     public void setMember(Member member) {
@@ -50,13 +47,25 @@ public class Challenge implements Serializable {
     @Column(nullable = false)
     private String content;
 
-    // private Image challengeImage;  // TODO: 이미지파일
+    @OneToOne
+    @JoinColumn(name = "CHALLENGE_IMAGE_ID")
+    private Image image;
+
+    public void setImage(Image image) {
+        this.image = image;
+        if (this.image.getChallenge() != this) {
+            this.image.setChallenge(this);
+        }
+    }
 
     @Column(nullable = false)
     private LocalDate startAt;
 
     @Column(nullable = false)
     private LocalDate endAt;
+
+    @Column(nullable = false, updatable = false)
+    private int challengeDay;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

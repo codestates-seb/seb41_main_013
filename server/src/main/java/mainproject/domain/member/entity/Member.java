@@ -5,6 +5,7 @@ import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.comment.entity.Comment;
 import mainproject.domain.board.entity.Board;
 import mainproject.domain.challenge.entity.Challenge;
+import mainproject.domain.image.entity.Image;
 import mainproject.domain.snapshot.Entity.Snapshot;
 
 import javax.persistence.*;
@@ -27,13 +28,22 @@ public class Member implements Serializable {
     @Column(length = 50, nullable = false)
     private String name;
 
-    // private Image profileImage;  // TODO: 이미지파일
-
     @Column(length = 100, nullable = false, updatable = false, unique = true)
     private String email;
 
     @Column(length = 100, nullable = false)
     private String password;
+
+    @OneToOne
+    @JoinColumn(name = "PROFILE_IMAGE_ID")
+    private Image image;
+
+    public void setImage(Image image) {
+        this.image = image;
+        if (this.image.getMember() != this) {
+            this.image.setMember(this);
+        }
+    }
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;

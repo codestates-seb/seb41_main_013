@@ -17,6 +17,7 @@ public class MemberMapper {
         member.setName(memberPostDto.getName());
         member.setEmail(memberPostDto.getEmail());
         member.setPassword(memberPostDto.getPassword());
+        member.setImage(memberPostDto.getImage());
 
         return member;
 
@@ -29,7 +30,7 @@ public class MemberMapper {
         member.setId(memberPatchDto.getId());
         member.setName(memberPatchDto.getName());
         member.setPassword(memberPatchDto.getPassword());
-        //:Todo 이미지 업로드 기능 넣을것
+        member.setImage(memberPatchDto.getImage());
 
         return member;
     }
@@ -42,7 +43,7 @@ public class MemberMapper {
         responseDto.setId(member.getId());
         responseDto.setName(member.getName());
         responseDto.setEmail(member.getEmail());
-        responseDto.setPassword(member.getPassword());
+        responseDto.setProfileImageId(member.getImage().getImageId());
 
         return responseDto;
 

@@ -17,6 +17,9 @@ export const Btn = (props) => {
 				margin={props.margin}
 				type={props.type}
 				onClick={props.onClick}
+				value={props.value}
+				fontWeight={props.fontWeight}
+				fontFamily={props.fontFamily}
 			>
 				{props.btnText}
 			</StyledBasicBtn>
@@ -29,7 +32,6 @@ export const BackToTopBtn = (props) => {
 
 	const btnShow = () => {
 		const scrolled = window.scrollY;
-		// console.log(scrolled);
 		scrolled > 100 ? setShowBtn(true) : setShowBtn(false);
 	};
 
@@ -93,11 +95,11 @@ const StyledBasicBtn = styled.button`
 	/* box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.6); */
 
 	text-align: center;
-	font-family: "Inter";
+	font-family: ${(props) => props.fontFamily || "Inter"};
 	font-style: normal;
-	font-weight: 400;
+	font-weight: ${(props) => props.fontWeight || "400"};
 	font-size: ${(props) => props.size || "1.3rem"};
-	line-height: 1.6rem;
+	line-height: 1.9rem;
 	color: ${(props) => props.color || "white"};
 `;
 

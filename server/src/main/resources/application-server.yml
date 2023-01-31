@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate  # create / validate
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:mysql://database-deploy-challenge.cm4utdzctazn.ap-northeast-2.rds.amazonaws.com:13306/mainproject?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: 1q2w3e4r
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+jwt:
+  key: kevin12341234123412341234123412341234adsfgeeettwaeaafasfsadf
+  ATExpiration: 420
+  RTExpiration: 420
+config:
+  domain: http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com

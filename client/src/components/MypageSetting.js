@@ -4,11 +4,7 @@ import { NavTitle } from "./NavItem";
 import theme from "./theme";
 
 export const MypageSetting = (props) => {
-	const { menuOpen, setMenuOpen, modalToLogout, modalToQuit } = props;
-
-	const toggleMenu = () => {
-		setMenuOpen(!menuOpen);
-	};
+	const { menuOpen, modalToLogout, modalToQuit, onClick } = props;
 
 	return (
 		<SettingWrapper menuOpen={menuOpen}>
@@ -19,11 +15,10 @@ export const MypageSetting = (props) => {
 				width="6rem"
 				height="2.2rem"
 				background={theme.color.green}
-				onClick={toggleMenu}
+				onClick={onClick}
 			/>
 			<div>
 				<NavTitle title="프로필 수정" link="/editProfile" width="100%" />
-				<NavTitle title="비밀번호 변경" link="/changePw" width="100%" />
 				<NavTitle title="로그아웃" width="100%" onClick={modalToLogout} />
 				<NavTitle title="회원탈퇴" width="100%" onClick={modalToQuit} />
 			</div>
@@ -32,19 +27,23 @@ export const MypageSetting = (props) => {
 };
 
 const SettingWrapper = styled.div`
-	border: 1px solid black;
+	/* border: 1px solid black; */
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
 	padding: 2rem 1.3rem;
 	gap: 1rem;
 	width: 100%;
 	max-width: 480px;
+	opacity: 0;
+	box-shadow: 0 10px 5px -5px ${theme.color.green};
 	background-color: white;
-	display: none;
 	position: fixed;
 	top: 5.2rem;
-	/* display: block; */
+	transition: all ease-in-out 0.3s;
+
 	${(props) =>
 		props.menuOpen &&
 		css`
-			display: block;
+			opacity: 1;
 		`}
 `;

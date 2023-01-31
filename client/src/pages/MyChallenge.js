@@ -1,60 +1,116 @@
 import styled from "styled-components";
 import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { MyChallengeItem } from "../components/ChallengeItem";
+import { Logout } from "../components/Logout";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { NoDataDiv } from "../components/NoData";
+import { random } from "../images/random";
 
 const MyChallenge = () => {
-  const categoryId = 1;
-  const challengeId = 1;
+	const [challenges, setChallenges] = useState([]);
+	const [hasData, setHasData] = useState(true);
+	const isLogin = useSelector((state) => state.loginStatus.status);
 
-  return (
-    <MyChallengeWrapper>
-      {/* map */}
-      <MyChallengeItemContainer>
-        <MyChallengeItem
-          challengeTitle="아침 8시 기상 후 조깅하기"
-          challengerNum="299명"
-          challengeFrequency="주 3일"
-          challengeDate="1.18 - 1.25"
-          challengeTime="8:00 - 9:30"
-          progress={80}
-          label={80}
-          NavTo={`/challenges/:${categoryId}/:${challengeId}`}
-        />
-        <MyChallengeItem
-          challengeTitle="아침 8시 기상 후 조깅하기"
-          challengerNum="299명"
-          challengeFrequency="주 3일"
-          challengeDate="1.18 - 1.25"
-          challengeTime="8:00 - 9:30"
-          progress={30}
-          label={30}
-          NavTo={`/challenges/:${categoryId}/:${challengeId}`}
-        />
-        <MyChallengeItem
-          challengeTitle="아침 8시 기상 후 조깅하기"
-          challengerNum="299명"
-          challengeFrequency="주 3일"
-          challengeDate="1.18 - 1.25"
-          challengeTime="8:00 - 9:30"
-          progress={55}
-          label={55}
-          NavTo={`/challenges/:${categoryId}/:${challengeId}`}
-        />
-      </MyChallengeItemContainer>
-      <CreateBtn NavTo="/challenges/create" />
-      <BackToTopBtn />
-    </MyChallengeWrapper>
-  );
+	const { memberId } = useSelector(
+		(state) => state.loginUserInfo.loginUserInfo,
+	);
+	const accessToken = localStorage.getItem("authorization");
+	console.log(accessToken);
+
+	useEffect(() => {
+		getMyChallengesList();
+	}, []);
+
+	const getMyChallengesList = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/challengers/${memberId}/challenging`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+			if (response.data.length === 0) {
+				setHasData(false);
+			}
+			setChallenges(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const categoryId = {
+		우리동네: "0",
+		운동: "1",
+		생활습관: "2",
+		기타: "3",
+	};
+
+	return (
+		<Wrapper>
+			{isLogin ? (
+				hasData ? (
+					<MyChallengeWrapper>
+						<MyChallengeItemContainer>
+							{challenges.map((challenge) => (
+								<MyChallengeItem
+									// imgUrl={challenge.imageUrl}
+									imgUrl={random[Math.floor(Math.random() * random.length)]}
+									challengeTitle={challenge.challengeName}
+									challengerNum={`${challenge.challengerCount}명`}
+									challengeFrequency={challenge.frequency}
+									challengeDate={`${challenge.startAt} - ${challenge.endAt}`}
+									challengeTime={`${challenge.snapshotStartAt} - ${challenge.snapshotEndAt}`}
+									progress={challenge.progress}
+									NavTo={`/challenges/${categoryId[challenge.category]}/${
+										challenge.challengeId
+									}`}
+									challengeId={challenge.challengeId}
+								/>
+							))}
+						</MyChallengeItemContainer>
+						<CreateBtn NavTo="/challenges/create" />
+						<BackToTopBtn />
+					</MyChallengeWrapper>
+				) : (
+					<>
+						<NoDataDiv text="등록된 마이챌린지" />
+						<CreateBtn NavTo="/challenges/create" />
+					</>
+				)
+			) : (
+				<Logout />
+			)}
+		</Wrapper>
+	);
 };
 
-const MyChallengeWrapper = styled.div`
-  margin-top: 5.2rem;
-  margin-bottom: 6.5rem;
+const Wrapper = styled.div`
+	position: absolute;
+	left: 0;
+	top: 5.2rem;
+	bottom: 6.5rem;
+	overflow-y: scroll;
+	width: 100%;
+	padding: 0 1.3rem;
+	/* padding-bottom: 2.5rem; */
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const MyChallengeItemContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
+`;
+
+const MyChallengeWrapper = styled.div`
+	/* height: 100%; */
 `;
 
 export default MyChallenge;
