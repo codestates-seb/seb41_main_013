@@ -90,7 +90,7 @@ const CreateChallenge = () => {
 			const endHour =  `${snapshotEndAt.$H}`.length === 1 ? `0${snapshotEndAt.$H}` : `${snapshotEndAt.$H}`;
 			const endMinute = `${snapshotEndAt.$m}`.length === 1 ? `0${snapshotEndAt.$m}` : `${snapshotEndAt.$m}`;
 
-			const payload = JSON.stringify({
+			const payload = {
 				category: category,
 				// challengeImageId: 1,
 				content: content,
@@ -101,7 +101,7 @@ const CreateChallenge = () => {
 				snapshotStartAt: `${startHour}:${startMinute}`,
 				startAt: startAt,
 				title: title
-			});
+			};
 
 			console.log(payload);
 
@@ -111,7 +111,7 @@ const CreateChallenge = () => {
         },
 				withCredentials: true,
       });
-			if (response2.status === 200) {
+			if (response2.status === 201) {
 				dispatch(
 					getLoginUser({
 							...loginUserInfo,
