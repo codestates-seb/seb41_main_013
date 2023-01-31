@@ -24,9 +24,9 @@ export const MyPage = (props) => {
 	});
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [challengeStatus, setChallengeStatus] = useState({
-		participate: "",
-		complete: "",
-		create: "",
+		participate: 0,
+		complete: 0,
+		create: 0,
 	});
 
 	useEffect(() => {
@@ -112,7 +112,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log("userdoing :", userdoing.data);
+			// console.log(userdoing);
 			setChallengeStatus((prev) => {
 				return { ...prev, participate: userdoing.data.length };
 			});
@@ -126,13 +126,13 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log("usercomplete :", usercomplete.data);
+			// console.log(usercomplete);
 			setChallengeStatus((prev) => {
 				return { ...prev, complete: usercomplete.data.length };
 			});
 
 			const usercreate = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}/`,
+				`${process.env.REACT_APP_SERVER_URL}/api/challenges/host/${loginUserInfo.memberId}`,
 				{
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
@@ -140,9 +140,9 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log("usercreate :", usercreate.data.data);
+			// console.log(usercreate);
 			setChallengeStatus((prev) => {
-				return { ...prev, create: usercreate.data.length };
+				return { ...prev, create: usercreate.data.data.length };
 			});
 		} catch (e) {
 			console.log(e);
