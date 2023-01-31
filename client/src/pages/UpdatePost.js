@@ -2,9 +2,10 @@
 import theme from "../components/theme";
 import { useParams, useNavigate } from "react-router-dom";
 import { CreatepostContainer } from "./CreatePost";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ErrorContainer } from "./CreatePost";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -14,23 +15,49 @@ import { Btn } from "../components/Button";
 import { SelectCategory } from "../components/Category";
 import { TwoBtnModal } from "../components/Modal";
 
-//dummy
-import { CommunityList } from "../data/dummy";
-
 export const UpdatePost = () => {
-	const { postId } = useParams();
+	const { boardId } = useParams();
 	const navigate = useNavigate();
-	const post = CommunityList.filter((el) => el.postId == postId)[0];
+	const [post, setPost] = useState({});
 
-	const [title, setTitle] = useState(post.title);
-	const [content, setContent] = useState(post.content);
+	useEffect(() => {
+		getPost();
+	}, []);
+
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
 	const [titleError, setTitleError] = useState(false);
 	const [contentError, setContentError] = useState(false);
 	const [categoryError, setCategoryError] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
-	const category = ["우리동네", "운동", "규칙적인 생활", "기타"];
-	const token = null;
+	const category = ["우리동네", "운동", "생활습관", "기타"];
+	//유저 정보
+	const accessToken = localStorage.getItem("authorization");
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+
+	const getPost = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
+				},
+			);
+
+			if (response.status === 200) {
+				setPost(response.data.data);
+				console.log(post);
+				setTitle(post.title);
+				setContent(post.cotent);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
@@ -57,21 +84,26 @@ export const UpdatePost = () => {
 		}
 	};
 
-	const postBody = JSON.stringify({
-		boardImageId: 0,
-		category: category[value],
-		content: content,
-		memberId: 0,
-		title: title,
-	});
 	const handleUpdatePost = async () => {
 		//글 등록 함수
 		try {
 			const response = await axios.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
-				postBody,
 				{
-					headers: { "Content-Type": "application/json", Authorization: token },
+					boardImageId: 1,
+					category: category[value],
+					content: content,
+					memberId: loginUserInfo.memberId,
+					title: title,
+					createdAt: new Date(),
+					memberName: loginUserInfo.name,
+					profileImageId: loginUserInfo.profileImageId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+					withCredentials: true,
 				},
 			);
 			if (response.status === 200) {
