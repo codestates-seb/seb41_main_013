@@ -31,7 +31,7 @@ public class SwaggerConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Shall we? Challenge!",
-                "다같이 운동하자!",    // 서비스 설명 확정 후 변경
+                "목표, 혼자서 끝까지 할 자신 있어? 우리가 도와줄게! Shall we ? Challenge !",
                 "version 1.0",
                 "http://bucket-deploy-challenge.s3-website.ap-northeast-2.amazonaws.com",
                 new Contact("Github Repository", "https://github.com/codestates-seb/seb41_main_013", ""),
