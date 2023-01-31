@@ -1,90 +1,85 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { postMembers } from "../apis/base";
 import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import { Modal } from "../components/Modal";
 import theme from "../components/theme";
 
-export const SignUp = () => {
-	const [isOpenModal, setIsOpenModal] = useState(false);
-
+export const Signup = () => {
+	// 회원가입 시 프로필 이미지 랜덤으로 부여
 	const navigate = useNavigate();
 
-	const [userInput, setUserInput] = useState({
-		name: "",
-		email: "",
-		password: "",
-		passwordCheck: "",
-	});
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [passwordCheck, setPasswordCheck] = useState("");
 
-	const [inputErr, setInputErr] = useState({
-		name: false,
-		email: false,
-		password: false,
-		passwordCheck: false,
-		overLap: false,
-	});
+	const [nameErr, setNameErr] = useState(false);
+	const [emailErr, setEmailErr] = useState(false);
+	const [passwordErr, setPasswordErr] = useState(false);
+	const [passwordCheckErr, setPasswordCheckErr] = useState(false);
 
-	const handleInputChange = (e) => {
-		const { value, id } = e.target;
-		// console.log(`${id} : ${value}`);
+	const [isOpenModal, setIsOpenModal] = useState(false);
+	// 이미 가입되어 있는 이메일 (이메일 중복)
+	// const [sameEmailModal, setSameEmailModal] = useState(false);
 
-		setUserInput((prev) => ({
-			...prev,
-			[id]: value,
-		}));
-
-		setInputErr((prev) => ({
-			...prev,
-			[id]: false,
-		}));
+	const onChangeName = (e) => {
+		setName(e.target.value);
+		setNameErr(false);
 	};
 
 	const nameValidCheck = () => {
 		const nameRegex = /^[a-zA-Z가-힣0-9]{3,}$/;
-		if (!userInput.name || !nameRegex.test(userInput.name)) {
-			setInputErr((prevState) => {
-				return { ...prevState, name: true };
-			});
+		if (!name || !nameRegex.test(name)) {
+			setNameErr(true);
 			return false;
 		}
+		setNameErr(false);
 		return true;
+	};
+
+	const onChangeEmail = (e) => {
+		setEmail(e.target.value);
+		setEmailErr(false);
 	};
 
 	const emailValidCheck = () => {
 		const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-		if (!userInput.email || !emailRegexp.test(userInput.email)) {
-			setInputErr((prevState) => {
-				return { ...prevState, email: true };
-			});
+		if (!email || !emailRegexp.test(email)) {
+			setEmailErr(true);
 			return false;
 		}
+		setEmailErr(false);
 		return true;
+	};
+
+	const onChangePassword = (e) => {
+		setPassword(e.target.value);
+		setPasswordErr(false);
 	};
 
 	const passwordValidCheck = () => {
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
-		if (!userInput.password || !passwordRegex.test(userInput.password)) {
-			setInputErr((prevState) => {
-				return { ...prevState, password: true };
-			});
+		if (!password || !passwordRegex.test(password)) {
+			setPasswordErr(true);
 			return false;
 		}
+		setPasswordErr(false);
 		return true;
 	};
 
+	const onChangePasswordCheck = (e) => {
+		setPasswordCheck(e.target.value);
+		setPasswordCheckErr(false);
+	};
+
 	const passwordSameCheck = () => {
-		if (
-			userInput.password !== userInput.passwordCheck ||
-			!userInput.passwordCheck
-		) {
-			setInputErr((prevState) => {
-				return { ...prevState, passwordCheck: true };
-			});
+		if (password !== passwordCheck || !passwordCheck) {
+			setPasswordCheckErr(true);
 			return false;
 		}
+		setPasswordCheckErr(false);
 		return true;
 	};
 
@@ -99,40 +94,30 @@ export const SignUp = () => {
 			passwordValidCheck() &&
 			passwordSameCheck()
 		) {
+			console.log("checkValidation true");
 			return true;
 		}
+		console.log("checkValidation false");
 		return false;
 	};
 
-	const register = async () => {
-		try {
-			const { passwordCheck, ...body } = userInput;
-			// console.log(body);
-			const { data } = await postMembers(body);
-			// console.log(data);
+	const onSubmit = (e) => {
+		e.preventDefault();
+		console.log("name :", name);
+		console.log("email :", email);
+		console.log("password :", password);
+		console.log("passwordCheck :", passwordCheck);
+
+		if (checkValidation()) {
+			console.log("회원가입 성공");
 			setIsOpenModal(true);
 			setTimeout(() => {
 				setIsOpenModal(false);
 				navigate("/login");
 			}, 1500);
-		} catch (e) {
-			setInputErr((prev) => ({
-				...prev,
-				overLap: true,
-			}));
+		} else {
+			console.log("회원가입 실패");
 		}
-	};
-
-	const onSubmit = (e) => {
-		e.preventDefault();
-
-		const isValid = checkValidation();
-		if (!isValid) {
-			console.log("Fail");
-			return;
-		}
-
-		register();
 	};
 
 	return (
@@ -140,53 +125,51 @@ export const SignUp = () => {
 			{isOpenModal && (
 				<Modal modalText="회원가입 성공! 로그인 페이지로 이동합니다." />
 			)}
+			{/* <div /> */}
 			<div>
 				<InputAuth
 					label="이름"
 					type="text"
-					value={userInput.name}
-					onChange={handleInputChange}
-					id="name"
-					error={inputErr.name}
-					errmsg={inputErr.name && "특수문자 없이 3글자 이상 입력해주세요."}
+					value={name}
+					onChange={onChangeName}
+					border={nameErr && `${theme.color.red}`}
+					fontSize="1.5rem"
 				/>
+				{nameErr && <p>특수문자 없이 3글자 이상 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
 					label="이메일"
 					type="email"
-					value={userInput.email}
-					onChange={handleInputChange}
-					id="email"
-					error={inputErr.email}
-					errmsg={inputErr.email && "올바른 이메일 형식으로 입력해주세요."}
+					value={email}
+					onChange={onChangeEmail}
+					border={emailErr && `${theme.color.red}`}
 				/>
-				{inputErr.overLap && <p>중복되는 이메일이 존재합니다.</p>}
+				{emailErr && <p>올바른 이메일 형식으로 입력해주세요.</p>}
 			</div>
 			<div>
 				<InputAuth
 					label="비밀번호"
 					type="password"
-					value={userInput.password}
-					onChange={handleInputChange}
-					id="password"
-					error={inputErr.password}
-					errmsg={
-						inputErr.password &&
-						"비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요."
-					}
+					value={password}
+					onChange={onChangePassword}
+					border={passwordErr && `${theme.color.red}`}
 				/>
+				{passwordErr && (
+					<p>
+						비밀번호는 영문, 숫자, 특수기호를 포함한 8자 이상으로 입력해주세요.
+					</p>
+				)}
 			</div>
 			<div>
 				<InputAuth
 					label="비밀번호 확인"
 					type="password"
-					value={userInput.passwordCheck}
-					onChange={handleInputChange}
-					id="passwordCheck"
-					error={inputErr.passwordCheck}
-					errmsg={inputErr.passwordCheck && "비밀번호가 일치하지 않습니다"}
+					value={passwordCheck}
+					onChange={onChangePasswordCheck}
+					border={passwordCheckErr && `${theme.color.red}`}
 				/>
+				{passwordCheckErr && <p>비밀번호가 일치하지 않습니다.</p>}
 			</div>
 			<Btn
 				btnText="확인"

@@ -1,12 +1,10 @@
 package mainproject.domain.security.service;
 
 import lombok.RequiredArgsConstructor;
-import mainproject.domain.member.entity.Member;
 import mainproject.domain.security.dto.LoginDto;
 import mainproject.domain.security.dto.TokenDto;
 import mainproject.domain.security.provider.JwtTokenizer;
 import mainproject.domain.security.redis.RedisDao;
-import mainproject.domain.security.userdetails.CustomUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -34,12 +32,10 @@ public class AuthService {
         TokenDto tokenDto = createToken(authentication);
 
         // 4. 인증 객체 소환
-        Member user = (Member) authentication.getPrincipal();
-        tokenDto.setId(user.getId());
-
+        UserDetails user = (UserDetails) authentication.getPrincipal();
 
         // 5. refreshToken 저장 (Redis)
-        redisDao.setValues(user.getEmail(), tokenDto.getRefreshToken(),
+        redisDao.setValues(user.getUsername(), tokenDto.getRefreshToken(),
                 Duration.ofMinutes(jwtTokenizer.getRTExpiration()));
 
         return tokenDto;
@@ -81,7 +77,6 @@ public class AuthService {
     private TokenDto createToken(Authentication authentication) { // 토큰 생성
         String accessToken = jwtTokenizer.generateAccessToken(authentication);
         String refreshToken = jwtTokenizer.generateRefreshToken(authentication);
-
 
         TokenDto tokenDto = new TokenDto(accessToken, refreshToken);
 

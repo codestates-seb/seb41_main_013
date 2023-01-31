@@ -5,28 +5,12 @@
 	font-size: 62.5%;
 }
 
-html,
-body,
-#root {
-	height: 100%;
-}
-
 body {
-	/* border-right: 1px solid black;
-	border-left: 1px solid black; */
+	border: 1px solid black;
 	padding: 0 1.3rem;
 	max-width: 480px;
 	min-width: 390px;
-	/* max-height: 844px; */
-	position: fixed;
-	left: 50%;
-	transform: translate(-50%, 0);
-}
-
-@font-face {
-	font-family: "BMDOHYEON";
-	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff")
-		format("woff");
-	font-weight: normal;
-	font-style: normal;
+	min-height: 100vh;
+	overflow: scroll;
+	margin: 0 auto;
 }

@@ -3,7 +3,6 @@ package mainproject.domain.snapshot.Dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import mainproject.domain.challenge.entity.Challenge;
-import mainproject.domain.image.entity.Image;
 import mainproject.domain.member.entity.Member;
 
 import javax.validation.constraints.NotNull;
@@ -35,15 +34,5 @@ public class SnapshotPostDto {
         return challenge;
     }
 
-    @NotNull
-    @Positive
-    @ApiModelProperty(required = true, example = "1")
-    private long snapshotImageId;
-
-    @ApiModelProperty(hidden = true)
-    public Image getImage() {
-        Image image = new Image();
-        image.setImageId(snapshotImageId);
-        return image;
-    }
+    // private Image snapshotImage;  // TODO: 이미지파일
 }

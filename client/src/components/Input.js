@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import React from "react";
 
-export const Input = React.forwardRef((props, ref) => {
+export const Input = (props) => {
 	return (
 		<>
 			<StyledLabel>{props.label}</StyledLabel>
@@ -16,25 +15,22 @@ export const Input = React.forwardRef((props, ref) => {
 				lineHeight={props.lineHeight}
 				onChange={props.onChange}
 				borderColor={props.borderColor}
-				{...props.register}
 			></StyledInput>
 		</>
 	);
-});
+};
 
 export const InputAuth = (props) => {
 	return (
 		<Wrapper>
 			<span>{props.label}</span>
-
 			<AuthInput
 				type={props.type}
 				value={props.value}
 				onChange={props.onChange}
-				error={props.error}
-				id={props.id}
+				border={props.border}
+				fontSize={props.fontSize}
 			/>
-			<p>{props.errmsg}</p>
 		</Wrapper>
 	);
 };
@@ -59,13 +55,12 @@ const StyledLabel = styled.div`
 
 const AuthInput = styled.input`
 	width: ${(props) => props.width || "34rem"};
-	//border: 0.1rem solid #4d4d4d;
+	border: 0.1rem solid #4d4d4d;
 	height: 3rem;
 	border-radius: 0.8rem;
 	font-size: 1.4rem;
 	padding-left: 1rem;
-	border: ${(props) =>
-		`0.1rem solid ${props.error ? props.theme.color.red : "#4d4d4d"}`};
+	border-color: ${(props) => props.border || "#4d4d4d"};
 `;
 
 const Wrapper = styled.div`

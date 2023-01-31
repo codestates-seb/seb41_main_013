@@ -1,6 +1,9 @@
 package mainproject.domain.security.controller;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import mainproject.domain.security.dto.LoginDto;
 import mainproject.domain.security.dto.TokenDto;
@@ -19,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/api/auths")
 @RequiredArgsConstructor
 @CrossOrigin(originPatterns = "*", allowedHeaders = "*", exposedHeaders = {"Authorization", "refreshToken"}, allowCredentials = "true")
-@Api(tags = "로그인, 로그아웃")
 public class AuthController {
 
     private final AuthService authService;
@@ -33,7 +35,7 @@ public class AuthController {
         response.addHeader("Authorization", tokenDto.getAccessToken());
         response.addHeader("refreshToken", tokenDto.getRefreshToken());
 
-        return new ResponseEntity<>(tokenDto.getId(), HttpStatus.OK);
+        return new ResponseEntity<>("Login Successful!", HttpStatus.OK);
     }
     final String postloginDescription = "email: 로그아웃 할 이메일을 입력합니다 예: (adc@naver.com)" +"\r\n"+
             "password: 비밀번호를 입력합니다 예:(12345678)";

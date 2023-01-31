@@ -3,7 +3,6 @@ package mainproject.domain.challenger.Controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import mainproject.domain.challenger.Dto.ChallengerDetailResponseDto;
 import mainproject.domain.challenger.Dto.ChallengerPostDto;
 import mainproject.domain.challenger.Dto.ChallengerResponseDto;
 import mainproject.domain.challenger.Entity.Challenger;
@@ -52,7 +51,7 @@ public class ChallengerController {
     public ResponseEntity getChallengingChallenges(@PathVariable("member-id") @Positive long memberId) {
         List<Challenger> challengers = challengerService.findChallengingChallenges(memberId);
 
-        List<ChallengerDetailResponseDto> response = mapper.challengersToChallengerDetailResponseDtos(challengers);
+        List<ChallengerResponseDto> response = mapper.challengersToChallengerResponseDtos(challengers);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -64,7 +63,7 @@ public class ChallengerController {
     public ResponseEntity getChallengedChallenges(@PathVariable("member-id") @Positive long memberId) {
         List<Challenger> challengers = challengerService.findChallengedChallenges(memberId);
 
-        List<ChallengerDetailResponseDto> response = mapper.challengersToChallengerDetailResponseDtos(challengers);
+        List<ChallengerResponseDto> response = mapper.challengersToChallengerResponseDtos(challengers);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

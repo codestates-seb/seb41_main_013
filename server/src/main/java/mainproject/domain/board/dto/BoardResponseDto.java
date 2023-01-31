@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mainproject.domain.board.entity.Board;
 import mainproject.global.category.Category;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +18,7 @@ public class BoardResponseDto {
 
     private String memberName;
 
-    private long profileImageId;
+    // private Image profileImage;   // TODO: 이미지파일
 
     private Category category;
 
@@ -27,8 +26,7 @@ public class BoardResponseDto {
 
     private String content;
 
-
-  //  private long boardImageId;
+    //private Image boardImage;  // TODO: 이미지파일
 
     private LocalDateTime createdAt;
 

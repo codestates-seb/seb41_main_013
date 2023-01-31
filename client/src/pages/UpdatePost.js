@@ -2,10 +2,8 @@
 import theme from "../components/theme";
 import { useParams, useNavigate } from "react-router-dom";
 import { CreatepostContainer } from "./CreatePost";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ErrorContainer } from "./CreatePost";
-import axios from "axios";
-import { useSelector } from "react-redux";
 
 //components
 import { TitleHeader } from "../components/Header";
@@ -13,51 +11,20 @@ import { ImageUploader } from "../components/ImageUploader";
 import { Input } from "../components/Input";
 import { Btn } from "../components/Button";
 import { SelectCategory } from "../components/Category";
-import { TwoBtnModal } from "../components/Modal";
+
+//dummy
+import { CommunityList } from "../data/dummy";
 
 export const UpdatePost = () => {
-	const { boardId } = useParams();
+	const { postId } = useParams();
 	const navigate = useNavigate();
-	const [post, setPost] = useState({});
+	const post = CommunityList.filter((el) => el.postId == postId)[0];
 
-	useEffect(() => {
-		getPost();
-	}, []);
-
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
+	const [title, setTitle] = useState(post.title);
+	const [content, setContent] = useState(post.content);
 	const [titleError, setTitleError] = useState(false);
 	const [contentError, setContentError] = useState(false);
 	const [categoryError, setCategoryError] = useState(false);
-	const [createModal, setCreateModal] = useState(false);
-	const [value, setValue] = useState(-1); //카테고리 번호
-	const category = ["우리동네", "운동", "생활습관", "기타"];
-	//유저 정보
-	const accessToken = localStorage.getItem("authorization");
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
-
-	const getPost = async () => {
-		try {
-			const response = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-					withCredentials: true,
-				},
-			);
-
-			if (response.status === 200) {
-				setPost(response.data.data);
-				console.log(post);
-				setTitle(post.title);
-				setContent(post.cotent);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
 
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
@@ -71,63 +38,14 @@ export const UpdatePost = () => {
 		else setTitleError(false);
 		if (content.length < 20) setContentError(true);
 		else setContentError(false);
-		if (value === -1) setCategoryError(true);
-		else setCategoryError(false);
-		if (
-			titleError === false &&
-			contentError === false &&
-			categoryError === false &&
-			value !== -1
-		) {
-			//에러가 하나도 없을 경우
-			setCreateModal(true);
+		if (!titleError && !contentError && !categoryError) {
+			//모달 창 ("글 작성을 완료하시겠습니까?")
+			navigate(`/community`); //커뮤니티 홈 페이지(또는 카테고리 페이지)로 이동
 		}
-	};
-
-	const handleUpdatePost = async () => {
-		//글 등록 함수
-		try {
-			const response = await axios.patch(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
-				{
-					boardImageId: 1,
-					category: category[value],
-					content: content,
-					memberId: loginUserInfo.memberId,
-					title: title,
-					createdAt: new Date(),
-					memberName: loginUserInfo.name,
-					profileImageId: loginUserInfo.profileImageId,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-					withCredentials: true,
-				},
-			);
-			if (response.status === 200) {
-				navigate("/community");
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
-	const handleChangeValue = (n) => {
-		setValue(n);
 	};
 
 	return (
 		<CreatepostContainer>
-			{createModal && (
-				<TwoBtnModal
-					modalText="글 작성을 완료하시겠습니까?"
-					btnTextOrg="완료"
-					onClickOrg={handleUpdatePost}
-					btnTextGry="취소"
-					onClickGry={() => setCreateModal(false)}
-				/>
-			)}
 			<TitleHeader title="글 수정하기" />
 			<p>제목</p>
 			<Input
@@ -155,14 +73,15 @@ export const UpdatePost = () => {
 			<p>사진</p>
 			<ImageUploader />
 			<p>카테고리</p>
-			<SelectCategory onClick={handleChangeValue} />
+			<SelectCategory />
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>
+
 			<Btn
 				btnText="완료"
 				background={theme.color.green}
-				width="98.3%"
+				width="100%"
 				height="4.8rem"
 				onClick={handleCheck}
 				margin="10rem 0.6rem 1rem 0.6rem"

@@ -14,7 +14,7 @@ export const ProgressBar = (props) => {
 const ProgressContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 0.6rem 0;
+  padding-top: 0.6rem;
 `;
 
 const ProgressBarOuter = styled.div`
