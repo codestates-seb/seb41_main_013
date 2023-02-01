@@ -16,7 +16,6 @@ import { Loading } from "../components/Loading";
 
 export const Community = () => {
 	//유저 정보
-
 	const accessToken = localStorage.getItem("authorization");
 	const isLogin = useSelector((state) => state.loginStatus.status);
 
@@ -35,6 +34,7 @@ export const Community = () => {
 	const [hasData, setHasData] = useState(true);
 	const [page, setPage] = useState(1);
 	const [hasMoreData, setHasMoreData] = useState(true);
+	const [searchTerm, setSearchTerm] = useState(""); //검색어
 
 	useEffect(() => {
 		getPostList();
@@ -42,23 +42,21 @@ export const Community = () => {
 
 	const getPostList = async () => {
 		if (!hasMoreData) return;
+		let url = `${process.env.REACT_APP_SERVER_URL}/api/boards?page=${page}`;
 		try {
-			const response = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards?page=${page}`,
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-					withCredentials: true,
+			if (searchTerm !== "") {
+				url = `${process.env.REACT_APP_SERVER_URL}/api/boards/search?page=${page}&query=${searchTerm}`;
+			}
+			const response = await axios.get(url, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
 				},
-			);
+				withCredentials: true,
+			});
 			if (response.data.data.length === 0) {
 				setHasData(false);
 			}
-			if (response.data.data.length < 10) {
-				setHasMoreData(false);
-			}
-			setPostList([...postList, ...response.data.data]);
+			setPostList([...response.data.data]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -69,11 +67,24 @@ export const Community = () => {
 		getPostList();
 	};
 
+	const handleSearch = (e) => {
+		e.preventDefault();
+		setPage(1);
+		setHasMoreData(true);
+		getPostList();
+	};
+
 	return (
 		<CommunityContainer>
 			{createModal && <Modal modalText="로그인 이후 글 작성이 가능합니다." />}
 			<HomeCategory NavTo="community" />
-			<SearchInput />
+			<SearchInput
+				value={searchTerm}
+				onChange={(e) => setSearchTerm(e.target.value)}
+				onKeyUp={(e) => {
+					if (e.key === "Enter") handleSearch(e);
+				}}
+			/>
 			{hasData ? (
 				<InfiniteScroll
 					className="infinite-scroll"

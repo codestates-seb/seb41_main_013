@@ -79,8 +79,8 @@ export const WriteComment = (props) => {
 	};
 	const updateComment = async () => {
 		//댓글 수정 함수
-		try {
-			await axios.patch(
+		await axios
+			.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${props.commentId}`,
 				{
 					boardId: boardId,
@@ -93,10 +93,10 @@ export const WriteComment = (props) => {
 					},
 					withCredentials: true,
 				},
-			);
-		} catch (error) {
-			console.error(error);
-		}
+			)
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	return (

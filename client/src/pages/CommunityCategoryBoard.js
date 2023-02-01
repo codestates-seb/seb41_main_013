@@ -12,6 +12,7 @@ import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 import { Modal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
+import buildURL from "axios/lib/helpers/buildURL";
 
 //props : 카테고리명 - 우리 동네/운동/규칙적인 생활/기타
 export const CommunityCategoryBoard = () => {
@@ -34,36 +35,53 @@ export const CommunityCategoryBoard = () => {
 
 	const [cPostList, setCPostList] = useState([]);
 	const [hasData, setHasData] = useState(true);
+	const [page, setPage] = useState(1);
+	const [hasMoreData, setHasMoreData] = useState(true);
+	const [searchTerm, setSearchTerm] = useState(""); //검색어
 
 	useEffect(() => {
 		getcPostList();
 	}, []);
 
 	const getcPostList = async () => {
+		if (!hasMoreData) return;
+		let url = `${process.env.REACT_APP_SERVER_URL}/api/boards?page=${page}&category=${category[categoryId]}`;
 		try {
-			const response = await axios.get(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards/?category=${category[categoryId]}`,
-				{
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-					withCredentials: true,
+			if (searchTerm !== "") {
+				url = `${process.env.REACT_APP_SERVER_URL}/api/boards/search?page=${page}&category=${category[categoryId]}&query=${searchTerm}`;
+			}
+			const response = await axios.get(buildURL, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
 				},
-			);
+				withCredentials: true,
+			});
 			if (response.data.data.length === 0) {
 				setHasData(false);
 			}
-			if (response.status === 200) setCPostList(response.data.data);
+			setCPostList(response.data.data);
 		} catch (error) {
 			console.error(error);
 		}
+	};
+	const handleSearch = (e) => {
+		e.preventDefault();
+		setPage(1);
+		setHasMoreData(true);
+		getcPostList();
 	};
 
 	return (
 		<CommunitycContainer>
 			{createModal && <Modal modalText="로그인 이후 글 작성이 가능합니다." />}
 			<TitleHeader title={category[categoryId]} />
-			<SearchInput />
+			<SearchInput
+				value={searchTerm}
+				onChange={(e) => setSearchTerm(e.target.value)}
+				onKeyUp={(e) => {
+					if (e.key === "Enter") handleSearch(e);
+				}}
+			/>
 			{hasData ? (
 				<div>
 					{cPostList.map((cpost) => (
