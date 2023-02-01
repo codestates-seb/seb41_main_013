@@ -58,7 +58,6 @@ export const PostDetail = () => {
 	useEffect(() => {
 		getPost();
 		getCommentList();
-		console.log(loginUserInfo.memberId);
 	}, []);
 
 	const getCommentList = async () => {

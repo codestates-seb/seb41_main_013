@@ -21,12 +21,11 @@ export const WriteComment = (props) => {
 	const [commentError, setCommentError] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [createCModal, setCreateCModal] = useState(false);
-	const boardId = props.commentId;
 
 	const handleChangeComment = (e) => {
 		setComment(e.target.value);
 	};
-	const handleCheck = (props) => {
+	const handleCheck = () => {
 		//글 작성/수정 - 유효성 검사 함수
 		if (!comment) setCommentError(true);
 		else {
@@ -55,9 +54,9 @@ export const WriteComment = (props) => {
 		//댓글 생성 함수
 		await axios
 			.post(
-				`${process.env.REACT_APP_SERVER_URL}/api/comments/${boardId}`,
+				`${process.env.REACT_APP_SERVER_URL}/api/comments/${props.boardId}`,
 				{
-					boardId: boardId,
+					boardId: props.boardId,
 					content: comment,
 					memberId: loginUserInfo.memberId,
 				},
@@ -68,11 +67,6 @@ export const WriteComment = (props) => {
 					withCredentials: true,
 				},
 			)
-			.then((res) => {
-				if (res.status === 201) {
-					console.log("댓글 생성 완료");
-				}
-			})
 			.catch((error) => {
 				console.error(error);
 			});
@@ -83,7 +77,7 @@ export const WriteComment = (props) => {
 			.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${props.commentId}`,
 				{
-					boardId: boardId,
+					boardId: props.boardId,
 					content: comment,
 					memberId: loginUserInfo.memberId,
 				},
