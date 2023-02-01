@@ -16,9 +16,6 @@ import { WriteComment } from "../components/WriteComment";
 import { Modal, TwoBtnModal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
 
-//dummy
-//import { CommunityList } from "../data/dummy";
-
 export const PostDetail = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
@@ -27,7 +24,6 @@ export const PostDetail = () => {
 	const navigate = useNavigate();
 	const { boardId } = useParams();
 	const category = { 우리동네: 0, 운동: 1, 생활습관: 2, 기타: 3 };
-	//const post = CommunityList.filter((el) => el.postId == boardId)[0];
 
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
@@ -92,8 +88,8 @@ export const PostDetail = () => {
 					setCreateUModal(false);
 				}, 1000);
 			} else navigate(`/post/${boardId}/update`);
-		} else {
-			if (loginUserInfo.memberId !== post.memberI) {
+		} else if (func === "del") {
+			if (loginUserInfo.memberId !== post.memberId) {
 				setCreateDModal(true);
 				setTimeout(() => {
 					setCreateDModal(false);
@@ -106,7 +102,7 @@ export const PostDetail = () => {
 		//해당 글을 삭제하는 함수
 		try {
 			const response = await axios.delete(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards${boardId}`,
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 				{
 					headers: {
 						Authorization: `Bearer ${accessToken}`,

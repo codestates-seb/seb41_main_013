@@ -69,7 +69,7 @@ export const WriteComment = (props) => {
 				},
 			)
 			.then((res) => {
-				if (res.status === 200) {
+				if (res.status === 201) {
 					console.log("댓글 생성 완료");
 				}
 			})
@@ -80,7 +80,7 @@ export const WriteComment = (props) => {
 	const updateComment = async () => {
 		//댓글 수정 함수
 		try {
-			const response = await axios.patch(
+			await axios.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/comments/${props.commentId}`,
 				{
 					boardId: boardId,
@@ -94,9 +94,6 @@ export const WriteComment = (props) => {
 					withCredentials: true,
 				},
 			);
-			if (response.status === 200) {
-				console.log("댓글 수정 완료");
-			}
 		} catch (error) {
 			console.error(error);
 		}
