@@ -14,7 +14,7 @@ import { Modal, TwoBtnModal } from "../components/Modal";
 //props : 댓글 내용
 export const Comment = (props) => {
 	//유저 정보
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
+	const accessToken = localStorage.getItem("authorization");
 	const isLogin = useSelector((state) => state.loginStatus.status);
 
 	const commentId = props.commentId;
@@ -27,18 +27,15 @@ export const Comment = (props) => {
 		//댓글 삭제 함수
 		setCreateDdModal(false);
 		try {
-			const response = await axios.delete(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards${commentId}`,
+			await axios.delete(
+				`${process.env.REACT_APP_SERVER_URL}/api/comments/${commentId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
 			);
-			if (response.status === 200) {
-				console.log("댓글 삭제 완료");
-			}
 		} catch (error) {
 			console.error(error);
 		}
