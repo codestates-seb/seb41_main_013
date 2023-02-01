@@ -34,7 +34,6 @@ export const UpdatePost = () => {
 	const category = ["우리동네", "운동", "생활습관", "기타"];
 	//유저 정보
 	const accessToken = localStorage.getItem("authorization");
-	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 
 	const getPost = async () => {
 		try {
@@ -84,19 +83,15 @@ export const UpdatePost = () => {
 	};
 
 	const handleUpdatePost = async () => {
-		//글 등록 함수
+		//글 수정 후 등록 함수
 		try {
 			const response = await axios.patch(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards`,
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 				{
-					boardImageId: 1,
+					boardId: boardId,
 					category: category[value],
 					content: content,
-					memberId: loginUserInfo.memberId,
 					title: title,
-					createdAt: new Date(),
-					memberName: loginUserInfo.name,
-					profileImageId: loginUserInfo.profileImageId,
 				},
 				{
 					headers: {
@@ -154,7 +149,7 @@ export const UpdatePost = () => {
 			<p>사진</p>
 			<ImageUploader />
 			<p>카테고리</p>
-			<SelectCategory onClick={handleChangeValue} />
+			<SelectCategory onClick={handleChangeValue} category={post.category} />
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>

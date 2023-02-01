@@ -70,7 +70,7 @@ export const CommunityCategoryBoard = () => {
 						<PostSummary
 							title={cpost.title}
 							content={cpost.content}
-							writer={cpost.writer}
+							writer={cpost.memberName}
 							postId={cpost.boardId}
 							date={cpost.createdAt}
 						/>

@@ -43,7 +43,7 @@ export const PostDetail = () => {
 				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
@@ -185,7 +185,7 @@ export const PostDetail = () => {
 							<div>
 								<Comment
 									comment={el.content}
-									writer={el.writer}
+									writer={el.memberName}
 									date={el.date}
 									commentId={el.commentId}
 									boardId={boardId}
