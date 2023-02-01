@@ -20,6 +20,7 @@ export const PostDetail = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
+	//const userId = Number(localStorage.getItem("recoil-persist").slice(25, 27));
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
@@ -57,6 +58,7 @@ export const PostDetail = () => {
 	useEffect(() => {
 		getPost();
 		getCommentList();
+		console.log(loginUserInfo.memberId);
 	}, []);
 
 	const getCommentList = async () => {

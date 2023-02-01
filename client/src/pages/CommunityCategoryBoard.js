@@ -12,7 +12,6 @@ import { BackToTopBtn, CreateBtn } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 import { Modal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
-import buildURL from "axios/lib/helpers/buildURL";
 
 //props : 카테고리명 - 우리 동네/운동/규칙적인 생활/기타
 export const CommunityCategoryBoard = () => {
@@ -50,7 +49,7 @@ export const CommunityCategoryBoard = () => {
 			if (searchTerm !== "") {
 				url = `${process.env.REACT_APP_SERVER_URL}/api/boards/search?page=${page}&category=${category[categoryId]}&query=${searchTerm}`;
 			}
-			const response = await axios.get(buildURL, {
+			const response = await axios.get(url, {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
