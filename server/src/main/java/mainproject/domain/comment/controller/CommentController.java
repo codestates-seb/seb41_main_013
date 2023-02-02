@@ -13,6 +13,7 @@ import mainproject.domain.comment.mapper.CommentMapper;
 import mainproject.domain.comment.service.CommentService;
 
 
+import mainproject.domain.image.service.ImageService;
 import mainproject.global.dto.SingleResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,12 @@ public class CommentController {
 
     CommentService commentService;
     CommentMapper commentMapper;
+    ImageService imageService;
 
-    public CommentController(CommentService commentService, CommentMapper commentMapper) {
+    public CommentController(CommentService commentService, CommentMapper commentMapper, ImageService imageService) {
         this.commentService = commentService;
         this.commentMapper = commentMapper;
+        this.imageService = imageService;
     }
 
     @ApiOperation(value = "댓글 등록")
@@ -46,6 +49,9 @@ public class CommentController {
         Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
         Comment savedComment = commentService.createComment(comment, boardId);
         CommentResponseDto response = commentMapper.commentToCommentResponseDto(savedComment);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(comment.getMember().getImage().getImageId()));
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -64,9 +70,13 @@ public class CommentController {
 
         Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
         comment.setCommentId(commentId);
-        Comment response = commentService.updateComment(comment);
+        Comment updatedComment = commentService.updateComment(comment);
 
-        return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(response), HttpStatus.OK);
+        CommentResponseDto response = commentMapper.commentToCommentResponseDto(updatedComment);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(comment.getMember().getImage().getImageId()));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -81,6 +91,12 @@ public class CommentController {
    public ResponseEntity getComments(@PathVariable("board-id") long boardId,
                                      @RequestParam(defaultValue = "1") @Nullable @Positive int page){
        List<Comment> comments = commentService.findComments(boardId, page-1);
+
+       List<CommentResponseDto> response = commentMapper.commentsToCommentResponseDtos(comments);
+
+       for (int i = 0; i < response.size(); i++) {
+           response.get(i).setProfileImageUrl(imageService.createPresignedUrl(comments.get(i).getMember().getImage().getImageId()));
+       }
 
        return new ResponseEntity<>(
                new SingleResponseDto<>(commentMapper.commentsToCommentResponseDtos(comments)), HttpStatus.OK);

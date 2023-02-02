@@ -32,6 +32,8 @@ export const UpdatePost = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [value, setValue] = useState(-1); //카테고리 번호
 	const category = ["우리동네", "운동", "생활습관", "기타"];
+	let categoryId;
+
 	//유저 정보
 	const accessToken = localStorage.getItem("authorization");
 
@@ -51,6 +53,7 @@ export const UpdatePost = () => {
 				setPost(response.data.data);
 				setTitle(response.data.data.title);
 				setContent(response.data.data.content);
+				categoryId = response.data.data.category;
 			}
 		} catch (error) {
 			console.error(error);
@@ -71,12 +74,7 @@ export const UpdatePost = () => {
 		else setContentError(false);
 		if (value === -1) setCategoryError(true);
 		else setCategoryError(false);
-		if (
-			titleError === false &&
-			contentError === false &&
-			categoryError === false &&
-			value !== -1
-		) {
+		if (title.length >= 5 && content.length >= 20 && value !== -1) {
 			//에러가 하나도 없을 경우
 			setCreateModal(true);
 		}
@@ -149,7 +147,7 @@ export const UpdatePost = () => {
 			<p>사진</p>
 			<ImageUploader />
 			<p>카테고리</p>
-			<SelectCategory onClick={handleChangeValue} category={post.category} />
+			<SelectCategory onClick={handleChangeValue} category={categoryId} />
 			<ErrorContainer display={categoryError}>
 				1개의 카테고리를 선택해주세요.
 			</ErrorContainer>

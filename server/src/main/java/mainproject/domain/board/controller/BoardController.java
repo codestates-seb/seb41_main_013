@@ -11,8 +11,7 @@ import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.mapper.BoardMapper;
 import mainproject.domain.board.service.BoardService;
 
-import mainproject.domain.challenge.dto.ChallengeResponseDto;
-import mainproject.domain.challenge.entity.Challenge;
+import mainproject.domain.image.service.ImageService;
 import mainproject.global.category.Category;
 import mainproject.global.dto.MultiResponseDto;
 import mainproject.global.dto.SingleResponseDto;
@@ -40,19 +39,26 @@ public class BoardController {
 
     private BoardService boardService;
     private BoardMapper boardMapper;
+    private ImageService imageService;
 
-    public BoardController(BoardService boardService, BoardMapper boardMapper) {
+    public BoardController(BoardService boardService, BoardMapper boardMapper, ImageService imageService) {
         this.boardService = boardService;
         this.boardMapper = boardMapper;
+        this.imageService = imageService;
     }
 
     @ApiOperation(value = "글 등록")
     @PostMapping
     public ResponseEntity postBoard(@ApiParam(name = "게시글 등록", value = postBoardDescription, required = true)
                                         @Valid @RequestBody BoardPostDto boardPostDto) {
-        Board response = boardService.
+        Board board = boardService.
                 saveBoard(boardMapper.boardPostDtoToBoard(boardPostDto));
-        return new ResponseEntity(boardMapper.boardToBoardResponseDto(response), HttpStatus.CREATED);
+
+        BoardResponseDto response = boardMapper.boardToBoardResponseDto(board);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(board.getMember().getImage().getImageId()));
+
+        return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
 
@@ -73,9 +79,14 @@ public class BoardController {
 
                                      @Valid @RequestBody BoardPatchDto boardPatchDto) {
         boardPatchDto.setBoardId(boardId);
-        Board response = boardService.
+        Board board = boardService.
                 updateBoard(boardId, boardMapper.boardPatchDtoToBoard(boardPatchDto));
-        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(response), HttpStatus.OK);
+
+        BoardResponseDto response = boardMapper.boardToBoardResponseDto(board);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(board.getMember().getImage().getImageId()));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -88,9 +99,13 @@ public class BoardController {
     @ApiOperation(value = "글 조회", notes = "게시판에 글을 조회합니다.")
     @GetMapping("/{board-id}")
     public ResponseEntity getBoard(@PathVariable("board-id") @Positive long boardId) {
-        Board response = boardService.findBoard(boardId);
+        Board board = boardService.findBoard(boardId);
+
+        BoardResponseDto response = boardMapper.boardToBoardResponseDto(board);
+        response.setProfileImageUrl(imageService.createPresignedUrl(board.getMember().getImage().getImageId()));
+
         return new ResponseEntity<>(
-                new SingleResponseDto<>(boardMapper.boardToBoardResponseDto(response)), HttpStatus.OK);
+                new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
 
@@ -105,8 +120,13 @@ public class BoardController {
         Page<Board> pagedBoards = boardService.findBoards(category,page - 1, size);
         List<Board> boards = pagedBoards.getContent();
 
+        List<BoardResponseDto> response = boardMapper.boardsToBoardResponseDtos(boards);
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(boards.get(i).getMember().getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(
-                new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pagedBoards),
+                new MultiResponseDto<>(response, pagedBoards),
                 HttpStatus.OK);
     }
 
@@ -124,6 +144,9 @@ public class BoardController {
         List<Board> boards = pageBoards.getContent();
 
         List<BoardResponseDto> response = boardMapper.boardsToBoardResponseDtos(boards);
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(boards.get(i).getMember().getImage().getImageId()));
+        }
 
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageBoards), HttpStatus.OK);
     }

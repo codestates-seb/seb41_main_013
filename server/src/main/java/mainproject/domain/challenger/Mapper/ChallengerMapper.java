@@ -39,7 +39,15 @@ public class ChallengerMapper {
         challengerResponseDto.setChallengeImageId(challenger.getChallenge().getImage().getImageId());
         challengerResponseDto.setChallengerId(challenger.getChallengerId());
         challengerResponseDto.setCreatedAt(challenger.getCreatedAt());
-        challengerResponseDto.setProgress(challenger.getSnapshotCount() * 100 / challenger.getChallenge().getChallengeDay());
+
+        int snapshotCount = challenger.getSnapshotCount();
+        int frequency = challenger.getChallenge().getFrequency().ordinal() + 1;
+        int dayCount = challenger.getChallenge().getChallengeDay();
+        int progress = (snapshotCount * 7 * 100) / (frequency * dayCount);
+        if (progress > 100) {
+            progress = 100;
+        }
+        challengerResponseDto.setProgress(progress);
 
         return challengerResponseDto;
     }

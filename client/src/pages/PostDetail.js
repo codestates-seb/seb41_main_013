@@ -20,7 +20,6 @@ export const PostDetail = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
-	//const userId = Number(localStorage.getItem("recoil-persist").slice(25, 27));
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
@@ -161,7 +160,11 @@ export const PostDetail = () => {
 				) : (
 					<NoDataDiv text="등록된 글이" />
 				)}
-				<WriterInfo writer={post.memberName} date={post.createdAt} />
+				<WriterInfo
+					writer={post.memberName}
+					date={post.createdAt}
+					memberId={post.memberId}
+				/>
 				<div className="btns">
 					<Btn
 						background={theme.color.green}

@@ -11,10 +11,14 @@ import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
 import { signout, getLoginUser } from "../redux/userSlice";
-import profileImg0 from "../images/profileImg0.png";
+<<<<<<< HEAD
+=======
+/*import profileImg0 from "../images/profileImg0.png";
 import profileImg1 from "../images/profileImg1.png";
 import profileImg2 from "../images/profileImg2.png";
-import profileImg3 from "../images/profileImg3.png";
+import profileImg3 from "../images/profileImg3.png";*/
+import { profileImgBox } from "../components/Avatar";
+>>>>>>> dev
 
 export const MyPage = (props) => {
 	const [modal, setModal] = useState({
@@ -60,6 +64,7 @@ export const MyPage = (props) => {
 							...loginUserInfo,
 							name: result.data.name,
 							profileImageId: result.data.profileImageId,
+							profileImageUrl: result.data.profileImageUrl,
 						}),
 					);
 				}
@@ -69,15 +74,21 @@ export const MyPage = (props) => {
 		}
 	};
 
-	const profileImgBox = [profileImg0, profileImg1, profileImg2, profileImg3];
-	const randomIdx = Math.floor(Math.random() * profileImgBox.length);
+<<<<<<< HEAD
+=======
+	//const profileImgBox = [profileImg0, profileImg1, profileImg2, profileImg3];
+	//const randomIdx = Math.floor(Math.random() * profileImgBox.length);
 
 	if (!loginUserInfo.profileImg) {
 		dispatch(
-			getLoginUser({ ...loginUserInfo, profileImg: profileImgBox[randomIdx] }),
+			getLoginUser({
+				...loginUserInfo,
+				profileImg: profileImgBox[loginUserInfo.memberId % 16],
+			}),
 		);
 	}
 
+>>>>>>> dev
 	const deleteUser = async () => {
 		try {
 			const result = await axios.delete(
@@ -215,28 +226,29 @@ export const MyPage = (props) => {
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
 			{isLogin ? (
 				<>
-					<MypageSetting
-						menuOpen={menuOpen}
-						modalToLogout={modalToLogout}
-						modalToQuit={modalToQuit}
-						onClick={toggleMenu}
-					/>
-					<div />
-					<div className="userInfo">
-						<img src={`${loginUserInfo.profileImg}`} alt="avatar" />
-
-						{loginUserInfo.name || "유저이름"}
-					</div>
-					<ChallengeState
-						doing={challengeStatus.participate}
-						complete={challengeStatus.complete}
-						create={challengeStatus.create}
-					/>
-					<div className="challengeNav">
-						<NavTitle title="생성한 챌린지" link="/userCreate" />
-						<NavTitle title="완료한 챌린지" link="/userComplete" />
-					</div>
-					<div />
+					<Container>
+						<MypageSetting
+							menuOpen={menuOpen}
+							modalToLogout={modalToLogout}
+							modalToQuit={modalToQuit}
+							onClick={toggleMenu}
+						/>
+						<div className="userInfo">
+							<div className="img">
+								<img src={`${loginUserInfo.profileImageUrl}`} alt="avatar" />
+							</div>
+							{loginUserInfo.name || "유저이름"}
+						</div>
+						<ChallengeState
+							doing={challengeStatus.participate}
+							complete={challengeStatus.complete}
+							create={challengeStatus.create}
+						/>
+						<div className="challengeNav">
+							<NavTitle title="생성한 챌린지" link="/userCreate" />
+							<NavTitle title="완료한 챌린지" link="/userComplete" />
+						</div>
+					</Container>
 				</>
 			) : (
 				<div className="noneLogin">
@@ -252,16 +264,36 @@ export const MyPage = (props) => {
 };
 
 const MypageWrapper = styled.div`
+	width: 100%;
+	height: 100%;
+
+	.noneLogin {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 2rem;
+		font-size: 2rem;
+	}
+`;
+
+const Container = styled.div`
 	/* border: 1px solid black; */
 	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
-	gap: 2rem;
 	position: absolute;
 	left: 0;
+	top: 5.2rem;
+	bottom: 6.5rem;
+	overflow: scroll;
+	display: flex;
+	flex-direction: column;
+	gap: 5rem;
+	justify-content: flex-start;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 
 	.challengeNav {
 		width: 100%;
@@ -276,20 +308,16 @@ const MypageWrapper = styled.div`
 		font-size: 1.5rem;
 		padding: 1rem;
 
+		.img {
+			width: 50%;
+			height: 20rem;
+		}
+
 		img {
 			border: 1px solid black;
-			width: 45%;
-			height: 45%;
+			width: 100%;
+			height: 100%;
 			border-radius: 50%;
 		}
-	}
-
-	.noneLogin {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		font-size: 2rem;
-		gap: 1rem;
 	}
 `;

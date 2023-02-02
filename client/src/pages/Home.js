@@ -68,6 +68,7 @@ const Home = () => {
 };
 
 const HomeWrapper = styled.div`
+	/* border: 1px solid black; */
 	position: absolute;
 	left: 0;
 	top: 15rem;
@@ -78,16 +79,16 @@ const HomeWrapper = styled.div`
 `;
 
 const HomeChallengeItemContainer = styled.div`
-  position: relative;
-		top: 4.5rem;
-		overflow-y: scroll;
-		height: 100%;
-		display: flex;
-		flex-wrap: wrap;
+	position: relative;
+	top: 4.5rem;
+	overflow-y: scroll;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
 
-		::-webkit-scrollbar {
-			display: none;
-		}
+	::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const StyledH1 = styled.h1`
