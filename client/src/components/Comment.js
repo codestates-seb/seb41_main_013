@@ -110,7 +110,10 @@ export const Comment = (props) => {
 					boardId={props.boardId}
 					func="update"
 					commentId={commentId}
-					onClick={handleUpdate}
+					onClick={() => {
+						handleUpdate();
+						props.onClick();
+					}}
 				/>
 			)}
 			<WriterInfo
