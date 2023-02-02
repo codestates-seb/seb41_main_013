@@ -10,6 +10,7 @@ import { FaRegBookmark, FaBookmark, FaShareAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { random } from "../images/random";
+import running from "../images/running.JPG";
 
 const ChallengeDetail = () => {
   const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
@@ -22,6 +23,7 @@ const ChallengeDetail = () => {
   const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
+  const isLogin = useSelector((state) => state.loginStatus.status);
   
   useEffect(() => {
     getChallengeData();
@@ -29,11 +31,9 @@ const ChallengeDetail = () => {
 
   const getChallengeData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/challenges/details/${challengeId}?memberId=${memberId}`,
+      const url = isLogin ? `${process.env.REACT_APP_SERVER_URL}/api/challenges/details/${challengeId}?memberId=${memberId}` : `${process.env.REACT_APP_SERVER_URL}/api/challenges/details/${challengeId}`;
+      const response = await axios.get(url,
         {
-					// headers: {
-					// 	Authorization: `Bearer ${accessToken}`,
-					// },
 					withCredentials: true,
 				});
         console.log(response.data);
@@ -54,9 +54,6 @@ const ChallengeDetail = () => {
         challengeId,
         memberId
       }, {
-        // headers: {
-        //   Authorization: `Bearer ${accessToken}`,
-        // },
         withCredentials: true,
       });
       if (response.status === 201) {
@@ -74,8 +71,8 @@ const ChallengeDetail = () => {
         title={challengeData.title}
       />
       <ChallengeDetailWrapper>
-        <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt={challengeData.title} />
-        <StyledH1>제목</StyledH1>
+        {/* <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt={challengeData.title} /> */}
+        <StyledImg src={running} alt={challengeData.title} />
         <StyledH1>{challengeData.title}</StyledH1>
         <InfoTag
           label={`${challengeData.challengerCount}명`}
@@ -96,14 +93,15 @@ const ChallengeDetail = () => {
           <FaShareAlt className="icon" />
         </IconWrapper>
         {!btnVisible && <Btn
-          background={theme.color.green}
+          background={!isLogin ? theme.color.gray : theme.color.green}
           size="1.4rem"
           width="18.5rem"
           height="4.8rem"
           btnText="참여하기"
           margin="0"
           fontWeight="700"
-          onClick={handleBtnClick}
+          onClick={isLogin && handleBtnClick}
+          cursor={isLogin ? "pointer" : "default"}
         />}
         {btnVisible && <Btn
           background={theme.color.gray}
@@ -114,6 +112,7 @@ const ChallengeDetail = () => {
           height="4.8rem"
           btnText="참여중"
           margin="0"
+          cursor="default"
         />}
       </ChallengeDetailFooter>
       {twoBtnModalVisible && <TwoBtnModal 
@@ -128,7 +127,6 @@ const ChallengeDetail = () => {
 };
 
 const StyledImg = styled.img`
-  width: 100%;
   height: 21.4rem;
   border-radius: 0.8rem;
   margin: 1.3rem 0;
@@ -136,14 +134,18 @@ const StyledImg = styled.img`
 `;
 
 const ChallengeDetailContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  position: absolute;
+  left: 0;
+  width: 100%;
   height: 100%;
-  justify-content: space-between;
+  padding: 0 1.3rem;
+  margin-bottom: 6.5rem;
 `;
 
 const ChallengeDetailWrapper = styled.div`
   margin-top: 5.2rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ChallengeDetailFooter = styled.div`
@@ -151,11 +153,11 @@ const ChallengeDetailFooter = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 768px;
-  position: relative;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 1.3rem;
+  padding: 0 1.3rem;
 `;
 
 const StyledH1 = styled.h1`
@@ -189,9 +191,9 @@ const StyledUl = styled.div`
 const StyledP = styled.p`
   font-size: 1.3rem;
   font-weight: 400;
-  margin-left: 1rem;
-  margin-top: 0.6rem;
-  margin-bottom: 0.6rem;
+  padding-left: 1rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
 `;
 
 const IconWrapper = styled.div`
