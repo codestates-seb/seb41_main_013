@@ -26,10 +26,10 @@ import java.util.Optional;
 
 @Service
 public class ImageService {
-    @Value("${AWS_ACCESS_KEY_ID}")
+    @Value("${aws-access-key-id}")
     private String accessKey;
 
-    @Value("${AWS_SECRET_ACCESS_KEY}")
+    @Value("${aws-secret-access-key}")
     private String secretKey;
 
     private Regions clientRegion = Regions.AP_NORTHEAST_2;
