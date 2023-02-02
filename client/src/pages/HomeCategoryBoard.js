@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import { NoDataDiv } from '../components/NoData';
 import { useSelector } from "react-redux";
 import { random } from "../images/random";
+import running from "../images/running.JPG";
 
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
@@ -26,7 +27,6 @@ const HomeCategoryBoard = () => {
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
     console.log(e.target.value);
-    // setChallenges([]);
     setPage(1);
     setHasMoreData(true);
     getAllChallengesList();
@@ -60,8 +60,6 @@ const HomeCategoryBoard = () => {
       if (response.data.data.length === 0) {
         setHasData(false);
       }
-      // if (response.data.data.length < 10) { setHasMoreData(false); }
-      // setChallenges([...challenges, ...response.data.data]);
       setChallenges([...response.data.data]);
     } catch (error) {
       console.error(error);
@@ -90,7 +88,7 @@ const HomeCategoryBoard = () => {
   return (
     <HomeCategoryBoardWrapper>
       <TitleHeader
-        title={challenges.category}
+        title={category[categoryNum]}
       />
       <div className="searchSort">
         <StyledInput
@@ -118,7 +116,8 @@ const HomeCategoryBoard = () => {
         {challenges.map((challenge) => (
           <HomeChallengeItem
             // imgUrl={challenge.imageUrl}
-            imgUrl={random[Math.floor(Math.random() * random.length)]}
+            // imgUrl={random[Math.floor(Math.random() * random.length)]}
+            imgUrl={running}
             challengeTitle={challenge.title}
             challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}
