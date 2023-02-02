@@ -22,6 +22,7 @@ const MyChallengeUpload = () => {
 	const { memberId } = useSelector(
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
+	const accessToken = localStorage.getItem("authorization");
 
 	useEffect(() => {
 		getChallengeData();
@@ -40,10 +41,13 @@ const MyChallengeUpload = () => {
 
 	const handleBtnClick = () => {
 		const currentTime = dayjs();
+
+		const startDate = dayjs(challengeData.startAt);
+		const endDate = dayjs(challengeData.endAt);
 		const startTime = dayjs(challengeData.snapshotStartAt, "HH:mm");
 		const endTime = dayjs(challengeData.snapshotEndAt, "HH:mm");
 
-		if (currentTime.isBetween(startTime, endTime)) {
+		if ((currentTime.isAfter(startDate) || currentTime.isSame(startDate)) && (currentTime.isBefore(endDate) || currentTime.isSame(endDate)) && currentTime.isBetween(startTime, endTime)) {
 			setTwoBtnModalVisible(true);
 		} else {
 			setOneBtnModalVisible(true);
@@ -51,23 +55,29 @@ const MyChallengeUpload = () => {
 	};
 
 	const handleOrgClick = async () => {
+		const formData = new FormData();
+		formData.append("file", image);
 
 		try {
-			const presignedUrlResponse = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, image, {
+			const presignedUrlResponse = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
 					headers: {
-					"Content-Type": image.type,
+						"Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${accessToken}`,
 					}
 				});
 
 			if (presignedUrlResponse.status === 200) {
-				// const presignedUrl = presignedUrlResponse.data;
-				const uploadResponse = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/upload`, image, 
+				const uploadResponse = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/snapshots`, {
+					challengeId,
+					memberId,
+					snapshotImageId: presignedUrlResponse.data.imageId
+				}, 
 				{
 					headers: {
-					"Content-Type": image.type,
+						Authorization: `Bearer ${accessToken}`,
 					}
 				});
-				if (uploadResponse.status === 200) {
+				if (uploadResponse.status === 201) {
 					navigate(`/mychallenge/${challengeId}/others`);
 				}
 			}
@@ -121,7 +131,11 @@ const MyChallengeUpload = () => {
 const MyChallengeUploadContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 1.3rem;
 `;
 
 const MyChallengeUploadWrapper = styled.div`
