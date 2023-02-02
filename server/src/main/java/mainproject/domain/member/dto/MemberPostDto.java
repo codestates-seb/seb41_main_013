@@ -36,7 +36,7 @@ public class MemberPostDto {
     @ApiModelProperty(hidden = true)
     public Image getImage() {
         Image image = new Image();
-        image.setImageId(1L);   // TODO: 기본값을 기본 프로필 이미지로 변경
+        image.setImageId(1L);   // 기본 프로필 이미지
         return image;
     }
 }

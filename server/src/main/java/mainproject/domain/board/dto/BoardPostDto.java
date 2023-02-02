@@ -40,7 +40,7 @@ public class BoardPostDto {
 
 //    @Positive
 //    @ApiModelProperty(required = false, example = "1")
-//    private long boardImageId = 1L; // TODO: 기본값을 기본 게시글 이미지로 변경(로고?)
+//    private long boardImageId = 1L; // TODO: Nullable 가능하도록 수정
 //
 //    @ApiModelProperty(hidden = true)
 //    public Image getImage() {
