@@ -94,7 +94,9 @@ public class ImageService {
 
         // S3 버킷에 저장
         s3Client.putObject(bucketName, objectKey, convertFile(file));
-        //s3Client.deleteObject(bucketName, objectKey);
+
+        // 로컬 파일 삭제
+        convertFile(file).delete();
     }
 
     // MultipartFile -> File 변환
