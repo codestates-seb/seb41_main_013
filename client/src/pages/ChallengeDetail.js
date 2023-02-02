@@ -9,8 +9,6 @@ import { TwoBtnModal } from "../components/Modal";
 import { FaRegBookmark, FaBookmark, FaShareAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { random } from "../images/random";
-import running from "../images/running.JPG";
 
 const ChallengeDetail = () => {
   const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
@@ -70,8 +68,7 @@ const ChallengeDetail = () => {
         title={challengeData.title}
       />
       <ChallengeDetailWrapper>
-        {/* <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt={challengeData.title} /> */}
-        <StyledImg src={running} alt={challengeData.title} />
+        <StyledImg src={challengeData.challengeImageUrl} alt={challengeData.title} />
         <StyledH1>{challengeData.title}</StyledH1>
         <InfoTag
           label={`${challengeData.challengerCount}명`}

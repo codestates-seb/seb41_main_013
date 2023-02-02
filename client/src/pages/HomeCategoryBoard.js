@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { BackToTopBtn } from "../components/Button";
 import { TitleHeader } from "../components/Header";
-import { Input } from "../components/Input";
 import { HomeChallengeItem } from "../components/ChallengeItem";
 import { Loading } from "../components/Loading";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation } from "react-router-dom";
 import { NoDataDiv } from '../components/NoData';
-import { useSelector } from "react-redux";
-import { random } from "../images/random";
-import running from "../images/running.JPG";
 
 const HomeCategoryBoard = () => {
   const [selectedOption, setSelectedOption] = useState("new");
@@ -111,9 +107,7 @@ const HomeCategoryBoard = () => {
       >
         {challenges.map((challenge) => (
           <HomeChallengeItem
-            // imgUrl={challenge.imageUrl}
-            // imgUrl={random[Math.floor(Math.random() * random.length)]}
-            imgUrl={running}
+            imgUrl={challenge.challengeImageUrl}
             challengeTitle={challenge.title}
             challengerNum={`${challenge.challengerCount}명`}
             challengeFrequency={challenge.frequency}
