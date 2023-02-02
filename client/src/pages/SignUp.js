@@ -9,16 +9,12 @@ import theme from "../components/theme";
 
 export const SignUp = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
-
-	const navigate = useNavigate();
-
 	const [userInput, setUserInput] = useState({
 		name: "",
 		email: "",
 		password: "",
 		passwordCheck: "",
 	});
-
 	const [inputErr, setInputErr] = useState({
 		name: false,
 		email: false,
@@ -26,10 +22,10 @@ export const SignUp = () => {
 		passwordCheck: false,
 		overLap: false,
 	});
+	const navigate = useNavigate();
 
 	const handleInputChange = (e) => {
 		const { value, id } = e.target;
-		// console.log(`${id} : ${value}`);
 
 		setUserInput((prev) => ({
 			...prev,
@@ -107,14 +103,15 @@ export const SignUp = () => {
 	const register = async () => {
 		try {
 			const { passwordCheck, ...body } = userInput;
-			// console.log(body);
-			const { data } = await postMembers(body);
-			// console.log(data);
-			setIsOpenModal(true);
-			setTimeout(() => {
-				setIsOpenModal(false);
-				navigate("/login");
-			}, 1500);
+			const data = await postMembers(body);
+
+			if (data.status === 201) {
+				setIsOpenModal(true);
+				setTimeout(() => {
+					setIsOpenModal(false);
+					navigate("/login");
+				}, 1500);
+			}
 		} catch (e) {
 			setInputErr((prev) => ({
 				...prev,
@@ -199,7 +196,6 @@ export const SignUp = () => {
 };
 
 const Wrapper = styled.form`
-	/* border: 1px solid black; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;

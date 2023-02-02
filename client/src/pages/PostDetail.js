@@ -16,34 +16,33 @@ import { WriteComment } from "../components/WriteComment";
 import { Modal, TwoBtnModal } from "../components/Modal";
 import { NoDataDiv } from "../components/NoData";
 
-//dummy
-//import { CommunityList } from "../data/dummy";
-
 export const PostDetail = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
+	//const userId = Number(localStorage.getItem("recoil-persist").slice(25, 27));
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
 	const category = { 우리동네: 0, 운동: 1, 생활습관: 2, 기타: 3 };
-	//const post = CommunityList.filter((el) => el.postId == boardId)[0];
 
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
 	const [createDdModal, setCreateDdModal] = useState(false);
-
 	const [hasPostData, setHasPostData] = useState(true);
 	const [hasCommentData, setHasCommentData] = useState(true);
 
 	const [post, setPost] = useState({});
+	const [commentList, setCommentList] = useState([]);
+	const [count, setCount] = useState(0);
+
 	const getPost = async () => {
 		try {
 			const response = await axios.get(
 				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
@@ -56,12 +55,11 @@ export const PostDetail = () => {
 			console.error(error);
 		}
 	};
-
-	const [commentList, setCommentList] = useState([]);
 	useEffect(() => {
 		getPost();
 		getCommentList();
-	}, []);
+		if (commentList.length !== 0) setHasCommentData(true);
+	}, [count, commentList.length]);
 
 	const getCommentList = async () => {
 		try {
@@ -92,8 +90,8 @@ export const PostDetail = () => {
 					setCreateUModal(false);
 				}, 1000);
 			} else navigate(`/post/${boardId}/update`);
-		} else {
-			if (loginUserInfo.memberId !== post.memberI) {
+		} else if (func === "del") {
+			if (loginUserInfo.memberId !== post.memberId) {
 				setCreateDModal(true);
 				setTimeout(() => {
 					setCreateDModal(false);
@@ -106,7 +104,7 @@ export const PostDetail = () => {
 		//해당 글을 삭제하는 함수
 		try {
 			const response = await axios.delete(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards${boardId}`,
+				`${process.env.REACT_APP_SERVER_URL}/api/boards/${boardId}`,
 				{
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
@@ -120,6 +118,11 @@ export const PostDetail = () => {
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	const handleChangeCount = () => {
+		//렌더링을 위한 함수
+		setCount(count + 1);
 	};
 
 	return (
@@ -177,18 +180,21 @@ export const PostDetail = () => {
 					placeholder="댓글을 입력해주세요."
 					boardId={boardId}
 					func="create"
+					onClick={handleChangeCount}
 				/>
-				{/*<div className="commentNum">댓글 {commentList.length}</div>*/}
+				<div className="commentNum">댓글 {commentList.length}</div>
 				{hasCommentData ? (
 					<div>
 						{commentList.map((el) => (
 							<div>
 								<Comment
-									comment={el.comment}
-									writer={el.writer}
+									comment={el.content}
+									writer={el.memberName}
 									date={el.date}
 									commentId={el.commentId}
+									memberId={el.memberId}
 									boardId={boardId}
+									onClick={handleChangeCount}
 								/>
 							</div>
 						))}
