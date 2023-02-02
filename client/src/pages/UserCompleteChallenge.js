@@ -70,11 +70,12 @@ export const UserCompleteChallenge = () => {
 };
 const Container = styled.div`
 	position: absolute;
+	left: 0;
 	width: 100%;
 	height: 100%;
+	/* border: 1px solid black; */
 `;
 const ChallengeWrap = styled.div`
-	/* border: 1px solid black; */
 	height: 100%;
 	position: relative;
 	overflow: scroll;
