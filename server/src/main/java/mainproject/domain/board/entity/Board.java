@@ -41,7 +41,7 @@ public class Board implements Serializable {
     private String title;
 
     private String content;
-
+/*
     @OneToOne
     @JoinColumn(name = "BOARD_IMAGE_ID")
     private Image image;
@@ -52,6 +52,8 @@ public class Board implements Serializable {
             this.image.setBoard(this);
         }
     }
+
+ */
 
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now().withNano(0);

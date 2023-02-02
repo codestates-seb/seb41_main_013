@@ -15,10 +15,12 @@ public class ChallengeDetailResponseDto {
     private long hostMemberId;
     private String hostMemberName;
     private long hostProfileImageId;
+    private String hostProfileImageUrl;
     private Category category;
     private String title;
     private String content;
     private long challengeImageId;
+    private String challengeImageUrl;
     private LocalDate startAt;
     private LocalDate endAt;
     private Frequency frequency;

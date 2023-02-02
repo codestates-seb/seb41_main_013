@@ -20,7 +20,10 @@ public class Image {
     private long imageId;
 
     @Column(nullable = false)
-    private String fileName;
+    private String originalFileName;
+
+    @Column(nullable = false)
+    private String storedFileName;
 
     @Column(nullable = false)
     private long fileSize;
@@ -59,6 +62,7 @@ public class Image {
         }
     }
 
+    /*
     @OneToOne(mappedBy = "image")
     private Board board;
 
@@ -68,4 +72,5 @@ public class Image {
             board.setImage(this);
         }
     }
+     */
 }
