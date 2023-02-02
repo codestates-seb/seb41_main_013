@@ -21,9 +21,9 @@ export const UserProfileEdit = () => {
 		nameErr: false,
 		newPwErr: false,
 		newPwCheckErr: false,
+		imgErr: false,
 	});
 	const [saveModal, setSaveModal] = useState(false);
-	const [image, setImage] = useState("");
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -35,29 +35,36 @@ export const UserProfileEdit = () => {
 	const accessToken = localStorage.getItem("authorization");
 
 	const onImageChange = (data) => {
-		setImage(data);
-		console.log(image);
-		imgUpload();
+		imgUpload(data);
 	};
 
-	const imgUpload = async () => {
+	const imgUpload = async (data) => {
 		const frm = new FormData();
-		frm.append("img", image);
-		console.log(frm);
+		frm.append("file", data);
+
 		try {
-			const response = await axios.post(
+			const response = await axios.put(
 				`${process.env.REACT_APP_SERVER_URL}/api/upload`,
 				frm,
 				{
 					headers: {
-						"Content-Type": "multipart/form-data",
 						Authorization: `Bearer ${accessToken}`,
 					},
-					withCredentials: true,
+					widthCredentials: true,
 				},
 			);
-			console.log(response);
+			if (response.status === 200) {
+				setInputErr((prev) => {
+					return { ...prev, imgErr: false };
+				});
+				dispatch(
+					getLoginUser({ ...loginUserInfo, imageId: response.data.imageId }),
+				);
+			}
 		} catch (e) {
+			setInputErr((prev) => {
+				return { ...prev, imgErr: true };
+			});
 			console.log(e);
 		}
 	};
@@ -84,7 +91,7 @@ export const UserProfileEdit = () => {
 		}
 		return true;
 	};
-	// 새로운 비밀번호 유효성 검사
+
 	const newPasswordCheck = () => {
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$/;
 		if (!userInput.newPassword || !passwordRegex.test(userInput.newPassword)) {
@@ -96,7 +103,6 @@ export const UserProfileEdit = () => {
 		return true;
 	};
 
-	// 새로운 비밀번호 확인하는 칸이 비어있거나, 새로운 비밀번호와 일치하지 않을 때
 	const newPasswordSameCheck = () => {
 		if (
 			!userInput.passwordCheck ||
@@ -128,9 +134,9 @@ export const UserProfileEdit = () => {
 				id: loginUserInfo.memberId,
 				name: userInput.name,
 				password: userInput.newPassword,
-				profileImageId: loginUserInfo.profileImageId,
+				profileImageId: loginUserInfo.imageId,
 			};
-			console.log(body);
+
 			const response = await axios.patch(
 				`${process.env.REACT_APP_SERVER_URL}/api/members/${loginUserInfo.memberId}`,
 				body,
@@ -138,25 +144,25 @@ export const UserProfileEdit = () => {
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
 					},
-					withCredentials: true,
 				},
 			);
-			console.log("response.data :", response.data);
 
-			dispatch(
-				getLoginUser({
-					...loginUserInfo,
-					id: response.data.id,
-					name: response.data.name,
-					profileImageId: response.data.profileImageId,
-				}),
-			);
-			// console.log("loginUserInfo :", loginUserInfo);
-			setSaveModal(true);
-			setTimeout(() => {
-				setSaveModal(false);
-				navigate("/mypage");
-			}, 1000);
+			if (response.status === 200) {
+				dispatch(
+					getLoginUser({
+						...loginUserInfo,
+						id: response.data.id,
+						name: response.data.name,
+						profileImageId: response.data.profileImageId,
+						profileImageUrl: response.data.profileImageUrl,
+					}),
+				);
+				setSaveModal(true);
+				setTimeout(() => {
+					setSaveModal(false);
+					navigate("/mypage");
+				}, 1000);
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -179,11 +185,13 @@ export const UserProfileEdit = () => {
 			<Container onSubmit={onSubmit}>
 				{saveModal && <Modal modalText="프로필 수정 완료!!" />}
 				<div />
-				{/* <ImageUploader
+
+				<ImageUploader
 					width="20rem"
 					height="20rem"
 					onImageChange={onImageChange}
-				/> */}
+				/>
+				{inputErr.imgErr && <p>해당 파일은 업로드할 수 없습니다.</p>}
 				<div>
 					<InputAuth
 						type="text"
