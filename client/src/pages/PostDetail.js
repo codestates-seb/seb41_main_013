@@ -50,14 +50,12 @@ export const PostDetail = () => {
 				setHasPostData(false);
 			}
 			setPost(response.data.data);
-			console.log(response.data.data.boardId);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 	useEffect(() => {
 		getPost();
-
 		getCommentList();
 		if (commentList.length !== 0) setHasCommentData(true);
 	}, [count, commentList.length]);

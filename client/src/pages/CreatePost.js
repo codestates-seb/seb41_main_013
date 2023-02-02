@@ -79,7 +79,6 @@ export const CreatePost = () => {
 		if (title.length >= 5 && content.length >= 20 && value !== -1) {
 			//에러가 하나도 없을 경우
 			setCreateModal(true);
-			console.log("true");
 		}
 	};
 
