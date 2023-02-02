@@ -14,9 +14,11 @@ public class ChallengerDetailResponseDto {
     private long memberId;
     private String memberName;
     private long profileImageId;
+    private String profileImageUrl;
     private long challengeId;
     private String challengeName;
     private long challengeImageId;
+    private String challengeImageUrl;
     private Category category;
     private LocalDate startAt;
     private LocalDate endAt;

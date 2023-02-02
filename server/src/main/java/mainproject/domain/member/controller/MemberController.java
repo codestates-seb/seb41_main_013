@@ -4,8 +4,10 @@ package mainproject.domain.member.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import mainproject.domain.image.service.ImageService;
 import mainproject.domain.member.dto.MemberPatchDto;
 import mainproject.domain.member.dto.MemberPostDto;
+import mainproject.domain.member.dto.MemberResponseDto;
 import mainproject.domain.member.entity.Member;
 import mainproject.domain.member.mapper.MemberMapper;
 import mainproject.domain.member.service.MemberService;
@@ -25,10 +27,13 @@ public class MemberController {
 
     private final MemberMapper mapper;
 
+    private final ImageService imageService;
+
     @Autowired // 스피링 DI에서 사용 되는 어노테이션 의존성 주입 어노테이션이다.
-    public MemberController(MemberService memberService, MemberMapper mapper) {
+    public MemberController(MemberService memberService, MemberMapper mapper, ImageService imageService) {
         this.memberService =memberService;
         this.mapper = mapper;
+        this.imageService = imageService;
     }
 
     // 회원 가입
@@ -39,7 +44,11 @@ public class MemberController {
         Member member = mapper.memberPostDtoToMember(memberPostDto);
         Member createdMember = memberService.createdMember(member);
 
-        return new ResponseEntity(mapper.memberToMemberResponseDto(createdMember), HttpStatus.CREATED);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(createdMember);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(createdMember.getImage().getImageId()));
+
+        return new ResponseEntity(response, HttpStatus.CREATED);
     }
     final String postMemberDescription = "email: 이메일 (adc@naver.com)" +"\r\n" +
             "name: 회원 이름 입력(홍길동)"+ "\r\n" + "password: 회원 비밀번호 입력 (min: 8 max: 16)";
@@ -53,9 +62,13 @@ public class MemberController {
 
         System.out.println("id" +  id);
 
-        Member response = memberService.findMember(id);
+        Member member = memberService.findMember(id);
 
-        return  new ResponseEntity(mapper.memberToMemberResponseDto(response),
+        MemberResponseDto response = mapper.memberToMemberResponseDto(member);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(member.getImage().getImageId()));
+
+        return  new ResponseEntity(response,
                 HttpStatus.OK);
 
     }
@@ -72,7 +85,11 @@ public class MemberController {
 
         Member member = memberService.updateMember(mapper.memberPatchDtoToMember(memberPatchDto));
 
-        return  new ResponseEntity<>(mapper.memberToMemberResponseDto(member),
+        MemberResponseDto response = mapper.memberToMemberResponseDto(member);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(member.getImage().getImageId()));
+
+        return  new ResponseEntity<>(response,
                 HttpStatus.OK);
 
 

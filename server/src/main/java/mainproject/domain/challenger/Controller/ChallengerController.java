@@ -9,6 +9,7 @@ import mainproject.domain.challenger.Dto.ChallengerResponseDto;
 import mainproject.domain.challenger.Entity.Challenger;
 import mainproject.domain.challenger.Mapper.ChallengerMapper;
 import mainproject.domain.challenger.Service.ChallengerService;
+import mainproject.domain.image.service.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,12 +24,13 @@ import java.util.List;
 @Api(tags = "챌린지 참가, 참가 챌린지 조회")
 public class ChallengerController {
     private final ChallengerService challengerService;
-
     private final ChallengerMapper mapper;
+    private final ImageService imageService;
 
-    public ChallengerController(ChallengerService challengerService, ChallengerMapper mapper) {
+    public ChallengerController(ChallengerService challengerService, ChallengerMapper mapper, ImageService imageService) {
         this.challengerService = challengerService;
         this.mapper = mapper;
+        this.imageService = imageService;
     }
 
     // 챌린지 참가
@@ -38,6 +40,9 @@ public class ChallengerController {
         Challenger challenger = challengerService.createChallenger(mapper.challengerPostDtoToChallenger(request));
 
         ChallengerResponseDto response = mapper.challengerToChallengerResponseDto(challenger);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(challenger.getMember().getImage().getImageId()));
+        response.setChallengeImageUrl(imageService.createPresignedUrl(challenger.getChallenge().getImage().getImageId()));
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

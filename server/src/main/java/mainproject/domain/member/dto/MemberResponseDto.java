@@ -16,8 +16,9 @@ public class MemberResponseDto {
 
     private String email;
 
-
     private long profileImageId;
+
+    private String profileImageUrl;
 
     private List<String> roles;
 }
