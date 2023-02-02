@@ -101,6 +101,7 @@ export const Community = () => {
 								writer={post.memberName}
 								postId={post.boardId}
 								date={post.createdAt}
+								memberId={post.memberId}
 							/>
 						</div>
 					))}

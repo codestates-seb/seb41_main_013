@@ -161,7 +161,11 @@ export const PostDetail = () => {
 				) : (
 					<NoDataDiv text="등록된 글이" />
 				)}
-				<WriterInfo writer={post.memberName} date={post.createdAt} />
+				<WriterInfo
+					writer={post.memberName}
+					date={post.createdAt}
+					memberId={post.memberId}
+				/>
 				<div className="btns">
 					<Btn
 						background={theme.color.green}
