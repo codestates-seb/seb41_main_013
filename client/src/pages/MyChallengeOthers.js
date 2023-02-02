@@ -9,8 +9,8 @@ import { random } from "../images/random";
 
 const MyChallengeOthers = () => {
   const [imagesUrl, setImagesUrl] = useState([]);
-  const [page, setPage] = useState(1);
 	const [hasMoreData, setHasMoreData] = useState(true);
+  const [title, setTitle] = useState("");
 
   const location = useLocation();
   const challengeId = location.pathname.split("/")[2];
@@ -24,7 +24,7 @@ const MyChallengeOthers = () => {
   const getAllImages = async () => {
     if (!hasMoreData) return;
     try {
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/snapshots/${challengeId}?page={page}`,
+      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/snapshots/${challengeId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -34,44 +34,23 @@ const MyChallengeOthers = () => {
       if (response.data.data.length < 30) {
 				setHasMoreData(false);
 			}
-      setImagesUrl([...imagesUrl, ...response.data.data]);
+      setImagesUrl(response.data.data);
+      setTitle(response.data.data[0].challengeName);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const loadMoreData = () => {
-    setPage(page + 1);
-    getAllImages();
-  };
-
   return (
     <MyChallengeOthersWrapper>
       <TitleHeader
-        title={imagesUrl.challengeName}
+        title={title}
       />
-      {/* <InfiniteScroll
-				className="infinite-scroll"
-        dataLength={imagesUrl.length}
-        next={loadMoreData}
-        hasMore={hasMoreData}
-        loader={<Loading />}
-      > */}
         <ImageWrapper>
-          {/* {imagesUrl.map((imageUrl) => (
-            <StyledImg src={imageUrl.url} alt={imageUrl.url} />
-          ))} */}
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-          <StyledImg src={random[Math.floor(Math.random() * random.length)]} alt="" />
-        </ImageWrapper>
-        
-      {/* </InfiniteScroll> */}
+          {imagesUrl.map((imageUrl) => (
+            <StyledImg src={imageUrl.challengeImageUrl} alt={imageUrl.challengeImageUrl} />
+          ))}
+        </ImageWrapper>       
     </MyChallengeOthersWrapper>
   );
 };

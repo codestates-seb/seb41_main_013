@@ -36,6 +36,7 @@ const CreateChallenge = () => {
 	});
 	const [twoBtnModalVisible, setTwoBtnModalVisible] = useState(false);
 	const [cancelModalVisible, setCancelModalVisible] = useState(false);
+	const [image, setImage] = useState(null);
 
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
@@ -43,7 +44,7 @@ const CreateChallenge = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const categoryId = {
-		"우리 동네": "0",
+		우리동네: "0",
 		운동: "1",
 		생활습관: "2",
 		기타: "3",
@@ -54,7 +55,6 @@ const CreateChallenge = () => {
 		const {
 			title,
 			category,
-			img,
 			startAt,
 			endAt,
 			frequency,
@@ -62,47 +62,39 @@ const CreateChallenge = () => {
 			snapshotEndAt,
 			content,
 		} = data;
+
+		const formData = new FormData();
+		formData.append("file", image);
 		
 		try {
-			// const file = img[0];
-			// console.log(file);
-			// console.log(file.type);
-
-			// const presignedUrl = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/upload`, {
-			// 		headers: {
-			// 		"Content-Type": file.type,
-			// 		}
-			// 	});
-			// console.log(presignedUrl);
-
-			// if (presignedUrl.status === 200) {
-			// 	const response = await axios.put(presignedUrl.data, file,
-			// 	{headers: {
-			// 		"Content-Type": file.type,
-			// 		}});
-			// 	console.log(response);
-			// }
-
-			const startHour =
-				`${snapshotStartAt.$H}`.length === 1
+				const presignedUrlResponse = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/upload`, formData, {
+						headers: {
+							"Content-Type": "multipart/form-data",
+							Authorization: `Bearer ${accessToken}`,
+						}
+					});
+	
+				if (presignedUrlResponse.status === 200) {
+					const startHour =
+					`${snapshotStartAt.$H}`.length === 1
 					? `0${snapshotStartAt.$H}`
 					: `${snapshotStartAt.$H}`;
-			const startMinute =
-				`${snapshotStartAt.$m}`.length === 1
+					const startMinute =
+					`${snapshotStartAt.$m}`.length === 1
 					? `0${snapshotStartAt.$m}`
 					: `${snapshotStartAt.$m}`;
-			const endHour =
-				`${snapshotEndAt.$H}`.length === 1
+					const endHour =
+					`${snapshotEndAt.$H}`.length === 1
 					? `0${snapshotEndAt.$H}`
 					: `${snapshotEndAt.$H}`;
-			const endMinute =
-				`${snapshotEndAt.$m}`.length === 1
+					const endMinute =
+					`${snapshotEndAt.$m}`.length === 1
 					? `0${snapshotEndAt.$m}`
 					: `${snapshotEndAt.$m}`;
 
 			const payload = {
 				category: category,
-				// challengeImageId: 1,
+				challengeImageId: presignedUrlResponse.data.imageId,
 				content: content,
 				endAt: endAt,
 				frequency: frequency,
@@ -132,6 +124,7 @@ const CreateChallenge = () => {
 				);
 				navigate(`/challenges/${categoryId[category]}`);
 			}
+				}
 		} catch (error) {
 			console.error(error);
 		}
@@ -184,20 +177,14 @@ const CreateChallenge = () => {
 					</BtnWrapper>
 					{errors.category && <p>{errors.category.message}</p>}
 				</Wrapper>
-				{/* <Wrapper>
+				<Wrapper>
 					<Label>사진</Label>
-					<ImageUploader
+					<ImageUploader 
 						width="9rem"
 						height="9rem"
 						name="img"
-						register={register("img", { required: "사진을 업로드 해주세요." })}
-						borderColor={errors.img ? theme.color.red : ""}
+						onImageChange={(img) => setImage(img)}
 					/>
-					{errors.img && <p>{errors.img.message}</p>}
-				</Wrapper> */}
-				<Wrapper>
-					<Label>사진</Label>
-					<ImageUploader width="9rem" height="9rem" name="img" />
 				</Wrapper>
 				<Wrapper>
 					<Label>기간</Label>
