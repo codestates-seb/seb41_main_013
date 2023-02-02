@@ -37,7 +37,6 @@ const ChallengeDetail = () => {
 			const response = await axios.get(url, {
 				withCredentials: true,
 			});
-			console.log(response.data);
 			setChallengeData(response.data);
 			if (response.data.checkChallenging === "참여중") {
 				setBtnVisible(true);

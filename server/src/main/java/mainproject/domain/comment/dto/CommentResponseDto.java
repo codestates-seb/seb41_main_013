@@ -19,6 +19,8 @@ public class CommentResponseDto {
 
     private long profileImageId;
 
+    private String profileImageUrl;
+
     private long boardId;
 
     private String content;
