@@ -68,3 +68,4 @@ jobs:
         --application-name challenge-code-deploy
         --deployment-group-name challenge-server
         --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy-build.zip
+        
