@@ -59,6 +59,11 @@ public class ChallengerController {
 
         List<ChallengerDetailResponseDto> response = mapper.challengersToChallengerDetailResponseDtos(challengers);
 
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(challengers.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challengers.get(i).getChallenge().getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -70,6 +75,11 @@ public class ChallengerController {
         List<Challenger> challengers = challengerService.findChallengedChallenges(memberId);
 
         List<ChallengerDetailResponseDto> response = mapper.challengersToChallengerDetailResponseDtos(challengers);
+
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(challengers.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challengers.get(i).getChallenge().getImage().getImageId()));
+        }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
