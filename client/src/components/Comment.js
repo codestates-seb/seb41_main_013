@@ -15,7 +15,7 @@ import { Modal, TwoBtnModal } from "../components/Modal";
 export const Comment = (props) => {
 	//유저 정보
 	const accessToken = localStorage.getItem("authorization");
-	const isLogin = useSelector((state) => state.loginStatus.status);
+	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 
 	const commentId = props.commentId;
 	const [update, setUpdate] = useState(false);
@@ -39,12 +39,12 @@ export const Comment = (props) => {
 		} catch (error) {
 			console.error(error);
 		}
+		props.onClick();
 	};
 
 	const handleCreate = (func) => {
-		//로그인이 되어 있지 않다면
 		if (func === "update") {
-			if (!isLogin) {
+			if (loginUserInfo.memberId !== props.memberId) {
 				setCreateUModal(true);
 				setTimeout(() => {
 					setCreateUModal(false);
@@ -52,8 +52,8 @@ export const Comment = (props) => {
 			} else {
 				setUpdate(true);
 			}
-		} else {
-			if (!isLogin) {
+		} else if (func === "del") {
+			if (loginUserInfo.memberId !== props.memberId) {
 				setCreateDModal(true);
 				setTimeout(() => {
 					setCreateDModal(false);
@@ -105,6 +105,7 @@ export const Comment = (props) => {
 					boardId={props.boardId}
 					func="update"
 					commentId={commentId}
+					onClick={props.onClick}
 				/>
 			)}
 			<WriterInfo

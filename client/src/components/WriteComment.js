@@ -70,6 +70,7 @@ export const WriteComment = (props) => {
 			.catch((error) => {
 				console.error(error);
 			});
+		props.onClick();
 	};
 	const updateComment = async () => {
 		//댓글 수정 함수
@@ -91,6 +92,7 @@ export const WriteComment = (props) => {
 			.catch((error) => {
 				console.error(error);
 			});
+		props.onClick();
 	};
 
 	return (

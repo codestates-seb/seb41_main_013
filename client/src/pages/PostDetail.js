@@ -29,11 +29,13 @@ export const PostDetail = () => {
 	const [createUModal, setCreateUModal] = useState(false);
 	const [createDModal, setCreateDModal] = useState(false);
 	const [createDdModal, setCreateDdModal] = useState(false);
-
 	const [hasPostData, setHasPostData] = useState(true);
 	const [hasCommentData, setHasCommentData] = useState(true);
 
 	const [post, setPost] = useState({});
+	const [commentList, setCommentList] = useState([]);
+	const [count, setCount] = useState(0);
+
 	const getPost = async () => {
 		try {
 			const response = await axios.get(
@@ -53,12 +55,10 @@ export const PostDetail = () => {
 			console.error(error);
 		}
 	};
-
-	const [commentList, setCommentList] = useState([]);
 	useEffect(() => {
 		getPost();
 		getCommentList();
-	}, []);
+	}, [count]);
 
 	const getCommentList = async () => {
 		try {
@@ -119,6 +119,11 @@ export const PostDetail = () => {
 		}
 	};
 
+	const handleChangeCount = () => {
+		//렌더링을 위한 함수
+		setCount(count + 1);
+	};
+
 	return (
 		<>
 			<PostDetailContainer>
@@ -174,8 +179,9 @@ export const PostDetail = () => {
 					placeholder="댓글을 입력해주세요."
 					boardId={boardId}
 					func="create"
+					onClick={handleChangeCount}
 				/>
-				{/*<div className="commentNum">댓글 {commentList.length}</div>*/}
+				<div className="commentNum">댓글 {commentList.length}</div>
 				{hasCommentData ? (
 					<div>
 						{commentList.map((el) => (
@@ -185,7 +191,9 @@ export const PostDetail = () => {
 									writer={el.memberName}
 									date={el.date}
 									commentId={el.commentId}
+									memberId={post.memberId}
 									boardId={boardId}
+									onClick={handleChangeCount}
 								/>
 							</div>
 						))}
