@@ -62,6 +62,11 @@ export const Comment = (props) => {
 		}
 	};
 
+	const handleUpdate = () => {
+		//렌더링을 위한 함수
+		setUpdate(false);
+	};
+
 	return (
 		<CommentContainer>
 			{createUModal && <Modal modalText="댓글 작성자만 수정이 가능합니다." />}
@@ -105,7 +110,7 @@ export const Comment = (props) => {
 					boardId={props.boardId}
 					func="update"
 					commentId={commentId}
-					onClick={props.onClick}
+					onClick={handleUpdate}
 				/>
 			)}
 			<WriterInfo

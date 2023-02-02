@@ -48,6 +48,7 @@ export const WriteComment = (props) => {
 		if (props.func === "create") createComment();
 		else if (props.func === "update") updateComment();
 		setComment("");
+		props.onClick();
 	};
 
 	const createComment = async () => {

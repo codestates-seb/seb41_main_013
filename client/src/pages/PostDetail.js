@@ -58,7 +58,8 @@ export const PostDetail = () => {
 	useEffect(() => {
 		getPost();
 		getCommentList();
-	}, [count]);
+		if (commentList.length !== 0) setHasCommentData(true);
+	}, [count, commentList.length]);
 
 	const getCommentList = async () => {
 		try {
@@ -191,7 +192,7 @@ export const PostDetail = () => {
 									writer={el.memberName}
 									date={el.date}
 									commentId={el.commentId}
-									memberId={post.memberId}
+									memberId={el.memberId}
 									boardId={boardId}
 									onClick={handleChangeCount}
 								/>
