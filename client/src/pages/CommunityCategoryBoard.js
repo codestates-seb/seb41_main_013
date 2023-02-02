@@ -88,8 +88,9 @@ export const CommunityCategoryBoard = () => {
 							title={cpost.title}
 							content={cpost.content}
 							writer={cpost.memberName}
-							postId={cpost.boardId}
+							boardId={cpost.boardId}
 							date={cpost.createdAt}
+							memberId={cpost.memberId}
 						/>
 					))}
 				</div>

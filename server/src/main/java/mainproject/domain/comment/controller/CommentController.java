@@ -92,6 +92,12 @@ public class CommentController {
                                      @RequestParam(defaultValue = "1") @Nullable @Positive int page){
        List<Comment> comments = commentService.findComments(boardId, page-1);
 
+       List<CommentResponseDto> response = commentMapper.commentsToCommentResponseDtos(comments);
+
+       for (int i = 0; i < response.size(); i++) {
+           response.get(i).setProfileImageUrl(imageService.createPresignedUrl(comments.get(i).getMember().getImage().getImageId()));
+       }
+
        return new ResponseEntity<>(
                new SingleResponseDto<>(commentMapper.commentsToCommentResponseDtos(comments)), HttpStatus.OK);
    }

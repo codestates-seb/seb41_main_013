@@ -120,6 +120,7 @@ export const Comment = (props) => {
 				writer={props.writer}
 				date={formatDate(props.date)}
 				imgURL={props.imgURL}
+				memberId={props.memberId}
 			/>
 		</CommentContainer>
 	);

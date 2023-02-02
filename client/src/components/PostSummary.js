@@ -15,7 +15,7 @@ export const PostSummary = (props) => {
 		<>
 			<PostSumContainer>
 				<div>
-					<Link to={`/post/${props.postId}`}>
+					<Link to={`/post/${props.boardId}`}>
 						<div className="title">{props.title}</div>
 					</Link>
 					<div className="content">{props.content}</div>
@@ -25,7 +25,7 @@ export const PostSummary = (props) => {
 					writer={props.writer}
 					date={formatDate(props.date)}
 					margin="0 0 1rem 0"
-					randomIdx={props.randomIdx}
+					memberId={props.memberId}
 				/>
 			</PostSumContainer>
 		</>

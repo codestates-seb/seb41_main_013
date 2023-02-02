@@ -7,7 +7,7 @@ export const WriterInfo = (props) => {
 	return (
 		<>
 			<WriterInfoContainer margin={props.margin}>
-				<Avatar imgURL={props.imgURL} />
+				<Avatar memberId={props.memberId} />
 				<div>{props.writer}</div>
 				<div>{formatDate(props.date)}</div>
 			</WriterInfoContainer>
