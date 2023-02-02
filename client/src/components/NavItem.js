@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const NavTitle = (props) => {
 	return (
-		<Navbar width={props.width}>
+		<Navbar>
 			{props.title}
 			<ArrowBoxRight to={props.link} onClick={props.onClick}>
 				<IoIosArrowForward />
