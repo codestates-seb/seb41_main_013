@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { Btn } from "../components/Button";
 import { InputAuth } from "../components/Input";
 import theme from "../components/theme";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getLoginUser, signin } from "../redux/userSlice";
 import { postAuth } from "../apis/base";
+import { Modal } from "../components/Modal";
 
 export const SignIn = () => {
 	const [userInput, setUserInput] = useState({
@@ -20,12 +21,13 @@ export const SignIn = () => {
 		signIn: false,
 	});
 
+	const [openModal, setOpenModal] = useState(false);
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleInputChange = (e) => {
 		const { value, id } = e.target;
-		// console.log(`${id} : ${value}`);
 
 		setUserInput((prev) => ({
 			...prev,
@@ -72,21 +74,24 @@ export const SignIn = () => {
 	const login = async () => {
 		try {
 			const body = userInput;
-			// console.log(body);
 			const data = await postAuth(body);
-			console.log("data :", data);
-			dispatch(
-				getLoginUser({
-					memberId: data.data,
-				}),
-			);
-			localStorage.setItem("authorization", data.headers.authorization);
-			// localStorage.setItem("expiredTime", expires); // 만료시간 저장
 
-			dispatch(signin());
-			navigate("/");
+			if (data.status === 200) {
+				setOpenModal(true);
+				setTimeout(() => {
+					dispatch(
+						getLoginUser({
+							memberId: data.data,
+						}),
+					);
+					localStorage.setItem("authorization", data.headers.authorization);
+					dispatch(signin());
+					setOpenModal(false);
+					navigate("/");
+				}, 1500);
+			}
 		} catch (e) {
-			console.log(e);
+			// console.log(e);
 			setInputErr((prev) => ({
 				...prev,
 				signIn: true,
@@ -108,6 +113,7 @@ export const SignIn = () => {
 
 	return (
 		<Wrapper onSubmit={onSubmit}>
+			{openModal && <Modal modalText="로그인 완료!" />}
 			<div>
 				<InputAuth
 					label="이메일"
@@ -142,13 +148,11 @@ export const SignIn = () => {
 					type="submit"
 				></Btn>
 			</div>
-			<FindPw to="/findPw">비밀번호 찾기</FindPw>
 		</Wrapper>
 	);
 };
 
 const Wrapper = styled.form`
-	/* border: 1px solid black; */
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
@@ -166,10 +170,4 @@ const Wrapper = styled.form`
 		margin-top: 0.5rem;
 		color: ${theme.color.red};
 	}
-`;
-
-const FindPw = styled(Link)`
-	text-decoration: none;
-	color: #3b94d9;
-	font-size: 1.1rem;
 `;
