@@ -11,8 +11,6 @@ import mainproject.domain.board.entity.Board;
 import mainproject.domain.board.mapper.BoardMapper;
 import mainproject.domain.board.service.BoardService;
 
-import mainproject.domain.challenge.dto.ChallengeResponseDto;
-import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.image.service.ImageService;
 import mainproject.global.category.Category;
 import mainproject.global.dto.MultiResponseDto;
@@ -122,8 +120,13 @@ public class BoardController {
         Page<Board> pagedBoards = boardService.findBoards(category,page - 1, size);
         List<Board> boards = pagedBoards.getContent();
 
+        List<BoardResponseDto> response = boardMapper.boardsToBoardResponseDtos(boards);
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(boards.get(i).getMember().getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(
-                new MultiResponseDto<>(boardMapper.boardsToBoardResponseDtos(boards), pagedBoards),
+                new MultiResponseDto<>(response, pagedBoards),
                 HttpStatus.OK);
     }
 
@@ -141,6 +144,9 @@ public class BoardController {
         List<Board> boards = pageBoards.getContent();
 
         List<BoardResponseDto> response = boardMapper.boardsToBoardResponseDtos(boards);
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(boards.get(i).getMember().getImage().getImageId()));
+        }
 
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageBoards), HttpStatus.OK);
     }
