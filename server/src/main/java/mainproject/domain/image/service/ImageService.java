@@ -90,7 +90,7 @@ public class ImageService {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .build();
 
-        objectKey += storedFileName;
+        objectKey = "upload/" + storedFileName;
 
         // S3 버킷에 저장
         s3Client.putObject(bucketName, objectKey, convertFile(file));
