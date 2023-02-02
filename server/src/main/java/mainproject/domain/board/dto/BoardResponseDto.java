@@ -21,6 +21,8 @@ public class BoardResponseDto {
 
     private long profileImageId;
 
+    private String profileImageUrl;
+
     private Category category;
 
     private String title;

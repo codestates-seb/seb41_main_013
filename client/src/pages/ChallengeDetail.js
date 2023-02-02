@@ -36,7 +36,6 @@ const ChallengeDetail = () => {
         {
 					withCredentials: true,
 				});
-        console.log(response.data);
       setChallengeData(response.data);
       if (response.data.checkChallenging === "참여중") { setBtnVisible(true); }
     } catch (error) {

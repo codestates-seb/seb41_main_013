@@ -3,6 +3,7 @@ package mainproject.domain.snapshot.Controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import mainproject.domain.image.service.ImageService;
 import mainproject.domain.snapshot.Dto.SnapshotPostDto;
 import mainproject.domain.snapshot.Dto.SnapshotResponseDto;
 import mainproject.domain.snapshot.Entity.Snapshot;
@@ -24,10 +25,12 @@ import java.util.List;
 public class SnapshotController {
     private final SnapshotService snapshotService;
     private final SnapshotMapper mapper;
+    private final ImageService imageService;
 
-    public SnapshotController(SnapshotService snapshotService, SnapshotMapper mapper) {
+    public SnapshotController(SnapshotService snapshotService, SnapshotMapper mapper, ImageService imageService) {
         this.snapshotService = snapshotService;
         this.mapper = mapper;
+        this.imageService = imageService;
     }
 
     // 참가 중인 챌린지에 인증사진 등록
@@ -38,6 +41,10 @@ public class SnapshotController {
         Snapshot snapshot = snapshotService.createSnapshot(mapper.snapshotPostDtoToSnapshot(request));
 
         SnapshotResponseDto response = mapper.snapshotToSnapshotResponseDto(snapshot);
+
+        response.setProfileImageUrl(imageService.createPresignedUrl(snapshot.getMember().getImage().getImageId()));
+        response.setChallengeImageUrl(imageService.createPresignedUrl(snapshot.getImage().getImageId()));
+        response.setSnapshotImageUrl(imageService.createPresignedUrl(snapshot.getImage().getImageId()));
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
