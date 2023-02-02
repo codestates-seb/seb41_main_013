@@ -101,7 +101,7 @@ export const SelectCategory = (props) => {
 const MainCategoryContainer = styled.div`
 	/* border: 1px solid black; */
 	width: 100%;
-	max-width: 480px;
+	/* max-width: 480px; */
 	height: 9.8rem;
 	padding: 1rem 0;
 	display: flex;

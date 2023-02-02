@@ -1,6 +1,3 @@
-// HomeChallenge
-// MyChallenge
-// MyPageChallenge
 import styled from "styled-components";
 import { Btn } from "./Button";
 import theme from "./theme";
@@ -21,7 +18,6 @@ export const CompletedChallenge = (props) => {
 };
 
 export const CreatedChallenge = (props) => {
-	// console.log(props.challengeId);
 	const categoryId = {
 		우리동네: "0",
 		운동: "1",
@@ -29,26 +25,26 @@ export const CreatedChallenge = (props) => {
 		기타: "3",
 	};
 	return (
-		<ChallengeLink
-			to={`/challenges/${categoryId[props.category]}/${props.challengeId}`}
-		>
-			<CreateChallengeContainer>
-				<ChallengeImg
-					src={props.src || random[Math.floor(Math.random() * random.length)]}
-				>
-					{/* <Btn
+		<CreateChallengeContainer>
+			<ChallengeImg
+				src={props.src || random[Math.floor(Math.random() * random.length)]}
+			>
+				<Btn
 					onClick={props.onClick}
 					btnText={<IoClose />}
 					width="1.5rem"
 					height="1.5rem"
 					size="1.4rem"
 					background={`${theme.color.orange}`}
-				/> */}
-				</ChallengeImg>
+				/>
+			</ChallengeImg>
+			<ChallengeLink
+				to={`/challenges/${categoryId[props.category]}/${props.challengeId}`}
+			>
 				<p>Challenge Id : {props.challengeId}</p>
 				{props.title}
-			</CreateChallengeContainer>
-		</ChallengeLink>
+			</ChallengeLink>
+		</CreateChallengeContainer>
 	);
 };
 
@@ -78,7 +74,6 @@ export const ChallengeState = (props) => {
 };
 
 const ChallengeStateContainer = styled.div`
-	/* border: 1px solid black; */
 	width: 100%;
 	height: 15rem;
 	display: flex;
@@ -137,6 +132,11 @@ const CompleteChallengeContainer = styled.div`
 	}
 `;
 
+const ChallengeLink = styled(Link)`
+	text-decoration: none;
+	color: black;
+`;
+
 const ChallengeImg = styled.div`
 	background-image: url(${(props) => props.src});
 	background-size: contain;
@@ -146,7 +146,6 @@ const ChallengeImg = styled.div`
 `;
 
 const CreateChallengeContainer = styled.div`
-	/* border: 1px solid black; */
 	width: 18rem;
 	height: 19.3rem;
 	display: flex;
@@ -159,9 +158,4 @@ const CreateChallengeContainer = styled.div`
 	p {
 		font-size: 1.3rem;
 	}
-`;
-
-const ChallengeLink = styled(Link)`
-	text-decoration: none;
-	color: black;
 `;
