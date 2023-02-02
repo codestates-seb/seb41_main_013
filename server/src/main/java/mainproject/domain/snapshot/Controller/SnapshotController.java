@@ -66,6 +66,12 @@ public class SnapshotController {
 
         List<SnapshotResponseDto> response = mapper.snapshotsToSnapshotResponseDtos(snapshots);
 
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setProfileImageUrl(imageService.createPresignedUrl(snapshots.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(snapshots.get(i).getImage().getImageId()));
+            response.get(i).setSnapshotImageUrl(imageService.createPresignedUrl(snapshots.get(i).getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageSnapshots), HttpStatus.OK);
     }
 }

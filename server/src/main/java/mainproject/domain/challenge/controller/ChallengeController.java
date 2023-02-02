@@ -108,6 +108,11 @@ public class ChallengeController {
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
     }
 
@@ -124,6 +129,11 @@ public class ChallengeController {
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
     }
      */
@@ -139,6 +149,11 @@ public class ChallengeController {
 
             List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
+            for (int i = 0; i < response.size(); i++) {
+                response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+                response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else {
@@ -147,6 +162,11 @@ public class ChallengeController {
             List<Challenge> challenges = pageChallenges.getContent();
 
             List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+            for (int i = 0; i < response.size(); i++) {
+                response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+                response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+            }
 
             return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
         }
@@ -164,6 +184,11 @@ public class ChallengeController {
 
             List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
+            for (int i = 0; i < response.size(); i++) {
+                response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+                response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else {
@@ -172,6 +197,11 @@ public class ChallengeController {
             List<Challenge> challenges = pageChallenges.getContent();
 
             List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+            for (int i = 0; i < response.size(); i++) {
+                response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+                response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+            }
 
             return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
         }
@@ -190,6 +220,11 @@ public class ChallengeController {
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
 
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+        }
+
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
     }
 
@@ -207,6 +242,11 @@ public class ChallengeController {
         List<Challenge> challenges = pageChallenges.getContent();
 
         List<ChallengeResponseDto> response = mapper.challengesToChallengeResponseDtos(challenges);
+
+        for (int i = 0; i < response.size(); i++) {
+            response.get(i).setHostProfileImageUrl(imageService.createPresignedUrl(challenges.get(i).getMember().getImage().getImageId()));
+            response.get(i).setChallengeImageUrl(imageService.createPresignedUrl(challenges.get(i).getImage().getImageId()));
+        }
 
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageChallenges), HttpStatus.OK);
     }
