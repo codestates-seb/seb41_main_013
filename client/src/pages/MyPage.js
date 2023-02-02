@@ -53,15 +53,16 @@ export const MyPage = (props) => {
 						withCredentials: true,
 					},
 				);
-				// console.log(result.data);
-				dispatch(
-					getLoginUser({
-						...loginUserInfo,
-						name: result.data.name,
-						profileImageId: result.data.profileImageId,
-					}),
-				);
-				// console.log(loginUserInfo);
+
+				if (result.status === 200) {
+					dispatch(
+						getLoginUser({
+							...loginUserInfo,
+							name: result.data.name,
+							profileImageId: result.data.profileImageId,
+						}),
+					);
+				}
 			} catch (e) {
 				console.log(e);
 			}
@@ -75,7 +76,6 @@ export const MyPage = (props) => {
 		dispatch(
 			getLoginUser({ ...loginUserInfo, profileImg: profileImgBox[randomIdx] }),
 		);
-		// console.log(loginUserInfo);
 	}
 
 	const deleteUser = async () => {
@@ -89,13 +89,15 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			console.log(result);
-			localStorage.removeItem("authorization");
-			dispatch(getLoginUser(""));
-			dispatch(signout());
-			setModal((prev) => {
-				return { ...prev, success: true };
-			});
+
+			if (result.status === 204) {
+				localStorage.removeItem("authorization");
+				dispatch(getLoginUser(""));
+				dispatch(signout());
+				setModal((prev) => {
+					return { ...prev, success: true };
+				});
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -112,7 +114,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log(userdoing);
+
 			setChallengeStatus((prev) => {
 				return { ...prev, participate: userdoing.data.length };
 			});
@@ -126,7 +128,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log(usercomplete);
+
 			setChallengeStatus((prev) => {
 				return { ...prev, complete: usercomplete.data.length };
 			});
@@ -140,7 +142,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log(usercreate);
+
 			setChallengeStatus((prev) => {
 				return { ...prev, create: usercreate.data.data.length };
 			});
@@ -266,7 +268,6 @@ const MypageWrapper = styled.div`
 	}
 
 	.userInfo {
-		/* border: 1px solid blue; */
 		width: 100%;
 		display: flex;
 		justify-content: flex-start;
