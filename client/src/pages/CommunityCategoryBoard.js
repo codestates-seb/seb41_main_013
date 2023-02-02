@@ -90,6 +90,7 @@ export const CommunityCategoryBoard = () => {
 							writer={cpost.memberName}
 							postId={cpost.boardId}
 							date={cpost.createdAt}
+							memberId={cpost.memberId}
 						/>
 					))}
 				</div>
