@@ -29,10 +29,10 @@ const Home = () => {
 					withCredentials: true,
 				},
 			);
-			if (response.data.data.length === 0) {
+			if (response.data.length === 0) {
 				setHasData(false);
 			}
-			setChallenges(response.data.data);
+			setChallenges(response.data);
 			// if (response.data.data.length < 10) {
 			// 	setHasMoreData(false);
 			// }
@@ -82,8 +82,8 @@ const Home = () => {
 						/>
 					))}
 				</HomeChallengeItemContainer>
-			) : (
 				// </InfiniteScroll>
+			) : (
 				<NoData />
 			)}
 			<BackToTopBtn />
@@ -122,16 +122,16 @@ const HomeWrapper = styled.div`
 `;
 
 const HomeChallengeItemContainer = styled.div`
-	position: relative;
-	top: 4.5rem;
-	overflow-y: scroll;
-	height: 100%;
-	display: flex;
-	flex-wrap: wrap;
+  position: relative;
+		top: 4.5rem;
+		overflow-y: scroll;
+		height: 100%;
+		display: flex;
+		flex-wrap: wrap;
 
-	::-webkit-scrollbar {
-		display: none;
-	}
+		::-webkit-scrollbar {
+			display: none;
+		}
 `;
 
 const StyledH1 = styled.h1`

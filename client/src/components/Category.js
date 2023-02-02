@@ -46,7 +46,9 @@ const Category = (props) => {
 // SelectCategory
 //props : X
 export const SelectCategory = (props) => {
-	const [click, setClick] = useState([false, false, false, false]);
+	const cat = ["우리동네", "운동", "생활습관", "기타"];
+	const [click, setClick] = useState(cat.map((el) => el == props.category));
+
 	const SelectCategoryItem = (props) => {
 		return (
 			<>
@@ -65,8 +67,7 @@ export const SelectCategory = (props) => {
 	const handleClick = (n) => {
 		props.onClick(n);
 		//클릭하면 카테고리 버튼 색상이 회색 -> 초록색으로
-		let newClick = click.map((el, idx) => idx === n);
-		setClick(newClick);
+		setClick(click.map((el, idx) => idx === n));
 	};
 	return (
 		<SelectCategoryContainer>

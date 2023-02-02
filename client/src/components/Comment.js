@@ -14,8 +14,8 @@ import { Modal, TwoBtnModal } from "../components/Modal";
 //props : 댓글 내용
 export const Comment = (props) => {
 	//유저 정보
+	const accessToken = localStorage.getItem("authorization");
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
-	const isLogin = useSelector((state) => state.loginStatus.status);
 
 	const commentId = props.commentId;
 	const [update, setUpdate] = useState(false);
@@ -27,27 +27,24 @@ export const Comment = (props) => {
 		//댓글 삭제 함수
 		setCreateDdModal(false);
 		try {
-			const response = await axios.delete(
-				`${process.env.REACT_APP_SERVER_URL}/api/boards${commentId}`,
+			await axios.delete(
+				`${process.env.REACT_APP_SERVER_URL}/api/comments/${commentId}`,
 				{
 					headers: {
-						Authorization: `Bearer ${loginUserInfo.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					withCredentials: true,
 				},
 			);
-			if (response.status === 200) {
-				console.log("댓글 삭제 완료");
-			}
 		} catch (error) {
 			console.error(error);
 		}
+		props.onClick();
 	};
 
 	const handleCreate = (func) => {
-		//로그인이 되어 있지 않다면
 		if (func === "update") {
-			if (!isLogin) {
+			if (loginUserInfo.memberId !== props.memberId) {
 				setCreateUModal(true);
 				setTimeout(() => {
 					setCreateUModal(false);
@@ -55,14 +52,19 @@ export const Comment = (props) => {
 			} else {
 				setUpdate(true);
 			}
-		} else {
-			if (!isLogin) {
+		} else if (func === "del") {
+			if (loginUserInfo.memberId !== props.memberId) {
 				setCreateDModal(true);
 				setTimeout(() => {
 					setCreateDModal(false);
 				}, 1000);
 			} else setCreateDdModal(true);
 		}
+	};
+
+	const handleUpdate = () => {
+		//렌더링을 위한 함수
+		setUpdate(false);
 	};
 
 	return (
@@ -108,6 +110,10 @@ export const Comment = (props) => {
 					boardId={props.boardId}
 					func="update"
 					commentId={commentId}
+					onClick={() => {
+						handleUpdate();
+						props.onClick();
+					}}
 				/>
 			)}
 			<WriterInfo
