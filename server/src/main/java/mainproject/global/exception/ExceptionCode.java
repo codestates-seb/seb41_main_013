@@ -14,6 +14,7 @@ public enum ExceptionCode {
     TIME_UNAUTHORIZED(403, "챌린지 인증 가능 시간이 아닙니다."),
     SNAPSHOT_FREQUENCY_EXCEEDED(403, "이번 주 챌린지 인증 횟수를 이미 달성했습니다."),
     IMAGE_EMPTY(400, "이미지 파일이 존재하지 않습니다."),
+    IMAGE_NOT_FOUND(404, "이미지를 찾을 수 없습니다."),
     FILE_NAME_NOT_VALID(400, "파일명이 유효하지 않습니다."),
     MEMBER_NOT_FOUND(404, "Member not found"),
     MEMBER_EXISTS(409, "Member exists"),

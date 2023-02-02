@@ -10,9 +10,11 @@ public class ChallengerResponseDto {
     private long memberId;
     private String memberName;
     private long profileImageId;
+    private String profileImageUrl;
     private long challengeId;
     private String challengeName;
     private long challengeImageId;
+    private String challengeImageUrl;
     private LocalDateTime createdAt;
     private int progress;
 }

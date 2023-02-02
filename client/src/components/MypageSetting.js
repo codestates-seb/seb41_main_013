@@ -17,10 +17,10 @@ export const MypageSetting = (props) => {
 				background={theme.color.green}
 				onClick={onClick}
 			/>
-			<div>
-				<NavTitle title="프로필 수정" link="/editProfile" width="100%" />
-				<NavTitle title="로그아웃" width="100%" onClick={modalToLogout} />
-				<NavTitle title="회원탈퇴" width="100%" onClick={modalToQuit} />
+			<div className="div">
+				<NavTitle title="프로필 수정" link="/editProfile" />
+				<NavTitle title="로그아웃" onClick={modalToLogout} />
+				<NavTitle title="회원탈퇴" onClick={modalToQuit} />
 			</div>
 		</SettingWrapper>
 	);
@@ -33,7 +33,6 @@ const SettingWrapper = styled.div`
 	padding: 2rem 1.3rem;
 	gap: 1rem;
 	width: 100%;
-	max-width: 480px;
 	opacity: 0;
 	box-shadow: 0 10px 5px -5px ${theme.color.green};
 	background-color: white;
@@ -46,4 +45,8 @@ const SettingWrapper = styled.div`
 		css`
 			opacity: 1;
 		`}
+
+	.div {
+		width: 100%;
+	}
 `;

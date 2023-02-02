@@ -45,7 +45,7 @@ export const UserCreateChallenge = () => {
 				},
 			);
 			const { data } = usercreate.data;
-			console.log(data);
+
 			setCreateChallenge(
 				data.map((el) => {
 					return {
@@ -61,14 +61,12 @@ export const UserCreateChallenge = () => {
 			console.log(e);
 		}
 	};
-	// console.log("createChallenge : ", createChallenge);
 
 	const onClickToCancel = () => {
 		setModalOpen(false);
 	};
 
 	const deleteChallenge = async (challengeId) => {
-		// 챌린지 삭제 요청
 		try {
 			const response = await axios.delete(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/${challengeId}`,
@@ -79,10 +77,13 @@ export const UserCreateChallenge = () => {
 					withCredentials: true,
 				},
 			);
-			console.log(response);
-			setModalOpen((prev) => {
-				return { ...prev, success: false };
-			});
+
+			if (response) {
+				setModalOpen((prev) => {
+					return { ...prev, success: true };
+				});
+				getCreateChallenge();
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -96,7 +97,7 @@ export const UserCreateChallenge = () => {
 	};
 
 	return (
-		<>
+		<Container>
 			<TitleHeader title="생성한 챌린지" />
 			<ChallengeWrap>
 				{modalOpen.request && (
@@ -124,6 +125,7 @@ export const UserCreateChallenge = () => {
 						onClick={onClickToCancel}
 					/>
 				)}
+
 				{createChallenge.length === 0 ? (
 					<div className="noData">
 						<p>생성한 챌린지가 없어요.</p>
@@ -169,21 +171,30 @@ export const UserCreateChallenge = () => {
 				)}
 			</ChallengeWrap>
 			<BackToTopBtn bottom="3rem" />
-		</>
+		</Container>
 	);
 };
 
-const ChallengeWrap = styled.div`
-	/* border: 1px solid red; */
+const Container = styled.div`
+	position: absolute;
+	left: 0;
 	width: 100%;
-	/* height: 100vh; */
-	overflow-y: scroll;
+	height: 100%;
+	/* border: 1px solid black; */
+`;
+
+const ChallengeWrap = styled.div`
+	height: 100%;
+	position: relative;
+	overflow: scroll;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
 	margin-top: 5.2rem;
-	gap: 1rem;
-	padding-bottom: 10rem;
+	padding: 0 1.3rem 8rem 1.3rem;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 
 	.noData {
 		width: 100%;
@@ -198,7 +209,7 @@ const ChallengeWrap = styled.div`
 	}
 
 	.challenge {
-		height: 19.3rem;
-		/* border: 1px solid red; */
+		width: 50%;
+		/* height: 19.3rem; */
 	}
 `;

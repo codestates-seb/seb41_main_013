@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 //props : 유저 이미지 파일 경로
 const Avatar = (props) => {

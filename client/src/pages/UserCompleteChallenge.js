@@ -36,7 +36,7 @@ export const UserCompleteChallenge = () => {
 		}
 	};
 	return (
-		<>
+		<Container>
 			<TitleHeader title="완료한 챌린지" />
 			<ChallengeWrap>
 				{completeChallenge.length === 0 ? (
@@ -65,19 +65,28 @@ export const UserCompleteChallenge = () => {
 				)}
 			</ChallengeWrap>
 			<BackToTopBtn bottom="3rem" />
-		</>
+		</Container>
 	);
 };
-
-const ChallengeWrap = styled.div`
+const Container = styled.div`
+	position: absolute;
+	left: 0;
 	width: 100%;
-	overflow-y: scroll;
+	height: 100%;
+	/* border: 1px solid black; */
+`;
+const ChallengeWrap = styled.div`
+	height: 100%;
+	position: relative;
+	overflow: scroll;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
 	margin-top: 5.2rem;
-	gap: 1rem;
-	padding-bottom: 10rem;
+	padding: 0 1.3rem 8rem 1.3rem;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 
 	.noData {
 		width: 100%;
@@ -92,6 +101,7 @@ const ChallengeWrap = styled.div`
 	}
 
 	.challenge {
-		height: 18.3rem;
+		width: 50%;
+		/* height: 18.3rem; */
 	}
 `;

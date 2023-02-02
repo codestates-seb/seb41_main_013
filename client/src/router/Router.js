@@ -35,49 +35,52 @@ const Overlaps = ({ hasHeader, hasFooter }) => {
 	);
 };
 
-export const OurPath = () => {
+export const Router = () => {
 	return (
 		<Suspense fallback={<Loading />}>
-		<Routes>
-			<Route element={<Overlaps hasHeader={false} hasFooter={false} />}>
-				<Route path="/userCreate" element={<UserCreateChallenge />} />
-				<Route path="/userComplete" element={<UserCompleteChallenge />} />
-				<Route path="/editProfile" element={<UserProfileEdit />} />
-				<Route path="/challenges/:categoryId" element={<HomeCategoryBoard />} />
-				<Route
-					path="/challenges/:categoryId/:challengeId"
-					element={<ChallengeDetail />}
-				/>
-				<Route path="/challenges/create" element={<CreateChallenge />} />
-				<Route
-					path="/mychallenge/:challengeId/upload"
-					element={<MyChallengeUpload />}
-				/>
-				<Route
-					path="/mychallenge/:challengeId/others"
-					element={<MyChallengeOthers />}
-				/>
-			</Route>
-			<Route element={<Overlaps hasHeader={true} hasFooter={true} />}>
-				<Route path="/" element={<Home />} />
-				<Route path="/mychallenge" element={<MyChallenge />} />
-				<Route path="/community" element={<Community />} />
-			</Route>
-			<Route element={<Overlaps hasHeader={false} hasFooter={true} />}>
-				<Route path="/mypage" element={<MyPage />} />
-				<Route
-					path="/community/:categoryId"
-					element={<CommunityCategoryBoard />}
-				/>
-				<Route path="/createPost" element={<CreatePost />} />
-				<Route path="/post/:boardId/update" element={<UpdatePost />} />
-				<Route path="/post/:boardId" element={<PostDetail />} />
-			</Route>
-			<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
-				<Route path="/signup" element={<SignUp />} />
-				<Route path="/login" element={<SignIn />} />
-			</Route>
-		</Routes>
+			<Routes>
+				<Route element={<Overlaps hasHeader={false} hasFooter={false} />}>
+					<Route path="/userCreate" element={<UserCreateChallenge />} />
+					<Route path="/userComplete" element={<UserCompleteChallenge />} />
+					<Route path="/editProfile" element={<UserProfileEdit />} />
+					<Route
+						path="/challenges/:categoryId"
+						element={<HomeCategoryBoard />}
+					/>
+					<Route
+						path="/challenges/:categoryId/:challengeId"
+						element={<ChallengeDetail />}
+					/>
+					<Route path="/challenges/create" element={<CreateChallenge />} />
+					<Route
+						path="/mychallenge/:challengeId/upload"
+						element={<MyChallengeUpload />}
+					/>
+					<Route
+						path="/mychallenge/:challengeId/others"
+						element={<MyChallengeOthers />}
+					/>
+				</Route>
+				<Route element={<Overlaps hasHeader={true} hasFooter={true} />}>
+					<Route path="/" element={<Home />} />
+					<Route path="/mychallenge" element={<MyChallenge />} />
+					<Route path="/community" element={<Community />} />
+				</Route>
+				<Route element={<Overlaps hasHeader={false} hasFooter={true} />}>
+					<Route path="/mypage" element={<MyPage />} />
+					<Route
+						path="/community/:categoryId"
+						element={<CommunityCategoryBoard />}
+					/>
+					<Route path="/createPost" element={<CreatePost />} />
+					<Route path="/post/:boardId/update" element={<UpdatePost />} />
+					<Route path="/post/:boardId" element={<PostDetail />} />
+				</Route>
+				<Route element={<Overlaps hasHeader={true} hasFooter={false} />}>
+					<Route path="/signup" element={<SignUp />} />
+					<Route path="/login" element={<SignIn />} />
+				</Route>
+			</Routes>
 		</Suspense>
 	);
 };

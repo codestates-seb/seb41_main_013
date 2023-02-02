@@ -53,15 +53,16 @@ export const MyPage = (props) => {
 						withCredentials: true,
 					},
 				);
-				// console.log(result.data);
-				dispatch(
-					getLoginUser({
-						...loginUserInfo,
-						name: result.data.name,
-						profileImageId: result.data.profileImageId,
-					}),
-				);
-				// console.log(loginUserInfo);
+
+				if (result.status === 200) {
+					dispatch(
+						getLoginUser({
+							...loginUserInfo,
+							name: result.data.name,
+							profileImageId: result.data.profileImageId,
+						}),
+					);
+				}
 			} catch (e) {
 				console.log(e);
 			}
@@ -75,7 +76,6 @@ export const MyPage = (props) => {
 		dispatch(
 			getLoginUser({ ...loginUserInfo, profileImg: profileImgBox[randomIdx] }),
 		);
-		// console.log(loginUserInfo);
 	}
 
 	const deleteUser = async () => {
@@ -89,13 +89,15 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			console.log(result);
-			localStorage.removeItem("authorization");
-			dispatch(getLoginUser(""));
-			dispatch(signout());
-			setModal((prev) => {
-				return { ...prev, success: true };
-			});
+
+			if (result.status === 204) {
+				localStorage.removeItem("authorization");
+				dispatch(getLoginUser(""));
+				dispatch(signout());
+				setModal((prev) => {
+					return { ...prev, success: true };
+				});
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -112,7 +114,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log(userdoing);
+
 			setChallengeStatus((prev) => {
 				return { ...prev, participate: userdoing.data.length };
 			});
@@ -126,7 +128,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log(usercomplete);
+
 			setChallengeStatus((prev) => {
 				return { ...prev, complete: usercomplete.data.length };
 			});
@@ -140,7 +142,7 @@ export const MyPage = (props) => {
 					withCredentials: true,
 				},
 			);
-			// console.log(usercreate);
+
 			setChallengeStatus((prev) => {
 				return { ...prev, create: usercreate.data.data.length };
 			});
@@ -213,28 +215,29 @@ export const MyPage = (props) => {
 			<MypageHeader title="마이페이지" onClick={toggleMenu} />
 			{isLogin ? (
 				<>
-					<MypageSetting
-						menuOpen={menuOpen}
-						modalToLogout={modalToLogout}
-						modalToQuit={modalToQuit}
-						onClick={toggleMenu}
-					/>
-					<div />
-					<div className="userInfo">
-						<img src={`${loginUserInfo.profileImg}`} alt="avatar" />
+					<Container>
+						<MypageSetting
+							menuOpen={menuOpen}
+							modalToLogout={modalToLogout}
+							modalToQuit={modalToQuit}
+							onClick={toggleMenu}
+						/>
+						<div className="userInfo">
+							<img src={`${loginUserInfo.profileImg}`} alt="avatar" />
 
-						{loginUserInfo.name || "유저이름"}
-					</div>
-					<ChallengeState
-						doing={challengeStatus.participate}
-						complete={challengeStatus.complete}
-						create={challengeStatus.create}
-					/>
-					<div className="challengeNav">
-						<NavTitle title="생성한 챌린지" link="/userCreate" />
-						<NavTitle title="완료한 챌린지" link="/userComplete" />
-					</div>
-					<div />
+							{loginUserInfo.name || "유저이름"}
+						</div>
+						<ChallengeState
+							doing={challengeStatus.participate}
+							complete={challengeStatus.complete}
+							create={challengeStatus.create}
+						/>
+						<div className="challengeNav">
+							<NavTitle title="생성한 챌린지" link="/userCreate" />
+							<NavTitle title="완료한 챌린지" link="/userComplete" />
+						</div>
+						<div />
+					</Container>
 				</>
 			) : (
 				<div className="noneLogin">
@@ -250,23 +253,31 @@ export const MyPage = (props) => {
 };
 
 const MypageWrapper = styled.div`
-	/* border: 1px solid black; */
 	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
-	gap: 2rem;
+	height: 100%;
+`;
+
+const Container = styled.div`
+	/* border: 1px solid black; */
 	position: absolute;
 	left: 0;
+	top: 5.2rem;
+	bottom: 6.5rem;
+	overflow: scroll;
+	display: flex;
+	flex-direction: column;
+	gap: 5rem;
+	justify-content: flex-start;
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 
 	.challengeNav {
 		width: 100%;
 	}
 
 	.userInfo {
-		/* border: 1px solid blue; */
 		width: 100%;
 		display: flex;
 		justify-content: flex-start;
@@ -277,18 +288,9 @@ const MypageWrapper = styled.div`
 
 		img {
 			border: 1px solid black;
-			width: 45%;
-			height: 45%;
+			width: 50%;
+			height: 80%;
 			border-radius: 50%;
 		}
-	}
-
-	.noneLogin {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		font-size: 2rem;
-		gap: 1rem;
 	}
 `;
