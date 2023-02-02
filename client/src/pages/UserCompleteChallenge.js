@@ -26,10 +26,9 @@ export const UserCompleteChallenge = () => {
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
 					},
-					withCredentials: true,
 				},
 			);
-			console.log(usercomplete.data);
+
 			setCompleteChallenge(usercomplete.data);
 		} catch (e) {
 			console.log(e);

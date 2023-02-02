@@ -145,3 +145,4 @@ public class ImageService {
         return optionalImage.orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND));
     }
 }
+
