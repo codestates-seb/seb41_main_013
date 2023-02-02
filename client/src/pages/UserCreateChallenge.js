@@ -74,7 +74,6 @@ export const UserCreateChallenge = () => {
 					headers: {
 						Authorization: `Bearer ${accessToken}`,
 					},
-					withCredentials: true,
 				},
 			);
 
@@ -142,15 +141,11 @@ export const UserCreateChallenge = () => {
 					createChallenge.map((challenge, index) => {
 						const onClick = () => {
 							if (challenge.status === "시작전" && challenge.count === 0) {
-								console.log("삭제 가능");
 								setModalOpen((prev) => {
 									return { ...prev, request: true };
 								});
 								setChallengeId(challenge.challengeId);
 							} else {
-								console.log(
-									"참여자가 0명이거나 챌린지 시작 전인 경우만 삭제 가능합니다.",
-								);
 								setModalOpen((prev) => {
 									return { ...prev, refuse: true };
 								});

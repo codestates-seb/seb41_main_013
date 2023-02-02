@@ -125,7 +125,6 @@ export const SignUp = () => {
 
 		const isValid = checkValidation();
 		if (!isValid) {
-			console.log("Fail");
 			return;
 		}
 
