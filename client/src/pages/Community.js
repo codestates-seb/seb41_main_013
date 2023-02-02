@@ -99,9 +99,9 @@ export const Community = () => {
 								title={post.title}
 								content={post.content}
 								writer={post.memberName}
-								postId={post.boardId}
 								date={post.createdAt}
 								memberId={post.memberId}
+								boardId={post.boardId}
 							/>
 						</div>
 					))}

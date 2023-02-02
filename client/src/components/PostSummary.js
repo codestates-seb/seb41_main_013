@@ -15,7 +15,7 @@ export const PostSummary = (props) => {
 		<>
 			<PostSumContainer>
 				<div>
-					<Link to={`/post/${props.postId}`}>
+					<Link to={`/post/${props.boardId}`}>
 						<div className="title">{props.title}</div>
 					</Link>
 					<div className="content">{props.content}</div>

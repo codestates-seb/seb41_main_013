@@ -20,7 +20,6 @@ export const PostDetail = () => {
 	//유저 정보
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
-	//const userId = Number(localStorage.getItem("recoil-persist").slice(25, 27));
 
 	const navigate = useNavigate();
 	const { boardId } = useParams();
@@ -51,12 +50,14 @@ export const PostDetail = () => {
 				setHasPostData(false);
 			}
 			setPost(response.data.data);
+			console.log(response.data.data.boardId);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 	useEffect(() => {
 		getPost();
+
 		getCommentList();
 		if (commentList.length !== 0) setHasCommentData(true);
 	}, [count, commentList.length]);
