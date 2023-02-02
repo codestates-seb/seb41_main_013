@@ -39,7 +39,6 @@ const CreateChallenge = () => {
 
 	const { loginUserInfo } = useSelector((state) => state.loginUserInfo);
 	const accessToken = localStorage.getItem("authorization");
-	console.log(accessToken);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -52,7 +51,6 @@ const CreateChallenge = () => {
 	const today = new Date();
 
 	const onSubmit = async (data) => {
-		// console.log(data);
 		const {
 			title,
 			category,
@@ -64,7 +62,7 @@ const CreateChallenge = () => {
 			snapshotEndAt,
 			content,
 		} = data;
-		// console.log(img[0]);
+		
 		try {
 			// const file = img[0];
 			// console.log(file);
@@ -114,8 +112,6 @@ const CreateChallenge = () => {
 				startAt: startAt,
 				title: title,
 			};
-
-			console.log(payload);
 
 			const response2 = await axios.post(
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges`,
@@ -219,8 +215,6 @@ const CreateChallenge = () => {
 								const day =
 									`${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
 								setValue("startAt", `${date.$y}-${month}-${day}`);
-								console.log(date);
-								console.log(watch("startAt"));
 							}}
 							minDate={today}
 						/>
@@ -238,8 +232,6 @@ const CreateChallenge = () => {
 								const day =
 									`${date.$D}`.length === 1 ? `0${date.$D}` : `${date.$D}`;
 								setValue("endAt", `${date.$y}-${month}-${day}`);
-								console.log(date);
-								console.log(watch("endAt"));
 							}}
 							minDate={watch("startAt")}
 						/>
@@ -285,7 +277,6 @@ const CreateChallenge = () => {
 							})}
 							onTimeChange={(time) => {
 								setValue("snapshotStartAt", time);
-								console.log(time);
 							}}
 						/>
 						<TimePickers
@@ -296,7 +287,6 @@ const CreateChallenge = () => {
 							snapshotStartAt={watch("snapshotStartAt")}
 							onTimeChange={(time) => {
 								setValue("snapshotEndAt", time);
-								console.log(time);
 							}}
 							minTime={watch("snapshotStartAt")}
 						/>

@@ -9,6 +9,7 @@ import mainproject.domain.challenge.dto.ChallengeResponseDto;
 import mainproject.domain.challenge.entity.Challenge;
 import mainproject.domain.challenge.mapper.ChallengeMapper;
 import mainproject.domain.challenge.service.ChallengeService;
+import mainproject.domain.image.service.ImageService;
 import mainproject.global.category.Category;
 import mainproject.global.dto.MultiResponseDto;
 import org.springframework.data.domain.Page;
@@ -31,10 +32,12 @@ import java.util.List;
 public class ChallengeController {
     private final ChallengeService challengeService;
     private final ChallengeMapper mapper;
+    private final ImageService imageService;
 
-    public ChallengeController(ChallengeService challengeService, ChallengeMapper mapper) {
+    public ChallengeController(ChallengeService challengeService, ChallengeMapper mapper, ImageService imageService) {
         this.challengeService = challengeService;
         this.mapper = mapper;
+        this.imageService = imageService;
     }
 
     // 챌린지 생성
@@ -45,6 +48,9 @@ public class ChallengeController {
         Challenge challenge = challengeService.createChallenge(mapper.challengePostDtoToChallenge(request));
 
         ChallengeResponseDto response = mapper.challengeToChallengeResponseDto(challenge);
+
+        response.setHostProfileImageUrl(imageService.createPresignedUrl(challenge.getMember().getImage().getImageId()));
+        response.setChallengeImageUrl(imageService.createPresignedUrl(challenge.getImage().getImageId()));
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -73,6 +79,9 @@ public class ChallengeController {
         Challenge challenge = challengeService.findChallenge(challengeId);
 
         ChallengeDetailResponseDto response = mapper.challengeToChallengeDetailResponseDto(challenge);
+
+        response.setHostProfileImageUrl(imageService.createPresignedUrl(challenge.getMember().getImage().getImageId()));
+        response.setChallengeImageUrl(imageService.createPresignedUrl(challenge.getImage().getImageId()));
 
         String checkChallenging = "로그인이 필요합니다.";
 

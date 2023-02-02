@@ -11,8 +11,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
 	const [challenges, setChallenges] = useState([]);
-	// const [page, setPage] = useState(1);
-	// const [hasMoreData, setHasMoreData] = useState(true);
 	const [hasData, setHasData] = useState(true);
 
 	useEffect(() => {
@@ -20,10 +18,8 @@ const Home = () => {
 	}, []);
 
 	const getAllChallengesList = async () => {
-		// if (!hasMoreData) return;
 		try {
 			const response = await axios.get(
-				// `${process.env.REACT_APP_SERVER_URL}/api/challenges/hot?page=${page}`,
 				`${process.env.REACT_APP_SERVER_URL}/api/challenges/hot`,
 				{
 					withCredentials: true,
@@ -33,20 +29,10 @@ const Home = () => {
 				setHasData(false);
 			}
 			setChallenges(response.data);
-			// if (response.data.data.length < 10) {
-			// 	setHasMoreData(false);
-			// }
-			// console.log(response.data.data);
-			// setChallenges([...challenges, ...response.data.data]);
 		} catch (error) {
 			console.error(error);
 		}
 	};
-
-	// const loadMoreData = () => {
-	// 	setPage(page + 1);
-	// 	getAllChallengesList();
-	// };
 
 	const categoryId = {
 		우리동네: "0",
@@ -60,13 +46,6 @@ const Home = () => {
 			<HomeCategory NavTo="challenges" />
 			<StyledH1>BEST</StyledH1>
 			{hasData ? (
-				// <InfiniteScroll
-				// 	className="infinite-scroll"
-				// 	dataLength={challenges.length}
-				// 	next={loadMoreData}
-				// 	hasMore={hasMoreData}
-				// 	loader={<Loading />}
-				// >
 				<HomeChallengeItemContainer>
 					{challenges.map((challenge) => (
 						<HomeChallengeItem
@@ -82,7 +61,6 @@ const Home = () => {
 						/>
 					))}
 				</HomeChallengeItemContainer>
-				// </InfiniteScroll>
 			) : (
 				<NoData />
 			)}
@@ -92,6 +70,7 @@ const Home = () => {
 };
 
 const HomeWrapper = styled.div`
+	/* border: 1px solid black; */
 	position: absolute;
 	left: 0;
 	top: 15rem;
@@ -99,39 +78,19 @@ const HomeWrapper = styled.div`
 	margin-bottom: 6.5rem;
 	width: 100%;
 	padding: 0 1.3rem;
-
-	/* & .infinite-scroll-component__outerdiv {
-		position: relative;
-		top: 4.5rem;
-		overflow-y: scroll;
-		height: 100%;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
-	}
-
-	& .infinite-scroll {
-		display: flex;
-		flex-wrap: wrap;
-
-		::-webkit-scrollbar {
-			display: none;
-		}
-	} */
 `;
 
 const HomeChallengeItemContainer = styled.div`
-  position: relative;
-		top: 4.5rem;
-		overflow-y: scroll;
-		height: 100%;
-		display: flex;
-		flex-wrap: wrap;
+	position: relative;
+	top: 4.5rem;
+	overflow-y: scroll;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
 
-		::-webkit-scrollbar {
-			display: none;
-		}
+	::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const StyledH1 = styled.h1`

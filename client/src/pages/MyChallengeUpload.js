@@ -58,20 +58,15 @@ const MyChallengeUpload = () => {
 					"Content-Type": image.type,
 					}
 				});
-			console.log(presignedUrlResponse);
 
 			if (presignedUrlResponse.status === 200) {
 				// const presignedUrl = presignedUrlResponse.data;
-
-				console.log(image);
 				const uploadResponse = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/upload`, image, 
 				{
 					headers: {
 					"Content-Type": image.type,
 					}
 				});
-				console.log(uploadResponse);
-
 				if (uploadResponse.status === 200) {
 					navigate(`/mychallenge/${challengeId}/others`);
 				}
