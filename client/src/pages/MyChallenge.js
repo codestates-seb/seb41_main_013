@@ -17,7 +17,6 @@ const MyChallenge = () => {
 		(state) => state.loginUserInfo.loginUserInfo,
 	);
 	const accessToken = localStorage.getItem("authorization");
-	console.log(accessToken);
 
 	useEffect(() => {
 		getMyChallengesList();

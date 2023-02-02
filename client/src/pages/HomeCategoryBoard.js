@@ -26,7 +26,6 @@ const HomeCategoryBoard = () => {
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
-    console.log(e.target.value);
     setPage(1);
     setHasMoreData(true);
     getAllChallengesList();
@@ -50,13 +49,10 @@ const HomeCategoryBoard = () => {
       if (searchTerm !== "") {
         url = `${process.env.REACT_APP_SERVER_URL}/api/challenges?page=${page}&query=${searchTerm}`;
       }
-      console.log(url);
       const response = await axios.get(url,
 				{
 					withCredentials: true,
 				});
-      console.log(response.data);
-			console.log(response.data.data);
       if (response.data.data.length === 0) {
         setHasData(false);
       }
