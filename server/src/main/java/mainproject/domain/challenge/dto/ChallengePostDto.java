@@ -42,7 +42,7 @@ public class ChallengePostDto {
 
     @Positive
     @ApiModelProperty(example = "1")
-    private long challengeImageId = 2L; // 기본 챌린지 이미지
+    private long challengeImageId = 1L; // TODO: 기본값을 기본 챌린지 이미지로 변경
 
     @ApiModelProperty(hidden = true)
     public Image getImage() {
