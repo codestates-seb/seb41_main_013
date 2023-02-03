@@ -11,14 +11,6 @@ import { MypageSetting } from "../components/MypageSetting";
 import { NavTitle } from "../components/NavItem";
 import theme from "../components/theme";
 import { signout, getLoginUser } from "../redux/userSlice";
-<<<<<<< HEAD
-=======
-/*import profileImg0 from "../images/profileImg0.png";
-import profileImg1 from "../images/profileImg1.png";
-import profileImg2 from "../images/profileImg2.png";
-import profileImg3 from "../images/profileImg3.png";*/
-import { profileImgBox } from "../components/Avatar";
->>>>>>> dev
 
 export const MyPage = (props) => {
 	const [modal, setModal] = useState({
@@ -74,21 +66,6 @@ export const MyPage = (props) => {
 		}
 	};
 
-<<<<<<< HEAD
-=======
-	//const profileImgBox = [profileImg0, profileImg1, profileImg2, profileImg3];
-	//const randomIdx = Math.floor(Math.random() * profileImgBox.length);
-
-	if (!loginUserInfo.profileImg) {
-		dispatch(
-			getLoginUser({
-				...loginUserInfo,
-				profileImg: profileImgBox[loginUserInfo.memberId % 16],
-			}),
-		);
-	}
-
->>>>>>> dev
 	const deleteUser = async () => {
 		try {
 			const result = await axios.delete(

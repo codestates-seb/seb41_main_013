@@ -46,17 +46,7 @@ export const UserCreateChallenge = () => {
 			);
 			const { data } = usercreate.data;
 
-			setCreateChallenge(
-				data.map((el) => {
-					return {
-						challengeId: el.challengeId,
-						title: el.title,
-						status: el.challengeStatus,
-						count: el.challengerCount,
-						category: el.category,
-					};
-				}),
-			);
+			setCreateChallenge(data);
 		} catch (e) {
 			console.log(e);
 		}
@@ -159,6 +149,7 @@ export const UserCreateChallenge = () => {
 									challengeId={challenge.challengeId}
 									onClick={onClick}
 									category={challenge.category}
+									url={challenge.challengeImageUrl}
 								/>
 							</div>
 						);
