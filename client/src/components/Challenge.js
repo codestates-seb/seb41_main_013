@@ -26,9 +26,7 @@ export const CreatedChallenge = (props) => {
 	};
 	return (
 		<CreateChallengeContainer>
-			<ChallengeImg
-				src={props.src || random[Math.floor(Math.random() * random.length)]}
-			>
+			<ChallengeImg src={props.url}>
 				<Btn
 					onClick={props.onClick}
 					btnText={<IoClose />}
@@ -138,14 +136,17 @@ const ChallengeLink = styled(Link)`
 `;
 
 const ChallengeImg = styled.div`
+	/* border: 1px solid red; */
 	background-image: url(${(props) => props.src});
-	background-size: contain;
+	background-size: cover;
 	background-position: center center;
+	background-repeat: no-repeat;
 	width: 16rem;
 	height: 14.5rem;
 `;
 
 const CreateChallengeContainer = styled.div`
+	/* border: 1px solid black; */
 	width: 18rem;
 	height: 19.3rem;
 	display: flex;
